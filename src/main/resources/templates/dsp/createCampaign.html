@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��譯井ｻｶ譁ｰ隕丈ｽ懈��</h4>
+							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/dsp/completeCampaign}" method="post" th:object="${dspCampaignInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">譌｢蟄倥ユ繝ｳ繝励Ξ繝ｼ繝�</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+						</div>
+						<div class="col-sm-8">
+							<select name="select" class="form-control" th:field="*{templateId}" onchange="refreshVal()" required="required">
+								<option th:each="object : ${dspTemplateDtoList}" th:selected="${dspCampaignInputForm.templateId == object.getTemplateId()}" th:value="${object.getTemplateId()}" th:text="${object.getTemplateName()}">--</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{campaignName}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" th:field="*{startDatetime}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" th:field="*{endDatetime}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">邱丈ｺ育ｮ�<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:field="*{budget}" required="required" min="1" max="9999999999">
+						</div>
+						<span class="col-form-label" th:text="'荳�譌･譛�菴惹ｺ育ｮ鈴�鷹｡� : ﾂ･'+${dailyBudgetFlag}+'蜀�'">蜀�</span>
+					</div>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ<span class="text-danger">窶ｻ</span></label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="deviceType : ${T(jp.acepro.haishinsan.enums.DspDeviceType).values()}">
+								<label> <input class="form-control" type="radio" name="radio" th:value="${deviceType.value}" th:field="*{deviceType}" th:text="${deviceType.label}" checked="checked" required="required"> <i class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-4" th:if="${#lists.isEmpty(dspCampaignInputForm.dspCampaignCreInputFormList)}">
+							<select class="searchable" multiple="multiple" th:field="*{idList}">
+								<option th:each="object : ${dspCampaignInputForm.dspCampaignCreInputFormList}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">譌･譛ｬ</option>
+							</select>
+						</div>
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(dspCampaignInputForm.dspCampaignCreInputFormList)}">
+							<select class="searchable" multiple="multiple" th:field="*{idList}">
+								<option th:each="object : ${dspCampaignInputForm.dspCampaignCreInputFormList}" th:selected="${#lists.contains(dspCampaignInputForm.dspCampaignCreInputFormList, object.getCreativeId())}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">譌･譛ｬ</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">URL<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-8">
+							<select name="select" class="form-control" th:field="*{url}" required="required">
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${url==dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')" th:formaction="@{/dsp/completeCampaign}" th:formmethod="post">菴懈��</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		
+		<script>
+			$(document).ready(function() {
+				$('.lightgallery-popup').lightGallery();
+			});
+			function refreshVal(sel) {
+				var len = $('#len').val();
+
+				for (var i = 0; i < len; i++) {
+					var x = "templateId[" + i + "]";
+					if (document.getElementById(x).value == sel.value) {
+						break;
+					}
+				}
+				if (i < len) {
+					var y = "dailyBudget[" + i + "]";
+					$("input[id=dailyBudget]").val(
+							document.getElementById(y).value);
+				} else {
+					$("input[id=dailyBudget]").val("");
+				}
+			}
+		</script>
+		<script type="text/javascript" src="../files/assets/js/script.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('input[name="check"]').change(function() {
+					var prop = $('#prop').prop('checked');
+					if (prop) {
+						$('#p1').show();
+					} else {
+						$('#p1').hide();
+					}
+				});
+			});
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+		    var nowTemplateId = $('#templateId').val();
+	        function refreshVal(){
+	        	var dspTemplateDtoList = /*[[${dspTemplateDtoList}]]*/;
+	        	var templateId = $('#templateId').val();
+	        	var dspTemplateDto = dspTemplateDtoList.find(
+	        		function(element) {
+	        		    return element.templateId == templateId;
+	        		}
+	        	);
+	        	
+	            if(window.confirm('繝�繝ｳ繝励Ξ繝ｼ繝医��' + dspTemplateDto.templateName + '縲阪ｒ菴ｿ逕ｨ縺励※繧ゅｈ繧阪＠縺�縺ｧ縺吶°�ｼ歃r\n繝�繝ｳ繝励Ξ繝ｼ繝医′蛻�繧頑崛繧上ｋ縺ｨ縲∝�･蜉帛��螳ｹ縺ｯ螟画峩縺輔ｌ縺ｾ縺吶��')) { 
+	            	// 遒ｺ隱肴凾縺ｮ蜃ｦ逅�
+	            	nowTemplateId = $('#templateId').val();
+	            	// multiple select refresh
+	            	$("#targetValue").val(dspTemplateDto.targetValue);
+	            	$("#accountingMethodFlag").val(dspTemplateDto.accountingMethodFlag);
+	            	$("#frequencyCap").val(dspTemplateDto.frequencyCap);
+	            	$("#bidCpcPrice").val(dspTemplateDto.bidCpcPrice);
+	            	changeAdBlcok();
+	            } else { 
+	            	// 繧ｭ繝｣繝ｳ繧ｻ繝ｫ譎ゅ�ｮ蜃ｦ逅�
+		            $('#templateId').val(nowTemplateId); // 蜃ｦ逅�荳ｭ豁｢
+	            }
+	        }
+	        $(function(){
+	        	 var toDay = new Date();
+		            var year = toDay.getFullYear();
+		            var month = toDay.getMonth()+1 < 10 ? "0"+(toDay.getMonth()+1) : (toDay.getMonth()+1);
+		            var day = toDay.getDate() < 10 ? "0"+toDay.getDate() : toDay.getDate();
+		            $("#startDatetime").attr("min",year+"-"+month+"-"+day);
+		            $("#endDatetime").attr("min",year+"-"+month+"-"+day);
+	        });
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>

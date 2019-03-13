@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-facebook bg-facebook"></i>
+						<div class="d-inline">
+							<h4>Facebook蠎�蜻� 譯井ｻｶ隧ｳ邏ｰ</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+
+				<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeCampaign}" th:object="${fbCampaignDto}" method="post">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶID</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繧ｹ繝�繝ｼ繧ｿ繧ｹ</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignDisplayStatus}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蟇ｩ譟ｻ迥ｶ豕�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.ApprovalFlag).of(__*{checkStatus}__).label}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">荳�譌･縺ｮ莠育ｮ�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{dailyBudget} + '蜀�'"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律譎�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startDate}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･譎�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endDate}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">菴懈�先律譎�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{createdDate}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譖ｴ譁ｰ譌･譎�</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{updatedDate}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繧ｦ繧ｧ繝悶し繧､繝医�ｮURL</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{linkUrl}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" type="submit" onclick="return check('Facebook蠎�蜻翫ｒ蜑企勁縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" class="btn btn-danger" th:formaction="@{/facebook/deleteCampaign(campaignId=*{campaignId})}" th:formmethod="post">蜑企勁</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" type="submit" class="btn btn-warning" th:formaction="@{/facebook/campaignList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

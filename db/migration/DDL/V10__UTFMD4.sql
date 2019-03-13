@@ -1,0 +1,1 @@
+ALTER TABLE twitter_tweet_list MODIFY tweet_body varchar(1024) CHARACTER SET utf8mb4;

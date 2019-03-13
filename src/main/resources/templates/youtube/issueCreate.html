@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-social-youtube bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>Youtube蠎�蜻� 譯井ｻｶ萓晞�ｼ菴懈��</h4>
+							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/youtube/createIssueComplete}" enctype="multipart/form-data" th:object="${youtubeIssueinputForm}" method="post" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">Youtube譯井ｻｶ萓晞�ｼ蜈･蜉帛��螳ｹ</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">譯井ｻｶ蜷�<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
+						</div>
+					</div>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�<span class="text-danger">窶ｻ</span></label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="advDestination : ${T(jp.acepro.haishinsan.enums.YoutubeAdType).values()}">
+								<label> <input class="form-control" type="radio" name="radio" th:value="${advDestination.value}" th:field="*{adType}" th:text="${advDestination.label}" required="required" checked="checked"> <i class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">莠育ｮ�<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-2">
+							<input type="number" class="form-control" th:field="*{budget}" min="1" max="9999999999" required="required">
+						</div>
+						<span class="col-form-label">蜀�</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-3">
+							<input type="date" class="form-control" th:field="*{startDate}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-3">
+							<input type="date" class="form-control" th:field="*{endDate}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�</label>
+						<div class="col-sm-4" th:if="${#lists.isEmpty(youtubeIssueinputForm.locationIdList)}">
+							<select class="searchable" multiple="multiple" th:field="*{locationIdList}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(youtubeIssueinputForm.locationIdList)}">
+							<select class="searchable" multiple="multiple" th:field="*{locationIdList}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateForm.locationIdList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">LP</label>
+						<div class="col-sm-4">
+							<select name="select" class="form-control" th:field="*{lp}">
+								<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${lp==dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getSegmentName()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜍慕判URL</label>
+						<div class="col-sm-8">
+							<input type="url" class="form-control" th:field="*{videoUrl}" placeholder="繧｢繝�繝励Ο繝ｼ繝峨＠縺溷虚逕ｻ蠎�蜻顔畑縺ｮURL繧偵＃蜈･蜉帙￥縺�縺輔＞縲�">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-sm-10 text-center">
+							<button class="btn btn-success" th:formaction="@{/youtube/issueCreateComplete}" th:formmethod="post">菴懈��</button>
+							<button class="btn btn-warning" th:formaction="@{/youtube/issueList}" th:formmethod="get">謌ｻ繧�</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+		    var nowTemplateId = $('#templateId').val();
+	        function refreshVal(){
+	        	var fbTemplateDtoList = /*[[${fbTemplateDtoList}]]*/;
+	        	var templateId = $('#templateId').val();
+	        	var fbTemplateDto = fbTemplateDtoList.find(
+	        		function(element) {
+	        		    return element.templateId == templateId;
+	        		}
+	        	);
+	        	
+	            if(window.confirm('繝�繝ｳ繝励Ξ繝ｼ繝医��' + fbTemplateDto.templateName + '縲阪ｒ菴ｿ逕ｨ縺励※繧ゅｈ繧阪＠縺�縺ｧ縺吶°�ｼ歃r\n繝�繝ｳ繝励Ξ繝ｼ繝医′蛻�繧頑崛繧上ｋ縺ｨ縲∝�･蜉帛��螳ｹ縺ｯ螟画峩縺輔ｌ縺ｾ縺吶��')) { 
+	            	// 遒ｺ隱肴凾縺ｮ蜃ｦ逅�
+	            	nowTemplateId = $('#templateId').val();
+
+	            	$("#unitPriceType").val(fbTemplateDto.unitPriceType);
+	            
+	            	var comma = ",";
+	            	var location = fbTemplateDto.location;
+	            	var locationList = location.split(comma);
+	            	console.log('locationList : ' + locationList);
+	            	$("#locationList").val(locationList);
+	            	$('#locationList').multiSelect('refresh');
+	            } else { 
+	            	// 繧ｭ繝｣繝ｳ繧ｻ繝ｫ譎ゅ�ｮ蜃ｦ逅�
+		            $('#templateId').val(nowTemplateId); // 蜃ｦ逅�荳ｭ豁｢
+	            }
+	        }
+
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>

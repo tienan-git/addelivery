@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-social-yahoo bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>Yahoo広告 案件一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+
+
+		<form id="defaultForm" class="form-horizontal" th:object="${yahooIssueDtoList}" th:action="@{/yahoo/issueDetail}" method="get">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<div class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%">
+							<thead>
+								<tr>
+									<th>案件ID</th>
+									<th>案件名</th>
+									<th>予算</th>
+									<th>配信開始日</th>
+									<th>配信終了日</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>案件ID</th>
+									<th>案件名</th>
+									<th>予算</th>
+									<th>配信開始日</th>
+									<th>配信終了日</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="yahooIssueDto : ${yahooIssueDtoList}">
+									<td><a sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" href="#" th:href="@{/yahoo/issueDetail(issueId=${yahooIssueDto.issueId})}" th:method="get" th:text="${yahooIssueDto.issueId}">0001</a></td>
+									<td th:text="${yahooIssueDto.campaignName}">名</td>
+									<td th:text="${yahooIssueDto.budget} + '円'">1000</td>
+									<td th:text="${yahooIssueDto.startDate}">2018-10-20</td>
+									<td th:text="${yahooIssueDto.endDate}">2018-10-30</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+
+</body>
+</html>

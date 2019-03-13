@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��菴懈�仙ｮ御ｺ�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<strong>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫�ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+		</div>
+		<div class="card">
+			<div class="card-block">
+				<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+				<form action="#" th:object="${newDspCampaignDto}">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}">DSP繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ繝�繧ｹ繝�</label>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startDatetime}">2018-09-16</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endDatetime}">2018-10-16</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">莠育ｮ�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{budget}">50,000蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__*{deviceType}__).label}">http://ace-pro.com/</label>
+						</div>
+					</div>
+					<h4 class="sub-title">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</label>
+						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(newDspCampaignDto.dspCampaignCreInputFormList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{idList}" disabled>
+								<option th:each="object : *{dspCampaignCreInputFormList}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">譌･譛ｬ</option>
+							</select>
+						</div>
+						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(newDspCampaignDto.dspCampaignCreInputFormList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{idList}" disabled>
+								<option th:each="object : *{dspCampaignCreInputFormList}" th:selected="${#lists.contains(newDspCampaignDto.idList, object.getCreativeId())}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">譌･譛ｬ</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">URL</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{url}">http://ace-pro.com/</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<!-- 						<label class="col-sm-2 col-form-label"></label> -->
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-warning" type="submit" sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" th:formaction="@{/dsp/campaignList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script>
+			// Creative Copy
+			$(document).ready(function() {
+			    var arrayLen = $(".form_block").length;
+			    var frm_cnt = arrayLen - 1;
+			    var original = $('#form_block\\[' + frm_cnt + '\\]');
+			    var originCnt = frm_cnt;
+			
+			    $('#addCreative').click(function() {
+			        var clone = $('#form_block\\[' + frm_cnt + '\\]');
+			        frm_cnt++;
+			
+			        original.clone().hide().insertAfter(clone).attr('id', 'form_block[' + frm_cnt + ']')
+			        // 繧ｯ繝ｭ繝ｼ繝ｳ縺ｮid螻樊�ｧ繧貞､画峩縲�
+			        .end()
+			        // 荳�蠎ｦ驕ｩ逕ｨ縺吶ｋ
+			        .find('input, textarea, select, hidden').each(function(idx, obj) {
+			            $(obj).attr({
+			                id: $(obj).attr('id').replace(/[0-9]+/, frm_cnt),
+			                name: $(obj).attr('name').replace(/[0-9]+/, frm_cnt)
+			            });
+			            if ($(obj).attr('type') == 'text') {
+			                $(obj).val('');
+			                $(obj).removeAttr('required');
+			                $(obj).removeAttr('readonly');
+			            }
+			            if ($(obj).attr('type') == 'select') {
+			                $(obj).val('');
+			            }
+			            if ($(obj).attr('type') == 'hidden') {
+			                $(obj).val('');
+			            }
+			            $(obj).children().removeAttr('disabled');
+			            $(obj).children().removeAttr('selected');
+			        });
+			        // clone蜿門ｾ�
+			        clone = $('#form_block\\[' + frm_cnt + '\\]');
+			        clone.slideDown('slow');
+			    });
+			
+			    $('#deleteCreative').click(function() {
+			        if (frm_cnt > 0) {
+			            var clone = $('#form_block\\[' + frm_cnt + '\\]');
+			            frm_cnt--;
+			            clone.remove();
+			        }
+			
+			    });
+			});
+		</script>
+	</div>
+</body>
+</html>

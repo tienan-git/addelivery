@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>店舗一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<div class="dt-responsive table-responsive">
+					<input type="hidden" class="js-single">
+					<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%">
+						<thead>
+							<tr>
+								<th>店舗ID</th>
+								<th>店舗名</th>
+								<th>法人ID</th>
+								<th>法人名</th>
+								<th>代理店ID</th>
+								<th>代理店名</th>
+							</tr>
+						</thead>
+						<tfoot>
+							<tr>
+								<th>店舗ID</th>
+								<th>店舗名</th>
+								<th>法人ID</th>
+								<th>法人名</th>
+								<th>代理店ID</th>
+								<th>代理店名</th>
+							</tr>
+						</tfoot>
+						<tbody>
+							<tr th:each="shopDto ,iterStat : *{shopDtoList}">
+								<td><a sec:authorize="hasAuthority('SHOP_VIEW')" href="detail.html" th:text="${shopDto.shopId}" th:href="@{/shop/detail(shopId=${shopDto.shopId})}">13</a></td>
+								<td th:text="${shopDto.shopName}">aaa</td>
+								<td><a sec:authorize="hasAuthority('CORPORATION_VIEW')" href="detail.html" th:text="${shopDto.corporationId}" th:href="@{/corporation/detail(corporationId=${shopDto.corporationId})}">13</a></td>
+								<td th:text="${shopDto.corporationName}">aaa</td>
+								<td><a sec:authorize="hasAuthority('AGENCY_VIEW')" href="detail.html" th:text="${shopDto.agencyId}" th:href="@{/agency/detail(agencyId=${shopDto.agencyId})}">13</a></td>
+								<td th:text="${shopDto.agencyName}">aaa</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+
+<div th:if="${#fields.hasGlobalErrors()}" class="col-sm-24 col-md-24 col-xl-12 alert alert-danger background-danger">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<i class="icofont icofont-close-line-circled text-white"></i>
+	</button>
+	<strong th:each="e : ${#fields.globalErrors()}" th:text="${e}"></strong>
+</div>

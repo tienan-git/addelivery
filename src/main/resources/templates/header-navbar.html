@@ -1,0 +1,26 @@
+<nav class="navbar header-navbar pcoded-header">
+  <div class="navbar-wrapper">
+    <div class="navbar-logo">
+      <a class="mobile-menu" id="mobile-collapse" href="#!"> <i class="ti-menu"></i>
+            </a> <a class="mobile-search morphsearch-search" href="#"> <i class="ti-search"></i>
+            </a> <a href="index.html" th:href="@{/}"> <img class="img-fluid" src="../images/acepro.png" th:src="@{/images/acepro.png}" alt="Theme-Logo" />
+            </a> <a class="mobile-options"> <i class="ti-more"></i>
+            </a>
+    </div>
+    <form th:action="@{/logout}" method="post">
+      <div class="navbar-container container-fluid">
+        <ul class="nav-left">
+          <li>
+            <div class="sidebar_toggle">
+              <a href="javascript:void(0)"><i class="ti-menu"></i></a>
+            </div>
+          </li>
+        </ul>
+        <ul class="nav-right">
+          <li class="user-profile "><span th:text="${T(jp.acepro.haishinsan.util.ContextUtil).getUserName()}"><i class="ti-user"></i>髢｢謌ｸ霈昜ｹ�</span></li>
+          <li class="user-profile header-notification"><span><i class="ti-layout-sidebar-left"></i><button class="btn" style="background-color:white">繝ｭ繧ｰ繧｢繧ｦ繝�</button></span></li>
+        </ul>
+      </div>
+    </form>
+  </div>
+</nav>

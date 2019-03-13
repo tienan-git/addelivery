@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-facebook bg-facebook"></i>
+						<div class="d-inline">
+							<h4>Facebook蠎�蜻� 繝ｬ繝昴�ｼ繝�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/report}" th:object="${fbReportInputForm}" method="post">
+			<input type="hidden" th:field="*{campaignIds}">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">讀懃ｴ｢譚｡莉ｶ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<div class="col-sm-4" th:if="${#lists.isEmpty(fbReportInputForm.campaignIdList)}">
+							<select class="searchable" multiple="multiple" th:field="*{campaignIdList}">
+								<option th:each="object : ${fbReportInputForm.campaignPairList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}"></option>
+							</select>
+						</div>
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(fbReportInputForm.campaignIdList)}" id="redraw">
+							<select class="searchable" multiple="multiple" th:field="*{campaignIdList}">
+								<option th:each="object : ${fbReportInputForm.campaignPairList}" th:selected="${#lists.contains(fbReportInputForm.campaignIdList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}"></option>
+							</select>
+						</div>
+					</div>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛滄俣</label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.PeriodSet).values()}">
+								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{period}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row" id="search">
+						<label class="col-sm-2 col-form-label text-right">髢句ｧ区律</label>
+						<div class="col-sm-2">
+							<input type="date" class="form-control" th:field="*{startDate}">
+						</div>
+						<label class="col-sm-2 col-form-label text-right">邨ゆｺ�譌･</label>
+						<div class="col-sm-2">
+							<input type="date" class="form-control" th:field="*{endDate}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">陦ｨ遉ｺ蛻･</label>
+						<div class="col-sm-8">
+							<button sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class="btn btn-primary" type="submit" th:formmethod="get" th:formaction="@{/facebook/deviceReport}">繝�繝舌う繧ｹ蛻･</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/facebook/regionReport}">蝨ｰ蝓溷挨</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class="btn btn-info" type="submit" th:formmethod="get" th:formaction="@{/facebook/dateReport}">譌･蛻･</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="page-body" th:if="${reportType} != ''">
+				<div class="row">
+					<div class="col-md-12 col-lg-12">
+						<div class="card">
+							<div class="card-block">
+								<h4 class="sub-title">繧ｰ繝ｩ繝�</h4>
+							</div>
+							<div id="facebook_c3" class="c3"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card" th:if="${reportType} != ''">
+				<div class="card-block">
+					<div class="card-block">
+						<h4 class="sub-title">繝�繝ｼ繧ｿ</h4>
+					</div>
+					<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}" class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>繝�繝舌う繧ｹ</th>
+									<th>陦ｨ遉ｺ蝗樊焚</th>
+									<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
+									<th>縺泌茜逕ｨ驥鷹｡�</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>繝�繝舌う繧ｹ</th>
+									<th>陦ｨ遉ｺ蝗樊焚</th>
+									<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
+									<th>縺泌茜逕ｨ驥鷹｡�</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="fbReportDisplayDto : ${fbReportDisplayDtoList}">
+									<td th:text="${fbReportDisplayDto.campaignId}"></td>
+									<td th:text="${fbReportDisplayDto.campaignName}"></td>
+									<td th:text="${fbReportDisplayDto.device}"></td>
+									<td th:text="${fbReportDisplayDto.impressions} + '蝗�'"></td>
+									<td th:text="${fbReportDisplayDto.clicks} + '蝗�'"></td>
+									<td th:text="${fbReportDisplayDto.spend} + '蜀�'"></td>
+									<td th:text="${fbReportDisplayDto.ctr} + '%'"></td>
+									<td th:text="${fbReportDisplayDto.cpc}"></td>
+									<td th:text="${fbReportDisplayDto.cpm}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}" class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>蝨ｰ蝓�</th>
+									<th>陦ｨ遉ｺ蝗樊焚</th>
+									<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
+									<th>縺泌茜逕ｨ驥鷹｡�</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>蝨ｰ蝓�</th>
+									<th>陦ｨ遉ｺ蝗樊焚</th>
+									<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
+									<th>縺泌茜逕ｨ驥鷹｡�</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="fbReportDisplayDto : ${fbReportDisplayDtoList}">
+									<td th:text="${fbReportDisplayDto.campaignId}"></td>
+									<td th:text="${fbReportDisplayDto.campaignName}"></td>
+									<td th:text="${fbReportDisplayDto.region}"></td>
+									<td th:text="${fbReportDisplayDto.impressions} + '蝗�'"></td>
+									<td th:text="${fbReportDisplayDto.clicks} + '蝗�'"></td>
+									<td th:text="${fbReportDisplayDto.spend} + '蜀�'"></td>
+									<td th:text="${fbReportDisplayDto.ctr} + '%'"></td>
+									<td th:text="${fbReportDisplayDto.cpc}"></td>
+									<td th:text="${fbReportDisplayDto.cpm}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}" class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>譌･莉�</th>
+									<th>陦ｨ遉ｺ蝗樊焚</th>
+									<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
+									<th>縺泌茜逕ｨ驥鷹｡�</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>譌･莉�</th>
+									<th>陦ｨ遉ｺ蝗樊焚</th>
+									<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
+									<th>縺泌茜逕ｨ驥鷹｡�</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="fbReportDisplayDto : ${fbReportDisplayDtoList}">
+									<td th:text="${fbReportDisplayDto.campaignId}"></td>
+									<td th:text="${fbReportDisplayDto.campaignName}"></td>
+									<td th:text="${fbReportDisplayDto.date}"></td>
+									<td th:text="${fbReportDisplayDto.impressions} + '蝗�'"></td>
+									<td th:text="${fbReportDisplayDto.clicks} + '蝗�'"></td>
+									<td th:text="${fbReportDisplayDto.spend} + '蜀�'"></td>
+									<td th:text="${fbReportDisplayDto.ctr} + '%'"></td>
+									<td th:text="${fbReportDisplayDto.cpc}"></td>
+									<td th:text="${fbReportDisplayDto.cpm}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class="btn btn-success" th:formaction="@{/facebook/download(reportType=${reportType})}" th:formmethod="post">CSV繝�繧ｦ繝ｳ繝ｭ繝ｼ繝�</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div id="styleSelector"></div>
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript" th:inline="javascript">
+			/*<![CDATA[*/
+			window.onload = function() {
+
+				//驕ｸ謚槭＠縺溘く繝｣繝ｳ繝壹�ｼ繝ｳ
+				var selectedCampaignArr = /*[[${campaignIds}]]*/
+				$('#campaignIds').multiSelect('select', selectedCampaignArr);
+
+				// 繧ｰ繝ｩ繝墓緒逕ｻ
+				var chart = c3.generate({
+					bindto : '#facebook_c3',
+					data : {
+						x : 'x',
+						columns : [
+						/*[[${fbGraphReportDto.reportTypeList}]]*/,
+						/*[[${fbGraphReportDto.impressionList}]]*/,
+						/*[[${fbGraphReportDto.clicksList}]]*/,
+						/*[[${fbGraphReportDto.spendList}]]*/,
+						/*[[${fbGraphReportDto.CTRList}]]*/,
+						/*[[${fbGraphReportDto.CPCList}]]*/,
+						/*[[${fbGraphReportDto.CPMList}]]*/
+						],
+						type : 'bar',
+						names : {
+							impressions : '陦ｨ遉ｺ蝗樊焚',
+							clicks : '繧ｯ繝ｪ繝�繧ｯ蝗樊焚',
+							spend : '縺泌茜逕ｨ驥鷹｡�',
+							ctr : 'CTR',
+							cpc : 'CPC',
+							cpm : 'CPM'
+						},
+						types : {
+							ctr : 'line',
+							cpc : 'line',
+							cpm : 'line'
+						}
+					},
+					axis : {
+						x : {
+							type : 'category',
+							tick : {
+								rotate : -35,
+								multiline : true
+							},
+							height : 80
+						}
+					}
+				});
+			}
+			/*]]>*/
+		</script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				if ($('[id=period1]').prop('checked')) {
+					$('[id=search]').hide();
+				}
+				if ($('[id=period2]').prop('checked')) {
+					$('[id=search]').show();
+				}
+			});
+			$(document).ready(function() {
+				$('[name="period"]:radio').change(function() {
+					if ($('[id=period1]').prop('checked')) {
+						$('[id=search]').fadeOut();
+					}
+					if ($('[id=period2]').prop('checked')) {
+						$('[id=search]').fadeIn();
+					}
+				});
+			});
+		</script>
+	</div>
+</body>
+</html>

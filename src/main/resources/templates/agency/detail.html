@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>代理店詳細</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/agency/agencyList}" method="post" th:object="${agencyInputForm}">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{agencyId}" /> <input type="hidden" th:field="*{agencyName}" />
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">代理店情報</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">代理店ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">代理店名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyName}">エースプロ</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('CORPORATION_MANAGE')" th:onclick="'window.location.href = \'' + @{/corporation/create?agencyId={id}(id=*{agencyId})} + '\''">法人の新規</button>
+							<button type="button" class="btn btn-info" sec:authorize="hasAuthority('AGENCY_MANAGE')" th:onclick="'window.location.href = \'' + @{/agency/update?agencyId={id}(id=*{agencyId})} + '\''">編集</button>
+							<button class="btn btn-danger" onclick="return check('代理店削除してよろしいでしょうか？')" sec:authorize="hasAuthority('AGENCY_MANAGE')" type="submit" th:formaction="@{/agency/delete}" th:formmethod="post">削除</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">所属法人リスト</h4>
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%">
+							<thead>
+								<tr>
+									<th>法人ID</th>
+									<th>法人名</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>法人ID</th>
+									<th>法人名</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="corporationDto : *{corporationDtoList}">
+									<td><a href="#" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:href="@{/corporation/detail(corporationId=${corporationDto.corporationId})}" th:method="get" th:text="${corporationDto.corporationId}">0001</a></td>
+									<td th:text="${corporationDto.corporationName}">法人名</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button type="button" class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" th:onclick="'window.location.href = \'' + @{/agency/list} + '\''">一覧へ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

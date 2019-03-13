@@ -1,0 +1,1 @@
+insert into `corporation`(corporation_name,agency_id,version_no,created_at,created_by,updated_at,updated_by,is_actived) values ('エースプロ法人',1,1,NOW(),'init',NOW(),'init',1);

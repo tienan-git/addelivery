@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-twitter bg-twiter"></i>
+						<div class="d-inline">
+							<h4>Twitter蠎�蜻翫ユ繝ｳ繝励Ξ繝ｼ繝医��譖ｴ譁ｰ螳御ｺ�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<strong>Twitter蠎�蜻翫ユ繝ｳ繝励Ξ繝ｼ繝医�ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+		</div>
+		<div class="card">
+			<form action="#" th:object="${twitterTemplateDto}">
+				<div class="card-block">
+					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝�</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 text-right">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templateName}">繝�繧ｹ繝�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 text-right">蜆ｪ蜈磯��<br>(蟆上＆縺�謨ｰ蛟､縺悟━蜈�)
+						</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templatePriority}">繝�繧ｹ繝�</label>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">譯井ｻｶ菴懈��</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">譯井ｻｶ蜷�</label>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-form-label" th:text="*{campaignName}">繝�繧ｹ繝�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">髢句ｧ区律</label>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-form-label" th:text="*{startTime}">2018蟷ｴ09譛�15譌･</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">邨ゆｺ�譌･</label>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-form-label" th:text="*{endTime}">2018蟷ｴ09譛�16譌･</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">譌･蛻･莠育ｮ�</label>
+						</div>
+						<div th:if="*{dailyBudget} != null" class="col-sm-4">
+							<label class="col-form-label" th:text="*{dailyBudget} + 蜀�">10000蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">邱丈ｺ育ｮ�</label>
+						</div>
+						<div th:if="*{totalBudget} != null" class="col-sm-4">
+							<label class="col-form-label" th:text="*{totalBudget} + 蜀�">200蜀�</label>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">繧ｿ繝ｼ繧ｲ繝�繝郁ｨｭ螳�</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蝨ｰ蝓�</label>
+						</div>
+						<div th:if="${twitterTemplateDto.location} == 2">
+							<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(regions)}">
+								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								</select>
+							</div>
+							<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(regions)}">
+								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterTemplateDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4" th:unless="${twitterTemplateDto.location} == 2">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterLocationType).of(__*{location}__).label}">繧ｦ繧ｧ繝悶し繧､繝医�ｮ繧ｯ繝ｪ繝�繧ｯ縺ｾ縺溘�ｯ繧ｳ繝ｳ繝舌�ｼ繧ｸ繝ｧ繝ｳ</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitter/templateList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- page body end -->
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

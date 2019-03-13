@@ -1,0 +1,220 @@
+buildscript {
+	ext {
+	    domaVersion = '2.19.2'
+        flywayVersion = '5.0.7'
+		springBootVersion = '2.0.5.RELEASE'
+		lombokVersion = '1.18.2'
+	    mysqlVersion = '5.1.44'
+        domaSpringBootVersion = '1.1.1'
+        domaVersion = '2.19.2'
+        mapstructVersion = '1.1.0.Final'
+        univocityVersion = '2.6.3'
+        groupName = 'jp.acepro.haishinsan'
+        
+        dbUrl = 'jdbc:mysql://localhost:3306/haishinsan?useSSL=false'
+        dbUser = 'root'
+        dbPassword = 'goodlunch'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "gradle.plugin.com.boxfuse.client:gradle-plugin-publishing:$flywayVersion"
+	}
+}
+
+plugins {
+  id "net.ltgt.apt" version "0.18"
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'org.flywaydb.flyway'
+
+group = 'jp.acepro.haishinsan'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+    domaGenRuntime
+    deployerJars
+}
+
+//gradlew使う場合、GradleRefreshされる度にDefault output folder修正しなければならない問題の修正
+eclipse {
+  classpath {
+    file {
+      whenMerged {
+        classpath -> classpath.entries.findAll{ it.kind == 'src' }.each{it.output = null }
+      }
+    }  
+    
+    // クラス出力フォルダ変更
+    defaultOutputDir = file('bin')
+  }
+}
+
+processResources.destinationDir = compileJava.destinationDir
+compileJava.dependsOn processResources
+
+dependencies {
+
+	compile 'org.aspectj:aspectjweaver:1.9.1'
+	compile 'org.springframework:spring-context:5.0.8.RELEASE'
+	compile 'org.springframework.boot:spring-boot-devtools'
+
+    // lombok
+    compileOnly 'org.projectlombok:lombok:1.18.2'
+	annotationProcessor "org.projectlombok:lombok:1.18.2"
+	
+	    compile "org.seasar.doma:doma:$domaVersion"
+    apt "org.seasar.doma:doma:$domaVersion"
+        domaGenRuntime "org.seasar.doma:doma-gen:$domaVersion"
+        
+    // mapstruct
+    compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
+    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+    compile 'org.thymeleaf:thymeleaf-spring5'
+	compile('org.springframework.boot:spring-boot-starter')
+    compile 'org.springframework.boot:spring-boot-starter-web'
+	compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.boot:spring-boot-starter-logging'
+    compile 'org.springframework.boot:spring-boot-starter-jdbc'
+    compile 'org.springframework.boot:spring-boot-starter-aop'
+    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    compile 'org.springframework.boot:spring-boot-starter-mail'
+    compile 'org.thymeleaf.extras:thymeleaf-extras-springsecurity4'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+    compile "com.univocity:univocity-parsers:${univocityVersion}"
+
+    //added
+  	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+  
+    compile group: 'org.springframework.security', name: 'spring-security-core', version: '5.0.8.RELEASE'
+    
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile 'com.google.code.gson:gson:2.8.2'
+
+    /* 開発環境用 */
+    compile 'org.springframework.boot:spring-boot-devtools'
+    
+    /* DBアクセス関連 */
+    compile "mysql:mysql-connector-java:$mysqlVersion"
+    compile "org.seasar.doma.boot:doma-spring-boot-starter:$domaSpringBootVersion"
+    compile 'com.zaxxer:HikariCP'
+    compile "org.seasar.doma:doma:${domaVersion}"
+    annotationProcessor "org.seasar.doma:doma:${domaVersion}"
+    
+    domaGenRuntime "org.seasar.doma:doma-gen:$domaVersion"
+    domaGenRuntime "mysql:mysql-connector-java:$mysqlVersion"
+    
+    // Google AdWords API dependencies
+    compile 'com.google.api-ads:ads-lib:4.1.0'
+    compile 'com.google.api-ads:adwords-axis:4.1.0'
+    compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
+    compile 'com.beust:jcommander:1.48'
+    compile 'log4j:log4j:1.2.17'
+    compile 'commons-logging:commons-logging:1.1.1'
+    
+    // Facebook
+	compile "com.facebook.business.sdk:facebook-java-business-sdk:3.1.0"
+}
+    sourceSets {
+        main {
+            java {
+                srcDirs 'src/generated/main/java'
+                srcDirs 'src/main/java'
+            }
+            resources {
+                srcDirs 'src/generated/main/resources'
+                srcDirs 'src/main/resources'
+            }
+        }
+        test {
+            java {
+                srcDirs 'src/generated/test/java'
+                srcDirs 'src/test/java'
+            }
+            resources {
+                srcDirs 'src/generated/test/resources'
+            }
+        }
+    }
+task cleanGen(type:Delete){
+   delete 'src/generated'
+}
+
+task gen  {
+    doLast {
+          ant.taskdef(resource: 'domagentask.properties', classpath: configurations.domaGenRuntime.asPath)
+          ant.gen(url: "${dbUrl}", user: "${dbUser}", password: "${dbPassword}", templatePrimaryDir: 'doma/template') {
+              entityConfig(
+                  overwrite: true,
+                  useListener: false,
+                  //useAccessor: false,
+                  packageName: "jp.acepro.haishinsan.db.entity",
+                  //superclassName: 'jp.acepro.haishinsan.entity.BaseEntity',
+                  destDir: 'src/generated/main/java'
+                   )
+              daoConfig(
+                   overwrite: true,
+                   packageName: "jp.acepro.haishinsan.dao",
+                   destDir: 'src/generated/main/java',
+                   )
+              sqlConfig(
+                   overwrite: true,
+                   destDir: 'src/generated/main/resources',
+              )
+           }
+     }
+}
+
+
+gen.dependsOn cleanGen
+
+gen.group = 'doma'
+cleanGen.group = 'doma'
+
+   flywayMigrate.mustRunAfter flywayClean
+   gen.mustRunAfter flywayMigrate
+   //build.dependsOn flywayClean, flywayMigrate, gen
+
+
+flyway{
+   url = "${dbUrl}"
+   user = "${dbUser}" 
+   password = "${dbPassword}"
+   locations = ["filesystem:$projectDir/db/migration"]
+}
+
+
+//デプロイ用ZIPファイル作成
+task zip(type: Zip, dependsOn: bootJar) {
+    from('build/libs') {
+        include '*.jar'
+    }
+    from('release') {
+        include 'Dockerfile'
+        include 'Dockerrun.aws.json'
+        include '.ebextensions/*'
+    } 
+}
+
+//デプロイ用ZIPファイル作成してから、releaseフォルダにコピーする
+task zipAndCopy(type: Copy, dependsOn: zip) {
+    from 'build/distributions'
+    into 'release'
+    include '*.zip'    
+}

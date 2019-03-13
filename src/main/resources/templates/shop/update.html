@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>蠎苓�玲ュ蝣ｱ邱ｨ髮�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form action="#" th:action="@{/shop/updateComplete}" method="post" th:object="${shopInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<input type="hidden" th:field="*{shopId}" /> <input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" />
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">豕穂ｺｺID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationId}">0001</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">豕穂ｺｺ蜷�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationName}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�悠D</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopId}">0001</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�怜錐<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:value="*{shopName}" th:field="*{shopName}" required="required" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">DSP繝ｦ繝ｼ繧ｶ繝ｼID</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:value="*{dspUserId}" th:field="*{dspUserId}" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Google繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:value="*{googleAccountId}" th:field="*{googleAccountId}" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Facebook繝壹�ｼ繧ｸID</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:value="*{facebookPageId}" th:field="*{facebookPageId}" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Twitter繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:value="*{twitterAccountId}" th:field="*{twitterAccountId}" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">DSP蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:value="*{dspDistributionRatio}" th:field="*{dspDistributionRatio}" required="required" min="0" max="100"></input>
+						</div>
+						<span class="col-form-label">%</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Google蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:value="*{googleDistributionRatio}" th:field="*{googleDistributionRatio}" required="required" min="0" max="100"></input>
+						</div>
+						<span class="col-form-label">%</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Facebook蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:value="*{facebookDistributionRatio}" th:field="*{facebookDistributionRatio}" required="required" min="0" max="100"></input>
+						</div>
+						<span class="col-form-label">%</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Twitter蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:value="*{twitterDistributionRatio}" th:field="*{twitterDistributionRatio}" required="required" min="0" max="100"></input>
+						</div>
+						<span class="col-form-label">%</span>
+					</div>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蝟ｶ讌ｭ蟇ｩ譟ｻ繝輔Λ繧ｰ</label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.SalesCheckFlag).values()}">
+								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{salesCheckFlag}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝槭�ｼ繧ｸ繝ｳ邇�<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:value="*{marginRatio}" th:field="*{marginRatio}" required="required" min="0" max="100"></input>
+						</div>
+						<span class="col-form-label">%</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:value="*{shopMailList}" th:field="*{shopMailList}" maxlength="300">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�</label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:value="*{salesMailList}" th:field="*{salesMailList}" maxlength="300">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('SHOP_MANAGE')" th:formaction="@{/shop/updateComplete}" th:formmethod="post">遒ｺ隱�</button>
+							<button type="button" class="btn btn-warning" sec:authorize="hasAuthority('SHOP_VIEW')" th:onclick="'window.location.href = \'' + @{/shop/detail?shopId={id}(id=*{shopId})} + '\''">隧ｳ邏ｰ縺ｸ謌ｻ繧�</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

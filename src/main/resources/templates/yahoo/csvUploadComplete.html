@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-social-yahoo bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>データアップロード完了</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<strong>CSVデータのアップロードが成功しました!</strong>
+		</div>
+		<form id="defaultForm" class="form-horizontal" th:action="@{/}" method="post">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">データアップロード完了</h4>
+					<div class="form-group row">
+						<div class="col-sm-12 text-right">
+							<button class="btn btn-info" sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" type="submit" th:formaction="@{/yahoo/csvUpload}" th:formmethod="get">CSVアップロードへ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+
+</body>
+</html>

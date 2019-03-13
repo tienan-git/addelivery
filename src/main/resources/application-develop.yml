@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/haishinsan?useSSL=false
+    username: root
+    password: goodlunch
+  mail:
+    host: smtp.sparkworks.co.jp
+    port: 587
+    username: reporting.sender@sparkworks.co.jp
+    password: f3#IfCKG
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: false
+    
+facebook:
+  accountId: 522350164903035
+  accessToken: EAAH74VYg8ewBALkYLC3tPwGxGKQCIAYznbi92qftpCd1LiXrOPWXD6lPFunGW6TnmKZB3gtWhzxds0oRXDllLt4vRfcpixKmcOJAYF3OonA5I7wDCHBxZAZAKCm7P3AFqmXTeq4GgzDiCb3ts8fIhuqvqLHeDIf4F82IQWl3gZDZD
+  appSecret: 994f11129170e314d82b336625bcbbf6
+  pageToken: 
+
+twitter:
+  twitterApiKey: 4JV4lThP6qFh6DyhN5FWQGJSZ
+  twitterApiSecretKey: JYT5YYynteO0cg9RB8C2wL3ZiVYyWOsWoA4xgznWsA2alJlWun
+  twitterAccessToken: 249900812-8OlZ1UKtKxLJZu8ha7BDVHROZuLKYYn82hlKeNRR
+  twitterAccessTokenSecret: nPbGglKAGaX5T29mIVBZurxI0SWcLk32SkXrd7eqcmpUD
+
+logging: 
+  level:
+    root: INFO
+    jp.acepro.haishinsan: DEBUG
+
+email:
+  url:
+    prefix: http://localhost:8080

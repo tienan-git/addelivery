@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-crown bg-c-yellow"></i>
+						<div class="d-inline">
+							<h4>譯井ｻｶ邁｡蜊倅ｽ懈�仙ｮ御ｺ�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div id="info"
+			class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<p>
+				<strong
+					th:if="${issueDto.dspSelected} == true and ${dspMsg} == null">繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+			<p>
+				<strong
+					th:if="${issueDto.googleSelected} == true and ${googleMsg} == null">Google蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+			<p>
+				<strong
+					th:if="${issueDto.facebookSelected} == true and ${facebookMsg} == null">Facebook蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+			<p>
+				<strong
+					th:if="${issueDto.twitterSelected} == true and ${twitterMsg} == null">Twitter蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+		</div>
+		<div id="info"
+			class="col-sm-24 col-md-24 col-xl-12 alert alert-danger background-danger">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<p>
+				<strong th:if="${dspMsg} != null" th:text="${dspMsg}">蟐剃ｽ薙ヵ繧｡繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+			<p>
+				<strong th:if="${googleMsg} != null" th:text="${googleMsg}">蟐剃ｽ薙ヵ繧｡繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+			<p>
+				<strong th:if="${facebookMsg} != null" th:text="${facebookMsg}">蟐剃ｽ薙ヵ繧｡繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+			<p>
+				<strong th:if="${twitterMsg} != null" th:text="${twitterMsg}">蟐剃ｽ薙ヵ繧｡繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻頑｡井ｻｶ縺ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</p>
+		</div>
+		<form id="defaultForm" class="form-horizontal"
+			th:action="@{/issue/createIssue}" th:object="${issueDto}"
+			method="post">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">譯井ｻｶ蜷�</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{campaignName}">譯井ｻｶ蜷�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">莠育ｮ�</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{budget} + 蜀�">1,000</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{startDate}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{endDate}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝ｪ繝ｳ繧ｯ蜈医�ｮURL</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{url}">https://www.apple.com/macbook</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div th:if="${issueDto.dspSelected} == true" class="card">
+				<div class="card-block">
+					<h4 class="sub-title">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</h4>
+					<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</label>
+					<div class="col-sm-4 col-form-label"
+						th:if="${#lists.isEmpty(issueDto.dspCampaignCreInputFormList)}">
+						<select id="custom-headers" class="searchable" multiple
+							th:field="*{idList}" disabled>
+							<option th:each="object : *{dspCampaignCreInputFormList}"
+								th:value="${object.getCreativeId()}"
+								th:text="${object.getCreativeName()}">譌･譛ｬ</option>
+						</select>
+					</div>
+					<div class="col-sm-4 col-form-label"
+						th:unless="${#lists.isEmpty(issueDto.dspCampaignCreInputFormList)}">
+						<select id="custom-headers" class="searchable" multiple
+							th:field="*{idList}" disabled>
+							<option th:each="object : *{dspCampaignCreInputFormList}"
+								th:selected="${#lists.contains(issueDto.idList, object.getCreativeId())}"
+								th:value="${object.getCreativeId()}"
+								th:text="${object.getCreativeName()}">譌･譛ｬ</option>
+						</select>
+					</div>
+				</div>
+					<!-- Scrolling DataTable table end -->
+				</div>
+			</div>
+			<div th:if="${issueDto.googleSelected} == true" class="card">
+				<div class="card-block">
+					<h4 class="sub-title">Google</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<div class="col-sm-4 col-form-label">
+							<label id="adType"
+								th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(issueDto.adType).getLabel()}">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</label>
+						</div>
+					</div>
+					<div
+						th:if="${issueDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdDescription}">譁ｰ縺励＞繝代た繧ｳ繝ｳ縺檎匱螢ｲ</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">逕ｻ蜒上ヵ繧｡繧､繝ｫ</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="image : ${resAdImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						th:if="${issueDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
+						<div class="card-block">
+							<div class="sub-title">逕ｻ蜒上ヵ繧｡繧､繝ｫ</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="image : ${imageAdImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						th:if="${issueDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdTitle1}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdTitle2}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdDescription}">MacBook Pro隱ｬ譏取枚</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div th:if="${issueDto.twitterSelected} == true" class="card">
+				<div class="card-block">
+					<h4 class="sub-title">Twitter</h4>
+					<!-- Scrolling DataTable table start -->
+					<div id="twitterTweets" class="dt-responsive table-responsive">
+						<table id="basicTable"
+							class="table table-striped table-hover table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th></th>
+									<th>繝�繧､繝ｼ繝医Ξ繝薙Η繝ｼ</th>
+									<th>繝�繧､繝ｼ繝亥��螳ｹ</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th></th>
+									<th>繝�繧､繝ｼ繝医Ξ繝薙Η繝ｼ</th>
+									<th>繝�繧､繝ｼ繝亥��螳ｹ</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="websiteTweet : *{websiteTweetList}">
+									<td><input type="checkbox" name="tweetIdList"
+										autocomplete="off" tabindex="-1" data-row="0" data-col="2"
+										disabled="disabled" checked="checked"></td>
+									<td><a th:href="${websiteTweet.previewUrl}"
+										target="_blank">繝励Ξ繝薙Η繝ｼ</a></td>
+									<td
+										th:utext="${websiteTweet.tweetTitle} + '&lt;br /&gt;' + ${websiteTweet.tweetBody}">Tiger
+										Nixon</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- Scrolling DataTable table end -->
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
+						class="btn btn-success" type="submit"
+						th:formaction="@{/issue/issueList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

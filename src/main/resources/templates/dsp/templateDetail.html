@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="col-lg-8">
+				<div class="page-header-title">
+					<i class="fa fa-envira bg-c-blue"></i>
+					<div class="d-inline">
+						<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��繝�繝ｳ繝励Ξ繝ｼ繝郁ｩｳ邏ｰ</h4>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+				<form th:action="@{/dsp/updateTemplate(templateId=*{templateId})}" method="post" th:object="${dspTemplateDto}">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝�ID</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templateId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜆ｪ蜈磯��</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templatePriority}">1</label>
+						</div>
+						<span class="col-form-label">�ｼ亥ｰ上＆縺�謨ｰ蛟､縺悟━蜈医＆繧後ｋ�ｼ�</span>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templateName}">繝�繝ｳ繝励Ξ繝ｼ繝亥錐�ｼ�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜈･譛ｭ蜊倅ｾ｡</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{bidCpcPrice}+'蜀�'">200蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">隱ｲ驥第婿蠑�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.BillingType).of(__${dspTemplateDto.billingType}__).getLabel()}">200蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-info" type="submit" sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" th:formmethod="post" th:formaction="@{/dsp/updateTemplate(templateId=*{templateId})}">譖ｴ譁ｰ</button>
+							<button class="btn btn-danger" type="submit" onclick="return check('DSP繝�繝ｳ繝昴Ξ繝ｼ繝医ｒ蜑企勁縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" th:formmethod="post" th:formaction="@{/dsp/deleteTemplate(templateId=*{templateId})}">蜑企勁</button>
+							<button class="btn btn-warning" type="submit" sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" th:formmethod="get" th:formaction="@{/dsp/templateList}">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

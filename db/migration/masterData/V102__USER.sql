@@ -1,0 +1,1 @@
+insert into `user`(user_name,email,password,shop_id,role_id,version_no,created_at,created_by,updated_at,updated_by,is_actived) values ('初期ユーザー','init@ace-pro.com','$2a$10$LOqePml/koRGsk2YAIOFI.1YNKZg7EsQ5BAIuYP1nWOyYRl21dlne',1,9,1,NOW(),'init',NOW(),'init',1);

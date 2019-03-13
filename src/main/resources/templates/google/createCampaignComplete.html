@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-google bg-googleplus"></i>
+						<div class="d-inline">
+							<h4>Google蠎�蜻� 譯井ｻｶ菴懈�仙ｮ御ｺ�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/}" method="post" th:object="${googleCampaignForm}">
+			<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<i class="icofont icofont-close-line-circled text-white"></i>
+				</button>
+				<strong>Google蠎�蜻翫�ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝磯∈謚�</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝�</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{templateName}">陦ｨ遉ｺ驥崎ｦ�</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{campaignName}">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ蜷�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{startDateSlash}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{endDateSlash}">2018/10/15</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譌･蛻･莠育ｮ�</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{budget} + 蜀�">1,000</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(googleCampaignForm.deviceType).getLabel()}">繝代た繧ｳ繝ｳ</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�</label>
+						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(googleCampaignForm.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(googleCampaignForm.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<h4 class="sub-title">蠎�蜻頑ュ蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<div class="col-sm-4 col-form-label">
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleCampaignForm.adType).getLabel()}">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</label>
+						</div>
+					</div>
+					<div th:if="${googleCampaignForm.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdDescription}">譁ｰ縺励＞繝代た繧ｳ繝ｳ縺檎匱螢ｲ</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">逕ｻ蜒上ヵ繧｡繧､繝ｫ</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item" th:each="image : ${resAdImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div th:if="${googleCampaignForm.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{imageAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">逕ｻ蜒上ヵ繧｡繧､繝ｫ</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item" th:each="image : ${imageAdImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div th:if="${googleCampaignForm.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdTitle1}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdTitle2}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdDescription}">MacBook Pro隱ｬ譏取枚</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/google/listCampaign}">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

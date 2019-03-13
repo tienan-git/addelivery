@@ -1,0 +1,109 @@
+spring:
+  profiles:
+    active: develop #develop #honban #staging
+  thymeleaf:
+    cache: false
+    prefix: classpath:templates/
+    suffix: .html
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+
+server:
+  port: 8080
+
+doma:
+  dialect: mysql
+
+dsp:
+  scheme: https
+  host: api.fout.jp
+  api:
+   gettoken: /v1/agency/auth/get_token
+   refreshtoken: /v1/agency/auth/refresh_token
+   createCreative: /v1/agency/creative/set
+   creativeList: /v1/agency/creative/get
+   createSegment: /v1/agency/dmp/segment/set
+   segmentList: /v1/agency/dmp/segment/get
+   segmentUpdate: /v1/agency/dmp/segment/set
+   createDspCampaign: /v1/agency/campaign/set
+   createDspGroup: /v1/agency/ad_group/set
+   createDspAd: /v1/agency/ad/set
+   createDspBit: /v1/agency/bid/set
+   segmentReporting:  /v1/agency/dmp/segment_total_uu_report/get
+   campaignList: /v1/agency/campaign/get
+   adGroupList: /v1/agency/ad_group/get
+   adReport: /v1/agency/ad_report/get
+  value: 
+   frequencyCap: 30
+   targetType: cpc
+   targetValue: 150
+  dspAccountId: acepro
+  dspPassword: HYJHWPnBCpFNG
+
+twitter:
+  host: https://ads-api.twitter.com/4/accounts/
+  previewHost: https://twitter.com/
+  previewPath: /status/
+  api:
+   getFundingInstrumentId: /funding_instruments
+   changeCampaignStatus: /campaigns/
+   creatCampaign: /campaigns
+   creatgroup: /line_items
+   promoteTweets: /promoted_tweets
+   setTarget: /targeting_criteria
+   searchTweetsTimline: /scoped_timeline
+   reporting: https://ads-api.twitter.com/4/stats/jobs/accounts/
+   
+image:
+  dsp:
+    maxSize: 150000
+    contentType: image/jpeg, image/png, image/gif
+    dimensions: 468*60, 728*90, 120*600, 160*600, 200*200, 250*250, 300*250, 336*280, 300*600,300*50, 600*100, 300*250, 600*500, 320*50, 640*100, 320*100, 640*200
+    gif:
+      frames: 5
+      playTime: 30
+  google:
+    maxSize: 150000
+    responsive:
+      contentType: image/jpeg, image/png
+      dimensions: 300*300, 1200*628
+    image:
+      contentType: image/jpeg, image/png, image/gif
+      dimensions: 300*250, 320*50, 320*100, 728*90, 336*280, 468*60
+      gif:
+        frames: 5
+        playTime: 30
+  yahoo:
+    infeed:
+      dimensions: 300*300, 1200*628
+    targeting:
+      dimensions: 300*300, 1200*628, 300*250, 320*50, 320*100, 728*90, 468*60
+  facebook:
+    dimensions: 500*500 #横*縦
+
+inputLength:
+  title: 30
+  description: 80
+      
+
+email:
+  sendFrom: haishinsan@ace-pro.com
+  admin: haishinsan@ace-pro.com
+  senderName: 配信さん
+  encoding: UTF-8
+  prefix: /templates/
+  suffix: .html
+  pattern: email/*
+  templateName:
+    campaign: email/campaignEmail
+    issueRequest: email/issueRequestEmail
+  
+csv-download:
+  contentType: text/csv; charset=utf-8 
+  bytesCode: utf-8
+
+csv-upload:
+  charset: Shift_JIS, UTF-8
+
+
+

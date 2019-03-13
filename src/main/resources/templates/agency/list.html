@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>代理店一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+
+
+		<form id="defaultForm" class="form-horizontal">
+			<div class="form-group row">
+				<div class="col-sm-12 text-right">
+					<button class="btn btn-primary" type="submit" th:formaction="@{/agency/create}" th:formmethod="get">代理店の新規</button>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable"
+							class="table table-striped table-hover table-bordered nowrap"  style="width:100%">
+							<thead>
+								<tr>
+									<th>代理店ID</th>
+									<th>代理店名</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>代理店ID</th>
+									<th>代理店名</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="agencyDto : ${agencyDtoList}">
+									<td><a sec:authorize="hasAuthority('AGENCY_VIEW')"  href="#" th:href="@{/agency/detail(agencyId=${agencyDto.agencyId})}" th:method="get" th:text="${agencyDto.agencyId}">0001</a></td>
+									<td th:text="${agencyDto.agencyName}">代理店名</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+
+</body>
+</html>

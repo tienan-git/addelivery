@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>繝ｦ繝ｼ繧ｶ繝ｼ諠�蝣ｱ邱ｨ髮�</h4>
+							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form action="#" th:action="@{/user/updateComplete}" method="post" th:object="${userInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{userId}" /> <input type="hidden" th:field="*{shopId}" /> <input type="hidden" th:field="*{shopName}" /> <input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" /> <input type="hidden" th:field="*{agencyId}" /> <input
+				type="hidden" th:field="*{agencyName}" />
+			<div class="card">
+				<div class="card-block">
+					<input type="hidden" th:field="*{userId}" />
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝ｦ繝ｼ繧ｶ繝ｼID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{userId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝ｦ繝ｼ繧ｶ繝ｼ蜷�<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{userName}" required="required"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{email}" required="required" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝代せ繝ｯ繝ｼ繝�<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" placeholder="螟画峩縺励↑縺�蝣ｴ蜷医�∝�･蜉帑ｸ崎ｦ�" name="password" minlength="6" maxlength="20" />
+						</div>
+					</div>
+					<div class="form-group row gutter">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">讓ｩ髯�<span class="text-danger">窶ｻ</span></label>
+						</div>
+						<div class="col-lg-2">
+							<select class="form-control" name="role_id" th:field="*{roleId}" required="required">
+								<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.Role).values()}" th:selected="${roleId == object.value}" th:value="${object.value}" th:text="${object.label}">邂｡逅�閠�</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�悠D</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�怜錐</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopName}">蠎苓��</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">豕穂ｺｺID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">豕穂ｺｺ蜷�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationName}">豕穂ｺｺ</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">莉｣逅�蠎悠D</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyId}">0001</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">莉｣逅�蠎怜錐</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyName}">莉｣逅�蠎�1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" sec:authorize="hasAuthority('USER_MANAGE')" type="submit" th:formaction="@{/user/updateComplete}" th:formmethod="post">遒ｺ隱�</button>
+							<button type="button" sec:authorize="hasAuthority('USER_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/user/detail?userId={id}(id=*{userId})} + '\''">隧ｳ邏ｰ縺ｸ謌ｻ繧�</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

@@ -1,0 +1,3 @@
+INSERT INTO `facebook_template` (`template_id`,`shop_id`,`template_name`,`template_priority`,`unit_price_type`,`version_no`,`created_at`,`created_by`,`updated_at`,`updated_by`,`is_actived`) VALUES (1,1,'表示重視',1,'02',1,NOW(),'init',NOW(),'init',1);
+INSERT INTO `facebook_template` (`template_id`,`shop_id`,`template_name`,`template_priority`,`unit_price_type`,`version_no`,`created_at`,`created_by`,`updated_at`,`updated_by`,`is_actived`) VALUES (2,1,'クリック重視',2,'01',1,NOW(),'init',NOW(),'init',1);
+INSERT INTO `facebook_template` (`template_id`,`shop_id`,`template_name`,`template_priority`,`unit_price_type`,`version_no`,`created_at`,`created_by`,`updated_at`,`updated_by`,`is_actived`) VALUES (3,1,'カスタム',3,'02',1,NOW(),'init',NOW(),'init',1);

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="col-lg-8">
+				<div class="page-header-title">
+					<i class="fa fa-envira bg-c-blue"></i>
+					<div class="d-inline">
+						<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��繝�繝ｳ繝励Ξ繝ｼ繝域峩譁ｰ</h4>
+						<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/dsp/updateTemplateComplete}" method="Post" th:object="${dspTemplateInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<input type="hidden" th:field="*{templateId}">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝�ID</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templateId}">150蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜆ｪ蜈磯��<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-4">
+							<input type="number" class="form-control" th:value="*{templatePriority}" th:field="*{templatePriority}" required="required">
+						</div>
+						<span class="col-form-label">�ｼ亥ｰ上＆縺�謨ｰ蛟､縺悟━蜈医＆繧後ｋ�ｼ�</span>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝亥錐<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:value="*{templateName}" th:field="*{templateName}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜈･譛ｭCPC蜊倅ｾ｡<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-8">
+							<input type="number" class="form-control" th:value="*{bidCpcPrice}" th:field="*{bidCpcPrice}" required="required">
+						</div>
+						<span class="col-form-label">蜀�</span>
+					</div>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｲ驥第婿蠑�</label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.BillingType).values()}">
+								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{billingType}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-8 text-right"></label>
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" th:formaction="@{/dsp/updateTemplateComplete}" th:formmethod="Post">譖ｴ譁ｰ</button>
+							<button class="btn btn-warning" type="button" sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" th:onclick="'window.location.href = \'' + @{/dsp/templateList} + '\''">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

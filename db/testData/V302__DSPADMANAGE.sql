@@ -1,0 +1,4 @@
+insert into dsp_ad_manage(campaign_id,ad_group_id,ad_id,creative_id,device_type,version_no,created_at,created_by,updated_at,updated_by,is_actived) values (84539,377499,5045384,688773,1,1,'2018-10-16T15:57:13','1','2018-10-16T15:57:17','1',1);
+insert into dsp_ad_manage(campaign_id,ad_group_id,ad_id,creative_id,device_type,version_no,created_at,created_by,updated_at,updated_by,is_actived) values (84539,377499,5045385,688772,1,1,'2018-10-16T16:01:45','1','2018-10-16T16:01:48','1',1);
+insert into dsp_ad_manage(campaign_id,ad_group_id,ad_id,creative_id,device_type,version_no,created_at,created_by,updated_at,updated_by,is_actived) values (84539,377500,5045386,688773,2,1,'2018-10-16T16:03:00','1','2018-10-16T16:03:04','1',1);
+insert into dsp_ad_manage(campaign_id,ad_group_id,ad_id,creative_id,device_type,version_no,created_at,created_by,updated_at,updated_by,is_actived) values (84539,377500,5045387,688772,2,1,'2018-10-16T16:03:51','1','2018-10-16T16:03:54','1',1);

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-facebook bg-facebook"></i>
+						<div class="d-inline">
+							<h4>Facebook 繝�繝ｳ繝励Ξ繝ｼ繝郁ｩｳ邏ｰ</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeTemplate}" th:object="${fbTemplateDto}" method="post">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝�ID</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templateId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜆ｪ蜈磯���ｼ亥ｰ上＆縺�謨ｰ蛟､縺悟━蜈医＆繧後ｋ�ｼ�</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templatePriority}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templateName}">繝�繝ｳ繝励Ξ繝ｼ繝亥錐�ｼ�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蜊倅ｾ｡繧ｿ繧､繝�</label>
+						<div class="col-sm-4">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(fbTemplateDto.unitPriceType).getLabel()}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�</label>
+						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(fbTemplateDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(fbTemplateDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:selected="${#lists.contains(fbTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" type="submit" class="btn btn-info" th:formaction="@{/facebook/updateTemplate(templateId=*{templateId})}" th:formmethod="post">譖ｴ譁ｰ</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" type="submit" onclick="return check('Facebook繝�繝ｳ繝昴Ξ繝ｼ繝医ｒ蜑企勁縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" class="btn btn-danger" th:formaction="@{/facebook/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">蜑企勁</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" type="submit" class="btn btn-warning" th:formaction="@{/facebook/templateList}" th:formmethod="get">謌ｻ繧�</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

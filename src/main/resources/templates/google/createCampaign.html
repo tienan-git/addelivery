@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-google bg-googleplus"></i>
+						<div class="d-inline">
+							<h4>Google蠎�蜻� 譯井ｻｶ譁ｰ隕丈ｽ懈��</h4>
+							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/}" method="post" th:object="${googleCampaignForm}" enctype="multipart/form-data" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{templateName}"> <input type="hidden" th:field="*{unitPriceType}">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝磯∈謚�</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝�</label>
+						<div class="col-sm-4">
+							<select class="form-control" th:field="*{templateId}" onchange="refreshVal()">
+								<option th:each="object : ${googleTemplateDtoList}" th:selected="${googleCampaignForm.templateId == object.getTemplateId()}" th:value="${object.getTemplateId()}" th:text="${object.getTemplateName()}">繧ｯ繝ｪ繝�繧ｯ驥崎ｦ�</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{campaignName}" required maxlength="60">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-4">
+							<input type="date" max="9999-12-31" class="form-control" th:field="*{startDate}" required>
+						</div>
+
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-4">
+							<input type="date" max="9999-12-31" class="form-control" th:field="*{endDate}" required>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譌･蛻･莠育ｮ�<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-2">
+							<input type="number" class="form-control" th:field="*{budget}" required min="1" max="9999999999">
+						</div>
+						<span class="col-form-label">蜀�</span>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-2">
+							<select class="form-control" th:field="*{deviceType}" onchange="changeAdBlock()">
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.DeviceType).values()}" th:selected="${googleCampaignForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">蜈ｨ縺ｦ</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-4" th:if="${#lists.isEmpty(googleCampaignForm.locationList)}">
+							<select class="searchable" multiple="multiple" th:field="*{locationList}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(googleCampaignForm.locationList)}">
+							<select class="searchable" multiple="multiple" th:field="*{locationList}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<h4 class="sub-title">蠎�蜻頑ュ蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�<span class="text-danger">窶ｻ</span></label>
+						<div class="col-sm-4">
+							<select class="form-control" th:field="*{adType}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.GoogleAdType).values()}" th:selected="${googleCampaignForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">蜈ｨ縺ｦ</option>
+							</select>
+						</div>
+					</div>
+					<div id="responsiveAdBlock">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{resAdShortTitle}" required maxlength="15">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{resAdDescription}" required maxlength="45">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-6">
+								<select class="form-control" th:field="*{resAdFinalPageUrl}" required>
+									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleCampaignForm.resAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="card-block">
+								<div class="sub-title">逕ｻ蜒上い繝�繝励Ο繝ｼ繝�<span class="text-danger">窶ｻ</span></div>
+								<input type="file" multiple th:field="*{resAdImageFileList}" required>
+							</div>
+						</div>
+					</div>
+					<div id="imageAdBlock">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-6">
+								<select class="form-control" th:field="*{imageAdFinalPageUrl}" required>
+									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleCampaignForm.imageAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-12">
+							<div class="card-block">
+								<div class="sub-title">逕ｻ蜒上い繝�繝励Ο繝ｼ繝�<span class="text-danger">窶ｻ</span></div>
+								<input type="file" multiple th:field="*{imageAdImageFileList}" required>
+							</div>
+						</div>
+					</div>
+					<div id="textAdBlock">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-6">
+								<select class="form-control" th:field="*{textAdFinalPageUrl}" required>
+									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleCampaignForm.textAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{textAdTitle1}" required maxlength="15">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{textAdTitle2}" required maxlength="15">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚<span class="text-danger">窶ｻ</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{textAdDescription}" required maxlength="45">
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/google/createCampaignComplete}">菴懈��</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+		    var nowTemplateId = $('#templateId').val();
+	        function refreshVal(){
+	        	var googleTemplateDtoList = /*[[${googleTemplateDtoList}]]*/;
+	        	var templateId = $('#templateId').val();
+	        	var googleTemplateDto = googleTemplateDtoList.find(
+	        		function(element) {
+	        		    return element.templateId == templateId;
+	        		}
+	        	);
+	        	
+	            if(window.confirm('繝�繝ｳ繝励Ξ繝ｼ繝医��' + googleTemplateDto.templateName + '縲阪ｒ菴ｿ逕ｨ縺励※繧ゅｈ繧阪＠縺�縺ｧ縺吶°�ｼ歃r\n繝�繝ｳ繝励Ξ繝ｼ繝医′蛻�繧頑崛繧上ｋ縺ｨ縲∝�･蜉帛��螳ｹ縺ｯ螟画峩縺輔ｌ縺ｾ縺吶��')) { 
+	            	// 遒ｺ隱肴凾縺ｮ蜃ｦ逅�
+	            	nowTemplateId = $('#templateId').val();
+	            	// 髱櫁｡ｨ遉ｺ鬆�逶ｮ
+	            	$("#unitPriceType").val(googleTemplateDto.unitPriceType);
+	            	$("#templateName").val(googleTemplateDto.templateName);
+	            	// 陦ｨ遉ｺ鬆�逶ｮ
+	            	$("#campaignName").val(googleTemplateDto.campaignName);
+	            	$("#budget").val(googleTemplateDto.budget);
+	            	$("#deviceType").val(googleTemplateDto.deviceType);
+	            	$("#locationList").val(googleTemplateDto.locationList);
+	            	$('#locationList').multiSelect('refresh');
+	            	$("#adType").val(googleTemplateDto.adType);
+	            	$("#resAdShortTitle").val(googleTemplateDto.resAdShortTitle);
+	            	$("#resAdDescription").val(googleTemplateDto.resAdDescription);
+	            	$("#resAdFinalPageUrl").val(googleTemplateDto.resAdFinalPageUrl);
+	            	$("#imageAdFinalPageUrl").val(googleTemplateDto.imageAdFinalPageUrl);
+	            	$("#textAdFinalPageUrl").val(googleTemplateDto.textAdFinalPageUrl);
+	            	$("#textAdTitle1").val(googleTemplateDto.textAdTitle1);
+	            	$("#textAdTitle2").val(googleTemplateDto.textAdTitle2);
+	            	$("#textAdDescription").val(googleTemplateDto.textAdDescription);
+	            	changeAdBlcok();
+	            } else { 
+	            	// 繧ｭ繝｣繝ｳ繧ｻ繝ｫ譎ゅ�ｮ蜃ｦ逅�
+		            $('#templateId').val(nowTemplateId); // 蜃ｦ逅�荳ｭ豁｢
+	            }
+	        }
+
+			/*]]>*/
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			var responsiveAd = /*[[${T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}]]*/
+			var imageAd = /*[[${T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}]]*/
+			var textAd = /*[[${T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}]]*/
+			
+			// 蠎�蜻翫ち繧､繝励�ｮ驕ｸ謚槭↓繧医ｊ縲∬｡ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			$(document).ready(function() {
+				$('[name="adType"]').change(function() {
+				    changeAdBlcok();
+				});
+			});
+
+				// 蠎�蜻翫ち繧､繝励�ｮ險ｭ螳壼�､縺ｫ繧医ｊ縲∬｡ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			$(document).ready(function() {
+				changeAdBlcok();
+			});
+				
+			// 陦ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			function changeAdBlcok() {
+				var val = $('[name="adType"]').val();
+				switch (val) {
+				case responsiveAd:
+					$('[id=responsiveAdBlock]').fadeIn();
+					$('[id=resAdShortTitle]').prop("required", true);
+					$('[id=resAdDescription]').prop("required", true);
+					$('[id=resAdFinalPageUrl]').prop("required", true);
+					$('[id=resAdImageFileList]').prop("required", true);
+					
+					$('[id=imageAdBlock]').hide();
+					$('[id=imageAdFinalPageUrl]').prop("required", false);
+					$('[id=imageAdImageFileList]').prop("required", false);
+					
+					$('[id=textAdBlock]').hide();
+					$('[id=textAdFinalPageUrl]').prop("required", false);
+					$('[id=textAdTitle1]').prop("required", false);
+					$('[id=textAdTitle2]').prop("required", false);
+					$('[id=textAdDescription]').prop("required", false);
+					break;
+				case imageAd:
+					$('[id=responsiveAdBlock]').hide();
+					$('[id=resAdShortTitle]').prop("required", false);
+					$('[id=resAdDescription]').prop("required", false);
+					$('[id=resAdFinalPageUrl]').prop("required", false);
+					$('[id=resAdImageFileList]').prop("required", false);
+					
+					$('[id=imageAdBlock]').fadeIn();
+					$('[id=imageAdFinalPageUrl]').prop("required", true);
+					$('[id=imageAdImageFileList]').prop("required", true);
+					
+					$('[id=textAdBlock]').hide();
+					$('[id=textAdFinalPageUrl]').prop("required", false);
+					$('[id=textAdTitle1]').prop("required", false);
+					$('[id=textAdTitle2]').prop("required", false);
+					$('[id=textAdDescription]').prop("required", false);
+					break;
+				case textAd:
+					$('[id=responsiveAdBlock]').hide();
+					$('[id=resAdShortTitle]').prop("required", false);
+					$('[id=resAdDescription]').prop("required", false);
+					$('[id=resAdFinalPageUrl]').prop("required", false);
+					$('[id=resAdImageFileList]').prop("required", false);
+					
+					$('[id=imageAdBlock]').hide();
+					$('[id=imageAdFinalPageUrl]').prop("required", false);
+					$('[id=imageAdImageFileList]').prop("required", false);
+					
+					$('[id=textAdBlock]').fadeIn();
+					$('[id=textAdFinalPageUrl]').prop("required", true);
+					$('[id=textAdTitle1]').prop("required", true);
+					$('[id=textAdTitle2]').prop("required", true);
+					$('[id=textAdDescription]').prop("required", true);
+					break;
+				}
+			}
+			
+			/*]]>*/
+		</script>
+		<script type="text/javascript"> 
+	        //驟堺ｿ｡髢句ｧ区律縲∫ｵゆｺ�譌･縺ｮ繧帝℃蜴ｻ縺ｫ驕ｸ謚槭〒縺阪↑縺�
+	        $(function(){
+	        	 var toDay = new Date();
+		            var year = toDay.getFullYear();
+		            var month = toDay.getMonth()+1 < 10 ? "0"+(toDay.getMonth()+1) : (toDay.getMonth()+1);
+		            var day = toDay.getDate() < 10 ? "0"+toDay.getDate() : toDay.getDate();
+		            $("#startDate").attr("min",year+"-"+month+"-"+day);
+		            $("#endDate").attr("min",year+"-"+month+"-"+day);
+	        });
+        </script>
+	</div>
+</body>
+</html>

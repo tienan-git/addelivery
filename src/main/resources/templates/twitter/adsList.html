@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-twitter bg-twiter"></i>
+						<div class="d-inline">
+							<h4>Twitter蠎�蜻翫��譯井ｻｶ荳�隕ｧ</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form th:action="@{/}" method="get">
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable" class="table table-striped table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>繧ｹ繝�繝ｼ繧ｿ繧ｹ</th>
+									<th>蟇ｩ譟ｻ迥ｶ豕�</th>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>髢句ｧ区律</th>
+									<th>邨ゆｺ�譌･</th>
+									<th>譌･蛻･莠育ｮ�</th>
+									<th>邱丈ｺ育ｮ�</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>繧ｹ繝�繝ｼ繧ｿ繧ｹ</th>
+									<th>蟇ｩ譟ｻ迥ｶ豕�</th>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>髢句ｧ区律</th>
+									<th>邨ゆｺ�譌･</th>
+									<th>譌･蛻･莠育ｮ�</th>
+									<th>邱丈ｺ育ｮ�</th>
+								</tr>
+							</tfoot>
+							<tbody>
+							<tr th:each="twitterCampaignDataRes : ${twitterCampaignDataResList}">
+								<td>
+									<label hidden="hidden" th:text="${twitterCampaignDataRes.id}"></label>
+									<input th:if="${twitterCampaignDataRes.campaignStatus} == ${T(jp.acepro.haishinsan.enums.TwitterCampaignStatus).ACTIVE.getLabel()}" type="checkbox" class="js-switch" th:disabled="${(twitterCampaignDataRes.approvalFlag == '0') && (!T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}"th:checked="checked">
+									<input th:if="${twitterCampaignDataRes.campaignStatus} == ${T(jp.acepro.haishinsan.enums.TwitterCampaignStatus).PAUSED.getLabel()}" type="checkbox" class="js-switch" th:disabled="${(twitterCampaignDataRes.approvalFlag == '0') && (!T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}">
+									<input th:if="${twitterCampaignDataRes.campaignStatus} == ${T(jp.acepro.haishinsan.enums.TwitterCampaignStatus).EXPIRED.getLabel()}" type="checkbox" class="js-switch" disabled="disabled">
+								</td>
+								<td th:text="${T(jp.acepro.haishinsan.enums.ApprovalFlag).of(twitterCampaignDataRes.approvalFlag).getLabel()}">謇ｿ隱榊ｾ�縺｡</td>
+								<td><a th:href="@{/twitter/adsDetail(groupId=*{twitterCampaignDataRes.line_item_id},campaignId=*{twitterCampaignDataRes.id})}" th:text="*{twitterCampaignDataRes.id}">00000002</a></td>
+								<td th:text="*{twitterCampaignDataRes.name}">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ�ｼ�</td>
+								<td th:text="*{twitterCampaignDataRes.start_time}">2016-11-06 ~ 2016-11-10</td>
+								<td th:text="*{twitterCampaignDataRes.end_time}">2016-10-06 ~ 2016-10-10</td>
+								<td th:text="*{twitterCampaignDataRes.daily_budget_amount_local_micro}">200蜀�</td>
+								<td th:text="*{twitterCampaignDataRes.total_budget_amount_local_micro}">2,000蜀�</td>
+							</tr>
+							</tbody>
+						</table>
+
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+<div layout:fragment="custom_resource_body">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(":checkbox").change(function() {
+					var checkedStatus = $(this).prop('checked');
+					var campaignId = $(this).prev().text();
+					var switchFlag = "";
+					if (checkedStatus) {
+						switchFlag = "ACTIVE"; // OFF縺ｫ縺吶ｋ
+					} else {
+						switchFlag = "PAUSED";  // ON縺ｫ縺吶ｋ
+					}
+					console.log(checkedStatus);
+					console.log(switchFlag);
+					var urlStr = "/twitter/api/" + campaignId + "/" + switchFlag;
+					var td = $(this).parent().next();
+					$.ajax({
+						url: urlStr, // 閾ｪ蛻�縺ｮURL縺ｫ螟画峩
+						success: function( result ) {
+							console.log(td.text());
+							if (td.text() == "謇ｿ隱榊ｾ�縺｡" && switchFlag == "ACTIVE") {
+							    td.text("謇ｿ隱肴ｸ医∩");
+						    }
+							$("#basicTable").DataTable();
+						    alert("Twitter蠎�蜻翫�ｮ繧ｹ繝�繝ｼ繧ｿ繧ｹ縺梧峩譁ｰ縺輔ｌ縺ｾ縺励◆�ｼ�");
+						    console.log(result);
+						}
+					});
+				});
+			});
+		</script>
+	</div>
+</body>
+</html>

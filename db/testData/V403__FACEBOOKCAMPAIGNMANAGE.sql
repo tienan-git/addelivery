@@ -1,0 +1,3 @@
+insert into reporting.facebook_campaign_manage(campaign_id,campaign_name,approval_flag,version_no,created_at,created_by,updated_at,updated_by,is_actived) values ('123','テストキャンペーン１','1',1,'2018-10-16T17:37:47','1','2018-10-16T17:37:51','1',1);
+insert into reporting.facebook_campaign_manage(campaign_id,campaign_name,approval_flag,version_no,created_at,created_by,updated_at,updated_by,is_actived) values ('124','テストキャンペーン２','1',1,'2018-10-16T17:37:47','1','2018-10-16T17:37:51','1',1);
+insert into reporting.facebook_campaign_manage(campaign_id,campaign_name,approval_flag,version_no,created_at,created_by,updated_at,updated_by,is_actived) values ('125','テストキャンペーン３','1',1,'2018-10-16T17:37:47','1','2018-10-16T17:37:51','1',1);

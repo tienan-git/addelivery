@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>Yahoo蠎�蜻� 譯井ｻｶ隧ｳ邏ｰ</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/yahoo/issueUpdate}" method="post" th:object="${yahooIssueDto}">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{issueId}" />
+			<div class="form-group row">
+				<div class="col-sm-12 text-right"></div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">譯井ｻｶ諠�蝣ｱ</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">譯井ｻｶID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{issueId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Yahoo蠎�蜻蟹D</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${#strings.isEmpty(yahooIssueDto.campaignId)} ? '--' : ${yahooIssueDto.campaignId}">12345</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Yahoo蠎�蜻雁錐</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">莠育ｮ�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{budget} + '蜀�'">1000蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startDate}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endDate}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">驟堺ｿ｡蝨ｰ蝓�</label>
+						</div>
+						<div class="col-sm-8">
+							<ul class="col-form-label" th:remove="all-but-first" th:each="yahooLocationDto : *{locationList}">
+								<li th:text="${yahooLocationDto.locationName}">譚ｱ莠ｬ</li>
+							</ul>
+						</div>
+					</div>
+					<h4 class="sub-title">蠎�蜻頑ュ蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<div class="col-sm-4 col-form-label">
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.AdvDestination).of(__${yahooIssueDto.advDestination}__).getLabel()}">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝�繝舌う繧ｹ</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(yahooIssueDto.deviceType).getLabel()}">繝｢繝舌う繝ｫ</label>
+						</div>
+					</div>
+					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).RESPONSIVE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{adShortTitle}">MacBook Pro</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{adDescription}">譁ｰ縺励＞繝代た繧ｳ繝ｳ縺檎匱螢ｲ</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">LP</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{url}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">逕ｻ蜒上ヵ繧｡繧､繝ｫ</label>
+							<div class="col-sm-8">
+								<ul class="col-form-label" th:remove="all-but-first" th:each="imageName : *{imageNameList}">
+									<li th:text="${imageName}">test.jpg</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).IMAGE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">LP</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{url}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">逕ｻ蜒上ヵ繧｡繧､繝ｫ</label>
+							<div class="col-sm-8">
+								<ul class="col-form-label" th:remove="all-but-first" th:each="imageName : *{imageNameList}">
+									<li th:text="${imageName}">test.jpg</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).LISTING.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">LP</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{url}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{adTitle1}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{adTitle2}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{adDescription}">MacBook Pro隱ｬ譏取枚</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button type="button" class="btn btn-info" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_MANAGE')" th:onclick="'window.location.href = \'' + @{/yahoo/issueUpdate?issueId={id}(id=*{issueId})} + '\''">譖ｴ譁ｰ</button>
+					<button class="btn btn-danger" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_MANAGE')" type="submit" onclick="return check('Yahoo譯井ｻｶ繧貞炎髯､縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" th:formaction="@{/yahoo/issueDelete}" th:formmethod="post">蜑企勁</button>
+					<button type="button" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/yahoo/issueList} + '\''">荳�隕ｧ縺ｸ</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

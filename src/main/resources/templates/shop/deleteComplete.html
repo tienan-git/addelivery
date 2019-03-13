@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>蠎苓�怜炎髯､螳御ｺ�</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<strong>蠎苓�励�ｮ蜑企勁縺梧�仙粥縺励∪縺励◆!</strong>
+		</div>
+		<form action="#" th:action="@{/shop/list}" method="get" th:object="${shopInputForm}">
+			<div class="card">
+				<div class="card-block">
+
+					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+				<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�悠D</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�怜錐</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopName}">繧ｨ繝ｼ繧ｹ繝励Ο</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">豕穂ｺｺID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label"><a sec:authorize="hasAuthority('CORPORATION_VIEW')" href="#" th:href="@{/corporation/detail(corporationId=*{corporationId})}" th:method="get" th:text="*{corporationId}">0001</a></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">豕穂ｺｺ蜷�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationName}">豕穂ｺｺ1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">DSP繝ｦ繝ｼ繧ｶ繝ｼID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{dspUserId}">1</label>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Google繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{googleAccountId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Facebook繝壹�ｼ繧ｸID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{facebookPageId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Twitter繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{twitterAccountId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">DSP蛻�驟咲紫</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{dspDistributionRatio}+'%'">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Google蛻�驟咲紫</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{googleDistributionRatio}+'%'">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Facebook蛻�驟咲紫</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{facebookDistributionRatio}+'%'">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Twitter蛻�驟咲紫</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{twitterDistributionRatio}+'%'">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蝟ｶ讌ｭ蟇ｩ譟ｻ繝輔Λ繧ｰ</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__*{salesCheckFlag}__).label}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">繝槭�ｼ繧ｸ繝ｳ邇�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{marginRatio}+'%'">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopMailList}">蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{salesMailList}">蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-warning" sec:authorize="hasAuthority('SHOP_VIEW')" type="submit" th:formaction="@{/shop/list}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

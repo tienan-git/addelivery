@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��譯井ｻｶ荳�隕ｧ</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form action="#">
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable" class="table table-striped table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>繧ｹ繝�繝ｼ繧ｿ繧ｹ</th>
+									<th>蟇ｩ譟ｻ迥ｶ豕�</th>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>驟堺ｿ｡譛滄俣</th>
+									<th>驟堺ｿ｡迥ｶ諷�</th>
+
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>繧ｹ繝�繝ｼ繧ｿ繧ｹ</th>
+									<th>蟇ｩ譟ｻ迥ｶ豕�</th>
+									<th>譯井ｻｶID</th>
+									<th>譯井ｻｶ蜷�</th>
+									<th>驟堺ｿ｡譛滄俣</th>
+									<th>驟堺ｿ｡迥ｶ諷�</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="dspCampaignDto : ${dspCampaignDtoList}">
+									<td><label hidden="hidden" th:text="*{dspCampaignDto.campaignId}"></label><input type="checkbox" class="js-switch" th:checked="*{dspCampaignDto.status} == '1'" th:id="*{dspCampaignDto.campaignId}" th:disabled="${(dspCampaignDto.approvalFlag == '0') && (!T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}"></td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.ApprovalFlag).of(__${dspCampaignDto.approvalFlag}__).getLabel()}">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ�ｼ�</td>
+									<td><a sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" th:href="@{/dsp/campaignDetail(campaignId=*{dspCampaignDto.campaignId})}" th:text="*{dspCampaignDto.campaignId}">123</a></td>
+									<td th:text="*{dspCampaignDto.campaignName}">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ�ｼ�</td>
+									<td th:text="*{dspCampaignDto.startDatetime} + ' ~ ' + *{dspCampaignDto.endDatetime}">2016-10-06 00:00 ~ 2016-10-10 23:30</td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.SegmentFlag).of(__*{dspCampaignDto.status}__).label}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript">
+			$(document).ready(function() {
+				var apiError = false;
+				$(":checkbox").change(function() {
+					
+					// 逡ｰ蟶ｸ逋ｺ逕溘＠縺ｪ縺�蝣ｴ蜷医�∝�ｦ逅�繧堤ｶ壹¢繧�
+					// 逡ｰ蟶ｸ逋ｺ逕溘＠縺溷�ｴ蜷医�ｯ縲∫焚蟶ｸ繝輔Λ繧ｰ繧偵Μ繧ｻ繝�繝�
+					if (apiError) {
+						apiError = false;
+						return;
+					}
+
+					var checkedStatus = $(this).prop('checked');
+					var campaignId = $(this).prev().text();
+					var switchFlag = "";
+					if (checkedStatus) {
+						switchFlag = "ON"; // OFF縺ｫ縺吶ｋ
+					} else {
+						switchFlag = "OFF";  // ON縺ｫ縺吶ｋ
+					}
+					console.log(checkedStatus);
+					console.log(switchFlag);
+					var urlStr = "/dsp/api/" + campaignId + "/" + switchFlag;
+					var td = $(this).parent().next();
+					var thischeckbox = $(this);
+					$.ajax({
+						url: urlStr, // 閾ｪ蛻�縺ｮURL縺ｫ螟画峩
+						success: function( result ) {
+							if (td.text() == "謇ｿ隱榊ｾ�縺｡"&& switchFlag == "ON") {
+								td.text("謇ｿ隱肴ｸ医∩");
+								$("#basicTable").DataTable();
+							}
+						    console.log(result);
+						},
+						error:function(XMLHttpRequest, textStatus, errorThrown){
+							// Change Function縺ｮ辟｡髯舌Ν繝ｼ繝励ｒ縺励↑縺�縺溘ａ縺ｫ縲√��
+							//縲�逡ｰ蟶ｸ逋ｺ逕滓凾縺ｫ逡ｰ蟶ｸ繝輔Λ繧ｰ險ｭ螳�
+                        	apiError = true;	
+							
+							// 逡ｰ蟶ｸ邨ゆｺ�譎ゅ↓繧｢繝ｩ繝ｼ繝郁｡ｨ遉ｺ
+							alert("逡ｰ蟶ｸ逋ｺ逕溘＠縺溘◆繧√�√ヵ繧｡繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫�ｮ繧ｹ繝�繝ｼ繧ｿ繧ｹ縺梧峩譁ｰ縺ｧ縺阪∪縺帙ｓ縺ｧ縺励◆�ｼ�");
+							
+							// 繧ｹ繧､繝�繝√�ｮ迥ｶ諷九ｒ繧ｯ繝ｪ繝�繧ｯ蜑阪↓謌ｻ縺吶→縺ｨ繧ゅ↓縲�
+							//縲�Change Function繧貞�榊ｺｦ逋ｺ轣ｫ縺吶ｋ縺溘ａ縲∫┌髯舌Ν繝ｼ繝励↓縺ｪ繧�
+							thischeckbox.click();
+					   }
+					});
+				});
+			});
+		</script>
+	</div>
+</body>
+</html>

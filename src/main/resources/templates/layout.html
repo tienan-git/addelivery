@@ -1,0 +1,189 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<title>配信さん</title>
+<!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 10]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+<!-- Meta -->
+
+<!-- Google Tag Manager -->
+<script>
+	(function(w, d, s, l, i) {
+		w[l] = w[l] || [];
+		w[l].push({
+			'gtm.start' : new Date().getTime(),
+			event : 'gtm.js'
+		});
+		var f = d.getElementsByTagName(s)[0], j = d.createElement(s), dl = l != 'dataLayer' ? '&l='
+				+ l
+				: '';
+		j.async = true;
+		j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+		f.parentNode.insertBefore(j, f);
+	})(window, document, 'script', 'dataLayer', 'GTM-MKKFZLH');
+</script>
+<!-- End Google Tag Manager -->
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui" />
+<meta http-equiv="Content-Language" content="ja">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="robots" content="noindex, nofollow, noarchive">
+<meta name="description" content="#" />
+<meta name="keywords" content="#" />
+<meta name="author" content="#" />
+
+<!-- Favicon icon -->
+<link rel="icon" href="../files/assets/images/favicon.ico" type="image/x-icon" th:href="@{/images/favicon.ico}" />
+<!-- Google font-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet" />
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/css/bootstrap.min.css" th:href="@{/bower_components/bootstrap/css/bootstrap.min.css}" />
+<link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+<!-- jquery file upload Frame work -->
+<link href="../files/assets/pages/jquery.filer/css/jquery.filer.css" th:href="@{/pages/jquery.filer/css/jquery.filer.css}" type="text/css" rel="stylesheet" />
+<link href="../files/assets/pages/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css" th:href="@{/pages/jquery.filer/css/themes/jquery.filer-dragdropbox-theme.css}" type="text/css" rel="stylesheet" />
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="../icon/themify-icons/themify-icons.css" th:href="@{/icon/themify-icons/themify-icons.css}" />
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="../files/assets/icon/icofont/css/icofont.css" th:href="@{/icon/icofont/css/icofont.css}" />
+<!-- flag icon framework css -->
+<link rel="stylesheet" type="text/css" href="../files/assets/pages/flag-icon/flag-icon.min.css" th:href="@{/pages/flag-icon/flag-icon.min.css}" />
+<!-- Menu-Search css -->
+<link rel="stylesheet" type="text/css" href="../files/assets/pages/menu-search/css/component.css" th:href="@{/pages/menu-search/css/component.css}" />
+<!-- C3 chart -->
+<link rel="stylesheet" type="text/css" href="../files/assets/bower_components/c3/css/c3.css" th:href="@{/bower_components/c3/css/c3.css}" />
+<!-- flag icon framework css -->
+<link rel="stylesheet" type="text/css" href="../files/assets/pages/flag-icon/flag-icon.min.css" th:href="@{/pages/flag-icon/flag-icon.min.css}" />
+
+
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="../files/assets/css/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" type="text/css" href="../files/assets/css/jquery.mCustomScrollbar.css" th:href="@{/css/jquery.mCustomScrollbar.css}" />
+
+
+<!-- Font Awesome -->
+<link rel="stylesheet" type="text/css" href="../files/assets/icon/font-awesome/css/font-awesome.min.css" th:href="@{/icon/font-awesome/css/font-awesome.min.css}" />
+
+
+<!-- Tags css -->
+<link rel="stylesheet" type="text/css" href="../files/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css" th:href="@{/bower_components/bootstrap-tagsinput/css/bootstrap-tagsinput.css}" />
+<!-- Multi Select css -->
+<link rel="stylesheet" type="text/css" href="../files/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css" th:href="@{/bower_components/bootstrap-multiselect/css/bootstrap-multiselect.css}" />
+<link rel="stylesheet" type="text/css" href="../files/bower_components/multiselect/css/multi-select.css" th:href="@{/bower_components/multiselect/css/multi-select.css}" />
+<!-- Select 2 css -->
+<link rel="stylesheet" href="../files/bower_components/select2/css/select2.min.css" th:href="@{/bower_components/select2/css/select2.min.css}" />
+
+
+<!-- Switch component css -->
+<link rel="stylesheet" type="text/css" href="../files/bower_components/switchery/css/switchery.min.css" th:href="@{/bower_components/switchery/css/switchery.min.css}" />
+
+<!-- Data Table Css -->
+<link rel="stylesheet" type="text/css" href="../files/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css" th:href="@{/bower_components/datatables.net-bs4/css/dataTables.bootstrap4.min.css}" />
+<link rel="stylesheet" type="text/css" href="../files/assets/pages/data-table/css/buttons.dataTables.min.css" th:href="@{/pages/data-table/css/buttons.dataTables.min.css}" />
+<link rel="stylesheet" type="text/css" href="../files/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css" th:href="@{/bower_components/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css}" />
+
+</head>
+
+<body>
+	<!-- Google Tag Manager (noscript) -->
+	<noscript>
+		<iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MKKFZLH" height="0" width="0" style="display: none; visibility: hidden"></iframe>
+	</noscript>
+	<!-- End Google Tag Manager (noscript) -->
+
+	<!-- Header starts -->
+	<div th:replace="header"></div>
+	<!-- Header ends -->
+
+	<div id="pcoded" class="pcoded">
+		<div class="pcoded-overlay-box"></div>
+		<div class="pcoded-container navbar-wrapper">
+			<!-- header-navbar starts -->
+			<div th:replace="header-navbar"></div>
+			<!-- header-navbar ends -->
+			<div class="pcoded-main-container">
+				<div class="pcoded-wrapper">
+					<!-- inner-navbar starts -->
+					<div th:replace="inner-navbar"></div>
+					<!-- inner-navbar ends -->
+					<div class="pcoded-content">
+						<div class="pcoded-inner-content">
+							<!-- main-body starts -->
+							<div class="main-body">
+								<div class="page-wrapper">
+									<!-- Page-header starts -->
+									<div layout:fragment="page_header_container"></div>
+									<!-- Page-header ends -->
+									<!-- Page body starts -->
+									<div layout:fragment="page_body_container"></div>
+									<!-- Page body ends -->
+								</div>
+							</div>
+							<!-- main-body ends -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Footer start -->
+	<!-- div th:replace="footer"></div-->
+	<!-- Footer ends -->
+
+	<!-- Warning Section Starts -->
+	<!-- Older IE warning message -->
+	<!--[if lt IE 10]>
+    <div class="ie-warning">
+    <h1>Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="../files/assets/images/browser/chrome.png" alt="Chrome">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="../files/assets/images/browser/firefox.png" alt="Firefox">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="../files/assets/images/browser/opera.png" alt="Opera">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="../files/assets/images/browser/safari.png" alt="Safari">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="../files/assets/images/browser/ie.png" alt="">
+                    <div>IE (9 & above)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
+<![endif]-->
+	<!-- default js file starts -->
+	<div th:replace="resource_js"></div>
+	<!-- default js file ends -->
+	<!-- custom_js starts -->
+	<div layout:fragment="custom_resource_body"></div>
+	<!-- custom_js ends -->
+</body>
+</html>

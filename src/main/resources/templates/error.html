@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+<title>レポーティング</title>
+<!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 10]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+      <![endif]-->
+<!-- Meta -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="description" content="#">
+<meta name="keywords" content="Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
+<meta name="author" content="#">
+<!-- Favicon icon -->
+
+<link rel="icon" href="../files/assets/images/favicon.ico" type="image/x-icon" th:href="@{/images/favicon.ico}" />
+<!-- Google font-->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet" th:href="@{https://fonts.googleapis.com/css?family=Open+Sans:400,600,800}" />
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="../files/bower_components/bootstrap/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="../files/assets/css/style.css" th:href="@{/css/style.css}" />
+
+
+</head>
+
+<body class="fix-menu">
+
+	<section class="login p-fixed d-flex text-center" style="background-color: #BDC3C7;">
+		<!-- Container-fluid starts -->
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<!-- Authentication card start -->
+					<div class="login-card card-block auth-body mr-auto ml-auto">
+						<form class="md-float-material" th:action="@{/login}" method="post">
+							<div class="auth-box">
+								<div class="row m-b-20">
+									<div class="col-md-12">
+										<h3 class="text-left txt-primary text-center">ご注意！</h3>
+									</div>
+								</div>
+								<div class="row m-b-20">
+									<div class="col-md-12">
+										<h3 class="text-left txt-primary text-center" th:text="${errMsg}">エラーが発生しました</h3>
+									</div>
+								</div>
+								<hr />
+								<div class="row m-b-20">
+									<div class="col-md-12">
+										<h3 class="text-left txt-primary text-center">運用担当者にご連絡ください</h3>
+									</div>
+								</div>
+								<div class="row m-b-10">
+									<div class="col-md-12">
+										<h3 class="text-left txt-primary text-center"><a th:href="@{/login}">ホームへ移動</a></h3>
+									</div>
+								</div>
+
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</body>
+
+</html>

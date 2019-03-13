@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��隧ｳ邏ｰ</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+				<form th:action="@{/dsp/campaignDelete(campaignId=${dspCampaignDetailDto.campaignId})}" method="post">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶID</label>
+						<div class="col-sm-4">
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignId}">DSP繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ繝�繧ｹ繝�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<div class="col-sm-4">
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignName}">DSP繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ繝�繧ｹ繝�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.startDatetime}">2018-09-16</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.endDatetime}">2018-10-16</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">邱丈ｺ育ｮ�</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.budget}">50,000蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<div class="col-sm-1">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繧ｹ繝�繝ｼ繧ｿ繧ｹ</label>
+						<div class="col-sm-1">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SegmentFlag).of(__${dspCampaignDetailDto.status}__).label}">50,000蜀�</label>
+						</div>
+					</div>
+					<h4 class="sub-title">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</h4>
+					<div th:each="dspCreativeDto, stat : ${dspCampaignDetailDto.dspCreativeDtoList}">
+						<fieldset class="form_block" id="form_block[0]">
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label text-right">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝�</label>
+								<div class="col-sm-3">
+									<label class="col-form-label" th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)繝｡繧ｬ繧ｬ繝ｼ繝�繝ｳ謌ｸ蝪壼ｺ誉300x250</label>
+								</div>
+							</div>
+							<div class="form-group row">
+								<label class="col-sm-2 col-form-label text-right"></label>
+								<div class="col-sm-4">
+									<img class="img-fluid" th:src="*{dspCreativeDto.src}">
+								</div>
+							</div>
+						</fieldset>
+					</div>
+					<h4 class="sub-title">繝ｪ繝ｳ繧ｯ蜈域ュ蝣ｱ</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">繝ｪ繝ｳ繧ｯ蜈�</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.dspSegmentDto.segmentName}+'--'+${dspCampaignDetailDto.dspSegmentDto.url}">50,000蜀�</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit" onclick="return check('繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫ｒ蜑企勁縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" th:formaction="@{/dsp/campaignDelete(campaignId=${dspCampaignDetailDto.campaignId})}" th:formmethod="post">蜑企勁</button>
+							<button class="btn btn-warning" type="submit" th:formaction="@{/dsp/campaignList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+						</div>
+					</div>
+
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script>
+		// Bank Copy
+		$(document).ready(function() {
+		    var arrayLen = $(".form_block").length;
+		    var frm_cnt = arrayLen - 1;
+		    var original = $('#form_block\\[' + frm_cnt + '\\]');
+		    var originCnt = frm_cnt;
+		    $('#addBank').click(function() {
+		        var clone = $('#form_block\\[' + frm_cnt + '\\]');
+		        frm_cnt++;
+
+		        original.clone().hide().insertAfter(clone).attr('id', 'form_block[' + frm_cnt + ']')
+		        // 繧ｯ繝ｭ繝ｼ繝ｳ縺ｮid螻樊�ｧ繧貞､画峩縲�
+		        .find('span.bank_no').text(frm_cnt + 1).end()
+		        // 荳�蠎ｦ驕ｩ逕ｨ縺吶ｋ
+		        .find('input, textarea, select, hidden').each(function(idx, obj) {
+		            $(obj).attr({
+		                id: $(obj).attr('id').replace(/[0-9]+/, frm_cnt),
+		                name: $(obj).attr('name').replace(/[0-9]+/, frm_cnt)
+		            });
+		            if ($(obj).attr('type') == 'text') {
+		                $(obj).val('');
+		                $(obj).removeAttr('required');
+		                $(obj).removeAttr('readonly');
+		            }
+		            if ($(obj).attr('type') == 'select') {
+		                $(obj).val('');
+		            }
+		            if ($(obj).attr('type') == 'hidden') {
+		                $(obj).val('');
+		            }
+		            $(obj).children().removeAttr('disabled');
+		            $(obj).children().removeAttr('selected');
+		        });
+
+		        // clone蜿門ｾ�
+		        clone = $('#form_block\\[' + frm_cnt + '\\]');
+		        clone.find('fieldset').each(function(idx, obj) {
+		            $(obj).removeAttr('data-select2-id');
+		            $(obj).removeAttr('style');
+		        });
+		        clone.find('span.text-danger').each(function(idx, obj) {
+		            $(obj).remove()
+		        });
+		        clone.find('input.account-type-code').each(function(idx, obj) {
+		            $(obj).remove()
+		        });
+		        clone.find('input.group-code').each(function(idx, obj) {
+		            $(obj).remove()
+		        });
+		        // clone.children('span.close').show();
+		        clone.slideDown('slow');
+		    });
+		});
+		</script>
+	</div>
+</body>
+</html>

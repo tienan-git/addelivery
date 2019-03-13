@@ -1,0 +1,1 @@
+insert into `agency`(agency_name,version_no,created_at,created_by,updated_at,updated_by,is_actived) values ('エースプロ',1,NOW(),'init',NOW(),'init',1);
