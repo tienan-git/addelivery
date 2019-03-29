@@ -7,7 +7,6 @@ package jp.acepro.haishinsan.db.entity;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
