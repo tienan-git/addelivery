@@ -5,14 +5,13 @@
 
 package jp.acepro.haishinsan.dao;
 
+import jp.acepro.haishinsan.db.annotation.InjectConfig;
+import jp.acepro.haishinsan.db.entity.YoutubeDeviceReport;
 import org.seasar.doma.Dao;
 import org.seasar.doma.Delete;
 import org.seasar.doma.Insert;
 import org.seasar.doma.Select;
 import org.seasar.doma.Update;
-
-import jp.acepro.haishinsan.db.annotation.InjectConfig;
-import jp.acepro.haishinsan.db.entity.YoutubeDeviceReport;
 
 /**
  */
