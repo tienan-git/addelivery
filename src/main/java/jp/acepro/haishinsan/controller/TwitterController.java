@@ -100,7 +100,7 @@ public class TwitterController {
 		session.setAttribute("followersTweetList", followersTweetList);
 
 		// APIから取得したTweetsListをDBに保存
-		twitterApiService.saveTweetList(websiteTweetList, followersTweetList);
+//		twitterApiService.saveTweetList(websiteTweetList, followersTweetList);
 
 		// WebSite & Follower 一覧表示
 		twitterAdsInputForm.setWebsiteTweetList(websiteTweetList);
