@@ -4,81 +4,81 @@
 		<a href="#"><i class="icon-close icons"></i></a>
 	</div>
 	<div class="pcoded-inner-navbar main-menu">
-		<div class="pcoded-navigatio-lavel">迴ｾ蝨ｨ縺ｮ蠎苓��<br/>
+		<div class="pcoded-navigatio-lavel">現在の店舗<br/>
 			<select class="form-control form-control-primary" name="shopSelecter">
-				<option th:each="obj : ${T(jp.acepro.haishinsan.util.ContextUtil).getShopList()}" th:selected="${T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getShopId()==obj.getShopId()}" th:value="${obj.getShopId()}" th:text="${obj.getShopName()}">10323 �ｼ� 蠎苓�怜錐�ｼ�</option>
+				<option th:each="obj : ${T(jp.acepro.haishinsan.util.ContextUtil).getShopList()}" th:selected="${T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getShopId()==obj.getShopId()}" th:value="${obj.getShopId()}" th:text="${obj.getShopName()}">10323 ： 店舗名１</option>
 			</select>
 		</div>
 		<ul class="pcoded-item pcoded-left-item">
-			<li sec:authorize="hasAuthority('USER_VIEW')" class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-users"></i></i><b>N</b></span> <span class="pcoded-mtext">繧｢繧ｫ繧ｦ繝ｳ繝井ｽ灘宛邂｡逅�</span><span class="pcoded-mcaret"></span>
+			<li sec:authorize="hasAuthority('USER_VIEW')" class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-users"></i></i><b>N</b></span> <span class="pcoded-mtext">アカウント体制管理</span><span class="pcoded-mcaret"></span>
 			</a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('AGENCY_VIEW')" class=" "><a th:href="@{/agency/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">莉｣逅�蠎礼ｮ｡逅�</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('AGENCY_VIEW')" class=" "><a th:href="@{/agency/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">代理店管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('CORPORATION_VIEW')" class=" "><a th:href="@{/corporation/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">豕穂ｺｺ邂｡逅�</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('CORPORATION_VIEW')" class=" "><a th:href="@{/corporation/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">法人管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('SHOP_VIEW')" class=" "><a th:href="@{/shop/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">蠎苓�礼ｮ｡逅�</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('SHOP_VIEW')" class=" "><a th:href="@{/shop/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">店舗管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('USER_VIEW')" class=" "><a th:href="@{/user/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">繝ｦ繝ｼ繧ｶ繝ｼ邂｡逅�</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('USER_VIEW')" class=" "><a th:href="@{/user/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">ユーザー管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
 				</ul></li>
 		</ul>
-		<div class="pcoded-navigatio-lavel">譯井ｻｶ邁｡蜊倅ｽ懈��</div>
+		<div class="pcoded-navigatio-lavel">案件簡単作成</div>
 		<ul class="pcoded-item pcoded-left-item">
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/issue/createIssue}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span></a></li>
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/issueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">譯井ｻｶ荳�隕ｧ</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/issue/createIssue}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">新規作成</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/issueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
 		</ul>
 		
-		<div class="pcoded-navigatio-lavel">繝翫ン繧ｲ繝ｼ繧ｷ繝ｧ繝ｳ</div>
+		<div class="pcoded-navigatio-lavel">ナビゲーション</div>
 		<ul class="pcoded-item pcoded-left-item">
 		
-		<!-- 繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡ -->
-		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira"></i><b>F</b></span><span class="pcoded-mtext">繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡</span><span
+		<!-- ファンへの配信 -->
+		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">繝ｪ繝ｳ繧ｯ蜈育ｮ｡逅�</span><span class="pcoded-mcaret"></span> </a>
+					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">リンク先管理</span><span class="pcoded-mcaret"></span> </a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span> </a></li> 
-							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">蛻�譫舌Ξ繝昴�ｼ繝�</span><span class="pcoded-mcaret"></span> </a></li> 
+							<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li> 
+							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span> </a></li> 
 						</ul></li>
-					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝也ｮ｡逅�</span><span class="pcoded-mcaret"></span> </a>
+					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">クリエイティブ管理</span><span class="pcoded-mcaret"></span> </a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_CREATIVE_MANAGE')" class=" "><a th:href="@{/dsp/createCreative}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_CREATIVE_VIEW')" class=" "><a th:href="@{/dsp/creativeList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_CREATIVE_MANAGE')" class=" "><a th:href="@{/dsp/createCreative}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_CREATIVE_VIEW')" class=" "><a th:href="@{/dsp/creativeList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">譯井ｻｶ邂｡逅�</span><span class="pcoded-mcaret"></span> </a>
+					<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">案件管理</span><span class="pcoded-mcaret"></span> </a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/dsp/createCampaign}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class=" "><a th:href="@{/dsp/campaignList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/dsp/createCampaign}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class=" "><a th:href="@{/dsp/campaignList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('DSP_REPORT_VIEW')" class=" "><a th:href="@{/dsp/reporting}"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">繝ｬ繝昴�ｼ繝�</span><span class="pcoded-mcaret"></span> </a></li>
-					<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">繝�繝ｳ繝励Ξ繝ｼ繝育ｮ｡逅�</span><span class="pcoded-mcaret"></span> </a>
+					<li sec:authorize="hasAuthority('DSP_REPORT_VIEW')" class=" "><a th:href="@{/dsp/reporting}"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">レポート</span><span class="pcoded-mcaret"></span> </a></li>
+					<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">テンプレート管理</span><span class="pcoded-mcaret"></span> </a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class=" "><a th:href="@{/dsp/templateList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class=" "><a th:href="@{/dsp/templateList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
 						</ul></li>
 				</ul></li>
 				<!-- Google -->
 				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-google"></i><b>F</b></span> <span class="pcoded-mtext">Google</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">譯井ｻｶ邂｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/google/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/google/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class=" "><a th:href="@{/google/listCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class=" "><a th:href="@{/google/listCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class=" "><a th:href="@{/google/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝ｬ繝昴�ｼ繝�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class=" "><a th:href="@{/google/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝�繝ｳ繝励Ξ繝ｼ繝育ｮ｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class=" "><a th:href="@{/google/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class=" "><a th:href="@{/google/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class=" "><a th:href="@{/google/listTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class=" "><a th:href="@{/google/listTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
 				</ul></li>
@@ -86,22 +86,22 @@
 		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-facebook"></i><b>T</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.to-do.main">Facebook</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.ecommerce">譯井ｻｶ邂｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.ecommerce">案件管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/facebook/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/facebook/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class=" "><a th:href="@{/facebook/campaignList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class=" "><a th:href="@{/facebook/campaignList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class=" "><a th:href="@{/facebook/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝ｬ繝昴�ｼ繝�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class=" "><a th:href="@{/facebook/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝�繝ｳ繝励Ξ繝ｼ繝育ｮ｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class=" "><a th:href="@{/facebook/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class=" "><a th:href="@{/facebook/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class=" "><a th:href="@{/facebook/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class=" "><a th:href="@{/facebook/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
 				</ul></li>
@@ -109,56 +109,56 @@
 			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-twitter"></i><b>FU</b></span> <span class="pcoded-mtext">Twitter</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">譯井ｻｶ邂｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/twitter/createAds}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/twitter/createAds}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class=" "><a th:href="@{/twitter/adsList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class=" "><a th:href="@{/twitter/adsList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" class=" "><a th:href="@{/twitter/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝ｬ繝昴�ｼ繝�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" class=" "><a th:href="@{/twitter/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.analytics">繝�繝ｳ繝励Ξ繝ｼ繝育ｮ｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.analytics">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/twitter/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/twitter/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitter/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitter/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
 				</ul></li>
 			<!-- yahoo -->
 			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="icofont icofont-social-yahoo"></i><b>FU</b></span> <span class="pcoded-mtext" data-i18n="nav.file-upload.main">Yahoo</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">譯井ｻｶ邂｡逅�</span> <span class="pcoded-mcaret"></span></a>
+					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/yahoo/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span></a></li>
-							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" class=" "><a th:href="@{/yahoo/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span></a></li>
+							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/yahoo/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span></a></li>
+							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" class=" "><a th:href="@{/yahoo/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span></a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" class=" "><a th:href="@{/yahoo/csvUpload}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">CSV繧｢繝�繝励Ο繝ｼ繝�</span><span class="pcoded-mcaret"></span></a></li>
-					<li sec:authorize="hasAuthority('YAHOO_REPORT_VIEW')" class=" "><a th:href="@{/yahoo/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝ｬ繝昴�ｼ繝�</span> <span class="pcoded-mcaret"></span></a></li>
+					<li sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" class=" "><a th:href="@{/yahoo/csvUpload}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">CSVアップロード</span><span class="pcoded-mcaret"></span></a></li>
+					<li sec:authorize="hasAuthority('YAHOO_REPORT_VIEW')" class=" "><a th:href="@{/yahoo/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span></a></li>
 				</ul></li>
 			<!-- youtube -->
 			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-youtube-play"></i><b>FU</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.file-upload.main">Youtube</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">譯井ｻｶ邂｡逅�</span> <span class="pcoded-mcaret"></span>
+					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('YOUTUBE_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/youtube/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">譁ｰ隕丈ｽ懈��</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('YOUTUBE_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/youtube/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('YOUTUBE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/youtube/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">荳�隕ｧ</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('YOUTUBE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/youtube/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
-					<li sec:authorize="hasAuthority('YOUTUBE_REPORT_VIEW')" class=" "><a th:href="@{/youtube/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">繝ｬ繝昴�ｼ繝�</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('YOUTUBE_REPORT_VIEW')" class=" "><a th:href="@{/youtube/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
 					</a></li>
 				</ul></li>
 			</ul>
 			<div class="pcoded-navigatio-lavel"></div>
 			<ul class="pcoded-item pcoded-left-item">
 			<li class="pcoded-submenu" th:if="${not #strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getOldSystemPassword()) and not #strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getOldSystemEmail())}"><a href="javascript:login_to_old_system.submit()"> <span class="pcoded-micon"><i class="fa fa-internet-explorer"></i><b>FU</b></span> <span class="pcoded-mtext"
-					data-i18n="nav.file-upload.main">譌ｧ繧ｷ繧ｹ繝�繝�縺ｸ</span> <span class="pcoded-mcaret"></span></a>
+					data-i18n="nav.file-upload.main">旧システムへ</span> <span class="pcoded-mcaret"></span></a>
             <form action="http://rc.ace-pro.com/account/auth" name="login_to_old_system" method="post" target="print_popup" onsubmit="window.open('about:blank','print_popup','width=1000,height=800');">
 			        <input type="hidden" name="email" th:value="${T(jp.acepro.haishinsan.util.ContextUtil).getOldSystemEmail()}">
 			        <input type="hidden" name="password" th:value="${T(jp.acepro.haishinsan.util.ContextUtil).getOldSystemPassword()}">
