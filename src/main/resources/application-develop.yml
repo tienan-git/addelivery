@@ -18,10 +18,10 @@ facebook:
   pageToken: 
 
 twitter:
-  twitterApiKey: 4JV4lThP6qFh6DyhN5FWQGJSZ
-  twitterApiSecretKey: JYT5YYynteO0cg9RB8C2wL3ZiVYyWOsWoA4xgznWsA2alJlWun
-  twitterAccessToken: 249900812-8OlZ1UKtKxLJZu8ha7BDVHROZuLKYYn82hlKeNRR
-  twitterAccessTokenSecret: nPbGglKAGaX5T29mIVBZurxI0SWcLk32SkXrd7eqcmpUD
+  twitterApiKey: UycDTBdZBzEHys5vsUDNnltsS
+  twitterApiSecretKey: PSmDzo5vZNZT8NKnsab7aMKtMr8sFUQMV6kuGjijCFbyb18ydA
+  twitterAccessToken: 249900812-pFPlqJVDjv0EoLyTYyMuU1YB6uXDfUdaICTcTwYh
+  twitterAccessTokenSecret: Rml50S048U0ZniMDWWYpczkDcGR3ZfiF9TSl52pdBBX3p
 
 logging: 
   level:
