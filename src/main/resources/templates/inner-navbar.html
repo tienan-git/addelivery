@@ -6,7 +6,7 @@
 	<div class="pcoded-inner-navbar main-menu">
 		<div class="pcoded-navigatio-lavel">現在の店舗<br/>
 			<select class="form-control form-control-primary" name="shopSelecter">
-				<option th:each="obj : ${T(jp.acepro.haishinsan.util.ContextUtil).getShopList()}" th:selected="${T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getShopId()==obj.getShopId()}" th:value="${obj.getShopId()}" th:text="${obj.getShopName()}">10323 �ｼ� 蠎苓�怜錐�ｼ�</option>
+				<option th:each="obj : ${T(jp.acepro.haishinsan.util.ContextUtil).getShopList()}" th:selected="${T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getShopId()==obj.getShopId()}" th:value="${obj.getShopId()}" th:text="${obj.getShopName()}">10323 ： 店舗名１</option>
 			</select>
 		</div>
 		<ul class="pcoded-item pcoded-left-item">
