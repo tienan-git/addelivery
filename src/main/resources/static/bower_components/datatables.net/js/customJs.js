@@ -32,6 +32,7 @@ $(function() {
         paging: false,
         autoFill: true,
 		lengthChange : false,
+		searching:false,
 		'language' : {
 			"sEmptyTable": "テーブルにデータがありません",
 			"sInfo":           " _TOTAL_ 件中 _START_ から _END_ まで表示",

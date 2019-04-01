@@ -245,6 +245,19 @@ public class IssueController {
 		mv.addObject("issueDtoList", issueDtoList);
 		return mv;
 	}
+	
+	//mock_paku
+	@GetMapping("/newIssueList")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
+	public ModelAndView newIssueList() {
+
+//		List<IssueDto> issueDtoList = issueService.issueList();
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("issue/newIssueList");
+//		mv.addObject("issueDtoList", issueDtoList);
+		return mv;
+	}
 
 	@PostMapping("/deleteIssue")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
