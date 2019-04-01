@@ -132,15 +132,15 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		List<TwitterTweetList> twitterList = twitterTweetListCustomDao.selectByAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
 		// DBにaccountIDに当たるツイートリストがなければそのままInsertする
 		if (twitterList.size() == 0 || twitterList.isEmpty() == true) {
-			for (TwitterTweet twitterTweet : followersTweetList) {
-				TwitterTweetList tweet = new TwitterTweetList();
-				tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
-				tweet.setTweetId(twitterTweet.getTweetId());
-				tweet.setTweetTitle(twitterTweet.getTweetTitle());
-				tweet.setTweetBody(twitterTweet.getTweetBody());
-				tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
-				twitterTweetListDao.insert(tweet);
-			}
+//			for (TwitterTweet twitterTweet : followersTweetList) {
+//				TwitterTweetList tweet = new TwitterTweetList();
+//				tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
+//				tweet.setTweetId(twitterTweet.getTweetId());
+//				tweet.setTweetTitle(twitterTweet.getTweetTitle());
+//				tweet.setTweetBody(twitterTweet.getTweetBody());
+//				tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
+//				twitterTweetListDao.insert(tweet);
+//			}
 
 			// for(TwitterTweet twitterTweet : websiteTweetList) {
 			// TwitterTweetList tweet = new TwitterTweetList();
