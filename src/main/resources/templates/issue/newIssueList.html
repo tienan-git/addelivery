@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+	<head>
+	<style type="text/css">
+      .label {
+       border-radius: 2px;
+       text-transform: capitalize;
+       color: #fff;
+	   cursor: pointer;
+       font-size: 15px;
+       padding: 6px 10px;
+        
+      }
+      .faceBook {
+          background-color: #3c5a99;
+		  border-color: #3c5a99;
+      }
+      .google {
+        background-color: #DD4B39;
+        border-color: #3c5a99;
+      }
+      .twitter {
+        background-color: #41abe1;
+        border-color: #41abe1;
+      }
+      .dsp {
+        background-color: #73993a;
+        border-color: #73993a;
+      }
+      .active {
+        background-color: #93BE52;
+      }
+      .stop {
+        background-color: #FA1D1D;
+      }
+      .wait {
+        background-color: #6EC6FC;
+      }
+      .delete {
+       background-color: #F93707;
+      }
+    </style>
+    </head>
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-twitter bg-twiter"></i>
+						<div class="d-inline">
+							<h4>検索</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form>
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable1" class="table table-striped table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>法人名</th>
+									<th>店舗名</th>
+									<th>名称</th>
+									<th>配信媒体</th>
+									<th>ステータス</th>
+									<th>費用</th>
+									<th>配信開始日</th>
+									<th>配信終了日</th>
+									<th></th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>法人名</th>
+									<th>店舗名</th>
+									<th>名称</th>
+									<th>配信媒体</th>
+									<th>ステータス</th>
+									<th>費用</th>
+									<th>配信開始日</th>
+									<th>配信終了日</th>
+									<th></th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr>
+									<td>法人１</td>
+									<td>秋葉原店舗</td>
+									<td>案件11111111111111111111111111</td>
+									<td>
+										<label class="label faceBook">FaceBook</label>
+										<label class="label dsp">DSP</label>
+									</td>
+									<td>
+										<label class="label active">配信中</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>法人２</td>
+									<td>秋葉原店舗</td>
+									<td>案件22222222222222222222222222</td>
+									<td>
+										<label class="label faceBook">FaceBook</label>
+										<label class="label dsp">DSP</label>
+										<label class="label google">Google</label>
+										<label class="label twitter">Twitter</label>
+									</td>
+									<td>
+										<label class="label active">配信中</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>法人３</td>
+									<td>秋葉原店舗</td>
+									<td>案件3333333333333333333333333333</td>
+									<td>
+										<label class="label google">Google</label>
+									</td>
+									<td>
+										<label class="label active">配信中</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>法人４</td>
+									<td>秋葉原店舗</td>
+									<td>案件444444444444444444444444444</td>
+									<td>
+										<label class="label twitter">Twitter</label>
+									</td>
+									<td>
+										<label class="label stop">配信終了</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>法人５</td>
+									<td>秋葉原店舗</td>
+									<td>案件５</td>
+									<td>
+										<label class="label dsp">DSP</label>
+									</td>
+									<td>
+										<label class="label stop">配信終了</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>法人６</td>
+									<td>秋葉原店舗</td>
+									<td>案件６</td>
+									<td>
+										<label class="label faceBook">FaceBook</label>
+									</td>
+									<td>
+										<label class="label wait">受付待ち</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+								<tr>
+									<td>法人７</td>
+									<td>秋葉原店舗</td>
+									<td>案件７</td>
+									<td>
+										<label class="label dsp">DSP</label>
+										<label class="label google">Google</label>
+										<label class="label twitter">Twitter</label>
+									</td>
+									<td>
+										<label class="label wait">受付待ち</label>
+									</td>
+									<td>10000</td>
+									<td>2018-03-02</td>
+									<td>2018-05-01</td>
+									<td>
+										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript">
+		function coldel(obj) {
+	        // 削除ボタンを押下された行を取得
+	        tr = obj.parentNode.parentNode;
+	        // trのインデックスを取得して行を削除する
+	        tr.parentNode.deleteRow(tr.sectionRowIndex);
+	    }
+		</script>
+	</div>
+</body>
+</html>
