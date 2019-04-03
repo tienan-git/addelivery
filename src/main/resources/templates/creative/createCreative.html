@@ -21,7 +21,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${issueInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()">
+		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
@@ -34,113 +34,103 @@
 							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">広告媒体選択<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-primary" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}">
-							<label class="col-form-label"> <input type="checkbox" id="dspSelected" name="dspSelected"> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
-							</span> <span>ファンへの配信</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-disable" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}">
-							<label class="col-form-label"> <input type="checkbox" id="dspSelected" name="dspSelected" disabled> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-primary"></i>
-							</span> <span>ファンへの配信</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-danger" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}">
-							<label class="col-form-label"> <input type="checkbox" id="googleSelected" name="googleSelected"> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-danger"></i>
-							</span> <span>Google</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-disable" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}">
-							<label class="col-form-label"> <input type="checkbox" id="googleSelected" name="googleSelected" disabled> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-danger"></i>
-							</span> <span>Google</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-success" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}">
-							<label class="col-form-label"> <input type="checkbox" id="facebookSelected" name="facebookSelected"> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-success"></i>
-							</span> <span>Facebook</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-disable" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}">
-							<label class="col-form-label"> <input type="checkbox" id="facebookSelected" name="facebookSelected" disabled> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-success"></i>
-							</span> <span>Facebook</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-warning" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}">
-							<label class="col-form-label"> <input type="checkbox" id="twitterSelected" name="twitterSelected"> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-warning"></i>
-							</span> <span>Twitter</span>
-							</label>
-						</div>
-						<div class="col-sm-1 checkbox-fade fade-in-disable" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}">
-							<label class="col-form-label"> <input type="checkbox" id="twitterSelected" name="twitterSelected" disabled> <span class="cr"> <i class="cr-icon icofont icofont-ui-check txt-warning"></i>
-							</span> <span>Twitter</span>
-							</label>
+				
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">広告媒体選択<span class="text-danger">※</span></label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.CreativeType).values()}">
+								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{creativeType}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
+								</label>
+							</div>
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">日別予算<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="number" class="form-control" th:field="*{budget}" required="required" min="1">
-						</div>
-						<span class="col-form-label">円</span>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信開始日<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="date" class="form-control" th:field="*{startDate}" required="required">
-						</div>
 
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信終了日<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="date" class="form-control" th:field="*{endDate}" required="required">
-						</div>
-					</div>
+					
+					
+<!-- 					<div class="form-radio"> -->
+<!-- 					<div class="form-group row"> -->
+<!-- 						<div class="col-sm-2 text-right"> -->
+<!-- 							<label class="col-form-label">広告媒体選択<span class="text-danger">※</span></label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="dspSelected" name="dspSelected"> <i class="helper"></i> -->
+<!-- 							<span>ファンへの配信</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="dspSelected" name="dspSelected" disabled> <i class="helper"></i> -->
+<!-- 							<span>ファンへの配信</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="googleSelected" name="googleSelected"> <i class="helper"></i> -->
+<!-- 							<span>Google</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="googleSelected" name="googleSelected" disabled> <i class="helper"></i> -->
+<!-- 							<span>Google</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="facebookSelected" name="facebookSelected"> <i class="helper"></i> -->
+<!-- 							<span>Facebook</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="facebookSelected" name="facebookSelected" disabled> <i class="helper"></i> -->
+<!-- 							<span>Facebook</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="twitterSelected" name="twitterSelected"> <i class="helper"></i> -->
+<!-- 							<span>Twitter</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 						<div class="radio radio-inline col-sm-2" th:unless="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"> -->
+<!-- 							<label class="col-form-label"> <input type="radio" id="twitterSelected" name="twitterSelected" disabled> <i class="helper"></i> -->
+<!-- 							<span>Twitter</span> -->
+<!-- 							</label> -->
+<!-- 						</div> -->
+<!-- 					</div> -->
+<!-- 					</div> -->
+
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
 							<label class="col-form-label">リンク先<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
 							<select name="select" class="form-control" th:field="*{segmentId}" required>
-								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${issueInputForm.segmentId} == ${dspSegmentDto.getSegmentId()}" th:value="${dspSegmentDto.getSegmentId()}" th:text="${dspSegmentDto.getUrl()}">リンク先のURLを選択してください</option>
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${creativeInputForm.segmentId} == ${dspSegmentDto.getSegmentId()}" th:value="${dspSegmentDto.getSegmentId()}" th:text="${dspSegmentDto.getUrl()}">リンク先のURLを選択してください</option>
 							</select>
 
 						</div>
 						<div class="col-sm-4">
-							<label class="col-form-label text-danger">リンク先がなければ、DSPリンク先を作成してください。</label>
+							<label class="col-form-label text-danger">リンク先がなければ、リンク先を先に作成してください。</label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card" id="dsp">
-				<div class="card-block" th:if="${!#arrays.isEmpty(issueInputForm.dspCampaignCreInputFormList)}">
+				<div class="card-block" th:if="${!#arrays.isEmpty(creativeInputForm.dspCampaignCreInputFormList)}">
 					<h4 class="sub-title">
 						クリエイティブ情報<span class="text-danger">※</span>
 					</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">クリエイティブ情報<span class="text-danger">※</span></label>
-						<div class="col-sm-4" th:if="${#lists.isEmpty(issueInputForm.dspCampaignCreInputFormList)}">
+						<div class="col-sm-4" th:if="${#lists.isEmpty(creativeInputForm.dspCampaignCreInputFormList)}">
 							<select class="searchable" multiple="multiple" th:field="*{idList}">
-								<option th:each="object : ${issueInputForm.dspCampaignCreInputFormList}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">日本</option>
+								<option th:each="object : ${creativeInputForm.dspCampaignCreInputFormList}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">日本</option>
 							</select>
 						</div>
-						<div class="col-sm-4" th:unless="${#lists.isEmpty(issueInputForm.dspCampaignCreInputFormList)}">
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(creativeInputForm.dspCampaignCreInputFormList)}">
 							<select class="searchable" multiple="multiple" th:field="*{idList}">
-								<option th:each="object : ${issueInputForm.dspCampaignCreInputFormList}" th:selected="${#lists.contains(issueInputForm.dspCampaignCreInputFormList, object.getCreativeId())}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">日本</option>
+								<option th:each="object : ${creativeInputForm.dspCampaignCreInputFormList}" th:selected="${#lists.contains(creativeInputForm.dspCampaignCreInputFormList, object.getCreativeId())}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">日本</option>
 							</select>
 						</div>
 					</div>
 				</div>
-				<div class="card-block" th:unless="${!#arrays.isEmpty(issueInputForm.dspCampaignCreInputFormList)}">
+				<div class="card-block" th:unless="${!#arrays.isEmpty(creativeInputForm.dspCampaignCreInputFormList)}">
 					<h4 class="sub-title">
 						クリエイティブ情報<span class="text-danger">※</span>
 					</h4>
@@ -161,7 +151,7 @@
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{adType}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.GoogleAdType).values()}" th:selected="${issueInputForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.GoogleAdType).values()}" th:selected="${creativeInputForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
@@ -292,8 +282,7 @@
 			// 広告タイプの設定値により、表示内容を切り替える
 			$(document).ready(function() {
 				//changeAdBlcok();
-				
-				var prop1 = $('#dspSelected').prop('checked');
+				var prop1 = $('#creativeType1').prop('checked');
 				if (prop1) {
 					$('#dsp').show();
 					$('[id=creativeNone]').prop("required", true);
@@ -301,7 +290,7 @@
 					$('#dsp').hide();
 					$('[id=creativeNone]').prop("required", false);
 				}
-				var prop2 = $('#googleSelected').prop('checked');
+				var prop2 = $('#creativeType2').prop('checked');
 				if (prop2) {
 					$('#google').show();
 				} else {
@@ -310,13 +299,13 @@
 					$('[id=resAdDescription]').prop("required", false);
 					$('[id=resAdImageFileList]').prop("required", false);
 				}
-				var prop3 = $('#twitterSelected').prop('checked');
+				var prop3 = $('#creativeType4').prop('checked');
 				if (prop3) {
 					$('#twitter').show();
 				} else {
 					$('#twitter').hide();
 				}
-				var prop4 = $('#facebookSelected').prop('checked');
+				var prop4 = $('#creativeType3').prop('checked');
 				if (prop3) {
 					$('#facebook').show();
 				} else {
@@ -393,8 +382,8 @@
 			/*]]>*/
 			
 			$(function() {
-				$('input[name="dspSelected"]').change(function() {
-					var prop = $('#dspSelected').prop('checked');
+				$('input[name="creativeType1"]').change(function() {
+					var prop = $('#creativeType1').prop('checked');
 					if (prop) {
 						$('#dsp').fadeIn();
 						$('[id=creativeNone]').prop("required", true);
@@ -404,8 +393,8 @@
 					}
 				});
 
-				$('input[name="googleSelected"]').change(function() {
-					var prop = $('#googleSelected').prop('checked');
+				$('input[name="creativeType2"]').change(function() {
+					var prop = $('#creativeType2').prop('checked');
 					if (prop) {
 						$('#google').fadeIn();
 						changeAdBlcok();
@@ -421,8 +410,8 @@
 					}
 				});
 
-				$('input[name="twitterSelected"]').change(function() {
-					var prop = $('#twitterSelected').prop('checked');
+				$('input[name="creativeType4"]').change(function() {
+					var prop = $('#creativeType4').prop('checked');
 					if (prop) {
 						$('#twitter').fadeIn();
 					} else {
@@ -430,8 +419,8 @@
 					}
 				});
 				
-				$('input[name="facebookSelected"]').change(function() {
-					var prop = $('#facebookSelected').prop('checked');
+				$('input[name="creativeType3"]').change(function() {
+					var prop = $('#creativeType3').prop('checked');
 					if (prop) {
 						$('#facebook').fadeIn();
 					} else {
@@ -495,6 +484,47 @@
 		            $("#endDate").attr("min",year+"-"+month+"-"+day);
 	        });
         </script>
+        
+		<script type="text/javascript">
+		// ラジオボタンの挙動
+// 			$(document).ready(function() {
+// 				if ($('[id=period1]').prop('checked')) {
+// 					$('[id=search]').hide();
+// 				}
+// 				if ($('[id=period2]').prop('checked')) {
+// 					$('[id=search]').show();
+// 				}
+// 			});
+			$(document).ready(function() {
+				$('[name="creativeType"]:radio').change(function() {
+					if ($('[id=creativeType1]').prop('checked')) {
+						$('[id=google]').fadeOut();
+						$('[id=facebook]').fadeOut();
+						$('[id=twitter]').fadeOut();
+						$('[id=dsp]').fadeIn();
+					}
+					if ($('[id=creativeType2]').prop('checked')) {
+						$('[id=dsp]').fadeOut();
+						$('[id=facebook]').fadeOut();
+						$('[id=twitter]').fadeOut();
+						$('[id=google]').fadeIn();
+						changeAdBlcok();
+					}
+					if ($('[id=creativeType3]').prop('checked')) {
+						$('[id=dsp]').fadeOut();
+						$('[id=google]').fadeOut();
+						$('[id=twitter]').fadeOut();
+						$('[id=facebook]').fadeIn();
+					}
+					if ($('[id=creativeType4]').prop('checked')) {
+						$('[id=dsp]').fadeOut();
+						$('[id=google]').fadeOut();
+						$('[id=facebook]').fadeOut();
+						$('[id=twitter]').fadeIn();
+					}
+				});
+			});
+		</script>
 	</div>
 </body>
 </html>

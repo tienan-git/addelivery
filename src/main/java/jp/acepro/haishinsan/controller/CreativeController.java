@@ -24,19 +24,21 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
-import jp.acepro.haishinsan.dto.IssueDto;
+import jp.acepro.haishinsan.dto.CreativeDto;
+import jp.acepro.haishinsan.dto.CreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterAdsDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
+import jp.acepro.haishinsan.form.CreativeInputForm;
 import jp.acepro.haishinsan.form.DspCampaignCreInputForm;
-import jp.acepro.haishinsan.form.IssueInputForm;
-import jp.acepro.haishinsan.mapper.IssueMapper;
+import jp.acepro.haishinsan.form.CreativeInputForm;
+import jp.acepro.haishinsan.mapper.CreativeMapper;
+import jp.acepro.haishinsan.mapper.CreativeMapper;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
-import jp.acepro.haishinsan.service.IssueService;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
@@ -78,8 +80,8 @@ public class CreativeController {
 	@Autowired
 	TwitterApiService twitterApiService;
 
-	@Autowired
-	IssueService issueService;
+	//@Autowired
+	//CreativeService creativeService;
 
 	@Autowired
 	OperationService operationService;
@@ -89,7 +91,7 @@ public class CreativeController {
 
 	@GetMapping("/createCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView createIssue(@ModelAttribute IssueInputForm issueInputForm) {
+	public ModelAndView createCreative(@ModelAttribute CreativeInputForm creativeInputForm) {
 
 		// 作成したCreativeを取得
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
@@ -102,7 +104,7 @@ public class CreativeController {
 			dspCampaignCreInputForm.setCreativeName(dspCreativeDto.getCreativeName());
 			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
 		}
-		issueInputForm.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
+		creativeInputForm.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
 
 		// 作成したSegmentを取得
 		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
@@ -116,7 +118,7 @@ public class CreativeController {
 			// APIから取得したTweetsListをDBに保存
 			twitterApiService.saveTweetList(websiteTweetList, followersTweetList);
 			// -------- WebSite 一覧表示 --------
-			issueInputForm.setWebsiteTweetList(websiteTweetList);
+			creativeInputForm.setWebsiteTweetList(websiteTweetList);
 		}
 
 		ModelAndView mv = new ModelAndView();
@@ -126,19 +128,19 @@ public class CreativeController {
 
 	}
 
-	@PostMapping("/completeIssue")
+	@PostMapping("/completeCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView completeIssue(@Validated IssueInputForm issueInputForm, BindingResult result)
+	public ModelAndView completeCreative(@Validated CreativeInputForm creativeInputForm, BindingResult result)
 			throws IOException {
 
 		// ツイート必須チェック
-		if (issueInputForm.isTwitterSelected() && CollectionUtils.isEmpty(issueInputForm.getTweetIdList())) {
+		if (creativeInputForm.isTwitterSelected() && CollectionUtils.isEmpty(creativeInputForm.getTweetIdList())) {
 			result.reject(ErrorCodeConstant.E20005);
 
-			return createIssue(issueInputForm);
+			return createCreative(creativeInputForm);
 		}
 
-		IssueDto issueDto = IssueMapper.INSTANCE.map(issueInputForm);
+		CreativeDto creativeDto = CreativeMapper.INSTANCE.map(creativeInputForm);
 
 		List<String> resAdImageList = new ArrayList<String>();
 		List<String> imageAdImageList = new ArrayList<String>();
@@ -148,11 +150,11 @@ public class CreativeController {
 		}
 
 		// 完了画面にGoogle画像を表示するため、画像データを取得
-		if (issueInputForm.isGoogleSelected()) {
+		if (creativeInputForm.isGoogleSelected()) {
 			// キャンプーン作成用パラメタ設定（画像）
-			switch (GoogleAdType.of(issueInputForm.getAdType())) {
+			switch (GoogleAdType.of(creativeInputForm.getAdType())) {
 			case RESPONSIVE:
-				for (MultipartFile imageFile : issueInputForm.getResAdImageFileList()) {
+				for (MultipartFile imageFile : creativeInputForm.getResAdImageFileList()) {
 					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 					StringBuffer data = new StringBuffer();
 					data.append("data:image/jpeg;base64,");
@@ -161,7 +163,7 @@ public class CreativeController {
 				}
 				break;
 			case IMAGE:
-				for (MultipartFile imageFile : issueInputForm.getImageAdImageFileList()) {
+				for (MultipartFile imageFile : creativeInputForm.getImageAdImageFileList()) {
 					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 					StringBuffer data = new StringBuffer();
 					data.append("data:image/jpeg;base64,");
@@ -174,15 +176,15 @@ public class CreativeController {
 			}
 		}
 		// 完了画面にTwitterリストを表示するため、セッションからリストを取得
-		if (issueInputForm.isTwitterSelected()) {
+		if (creativeInputForm.isTwitterSelected()) {
 			TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
-			twitterAdsDto.setTweetIdList(issueDto.getTweetIdList());
+			twitterAdsDto.setTweetIdList(creativeDto.getTweetIdList());
 			// キャンペーン目的がwebsiteのみ
 			List<TwitterTweet> selectedWebsiteTweetList = twitterApiService.searchWebsiteTweetsById(twitterAdsDto);
-			issueDto.setWebsiteTweetList(selectedWebsiteTweetList);
+			creativeDto.setWebsiteTweetList(selectedWebsiteTweetList);
 		}
 
-		issueService.createIssue(issueDto);
+		//creativeService.createCreative(creativeDto);
 		// 作成したCreativeを取得
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
 
@@ -195,31 +197,31 @@ public class CreativeController {
 			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
 		}
 
-		issueDto.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
+		creativeDto.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
 
 		String dspMsg = null;
 		String googleMsg = null;
 		String facebookMsg = null;
 		String twitterMsg = null;
-		if (issueDto.getDspErrorCode() != null) {
-			dspMsg = "DSP:" + msg.getMessage(issueDto.getDspErrorCode(), null, null);
+		if (creativeDto.getDspErrorCode() != null) {
+			dspMsg = "DSP:" + msg.getMessage(creativeDto.getDspErrorCode(), null, null);
 		}
-		if (issueDto.getGoogleErrorCode() != null) {
-			googleMsg = "Google:" + msg.getMessage(issueDto.getGoogleErrorCode(), null, null);
+		if (creativeDto.getGoogleErrorCode() != null) {
+			googleMsg = "Google:" + msg.getMessage(creativeDto.getGoogleErrorCode(), null, null);
 		}
-		if (issueDto.getFacebookErrorCode() != null) {
+		if (creativeDto.getFacebookErrorCode() != null) {
 			facebookMsg = "Facebook:"
-					+ msg.getMessage(issueDto.getFacebookErrorCode(), issueDto.getFacebookParam(), null);
+					+ msg.getMessage(creativeDto.getFacebookErrorCode(), creativeDto.getFacebookParam(), null);
 		}
-		if (issueDto.getTwitterErrorCode() != null) {
+		if (creativeDto.getTwitterErrorCode() != null) {
 			twitterMsg = "Twitter:"
-					+ msg.getMessage(issueDto.getTwitterErrorCode(), new Object[] { issueDto.getTwitterParam() }, null);
+					+ msg.getMessage(creativeDto.getTwitterErrorCode(), new Object[] { creativeDto.getTwitterParam() }, null);
 		}
-		ModelAndView mv = new ModelAndView("issue/completeIssue");
-		mv.addObject("issueDto", issueDto);
+		ModelAndView mv = new ModelAndView("creative/completeCreative");
+		mv.addObject("creativeDto", creativeDto);
 		mv.addObject("resAdImageList", resAdImageList);
 		mv.addObject("imageAdImageList", imageAdImageList);
-		mv.addObject("issueInputForm", issueInputForm);
+		mv.addObject("creativeInputForm", creativeInputForm);
 		mv.addObject("dspMsg", dspMsg);
 		mv.addObject("googleMsg", googleMsg);
 		mv.addObject("facebookMsg", facebookMsg);
@@ -229,43 +231,43 @@ public class CreativeController {
 		session.removeAttribute("websiteTweetList");
 
 		// オペレーションログ記録
-		operationService.create(Operation.ISSUE_CREATE.getValue(), String.valueOf(issueDto.getIssueId()));
+		//operationService.create(Operation.ISSUE_CREATE.getValue(), String.valueOf(creativeDto.getCreativeId()));
 		return mv;
 
 	}
 
-	@GetMapping("/issueList")
+	@GetMapping("/creativeList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
-	public ModelAndView issueList() {
+	public ModelAndView creativeList() {
 
-		List<IssueDto> issueDtoList = issueService.issueList();
+		//List<CreativeDto> creativeDtoList = creativeService.creativeList();
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("issue/issueList");
-		mv.addObject("issueDtoList", issueDtoList);
+		mv.setViewName("creative/creativeList");
+		//mv.addObject("creativeDtoList", creativeDtoList);
 		return mv;
 	}
 	
 	//mock_paku
-	@GetMapping("/newIssueList")
+	@GetMapping("/newCreativeList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
-	public ModelAndView newIssueList() {
+	public ModelAndView newCreativeList() {
 
-//		List<IssueDto> issueDtoList = issueService.issueList();
+//		List<CreativeDto> creativeDtoList = creativeService.creativeList();
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("issue/newIssueList");
-//		mv.addObject("issueDtoList", issueDtoList);
+		mv.setViewName("creative/newCreativeList");
+//		mv.addObject("creativeDtoList", creativeDtoList);
 		return mv;
 	}
 
-	@PostMapping("/deleteIssue")
+	@PostMapping("/deleteCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView deleteIssue(@RequestParam String campaignId) {
+	public ModelAndView deleteCreative(@RequestParam String campaignId) {
 
 		facebookService.deleteCampaign(campaignId);
 		// 一覧を再表示
-		return issueList();
+		return creativeList();
 
 	}
 
