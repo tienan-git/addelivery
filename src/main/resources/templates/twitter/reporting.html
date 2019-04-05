@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-twitter bg-twiter"></i>
 						<div class="d-inline">
-							<h4>Twitter蠎�蜻� 繝ｬ繝昴�ｼ繝�繧｣繝ｳ繧ｰ</h4>
+							<h4>Twitter広告 レポーティング</h4>
 						</div>
 					</div>
 				</div>
@@ -23,10 +23,10 @@
 		<form th:action="@{/twitter/reportingList(reportType=1)}" method="post" th:object="${twitterReportInputForm}">
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">讀懃ｴ｢譚｡莉ｶ</h4>
+					<h4 class="sub-title">検索条件</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�</label>
+							<label class="col-form-label">案件名</label>
 						</div>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(campaignIds)}">
 							<select class="searchable" multiple="multiple" th:field="${twitterReportInputForm.campaignIds}">
@@ -41,7 +41,7 @@
 					</div>
 					<div class="form-radio">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛滄俣</label>
+							<label class="col-sm-2 col-form-label text-right">期間</label>
 							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.PeriodSet).values()}">
 								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{period}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
 								</label>
@@ -50,13 +50,13 @@
 					</div>
 					<div class="form-group row" id="search">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">髢句ｧ区律</label>
+							<label class="col-form-label">開始日</label>
 						</div>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="${twitterReportInputForm.startDate}">
 						</div>
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">邨ゆｺ�譌･</label>
+							<label class="col-form-label">終了日</label>
 						</div>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="${twitterReportInputForm.endDate}">
@@ -64,12 +64,12 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">陦ｨ遉ｺ蛻･</label>
+							<label class="col-form-label">表示別</label>
 						</div>
 						<div class="col-sm-10">
-							<button class="btn btn-primary" type="submit" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formmethod="post" th:formaction="@{/twitter/reportingList(reportType=1)}">繝�繝舌う繧ｹ</button>
-							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formmethod="post" th:formaction="@{/twitter/reportingList(reportType=3)}">蝨ｰ蝓�</button>
-							<button class="btn btn-info" type="submit" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formmethod="post" th:formaction="@{/twitter/reportingList(reportType=2)}">譌･蛻･</button>
+							<button class="btn btn-primary" type="submit" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formmethod="post" th:formaction="@{/twitter/reportingList(reportType=1)}">デバイス</button>
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formmethod="post" th:formaction="@{/twitter/reportingList(reportType=3)}">地域</button>
+							<button class="btn btn-info" type="submit" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formmethod="post" th:formaction="@{/twitter/reportingList(reportType=2)}">日別</button>
 						</div>
 					</div>
 				</div>
@@ -81,7 +81,7 @@
 						<div class="col-md-12 col-lg-12">
 							<div class="card">
 								<div class="card-block">
-									<h4 class="sub-title">繧ｰ繝ｩ繝�</h4>
+									<h4 class="sub-title">グラフ</h4>
 								</div>
 								<div id="twitter_c3" class="c3"></div>
 							</div>
@@ -90,18 +90,18 @@
 				</div>
 				<div class="card">
 					<div class="card-block">
-						<h4 class="sub-title">繝�繝ｼ繧ｿ</h4>
+						<h4 class="sub-title">データ</h4>
 						<div class="dt-responsive table-responsive">
 							<table th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}" id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>繝�繝舌う繧ｹ</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>繝輔か繝ｭ繝ｼ繝ｯ繝ｼ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>デバイス</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>フォローワー数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -112,10 +112,10 @@
 										<td th:text="${twitterReportingDto.campaignId}">2323</td>
 										<td th:text="${twitterReportingDto.campaignName}">2323</td>
 										<td th:text="${twitterReportingDto.deviceName}">2323</td>
-										<td th:text="${twitterReportingDto.impressions}+'蝗�'">1,000,000</td>
-										<td th:text="${twitterReportingDto.clicks}+'蝗�'">2323</td>
+										<td th:text="${twitterReportingDto.impressions}+'回'">1,000,000</td>
+										<td th:text="${twitterReportingDto.clicks}+'回'">2323</td>
 										<td th:text="${twitterReportingDto.follows}">1</td>
-										<td th:text="${twitterReportingDto.costs} + '蜀�'">112</td>
+										<td th:text="${twitterReportingDto.costs} + '円'">112</td>
 										<td th:text="${twitterReportingDto.ctr} + '%'">191</td>
 										<td th:text="${twitterReportingDto.cpc}">191</td>
 										<td th:text="${twitterReportingDto.cpm}">191</td>
@@ -123,13 +123,13 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>繝�繝舌う繧ｹ</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>繝輔か繝ｭ繝ｼ繝ｯ繝ｼ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>デバイス</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>フォローワー数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -139,13 +139,13 @@
 							<table th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}" id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>驛ｽ驕灘ｺ懃恁</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>繝輔か繝ｭ繝ｼ繝ｯ繝ｼ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>都道府県</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>フォローワー数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -156,10 +156,10 @@
 										<td th:text="${twitterReportingDto.campaignId}">2323</td>
 										<td th:text="${twitterReportingDto.campaignName}">2323</td>
 										<td th:text="${twitterReportingDto.locationName}">2323</td>
-										<td th:text="${twitterReportingDto.impressions}+'蝗�'">1,000,000</td>
-										<td th:text="${twitterReportingDto.clicks}+'蝗�'">2323</td>
+										<td th:text="${twitterReportingDto.impressions}+'回'">1,000,000</td>
+										<td th:text="${twitterReportingDto.clicks}+'回'">2323</td>
 										<td th:text="${twitterReportingDto.follows}">1</td>
-										<td th:text="${twitterReportingDto.costs} + '蜀�'">112</td>
+										<td th:text="${twitterReportingDto.costs} + '円'">112</td>
 										<td th:text="${twitterReportingDto.ctr} + '%'">191</td>
 										<td th:text="${twitterReportingDto.cpc}">191</td>
 										<td th:text="${twitterReportingDto.cpm}">191</td>
@@ -167,13 +167,13 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>驛ｽ驕灘ｺ懃恁</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>繝輔か繝ｭ繝ｼ繝ｯ繝ｼ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>都道府県</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>フォローワー数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -183,13 +183,13 @@
 							<table th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}" id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>譌･莉�</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>繝輔か繝ｭ繝ｼ繝ｯ繝ｼ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>日付</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>フォローワー数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -200,10 +200,10 @@
 										<td th:text="${twitterReportingDto.campaignId}">2323</td>
 										<td th:text="${twitterReportingDto.campaignName}">2323</td>
 										<td th:text="${twitterReportingDto.day}">2323</td>
-										<td th:text="${twitterReportingDto.impressions}+'蝗�'">1,000,000</td>
-										<td th:text="${twitterReportingDto.clicks}+'蝗�'">2323</td>
+										<td th:text="${twitterReportingDto.impressions}+'回'">1,000,000</td>
+										<td th:text="${twitterReportingDto.clicks}+'回'">2323</td>
 										<td th:text="${twitterReportingDto.follows}">1</td>
-										<td th:text="${twitterReportingDto.costs} + '蜀�'">112</td>
+										<td th:text="${twitterReportingDto.costs} + '円'">112</td>
 										<td th:text="${twitterReportingDto.ctr} + '%'">191</td>
 										<td th:text="${twitterReportingDto.cpc}">191</td>
 										<td th:text="${twitterReportingDto.cpm}">191</td>
@@ -211,13 +211,13 @@
 								</tbody>
 								<tfoot>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>譌･莉�</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>繝輔か繝ｭ繝ｼ繝ｯ繝ｼ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>日付</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>フォローワー数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -227,7 +227,7 @@
 						</div>
 						<div class="form-group row">
 							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" th:formaction="@{/twitter/download(reportType=${reportType})}" th:formmethod="Post">CSV繝�繧ｦ繝ｳ繝ｭ繝ｼ繝�</button>
+								<button class="btn btn-success" th:formaction="@{/twitter/download(reportType=${reportType})}" th:formmethod="Post">CSVダウンロード</button>
 							</div>
 						</div>
 					</div>
@@ -243,7 +243,7 @@
 			window.onload = function() {
 
 
-				// 繧ｰ繝ｩ繝墓緒逕ｻ
+				// グラフ描画
 				var chart = c3.generate({
 					bindto : '#twitter_c3',
 					data : {
@@ -260,10 +260,10 @@
 						],
 						type : 'bar',
 						names : {
-							impressions : '陦ｨ遉ｺ蝗樊焚',
-							follows : '繝輔か繝ｭ繝ｯ繝ｼ謨ｰ',
-							clicks : '繧ｯ繝ｪ繝�繧ｯ蝗樊焚',
-							costs : '雋ｻ逕ｨ',
+							impressions : '表示回数',
+							follows : 'フォロワー数',
+							clicks : 'クリック回数',
+							costs : '費用',
 							ctr : 'CTR',
 							cpc : 'CPC',
 							cpm : 'CPM'

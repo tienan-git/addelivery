@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-twitter bg-twiter"></i>
 						<div class="d-inline">
-							<h4>Twitter蠎�蜻翫ユ繝ｳ繝励Ξ繝ｼ繝医��蜑企勁</h4>
+							<h4>Twitter広告テンプレート　削除</h4>
 						</div>
 					</div>
 				</div>
@@ -24,58 +24,58 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<i class="icofont icofont-close-line-circled text-white"></i>
 			</button>
-			<strong>Twitter蠎�蜻翫ユ繝ｳ繝励Ξ繝ｼ繝医ｒ蜑企勁縺励∪縺励◆!</strong>
+			<strong>Twitter広告テンプレートを削除しました!</strong>
 		</div>
 		<div class="card">
 			<form th:action="@{/twitter/templateList}" method="get" th:object="${twitterTemplateDto}">
 				<div class="card-block">
-					<h4 class="sub-title">譯井ｻｶ菴懈��</h4>
+					<h4 class="sub-title">案件作成</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�</label>
+							<label class="col-form-label">案件名</label>
 						</div>
 						<div class="col-sm-4">
-							<label class="col-form-label" th:text="*{campaignName}">繝�繧ｹ繝�</label>
+							<label class="col-form-label" th:text="*{campaignName}">テスト</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">髢句ｧ区律</label>
+							<label class="col-form-label">開始日</label>
 						</div>
 						<div class="col-sm-6">
-							<label class="col-form-label" th:text="*{startTime}">2018蟷ｴ09譛�15譌･</label>
+							<label class="col-form-label" th:text="*{startTime}">2018年09月15日</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">邨ゆｺ�譌･</label>
+							<label class="col-form-label">終了日</label>
 						</div>
 						<div class="col-sm-6">
-							<label class="col-form-label" th:text="*{endTime}">2018蟷ｴ09譛�16譌･</label>
+							<label class="col-form-label" th:text="*{endTime}">2018年09月16日</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譌･蛻･莠育ｮ�</label>
+							<label class="col-form-label">日別予算</label>
 						</div>
 						<div th:if="*{dailyBudget} != null" class="col-sm-4">
-							<label class="col-form-label" th:text="*{dailyBudget}">10000蜀�</label>
+							<label class="col-form-label" th:text="*{dailyBudget}">10000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">邱丈ｺ育ｮ�</label>
+							<label class="col-form-label">総予算</label>
 						</div>
 						<div th:if="*{totalBudget} != null" class="col-sm-4">
-							<label class="col-form-label" th:text="*{totalBudget}">200蜀�</label>
+							<label class="col-form-label" th:text="*{totalBudget}">200円</label>
 						</div>
 					</div>
 				</div>
 				<div class="card-block">
-					<h4 class="sub-title">繧ｿ繝ｼ繧ｲ繝�繝郁ｨｭ螳�</h4>
+					<h4 class="sub-title">ターゲット設定</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蝨ｰ蝓�</label>
+							<label class="col-form-label">地域</label>
 						</div>
 						<div th:if="${twitterTemplateDto.location} == 2">
 							<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(regions)}">
@@ -96,7 +96,7 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitter/templateList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitter/templateList}" th:formmethod="get">一覧へ</button>
 					</div>
 				</div>
 			</form>

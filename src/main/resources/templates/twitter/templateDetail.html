@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-twitter bg-twiter"></i>
 						<div class="d-inline">
-							<h4>Twitter繝�繝ｳ繝励Ξ繝ｼ繝� 隧ｳ邏ｰ逕ｻ髱｢</h4>
+							<h4>Twitterテンプレート 詳細画面</h4>
 						</div>
 					</div>
 				</div>
@@ -23,10 +23,10 @@
 		<form th:action="@{/twitter/updateTemplate(templateId=*{templateId})}" method="post" th:object="${twitterTemplateDto}">
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝�</h4>
+					<h4 class="sub-title">テンプレート</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝�繝ｳ繝励Ξ繝ｼ繝�ID</label>
+							<label class="col-form-label">テンプレートID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{templateId}">01</label>
@@ -34,72 +34,72 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蜆ｪ蜈磯��</label>
+							<label class="col-form-label">優先順</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{templatePriority}">1</label>
 						</div>
-						<span class="col-form-label">�ｼ亥ｰ上＆縺�謨ｰ蛟､縺悟━蜈医＆繧後ｋ�ｼ�</span>
+						<span class="col-form-label">（小さい数値が優先される）</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+							<label class="col-form-label">テンプレート名</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{templateName}">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+							<label class="col-form-label" th:text="*{templateName}">テンプレート名</label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">譯井ｻｶ菴懈��</h4>
+					<h4 class="sub-title">案件作成</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�</label>
+							<label class="col-form-label">案件名</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{campaignName}">繝�繧ｹ繝�</label>
+							<label class="col-form-label" th:text="*{campaignName}">テスト</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律</label>
+							<label class="col-form-label">配信開始日</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{startTime}">2018蟷ｴ09譛�15譌･</label>
+							<label class="col-form-label" th:text="*{startTime}">2018年09月15日</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･</label>
+							<label class="col-form-label">配信終了日</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{endTime}">2018蟷ｴ09譛�16譌･</label>
+							<label class="col-form-label" th:text="*{endTime}">2018年09月16日</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譌･蛻･莠育ｮ�</label>
+							<label class="col-form-label">日別予算</label>
 						</div>
 						<div th:if="*{dailyBudget} != null" class="col-sm-8">
-							<label class="col-form-label" th:text="*{dailyBudget} + 蜀�">10000蜀�</label>
+							<label class="col-form-label" th:text="*{dailyBudget} + 円">10000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">邱丈ｺ育ｮ�</label>
+							<label class="col-form-label">総予算</label>
 						</div>
 						<div th:if="*{totalBudget} != null" class="col-sm-8">
-							<label class="col-form-label" th:text="*{totalBudget} + 蜀�">200蜀�</label>
+							<label class="col-form-label" th:text="*{totalBudget} + 円">200円</label>
 						</div>
 					</div>
 				</div>
 				<div class="card-block">
-					<h4 class="sub-title">繧ｿ繝ｼ繧ｲ繝�繝郁ｨｭ螳�</h4>
+					<h4 class="sub-title">ターゲット設定</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蝨ｰ蝓�</label>
+							<label class="col-form-label">地域</label>
 						</div>
 						<div th:if="${twitterTemplateDto.location} == 2">
 							<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(regions)}">
@@ -120,9 +120,9 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<button type="submit" class="btn btn-info" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/twitter/updateTemplate(templateId=*{templateId})}" th:formmethod="post">譖ｴ譁ｰ</button>
-						<button id="delete" type="submit" class="btn btn-danger" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" onclick="return check('Twitter繝�繝ｳ繝昴Ξ繝ｼ繝医ｒ蜑企勁縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" th:formaction="@{/twitter/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">蜑企勁</button>
-						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitter/templateList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+						<button type="submit" class="btn btn-info" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/twitter/updateTemplate(templateId=*{templateId})}" th:formmethod="post">更新</button>
+						<button id="delete" type="submit" class="btn btn-danger" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" onclick="return check('Twitterテンポレートを削除してよろしいでしょうか？')" th:formaction="@{/twitter/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">削除</button>
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitter/templateList}" th:formmethod="get">一覧へ</button>
 					</div>
 				</div>
 			</div>
