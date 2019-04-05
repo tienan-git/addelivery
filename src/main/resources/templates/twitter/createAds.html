@@ -9,8 +9,8 @@
 					<div class="page-header-title">
 						<i class="fa fa-twitter bg-twiter"></i>
 						<div class="d-inline">
-							<h4>Twitter蠎�蜻翫��譁ｰ隕丈ｽ懈��</h4>
-							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+							<h4>Twitter広告　新規作成</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
 				</div>
@@ -25,14 +25,14 @@
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝磯∈謚�</h4>
+					<h4 class="sub-title">テンプレート選択</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+							<label class="col-form-label">テンプレート名</label>
 						</div>
 						<div class="col-sm-8">
 							<select class="form-control select" th:field="*{templateId}" onchange="refreshVal()">
-								<option th:each="twitterTemplateDto : *{templateList}" th:value="${twitterTemplateDto.getTemplateId()}" th:text="${twitterTemplateDto.getTemplateName()}">繧ｯ繝ｪ繝�繧ｯ驥崎ｦ�</option>
+								<option th:each="twitterTemplateDto : *{templateList}" th:value="${twitterTemplateDto.getTemplateId()}" th:text="${twitterTemplateDto.getTemplateName()}">クリック重視</option>
 							</select>
 						</div>
 					</div>
@@ -40,10 +40,10 @@
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">譯井ｻｶ菴懈��</h4>
+					<h4 class="sub-title">案件作成</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">案件名<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" th:field="*{campaignName}" required maxlength="60" />
@@ -51,7 +51,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">配信開始日<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-8">
 							<input type="date" class="form-control" th:field="*{startTime}" required="required" />
@@ -59,7 +59,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">配信終了日<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-8">
 							<input type="date" class="form-control" th:field="*{endTime}" required="required" />
@@ -67,28 +67,28 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譌･蛻･莠育ｮ�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">日別予算<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-8">
 							<input type="number" class="form-control" th:field="*{dailyBudget}" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" max="9999999999" required="required" />
 						</div>
-						<span class="col-form-label">蜀�</span>
+						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">邱丈ｺ育ｮ�</label>
+							<label class="col-form-label">総予算</label>
 						</div>
 						<div class="col-sm-8">
 							<input type="number" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" th:field="*{totalBudget}" />
 						</div>
-						<span class="col-form-label">蜀�</span>
+						<span class="col-form-label">円</span>
 					</div>
 				</div>
 				<div class="card-block">
-					<h4 class="sub-title">蠎�蜻頑軸霈画婿蠑�</h4>
+					<h4 class="sub-title">広告掲載方式</h4>
 					<div class="form-radio">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譯井ｻｶ逶ｮ逧�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">案件目的<span class="text-danger">※</span></label>
 							<th:block th:each="object,stat: ${T(jp.acepro.haishinsan.enums.TwitterObjective).values()}">
 								<label class="col-sm-2 col-form-label text-right" th:if="${!stat.first}"></label>
 								<div class="radio col-sm-10 col-form-label">
@@ -100,7 +100,7 @@
 				</div>
 				<div class="card-block">
 					<h4 class="sub-title">
-						繝�繧､繝ｼ繝郁ｨｭ螳�<span class="text-danger">窶ｻ</span>
+						ツイート設定<span class="text-danger">※</span>
 					</h4>
 					<!-- Scrolling DataTable table start -->
 					<div id="websiteTwitter" class="dt-responsive table-responsive">
@@ -108,21 +108,21 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>繝�繧､繝ｼ繝医Ξ繝薙Η繝ｼ</th>
-									<th>繝�繧､繝ｼ繝亥��螳ｹ</th>
+									<th>ツイートレビュー</th>
+									<th>ツイート内容</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
 									<th></th>
-									<th>繝�繧､繝ｼ繝医Ξ繝薙Η繝ｼ</th>
-									<th>繝�繧､繝ｼ繝亥��螳ｹ</th>
+									<th>ツイートレビュー</th>
+									<th>ツイート内容</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<tr th:each="websiteTweet : *{websiteTweetList}">
 									<td><input type="checkbox" name="tweetIdList" th:value="${websiteTweet.tweetId}" autocomplete="off" tabindex="-1" data-row="0" data-col="2"></td>
-									<td><a th:href="${websiteTweet.previewUrl}" target="_blank">繝励Ξ繝薙Η繝ｼ</a></td>
+									<td><a th:href="${websiteTweet.previewUrl}" target="_blank">プレビュー</a></td>
 									<td th:utext="${websiteTweet.tweetTitle} + '&lt;br /&gt;' + ${websiteTweet.tweetBody}">Tiger Nixon</td>
 								</tr>
 							</tbody>
@@ -134,21 +134,21 @@
 							<thead>
 								<tr>
 									<th></th>
-									<th>繝�繧､繝ｼ繝医Ξ繝薙Η繝ｼ</th>
-									<th>繝�繧､繝ｼ繝亥��螳ｹ</th>
+									<th>ツイートレビュー</th>
+									<th>ツイート内容</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
 									<th></th>
-									<th>繝�繧､繝ｼ繝医Ξ繝薙Η繝ｼ</th>
-									<th>繝�繧､繝ｼ繝亥��螳ｹ</th>
+									<th>ツイートレビュー</th>
+									<th>ツイート内容</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<tr th:each="followersTweet : *{followersTweetList}">
 									<td><input type="checkbox" name="tweetIdList" th:value="${followersTweet.tweetId}" autocomplete="off" tabindex="-1" data-row="0" data-col="2"></td>
-									<td><a th:href="${followersTweet.previewUrl}" target="_blank">繝励Ξ繝薙Η繝ｼ</a></td>
+									<td><a th:href="${followersTweet.previewUrl}" target="_blank">プレビュー</a></td>
 									<td th:utext="${followersTweet.tweetTitle} + '&lt;br /&gt;' + ${followersTweet.tweetBody}">Tiger Nixon</td>
 								</tr>
 							</tbody>
@@ -158,10 +158,10 @@
 				<!-- Scrolling DataTable table end -->
 
 				<div class="card-block">
-					<h4 class="sub-title">繧ｿ繝ｼ繧ｲ繝�繝郁ｨｭ螳�</h4>
+					<h4 class="sub-title">ターゲット設定</h4>
 					<div class="form-radio">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">地域<span class="text-danger">※</span></label>
 							<th:block th:each="object,stat: ${T(jp.acepro.haishinsan.enums.TwitterLocationType).values()}">
 								<label class="col-sm-2 col-form-label text-right" th:if="${!stat.first}"></label>
 								<div class="radio col-sm-10 col-form-label">
@@ -174,14 +174,18 @@
 						<label class="col-sm-2 col-form-label text-right"></label>
 						<div id="div_select" style="display: none">
 							<select class="searchable" multiple='multiple' th:field="*{regions}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">蛹玲ｵｷ驕�</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">北海道</option>
 							</select>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right"></label>
+					</div>
+
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TWITTER_CAMPAIGN_MANAGE')" th:formaction="@{/twitter/completeAds}" th:formmethod="Post">遒ｺ隱�</button>
+						<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TWITTER_CAMPAIGN_MANAGE')" th:formaction="@{/twitter/completeAds}" th:formmethod="Post">確認</button>
 					</div>
 				</div>
 			</div>
@@ -205,46 +209,46 @@
 	        		}
 	        	);
 	        	
-	            if(window.confirm('繝�繝ｳ繝励Ξ繝ｼ繝医��' + twitterTemplateDto.templateName + '縲阪ｒ菴ｿ逕ｨ縺励※繧ゅｈ繧阪＠縺�縺ｧ縺吶°�ｼ歃r\n繝�繝ｳ繝励Ξ繝ｼ繝医′蛻�繧頑崛繧上ｋ縺ｨ縲∝�･蜉帛��螳ｹ縺ｯ螟画峩縺輔ｌ縺ｾ縺吶��')) { 
-	            	// 遒ｺ隱肴凾縺ｮ蜃ｦ逅�
+	            if(window.confirm('テンプレート「' + twitterTemplateDto.templateName + '」を使用してもよろしいですか？\r\nテンプレートが切り替わると、入力内容は変更されます。')) { 
+	            	// 確認時の処理
 	            	nowTemplateId = $('#templateId').val();
 	            	var location = twitterTemplateDto.location;
 	            	var comma = ",";
 	            	var regions = twitterTemplateDto.regions;
 	            	
-	            	/* 蜈ｨ蝗ｽ */
+	            	/* 全国 */
 	            	if(location == 0){
 	            		$('input[value="0"]').prop('checked', true);
 	            		$('#regions').multiSelect('deselect_all');
 	        	        $('#regions').multiSelect('refresh');
 	        	        $('#div_select').hide();
-	            	/* 譌･譛ｬ */
+	            	/* 日本 */
 	            	}else if(location == 1){
 	            		$('input[value="1"]').prop('checked', true);
 	            		$('#regions').multiSelect('deselect_all');
 	        	        $('#regions').multiSelect('refresh');
 	        	        $('#div_select').hide();
-	            	/* 驛ｽ驕灘ｺ懃恁 */	
+	            	/* 都道府県 */	
 	            	}else{
 	            		$('input[value="2"]').prop('checked', true);
 	            		$("#regions").val(regions);
 	    	        	$('#regions').multiSelect('refresh');
 	            		document.getElementById("div_select").style.display="inline-block";
 	            	}
-	            	/*繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ菴懈�舌�ｮ驛ｨ蛻�*/
+	            	/*キャンペーン作成の部分*/
 	            	$("#campaignName").val(twitterTemplateDto.campaignName);
 	            	$("#startTime").val(twitterTemplateDto.startTime);
 	            	$("#endTime").val(twitterTemplateDto.endTime);
 	            	$("#dailyBudget").val(twitterTemplateDto.dailyBudget);
 	            	$("#totalBudget").val(twitterTemplateDto.totalBudget);
 	            } else { 
-	            	// 繧ｭ繝｣繝ｳ繧ｻ繝ｫ譎ゅ�ｮ蜃ｦ逅�
-		            $('#templateId').val(nowTemplateId); // 蜃ｦ逅�荳ｭ豁｢
+	            	// キャンセル時の処理
+		            $('#templateId').val(nowTemplateId); // 処理中止
 	            }
 	        }
   
 	        $(function(){
-	        		//驟堺ｿ｡譌･縺ｮ險ｭ螳壹��驕主悉縺ｯ驕ｸ謚槭〒縺阪↑縺�縺ｫ縺吶ｋ
+	        		//配信日の設定、過去は選択できないにする
 	        		var toDay = new Date();
 		            var year = toDay.getFullYear();
 		            var month = toDay.getMonth()+1 < 10 ? "0"+(toDay.getMonth()+1) : (toDay.getMonth()+1);
@@ -252,7 +256,7 @@
 		            $("#startTime").attr("min",year+"-"+month+"-"+day);
 		            $("#endTime").attr("min",year+"-"+month+"-"+day);
 		            
-		            //驕ｸ謚槭＠縺溘ヤ繧､繝ｼ繝医�ｮ繝√ぉ繝�繧ｯ
+		            //選択したツイートのチェック
 		            var tweetIdList = /*[[${twitterAdsInputForm.tweetIdList}]]*/;
 			        for(var i=0;i<tweetIdList.length;i++){
 			        	var objective = $("input[name='objective']:checked").val();
@@ -281,7 +285,7 @@
 		    $('#websiteTwitter').hide();
 	    }
 	    
-	 	//繝�繧､繝ｼ繝医Μ繧ｹ繝医�ｮ繝上Φ繝峨Λ
+	 	//ツイートリストのハンドラ
         $(document).ready(function() {
         $('[name="objective"]:radio').change(function() {
 			if ($('[id=objective1]').prop('checked')) {
@@ -301,7 +305,7 @@
         }
         });
         
-		//蝨ｰ蝓溘Λ繧ｸ繧ｪ繝懊ち繝ｳ縺ｮ蛻晄悄迥ｶ諷九ｒ蛻､譁ｭ
+		//地域ラジオボタンの初期状態を判断
         $(document).ready(function() {
         	var location = $("input[name='location']:checked").val();
         	if(location == 2){
@@ -309,7 +313,7 @@
         	}
         }); 
 		
-		//蝨ｰ蝓溘Λ繧ｸ繧ｪ繝懊ち繝ｳ縺ｮ繝上Φ繝峨Λ
+		//地域ラジオボタンのハンドラ
         $(document).ready(function() {
         $('[name="location"]:radio').change(function() {
 			if ($('[id=location1]').prop('checked')) {
