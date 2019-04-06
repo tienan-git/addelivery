@@ -250,7 +250,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoD1 = new NonTwitterAdDto();
 		nonTwitterAdDtoD1.setAdImageName("image1.jpg\r\nimage2.jpg");
 		nonTwitterAdDtoD1.setAdImageSize("100x100\r\n200x200");
-		nonTwitterAdDtoD1.setAdImage("image1\r\nimage2");
+		nonTwitterAdDtoD1.getAdImageUrlList().add("https://www.fout.co.jp/images/freakout/product/product_freakout.png");
+		nonTwitterAdDtoD1.getAdImageUrlList().add("https://upload.wikimedia.org/wikipedia/commons/7/71/Freak_Out.jpg");
 		nonTwitterAdDtoD1.setAdText("");
 		nonTwitterAdDtoD1.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoD1.setAdCreateDate("2019/04/01");
@@ -262,7 +263,7 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoD2 = new NonTwitterAdDto();
 		nonTwitterAdDtoD2.setAdImageName("image1.jpg");
 		nonTwitterAdDtoD2.setAdImageSize("100x100");
-		nonTwitterAdDtoD2.setAdImage("image1");
+		nonTwitterAdDtoD2.getAdImageUrlList().add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
 		nonTwitterAdDtoD2.setAdText("");
 		nonTwitterAdDtoD2.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoD2.setAdCreateDate("2019/04/01");
@@ -275,7 +276,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoG1 = new NonTwitterAdDto();
 		nonTwitterAdDtoG1.setAdImageName("image1.jpg\r\nimage2.jpg");
 		nonTwitterAdDtoG1.setAdImageSize("100x100\r\n200x200");
-		nonTwitterAdDtoG1.setAdImage("image1\r\nimage2");
+		nonTwitterAdDtoG1.getAdImageUrlList().add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+		nonTwitterAdDtoG1.getAdImageUrlList().add("https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png");
 		nonTwitterAdDtoG1.setAdText("短い広告見出し\r\n説明文");
 		nonTwitterAdDtoG1.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoG1.setAdCreateDate("2019/04/01");
@@ -288,7 +290,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoG2 = new NonTwitterAdDto();
 		nonTwitterAdDtoG2.setAdImageName("image1.jpg\r\nimage2.jpg");
 		nonTwitterAdDtoG2.setAdImageSize("100x100\r\n200x200");
-		nonTwitterAdDtoG2.setAdImage("image1\r\nimage2");
+		nonTwitterAdDtoG2.getAdImageUrlList().add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+		nonTwitterAdDtoG2.getAdImageUrlList().add("https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png");
 		nonTwitterAdDtoG2.setAdText("");
 		nonTwitterAdDtoG2.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoG2.setAdCreateDate("2019/04/01");
@@ -301,7 +304,6 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoG3 = new NonTwitterAdDto();
 		nonTwitterAdDtoG3.setAdImageName("");
 		nonTwitterAdDtoG3.setAdImageSize("");
-		nonTwitterAdDtoG3.setAdImage("");
 		nonTwitterAdDtoG3.setAdText("広告見出し１\r\n広告見出し２\r\n説明文");
 		nonTwitterAdDtoG3.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoG3.setAdCreateDate("2019/04/01");
@@ -314,7 +316,7 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoF1 = new NonTwitterAdDto();
 		nonTwitterAdDtoF1.setAdImageName("image1.jpg");
 		nonTwitterAdDtoF1.setAdImageSize("500x500");
-		nonTwitterAdDtoF1.setAdImage("image1");
+		nonTwitterAdDtoF1.getAdImageUrlList().add("https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg");
 		nonTwitterAdDtoF1.setAdText("説明文");
 		nonTwitterAdDtoF1.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoF1.setAdCreateDate("2019/04/01");
@@ -326,7 +328,7 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoF2 = new NonTwitterAdDto();
 		nonTwitterAdDtoF2.setAdImageName("image2.jpg");
 		nonTwitterAdDtoF2.setAdImageSize("500x500");
-		nonTwitterAdDtoF2.setAdImage("image2");
+		nonTwitterAdDtoF2.getAdImageUrlList().add("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/2000px-Facebook_New_Logo_%282015%29.svg.png");
 		nonTwitterAdDtoF2.setAdText("");
 		nonTwitterAdDtoF2.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoF2.setAdCreateDate("2019/04/01");
