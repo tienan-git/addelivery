@@ -8,10 +8,10 @@ import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
 import lombok.Data;
 
 @Data
-public class IssueInputForm {
+public class IssueInputForm_bk {
 
 	Long issueId;
-	String issueName;
+	String campaignName;
 	String campaignStatus;
 	String checkStatus;
 	boolean dspSelected;
