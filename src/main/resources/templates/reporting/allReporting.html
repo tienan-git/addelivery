@@ -1,0 +1,1823 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<!-- Page title start -->
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>レポーティング一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page title end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form action="#" method="post">
+			<div class="card" id="issueDetail">
+				<div class="card-block">
+					<h4 class="sub-title">案件情報</h4>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">案件名</label>
+					<div class="col-sm-8">
+						<label class="col-form-label">秋葉原一番店舗</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">案件掲載期間</label>
+					<div class="col-sm-8">
+						<label class="col-form-label">2019年04月01日~2019年04月15日</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">総金額</label>
+					<div class="col-sm-8">
+						<label class="col-form-label">28,234円</label>
+					</div>
+				</div>
+			</div>
+			<div class="card" id="totalReporting">
+				<div class="card-block">
+					<h4 class="sub-title">全体統計ー日付別</h4>
+				</div>
+				<div class="card-block">
+					<div id="totalDaily"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>日次サマリ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2019/1/1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>2019/1/1</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>合計</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">全体統計ーデバイス別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="totalClick" style="width: 33%; display: inline-block;"></div>
+					<div id="totalImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="totalSum" style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>デバイス</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>パソコン</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>スマートフォン</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>タブレット</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card" id="dspReporting">
+				<div class="card-block">
+					<h4 class="sub-title">ファンへ配信-広告物</h4>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">ファンへ配信-日付別</h4>
+				</div>
+				<div class="card-block">
+					<div id="dspDaily"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>日次サマリ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2019/1/1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>2019/1/1</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>合計</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">ファンへ配信ーデバイス別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="dspDeviceClick" style="width: 33%; display: inline-block;"></div>
+					<div id="dspDeviceImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="dspDeviceSum" style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>デバイス</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>パソコン</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>スマートフォン</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>タブレット</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">ファンへ配信ークリエイティブ別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="dspCreativeClick"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="dspCreativeImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="dspCreativeSum" style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>クリエいティブ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>728x90</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>300x250</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>320x100</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card" id="TwitterReporting">
+				<div class="card-block">
+					<h4 class="sub-title">Twitter-広告物</h4>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Twitter-日付別</h4>
+				</div>
+				<div class="card-block">
+					<div id="twitterDaily"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>日次サマリ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2019/1/1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>2019/1/1</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>合計</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Twitterーデバイス別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="twitterDeviceFollow"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="twitterDeviceImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="twitterDeviceSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>デバイス</th>
+								<th>表示回数</th>
+								<th>ツイートのエンゲージメント</th>
+								<th>フォロー</th>
+								<th>ご利用金額</th>
+								<th>FTR</th>
+								<th>CPF</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>パソコン</td>
+								<td>130092</td>
+								<td>749,813</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>スマートフォン</td>
+								<td>106492</td>
+								<td>749,813</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>タブレット</td>
+								<td>236584</td>
+								<td>749,813</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Twitterークリエイティブ別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="twitterCreativeImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="twitterCreativeFollow"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="twitterCreativeSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>クリエいティブ</th>
+								<th>表示回数</th>
+								<th>ツイートのエンゲージメント</th>
+								<th>フォロー</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>ツイート_1</td>
+								<td>130092</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>ツイート_2</td>
+								<td>106492</td>
+								<td>130092</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>ツイート_3</td>
+								<td>236584</td>
+								<td>130092</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Twitterー地域別</h4>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>地域別</th>
+								<th>表示回数</th>
+								<th>ツイートのエンゲージメント</th>
+								<th>フォロー</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>大阪府</td>
+								<td>130092</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>兵庫県</td>
+								<td>106492</td>
+								<td>130092</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>千葉県</td>
+								<td>236584</td>
+								<td>130092</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card" id="GoogleReporting">
+				<div class="card-block">
+					<h4 class="sub-title">Google-広告物</h4>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Google-日付別</h4>
+				</div>
+				<div class="card-block">
+					<div id="googleDaily"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>日次サマリ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2019/1/1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>2019/1/1</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>合計</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Googleーデバイス別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+
+					<div id="googleDeviceImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="googleDeviceClick"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="googleDeviceSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>デバイス</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>FTR</th>
+								<th>CPF</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>パソコン</td>
+								<td>130092</td>
+								<td>749,813</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>スマートフォン</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>タブレット</td>
+								<td>236584</td>
+								<td>749,813</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Googleークリエイティブ別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="googleCreativeImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="googleCreativeClick"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="googleCreativeSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>クリエいティブ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>テキスト_1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>テキスト_2</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>テキスト_3</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Googleー地域別</h4>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>地域別</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>大阪府大阪市</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>兵庫県神戸市</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>千葉県千葉市</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Googleーキーワード別 TOP10</h4>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>キーワード別</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>キーワード_1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>キーワード_2</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>キーワード_3</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="card" id="FacebookReporting">
+				<div class="card-block">
+					<h4 class="sub-title">Facebook-広告物</h4>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Facebook-日付別</h4>
+				</div>
+				<div class="card-block">
+					<div id="facebookDaily"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>日次サマリ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>2019/1/1</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>2019/1/1</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>合計</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Facebookーデバイス別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="facebookDeviceClick"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="facebookDeviceImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="facebookDeviceSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>デバイス</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>パソコン</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>スマートフォン</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>タブレット</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Facebookークリエイティブ別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="facebookCreativeClick"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="facebookCreativeImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="facebookCreativeSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>クリエいティブ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>728x90</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>300x250</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>320x100</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Facebookー地域別</h4>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>地域別</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>大阪府大阪市</td>
+								<td>130092</td>
+								<td>136</td>
+								<td>¥7,570</td>
+								<td>0.10%</td>
+								<td>¥56</td>
+								<td>¥58</td>
+							</tr>
+							<tr>
+								<td>兵庫県神戸市</td>
+								<td>106492</td>
+								<td>123</td>
+								<td>¥7,411</td>
+								<td>0.12%</td>
+								<td>¥60</td>
+								<td>¥70</td>
+							</tr>
+							<tr>
+								<td>千葉県千葉市</td>
+								<td>236584</td>
+								<td>259</td>
+								<td>¥14,981</td>
+								<td>0.11%</td>
+								<td>¥58</td>
+								<td>¥64</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+</body>
+<div layout:fragment="custom_resource_body">
+	<script type="text/javascript" th:inline="javascript">
+		/*全体日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#totalDaily',
+			data : {
+				columns : [ [ 'data1', 30, 20, 50, 40, 60, 50 ],
+						[ 'data2', 200, 130, 90, 240, 130, 220 ],
+						[ 'data3', 300, 200, 160, 400, 250, 250 ],
+						[ 'data4', 200, 130, 90, 240, 130, 220 ],
+						[ 'data5', 130, 120, 150, 140, 160, 150 ],
+						[ 'data6', 90, 70, 20, 50, 60, 120 ], ],
+				type : 'bar',
+				colors : {
+					data1 : '#00C292',
+					data2 : '#4C5667',
+					data3 : '#03A9F3',
+					data4 : '#AB8CE4',
+					data5 : '#a3aebd',
+					data6 : '#FEC107'
+				},
+				types : {
+					data3 : 'spline',
+					data4 : 'line',
+					data6 : 'area',
+				},
+				groups : [ [ 'data1', 'data2' ] ]
+			}
+		});
+		/* totalClick */
+		var chart = c3.generate({
+			bindto : '#totalClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/* totalSum */
+		var chart = c3.generate({
+			bindto : '#totalSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/* totalImpression */
+		var chart = c3.generate({
+			bindto : '#totalImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*DSP日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#dspDaily',
+			data : {
+				columns : [ [ 'data1', 30, 20, 50, 40, 60, 50 ],
+						[ 'data2', 200, 130, 90, 240, 130, 220 ],
+						[ 'data3', 300, 200, 160, 400, 250, 250 ],
+						[ 'data4', 200, 130, 90, 240, 130, 220 ],
+						[ 'data5', 130, 120, 150, 140, 160, 150 ],
+						[ 'data6', 90, 70, 20, 50, 60, 120 ], ],
+				type : 'bar',
+				colors : {
+					data1 : '#00C292',
+					data2 : '#4C5667',
+					data3 : '#03A9F3',
+					data4 : '#AB8CE4',
+					data5 : '#a3aebd',
+					data6 : '#FEC107'
+				},
+				types : {
+					data3 : 'spline',
+					data4 : 'line',
+					data6 : 'area',
+				},
+				groups : [ [ 'data1', 'data2' ] ]
+			}
+		});
+		/*dspDeviceClick*/
+		var chart = c3.generate({
+			bindto : '#dspDeviceClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/*dspDeviceSum*/
+		var chart = c3.generate({
+			bindto : '#dspDeviceSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*dspDeviceImpression*/
+		var chart = c3.generate({
+			bindto : '#dspDeviceImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*dspCreativeClick*/
+		var chart = c3.generate({
+			bindto : '#dspCreativeClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/*dspCreativeSum*/
+		var chart = c3.generate({
+			bindto : '#dspCreativeSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*dspCreativeImpression*/
+		var chart = c3.generate({
+			bindto : '#dspCreativeImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*twitter日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#twitterDaily',
+			data : {
+				columns : [ [ 'data1', 30, 20, 50, 40, 60, 50 ],
+						[ 'data2', 200, 130, 90, 240, 130, 220 ],
+						[ 'data3', 300, 200, 160, 400, 250, 250 ],
+						[ 'data4', 200, 130, 90, 240, 130, 220 ],
+						[ 'data5', 130, 120, 150, 140, 160, 150 ],
+						[ 'data6', 90, 70, 20, 50, 60, 120 ], ],
+				type : 'bar',
+				colors : {
+					data1 : '#00C292',
+					data2 : '#4C5667',
+					data3 : '#03A9F3',
+					data4 : '#AB8CE4',
+					data5 : '#a3aebd',
+					data6 : '#FEC107'
+				},
+				types : {
+					data3 : 'spline',
+					data4 : 'line',
+					data6 : 'area',
+				},
+				groups : [ [ 'data1', 'data2' ] ]
+			}
+		});
+		/*TwiiterDeviceFollow*/
+		var chart = c3.generate({
+			bindto : '#twitterDeviceFollow',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "フォロー"
+			}
+		});
+		/*twitterDeviceSum*/
+		var chart = c3.generate({
+			bindto : '#twitterDeviceSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*twitterDeviceImpression*/
+		var chart = c3.generate({
+			bindto : '#twitterDeviceImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*twitterCreativeFollow*/
+		var chart = c3.generate({
+			bindto : '#twitterCreativeFollow',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "フォロー"
+			}
+		});
+		/*twitterCreativeSum*/
+		var chart = c3.generate({
+			bindto : '#twitterCreativeSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*twitterCreativeImpression*/
+		var chart = c3.generate({
+			bindto : '#twitterCreativeImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*Google日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#googleDaily',
+			data : {
+				columns : [ [ 'data1', 30, 20, 50, 40, 60, 50 ],
+						[ 'data2', 200, 130, 90, 240, 130, 220 ],
+						[ 'data3', 300, 200, 160, 400, 250, 250 ],
+						[ 'data4', 200, 130, 90, 240, 130, 220 ],
+						[ 'data5', 130, 120, 150, 140, 160, 150 ],
+						[ 'data6', 90, 70, 20, 50, 60, 120 ], ],
+				type : 'bar',
+				colors : {
+					data1 : '#00C292',
+					data2 : '#4C5667',
+					data3 : '#03A9F3',
+					data4 : '#AB8CE4',
+					data5 : '#a3aebd',
+					data6 : '#FEC107'
+				},
+				types : {
+					data3 : 'spline',
+					data4 : 'line',
+					data6 : 'area',
+				},
+				groups : [ [ 'data1', 'data2' ] ]
+			}
+		});
+		/*googleDeviceClick*/
+		var chart = c3.generate({
+			bindto : '#googleDeviceClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/*googleDeviceSum*/
+		var chart = c3.generate({
+			bindto : '#googleDeviceSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*googleDeviceImpression*/
+		var chart = c3.generate({
+			bindto : '#googleDeviceImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*googleCreativeClick*/
+		var chart = c3.generate({
+			bindto : '#googleCreativeClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/*googleCreativeSum*/
+		var chart = c3.generate({
+			bindto : '#googleCreativeSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*googleCreativeImpression*/
+		var chart = c3.generate({
+			bindto : '#googleCreativeImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*Facebook日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#facebookDaily',
+			data : {
+				columns : [ [ 'data1', 30, 20, 50, 40, 60, 50 ],
+						[ 'data2', 200, 130, 90, 240, 130, 220 ],
+						[ 'data3', 300, 200, 160, 400, 250, 250 ],
+						[ 'data4', 200, 130, 90, 240, 130, 220 ],
+						[ 'data5', 130, 120, 150, 140, 160, 150 ],
+						[ 'data6', 90, 70, 20, 50, 60, 120 ], ],
+				type : 'bar',
+				colors : {
+					data1 : '#00C292',
+					data2 : '#4C5667',
+					data3 : '#03A9F3',
+					data4 : '#AB8CE4',
+					data5 : '#a3aebd',
+					data6 : '#FEC107'
+				},
+				types : {
+					data3 : 'spline',
+					data4 : 'line',
+					data6 : 'area',
+				},
+				groups : [ [ 'data1', 'data2' ] ]
+			}
+		});
+		/*facebookDeviceClick*/
+		var chart = c3.generate({
+			bindto : '#facebookDeviceClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/*facebookDeviceSum*/
+		var chart = c3.generate({
+			bindto : '#facebookDeviceSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*facebookDeviceImpression*/
+		var chart = c3.generate({
+			bindto : '#facebookDeviceImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+		/*facebookCreativeClick*/
+		var chart = c3.generate({
+			bindto : '#facebookCreativeClick',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "クリック数"
+			}
+		});
+		/*facebookCreativeSum*/
+		var chart = c3.generate({
+			bindto : '#facebookCreativeSum',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "ご利用金額"
+			}
+		});
+		/*facebookCreativeImpression*/
+		var chart = c3.generate({
+			bindto : '#facebookCreativeImpression',
+			data : {
+				columns : [ [ 'data1', 30 ], [ 'data2', 120 ], ],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
+			},
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
+			},
+			donut : {
+				title : "表示回数"
+			}
+		});
+	</script>
+</div>
+</html>
