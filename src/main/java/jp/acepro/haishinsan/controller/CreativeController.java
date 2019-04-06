@@ -25,6 +25,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dto.CreativeDto;
+import jp.acepro.haishinsan.dto.NonTwitterAdDto;
+import jp.acepro.haishinsan.dto.TwitterAdDto;
 import jp.acepro.haishinsan.dto.CreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
@@ -80,8 +82,8 @@ public class CreativeController {
 	@Autowired
 	TwitterApiService twitterApiService;
 
-	//@Autowired
-	//CreativeService creativeService;
+	// @Autowired
+	// CreativeService creativeService;
 
 	@Autowired
 	OperationService operationService;
@@ -184,7 +186,7 @@ public class CreativeController {
 			creativeDto.setWebsiteTweetList(selectedWebsiteTweetList);
 		}
 
-		//creativeService.createCreative(creativeDto);
+		// creativeService.createCreative(creativeDto);
 		// 作成したCreativeを取得
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
 
@@ -214,8 +216,8 @@ public class CreativeController {
 					+ msg.getMessage(creativeDto.getFacebookErrorCode(), creativeDto.getFacebookParam(), null);
 		}
 		if (creativeDto.getTwitterErrorCode() != null) {
-			twitterMsg = "Twitter:"
-					+ msg.getMessage(creativeDto.getTwitterErrorCode(), new Object[] { creativeDto.getTwitterParam() }, null);
+			twitterMsg = "Twitter:" + msg.getMessage(creativeDto.getTwitterErrorCode(),
+					new Object[] { creativeDto.getTwitterParam() }, null);
 		}
 		ModelAndView mv = new ModelAndView("creative/completeCreative");
 		mv.addObject("creativeDto", creativeDto);
@@ -231,7 +233,8 @@ public class CreativeController {
 		session.removeAttribute("websiteTweetList");
 
 		// オペレーションログ記録
-		//operationService.create(Operation.ISSUE_CREATE.getValue(), String.valueOf(creativeDto.getCreativeId()));
+		// operationService.create(Operation.ISSUE_CREATE.getValue(),
+		// String.valueOf(creativeDto.getCreativeId()));
 		return mv;
 
 	}
@@ -240,15 +243,146 @@ public class CreativeController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView creativeList() {
 
-		//List<CreativeDto> creativeDtoList = creativeService.creativeList();
+		// Dsp Google Facebook
+		List<NonTwitterAdDto> nonTwitterAdDtoList = new ArrayList<NonTwitterAdDto>();
+
+		// Dsp Ad
+		NonTwitterAdDto nonTwitterAdDtoD1 = new NonTwitterAdDto();
+		nonTwitterAdDtoD1.setAdImageName("image1.jpg\r\nimage2.jpg");
+		nonTwitterAdDtoD1.setAdImageSize("100x100\r\n200x200");
+		nonTwitterAdDtoD1.setAdImage("image1\r\nimage2");
+		nonTwitterAdDtoD1.setAdText("");
+		nonTwitterAdDtoD1.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoD1.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoD1.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoD1.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoD1.setAdIcon("fa fa-envira");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoD1);
+
+		NonTwitterAdDto nonTwitterAdDtoD2 = new NonTwitterAdDto();
+		nonTwitterAdDtoD2.setAdImageName("image1.jpg");
+		nonTwitterAdDtoD2.setAdImageSize("100x100");
+		nonTwitterAdDtoD2.setAdImage("image1");
+		nonTwitterAdDtoD2.setAdText("");
+		nonTwitterAdDtoD2.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoD2.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoD2.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoD2.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoD2.setAdIcon("fa fa-envira");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoD2);
+
+		// Google Response Ad
+		NonTwitterAdDto nonTwitterAdDtoG1 = new NonTwitterAdDto();
+		nonTwitterAdDtoG1.setAdImageName("image1.jpg\r\nimage2.jpg");
+		nonTwitterAdDtoG1.setAdImageSize("100x100\r\n200x200");
+		nonTwitterAdDtoG1.setAdImage("image1\r\nimage2");
+		nonTwitterAdDtoG1.setAdText("短い広告見出し\r\n説明文");
+		nonTwitterAdDtoG1.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoG1.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoG1.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoG1.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoG1.setAdIcon("fa fa-google");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoG1);
+
+		// Google Image Ad
+		NonTwitterAdDto nonTwitterAdDtoG2 = new NonTwitterAdDto();
+		nonTwitterAdDtoG2.setAdImageName("image1.jpg\r\nimage2.jpg");
+		nonTwitterAdDtoG2.setAdImageSize("100x100\r\n200x200");
+		nonTwitterAdDtoG2.setAdImage("image1\r\nimage2");
+		nonTwitterAdDtoG2.setAdText("");
+		nonTwitterAdDtoG2.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoG2.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoG2.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoG2.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoG2.setAdIcon("fa fa-google");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoG2);
+
+		// Google Text Ad
+		NonTwitterAdDto nonTwitterAdDtoG3 = new NonTwitterAdDto();
+		nonTwitterAdDtoG3.setAdImageName("");
+		nonTwitterAdDtoG3.setAdImageSize("");
+		nonTwitterAdDtoG3.setAdImage("");
+		nonTwitterAdDtoG3.setAdText("広告見出し１\r\n広告見出し２\r\n説明文");
+		nonTwitterAdDtoG3.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoG3.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoG3.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoG3.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoG3.setAdIcon("fa fa-google");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoG3);
+
+		// Facebook Ad
+		NonTwitterAdDto nonTwitterAdDtoF1 = new NonTwitterAdDto();
+		nonTwitterAdDtoF1.setAdImageName("image1.jpg");
+		nonTwitterAdDtoF1.setAdImageSize("500x500");
+		nonTwitterAdDtoF1.setAdImage("image1");
+		nonTwitterAdDtoF1.setAdText("説明文");
+		nonTwitterAdDtoF1.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoF1.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoF1.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoF1.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoF1.setAdIcon("fa fa-facebook");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoF1);
+
+		NonTwitterAdDto nonTwitterAdDtoF2 = new NonTwitterAdDto();
+		nonTwitterAdDtoF2.setAdImageName("image2.jpg");
+		nonTwitterAdDtoF2.setAdImageSize("500x500");
+		nonTwitterAdDtoF2.setAdImage("image2");
+		nonTwitterAdDtoF2.setAdText("");
+		nonTwitterAdDtoF2.setAdReviewStatus("承認済み");
+		nonTwitterAdDtoF2.setAdCreateDate("2019/04/01");
+		nonTwitterAdDtoF2.setAdReviewDate("2019/04/03");
+		nonTwitterAdDtoF2.setAdIssue("案件一覧へ");
+		nonTwitterAdDtoF2.setAdIcon("fa fa-facebook");
+		nonTwitterAdDtoList.add(nonTwitterAdDtoF2);
+
+		// Twitter
+		List<TwitterAdDto> twitterAdDtoList = new ArrayList<TwitterAdDto>();
+
+		// Twiiter website
+		TwitterAdDto twitterAdDto1 = new TwitterAdDto();
+		twitterAdDto1.setAdText("-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 02月26日\r\n" + "こんばんわ！MAX BULLETです！！💥💥\r\n"
+				+ "久々の更新となります😆\r\n" + "\r\n" + "MAX BULLETが移転予定の秋葉原のビルは絶賛工事中です！\r\n" + "OPENまで今しばらくお待ちください！！\r\n"
+				+ "\r\n" + "秋葉原のオープンまで待てないよ！！という方にはMA… https://twitter.com/i/web/status/1100338392150274048\"\r\n"
+				+ "\r\n" + "-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 03月07日\r\n" + "こんばんわ🤗\r\n" + "春がきたと思ったら今日は寒いですね🌬❄️\r\n"
+				+ ".\r\n" + "当店では様々なシューティングゲームをご用意しております🔫\r\n" + "どのゲームも盛り上がること間違いなし😎👌\r\n"
+				+ "ご来店お待ちしております💁🎶… https://www.instagram.com/p/BgBAy9jlpSF/\r\n" + "\r\n"
+				+ "-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 10月04日\r\n" + ".\r\n" + "こんばんわ😸✨\r\n" + ".\r\n"
+				+ "あっという間に10月に突入してしまいましたね！！\r\n" + "10月は3連休やハロウィンなど楽しみがいっぱいありますね😍💘\r\n" + "みなさん予定はもうお決まりですか🦄？？\r\n"
+				+ "是非マックスバレットに遊びに来てください💁🏼💓\r\n"
+				+ ".... https://www.facebook.com/MAXBULLET.NSB/videos/107717326804617/\r\n" + "");
+		twitterAdDtoList.add(twitterAdDto1);
+
+		TwitterAdDto twitterAdDto2 = new TwitterAdDto();
+		twitterAdDto2.setAdText("-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 02月26日\r\n" + "こんばんわ！MAX BULLETです！！💥💥\r\n"
+				+ "久々の更新となります😆\r\n" + "\r\n" + "MAX BULLETが移転予定の秋葉原のビルは絶賛工事中です！\r\n" + "OPENまで今しばらくお待ちください！！\r\n"
+				+ "\r\n" + "秋葉原のオープンまで待てないよ！！という方にはMA… https://twitter.com/i/web/status/1100338392150274048\"\r\n"
+				+ "\r\n" + "-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 03月07日\r\n" + "こんばんわ🤗\r\n" + "春がきたと思ったら今日は寒いですね🌬❄️\r\n"
+				+ ".\r\n" + "当店では様々なシューティングゲームをご用意しております🔫\r\n" + "どのゲームも盛り上がること間違いなし😎👌\r\n"
+				+ "ご来店お待ちしております💁🎶… https://www.instagram.com/p/BgBAy9jlpSF/");
+		twitterAdDtoList.add(twitterAdDto2);
+
+		// Twiiter followers
+		TwitterAdDto twitterAdDto3 = new TwitterAdDto();
+		twitterAdDto3.setAdText("-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 12月05日\r\n" + "こんばんわ🌙\r\n" + "\r\n"
+				+ "本日も元気よくオープンしております💁\r\n" + "\r\n"
+				+ "こちらの一品は紅茶鴨のスモークでございます！かいわれとの相性も抜群でとても美味しいです！是非食べにきてはいかがでしょうか？🤤\r\n" + "\r\n"
+				+ "皆… Bar-https://www.instagram.com/p/BcUGyPAFk3o/");
+		twitterAdDtoList.add(twitterAdDto3);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("creative/creativeList");
-		//mv.addObject("creativeDtoList", creativeDtoList);
+		mv.addObject("nonTwitterAdDtoList", nonTwitterAdDtoList);
+		mv.addObject("twitterAdDtoList", twitterAdDtoList);
 		return mv;
 	}
-	
-	//mock_paku
+
+	// mock_paku
 	@GetMapping("/newCreativeList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView newCreativeList() {
