@@ -26,7 +26,7 @@
 		<div class="pcoded-navigatio-lavel">案件簡単作成</div>
 		<ul class="pcoded-item pcoded-left-item">
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/newIssueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/issue/createIssue}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">新規作成</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/creative/creativeList}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">新規作成</span></a></li>
 			<li class="active"><a th:href="@{/creative/createCreative}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告アップロード</span></a></li>
 			<li class="active"><a th:href="@{/issue/createIssue}"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span></a></li>
 		</ul>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-eye bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>案件 一覧</h4>
+						</div>
+						<div id="resultBox"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+
+		<div class="card">
+			<div class="card-block">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/issue/issueList}" method="post">
+					<div class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>案件ID</th>
+									<th>キャンペーン名</th>
+									<th>予算</th>
+									<th>配信媒体</th>
+									<th>配信開始日</th>
+									<th>配信終了日</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>案件ID</th>
+									<th>キャンペーン名</th>
+									<th>予算</th>
+									<th>配信媒体</th>
+									<th>配信開始日</th>
+									<th>配信終了日</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="issueDto,stat : ${issueDtoList}">
+									<td th:text="${issueDto.issueId}">123</td>
+									<td th:text="${issueDto.campaignName}">キャンペーン名</td>
+									<td th:text="${issueDto.budget} + '円'"></td>
+									<td><span th:each="obj:${issueDto.iconList}"><i th:if="${obj.issueId==issueDto.issueId}" th:class="${obj.icon}" style="width: 30px"></i></span></td>
+									<td th:text="${issueDto.startDate}"></td>
+									<td th:text="${issueDto.endDate}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>
