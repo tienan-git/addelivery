@@ -31,3 +31,7 @@ logging:
 email:
   url:
     prefix: http://localhost:8080
+    
+awsConfig: 
+  region: ap-northeast-1
+  bucket: files.restaurant.sparkworks.jp

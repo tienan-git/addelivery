@@ -291,4 +291,10 @@ public class ApplicationProperties {
 	
 	@Value("${image.facebook.dimensions}")
 	private List<String> facebookDimensions;
+	
+	@Value("${awsConfig.region}")
+	private String region;
+	
+	@Value("${awsConfig.bucket}")
+	private String bucket;
 }
