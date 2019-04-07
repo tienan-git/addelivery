@@ -26,6 +26,7 @@ buildscript {
 
 plugins {
   id "net.ltgt.apt" version "0.18"
+  id "fi.evident.beanstalk" version "0.2.1"
 }
 
 apply plugin: 'java'
@@ -35,9 +36,25 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'org.flywaydb.flyway'
 
 group = 'jp.acepro.haishinsan'
-version = '0.0.1-SNAPSHOT'
+version = '1.0.0-SNAPSHOT'
 sourceCompatibility = 1.8
 
+beanstalk {
+    profile = 'default' // Only required if using .aws/credentials
+    //s3Endpoint = "s3-eu-west-1.amazonaws.com"
+      s3Endpoint = "s3-ap-northeast-1.amazonaws.com"
+    //beanstalkEndpoint = "elasticbeanstalk.eu-west-1.amazonaws.com"
+      beanstalkEndpoint = "elasticbeanstalk.ap-northeast-1.amazonaws.com"
+
+    deployments {
+        // Example to deploy to the same env
+        staging {
+            file = 'release/haishinsan-1.0.0-SNAPSHOT.zip'
+            application = 'haishinsan'
+            environment = 'haishinsan-mock'
+        }
+    }
+}
 repositories {
 	mavenCentral()
 }
