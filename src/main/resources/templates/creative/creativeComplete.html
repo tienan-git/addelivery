@@ -10,9 +10,9 @@
 			<div class="row align-items-end">
 				<div class="col-lg-8">
 					<div class="page-header-title">
-						<i class="ti-crown bg-c-yellow"></i>
+						<i class="ti-palette bg-c-green"></i>
 						<div class="d-inline">
-							<h4>案件簡単作成完了</h4>
+							<h4>広告アップロード完了</h4>
 						</div>
 					</div>
 				</div>
@@ -28,78 +28,20 @@
 				aria-label="Close">
 				<i class="icofont icofont-close-line-circled text-white"></i>
 			</button>
-			<p>
-				<strong
-					th:if="${issueDto.dspSelected} == true and ${dspMsg} == null">ファンへの配信広告案件の作成が成功しました!</strong>
-			</p>
-			<p>
-				<strong
-					th:if="${issueDto.googleSelected} == true and ${googleMsg} == null">Google広告案件の作成が成功しました!</strong>
-			</p>
-			<p>
-				<strong
-					th:if="${issueDto.facebookSelected} == true and ${facebookMsg} == null">Facebook広告案件の作成が成功しました!</strong>
-			</p>
-			<p>
-				<strong
-					th:if="${issueDto.twitterSelected} == true and ${twitterMsg} == null">Twitter広告案件の作成が成功しました!</strong>
-			</p>
-		</div>
-		<div id="info"
-			class="col-sm-24 col-md-24 col-xl-12 alert alert-danger background-danger">
-			<button type="button" class="close" data-dismiss="alert"
-				aria-label="Close">
-				<i class="icofont icofont-close-line-circled text-white"></i>
-			</button>
-			<p>
-				<strong th:if="${dspMsg} != null" th:text="${dspMsg}">媒体ファンへの配信広告案件の作成が成功しました!</strong>
-			</p>
-			<p>
-				<strong th:if="${googleMsg} != null" th:text="${googleMsg}">媒体ファンへの配信広告案件の作成が成功しました!</strong>
-			</p>
-			<p>
-				<strong th:if="${facebookMsg} != null" th:text="${facebookMsg}">媒体ファンへの配信広告案件の作成が成功しました!</strong>
-			</p>
-			<p>
-				<strong th:if="${twitterMsg} != null" th:text="${twitterMsg}">媒体ファンへの配信広告案件の作成が成功しました!</strong>
-			</p>
+			<strong>広告アップデートは完了しました!</strong>
 		</div>
 		<form id="defaultForm" class="form-horizontal"
-			th:action="@{/issue/createIssue}" th:object="${issueDto}"
+			th:action="@{/creative/creativeComplete}" th:object="${creativeDto}"
 			method="post">
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">案件名</label>
+							<label class="col-form-label">広告名</label>
 						</div>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{campaignName}">案件名</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">予算</label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{budget} + 円">1,000</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信開始日</label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{startDate}"></label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信終了日</label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{endDate}"></label>
+							<label th:text="*{campaignName}">広告名</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -107,51 +49,48 @@
 							<label class="col-form-label">リンク先のURL</label>
 						</div>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{url}">https://www.apple.com/macbook</label>
+<!-- 							<label th:text="*{url}">https://www.apple.com/macbook</label> -->
+							<label >http://ace-pro.com/</label>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div th:if="${issueDto.dspSelected} == true" class="card">
+			<div th:if="${creativeDto.creativeType} == '1'" class="card">
 				<div class="card-block">
-					<h4 class="sub-title">クリエイティブ情報</h4>
-					<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">クリエイティブ情報</label>
-					<div class="col-sm-4 col-form-label"
-						th:if="${#lists.isEmpty(issueDto.dspCampaignCreInputFormList)}">
-						<select id="custom-headers" class="searchable" multiple
-							th:field="*{idList}" disabled>
-							<option th:each="object : *{dspCampaignCreInputFormList}"
-								th:value="${object.getCreativeId()}"
-								th:text="${object.getCreativeName()}">日本</option>
-						</select>
+					<h4 class="sub-title">ファンへの配信</h4>
+						<div class="card-block">
+							<div class="sub-title">画像ファイル</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="image : ${dspImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<div class="col-sm-4 col-form-label"
-						th:unless="${#lists.isEmpty(issueDto.dspCampaignCreInputFormList)}">
-						<select id="custom-headers" class="searchable" multiple
-							th:field="*{idList}" disabled>
-							<option th:each="object : *{dspCampaignCreInputFormList}"
-								th:selected="${#lists.contains(issueDto.idList, object.getCreativeId())}"
-								th:value="${object.getCreativeId()}"
-								th:text="${object.getCreativeName()}">日本</option>
-						</select>
-					</div>
-				</div>
-					<!-- Scrolling DataTable table end -->
-				</div>
 			</div>
-			<div th:if="${issueDto.googleSelected} == true" class="card">
+			<div th:if="${creativeDto.creativeType} == '2'" class="card">
 				<div class="card-block">
 					<h4 class="sub-title">Google</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
 							<label id="adType"
-								th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(issueDto.adType).getLabel()}">レスポンシブ広告</label>
+								th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(creativeDto.adType).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
 					<div
-						th:if="${issueDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
+						th:if="${creativeDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4 col-form-label">
@@ -185,7 +124,7 @@
 						</div>
 					</div>
 					<div
-						th:if="${issueDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
+						th:if="${creativeDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
 						<div class="card-block">
 							<div class="sub-title">画像ファイル</div>
 							<div class="card">
@@ -207,7 +146,7 @@
 						</div>
 					</div>
 					<div
-						th:if="${issueDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
+						th:if="${creativeDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
 							<div class="col-sm-4 col-form-label">
@@ -229,7 +168,37 @@
 					</div>
 				</div>
 			</div>
-			<div th:if="${issueDto.twitterSelected} == true" class="card">
+			<div th:if="${creativeDto.creativeType} == '3'" class="card">
+				<div class="card-block">
+					<h4 class="sub-title">Facebook</h4>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textFacebookDescription}">Facebook説明文</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">画像ファイル</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="image : ${facebookImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div th:if="${creativeDto.creativeType} == '4'" class="card">
 				<div class="card-block">
 					<h4 class="sub-title">Twitter</h4>
 					<!-- Scrolling DataTable table start -->
@@ -239,28 +208,33 @@
 							style="width: 100%;">
 							<thead>
 								<tr>
-									<th></th>
-									<th>ツイートレビュー</th>
+<!-- 									<th></th> -->
+<!-- 									<th>ツイートレビュー</th> -->
 									<th>ツイート内容</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th></th>
-									<th>ツイートレビュー</th>
+<!-- 									<th></th> -->
+<!-- 									<th>ツイートレビュー</th> -->
 									<th>ツイート内容</th>
 								</tr>
 							</tfoot>
+<!-- 							<tbody> -->
+<!-- 								<tr th:each="websiteTweet : *{websiteTweetList}"> -->
+<!-- 									<td><input type="checkbox" name="tweetIdList" -->
+<!-- 										autocomplete="off" tabindex="-1" data-row="0" data-col="2" -->
+<!-- 										disabled="disabled" checked="checked"></td> -->
+<!-- 									<td><a th:href="${websiteTweet.previewUrl}" -->
+<!-- 										target="_blank">プレビュー</a></td> -->
+<!-- 									<td -->
+<!-- 										th:utext="${websiteTweet.tweetTitle} + '&lt;br /&gt;' + ${websiteTweet.tweetBody}">Tiger -->
+<!-- 										Nixon</td> -->
+<!-- 								</tr> -->
+<!-- 							</tbody> -->
 							<tbody>
-								<tr th:each="websiteTweet : *{websiteTweetList}">
-									<td><input type="checkbox" name="tweetIdList"
-										autocomplete="off" tabindex="-1" data-row="0" data-col="2"
-										disabled="disabled" checked="checked"></td>
-									<td><a th:href="${websiteTweet.previewUrl}"
-										target="_blank">プレビュー</a></td>
-									<td
-										th:utext="${websiteTweet.tweetTitle} + '&lt;br /&gt;' + ${websiteTweet.tweetBody}">Tiger
-										Nixon</td>
+								<tr th:each="twitterAdDto,stat : ${twitterAdDtoList}">
+									<td><pre th:utext="${twitterAdDto.adText}"></pre></td>
 								</tr>
 							</tbody>
 						</table>
@@ -270,9 +244,8 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
-						class="btn btn-success" type="submit"
-						th:formaction="@{/issue/issueList}" th:formmethod="get">一覧へ</button>
+					<a href="/creative/creativeList"><button
+							class="btn btn-success" type="button">案件新規作成へ</button></a>
 				</div>
 			</div>
 		</form>

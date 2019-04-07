@@ -32,6 +32,7 @@ import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterAdsDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
+import jp.acepro.haishinsan.enums.CreativeType;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.form.CreativeInputForm;
@@ -141,16 +142,19 @@ public class CreativeController {
 		List<String> resAdImageList = new ArrayList<String>();
 		List<String> imageAdImageList = new ArrayList<String>();
 
+		List<String> dspImageList = new ArrayList<String>();
+		List<String> facebookImageList = new ArrayList<String>();
+		
 		if (CodeMasterServiceImpl.keywordNameList == null) {
 			codeMasterService.getKeywordNameList();
 		}
 
 		// 完了画面にGoogle画像を表示するため、画像データを取得
-		if (creativeInputForm.isGoogleSelected()) {
+		if (CreativeType.GOOGLE.getValue().equals(creativeInputForm.getCreativeType())) {
 			// キャンプーン作成用パラメタ設定（画像）
 			switch (GoogleAdType.of(creativeInputForm.getAdType())) {
 			case RESPONSIVE:
-				for (MultipartFile imageFile : creativeInputForm.getResAdImageFileList()) {
+				for (MultipartFile imageFile : creativeInputForm.getMyfile2()) {
 					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 					StringBuffer data = new StringBuffer();
 					data.append("data:image/jpeg;base64,");
@@ -159,7 +163,7 @@ public class CreativeController {
 				}
 				break;
 			case IMAGE:
-				for (MultipartFile imageFile : creativeInputForm.getImageAdImageFileList()) {
+				for (MultipartFile imageFile : creativeInputForm.getMyfile3()) {
 					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 					StringBuffer data = new StringBuffer();
 					data.append("data:image/jpeg;base64,");
@@ -171,13 +175,34 @@ public class CreativeController {
 				break;
 			}
 		}
+
+		if (CreativeType.DSP.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile1()) {
+				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
+				StringBuffer data = new StringBuffer();
+				data.append("data:image/jpeg;base64,");
+				data.append(base64Str);
+				dspImageList.add(data.toString());
+			}
+		}
+		
+		if (CreativeType.FACEBOOK.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile4()) {
+				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
+				StringBuffer data = new StringBuffer();
+				data.append("data:image/jpeg;base64,");
+				data.append(base64Str);
+				facebookImageList.add(data.toString());
+			}
+		}
+
 		// 完了画面にTwitterリストを表示するため、セッションからリストを取得
-		if (creativeInputForm.isTwitterSelected()) {
-			TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
-			twitterAdsDto.setTweetIdList(creativeDto.getTweetIdList());
-			// キャンペーン目的がwebsiteのみ
-			List<TwitterTweet> selectedWebsiteTweetList = twitterApiService.searchWebsiteTweetsById(twitterAdsDto);
-			creativeDto.setWebsiteTweetList(selectedWebsiteTweetList);
+		if (CreativeType.TWITTER.getValue().equals(creativeInputForm.getCreativeType())) {
+//			TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
+//			twitterAdsDto.setTweetIdList(creativeDto.getTweetIdList());
+//			// キャンペーン目的がwebsiteのみ
+//			List<TwitterTweet> selectedWebsiteTweetList = twitterApiService.searchWebsiteTweetsById(twitterAdsDto);
+//			creativeDto.setWebsiteTweetList(selectedWebsiteTweetList);
 		}
 
 		// creativeService.createCreative(creativeDto);
@@ -194,6 +219,26 @@ public class CreativeController {
 		}
 
 		creativeDto.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
+
+		// Twitter
+		List<TwitterAdDto> twitterAdDtoList = new ArrayList<TwitterAdDto>();
+
+		// Twiiter website
+		TwitterAdDto twitterAdDto1 = new TwitterAdDto();
+		twitterAdDto1.setAdText("-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 02月26日\r\n" + "こんばんわ！MAX BULLETです！！💥💥\r\n"
+				+ "久々の更新となります😆\r\n" + "\r\n" + "MAX BULLETが移転予定の秋葉原のビルは絶賛工事中です！\r\n" + "OPENまで今しばらくお待ちください！！\r\n"
+				+ "\r\n" + "秋葉原のオープンまで待てないよ！！という方にはMA… https://twitter.com/i/web/status/1100338392150274048\"\r\n"
+				+ "\r\n" + "-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 03月07日\r\n" + "こんばんわ🤗\r\n" + "春がきたと思ったら今日は寒いですね🌬❄️\r\n"
+				+ ".\r\n" + "当店では様々なシューティングゲームをご用意しております🔫\r\n" + "どのゲームも盛り上がること間違いなし😎👌\r\n"
+				+ "ご来店お待ちしております💁🎶… https://www.instagram.com/p/BgBAy9jlpSF/\r\n" + "\r\n"
+				+ "-----------------------------------------------------↓\r\n"
+				+ "MAXBULLET（マックスバレット）  @max_bullet_jp ・ 10月04日\r\n" + ".\r\n" + "こんばんわ😸✨\r\n" + ".\r\n"
+				+ "あっという間に10月に突入してしまいましたね！！\r\n" + "10月は3連休やハロウィンなど楽しみがいっぱいありますね😍💘\r\n" + "みなさん予定はもうお決まりですか🦄？？\r\n"
+				+ "是非マックスバレットに遊びに来てください💁🏼💓\r\n"
+				+ ".... https://www.facebook.com/MAXBULLET.NSB/videos/107717326804617/\r\n" + "");
+		twitterAdDtoList.add(twitterAdDto1);
 
 		String dspMsg = null;
 		String googleMsg = null;
@@ -217,12 +262,26 @@ public class CreativeController {
 		mv.addObject("creativeDto", creativeDto);
 		mv.addObject("resAdImageList", resAdImageList);
 		mv.addObject("imageAdImageList", imageAdImageList);
+		mv.addObject("dspImageList", dspImageList);
+		mv.addObject("facebookImageList", facebookImageList);
 		mv.addObject("creativeInputForm", creativeInputForm);
+		mv.addObject("twitterAdDtoList", twitterAdDtoList);
 		mv.addObject("dspMsg", dspMsg);
 		mv.addObject("googleMsg", googleMsg);
 		mv.addObject("facebookMsg", facebookMsg);
 		mv.addObject("twitterMsg", twitterMsg);
 
+		session.setAttribute("creativeDto", creativeDto);
+		session.setAttribute("resAdImageList", resAdImageList);
+		session.setAttribute("imageAdImageList", imageAdImageList);
+		session.setAttribute("dspImageList", dspImageList);
+		session.setAttribute("facebookImageList", facebookImageList);
+		session.setAttribute("twitterAdDtoList", twitterAdDtoList);
+		session.setAttribute("dspMsg", dspMsg);
+		session.setAttribute("googleMsg", googleMsg);
+		session.setAttribute("facebookMsg", facebookMsg);
+		session.setAttribute("twitterMsg", twitterMsg);
+		
 		// キャンペーン作成成功したらツイートリストをsessionから削除
 		session.removeAttribute("websiteTweetList");
 
@@ -233,107 +292,47 @@ public class CreativeController {
 
 	}
 
-	@PostMapping("/completeCreative")
+	@GetMapping("/creativeComplete")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView completeCreative(@Validated CreativeInputForm creativeInputForm, BindingResult result)
+	public ModelAndView completeCreative()
 			throws IOException {
 
-		// ツイート必須チェック
-		if (creativeInputForm.isTwitterSelected() && CollectionUtils.isEmpty(creativeInputForm.getTweetIdList())) {
-			result.reject(ErrorCodeConstant.E20005);
+		CreativeDto creativeDto = (CreativeDto)session.getAttribute("creativeDto");
 
-			return createCreative(creativeInputForm);
-		}
+		List<String> resAdImageList = (ArrayList<String>)session.getAttribute("resAdImageList");
+		List<String> imageAdImageList = (ArrayList<String>)session.getAttribute("imageAdImageList");
 
-		CreativeDto creativeDto = CreativeMapper.INSTANCE.map(creativeInputForm);
-
-		List<String> resAdImageList = new ArrayList<String>();
-		List<String> imageAdImageList = new ArrayList<String>();
-
-		if (CodeMasterServiceImpl.keywordNameList == null) {
-			codeMasterService.getKeywordNameList();
-		}
-
-		// 完了画面にGoogle画像を表示するため、画像データを取得
-		if (creativeInputForm.isGoogleSelected()) {
-			// キャンプーン作成用パラメタ設定（画像）
-			switch (GoogleAdType.of(creativeInputForm.getAdType())) {
-			case RESPONSIVE:
-				for (MultipartFile imageFile : creativeInputForm.getResAdImageFileList()) {
-					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
-					StringBuffer data = new StringBuffer();
-					data.append("data:image/jpeg;base64,");
-					data.append(base64Str);
-					resAdImageList.add(data.toString());
-				}
-				break;
-			case IMAGE:
-				for (MultipartFile imageFile : creativeInputForm.getImageAdImageFileList()) {
-					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
-					StringBuffer data = new StringBuffer();
-					data.append("data:image/jpeg;base64,");
-					data.append(base64Str);
-					imageAdImageList.add(data.toString());
-				}
-				break;
-			case TEXT:
-				break;
-			}
-		}
-		// 完了画面にTwitterリストを表示するため、セッションからリストを取得
-		if (creativeInputForm.isTwitterSelected()) {
-			TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
-			twitterAdsDto.setTweetIdList(creativeDto.getTweetIdList());
-			// キャンペーン目的がwebsiteのみ
-			List<TwitterTweet> selectedWebsiteTweetList = twitterApiService.searchWebsiteTweetsById(twitterAdsDto);
-			creativeDto.setWebsiteTweetList(selectedWebsiteTweetList);
-		}
-
-		// creativeService.createCreative(creativeDto);
-		// 作成したCreativeを取得
-		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
-
-		// dspCampaignCreInputFormList作成して、UIに添付
-		List<DspCampaignCreInputForm> dspCampaignCreInputFormList = new ArrayList<DspCampaignCreInputForm>();
-		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
-			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
-			dspCampaignCreInputForm.setCreativeId(dspCreativeDto.getCreativeId());
-			dspCampaignCreInputForm.setCreativeName(dspCreativeDto.getCreativeName());
-			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
-		}
-
-		creativeDto.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
-
-		String dspMsg = null;
-		String googleMsg = null;
-		String facebookMsg = null;
-		String twitterMsg = null;
-		if (creativeDto.getDspErrorCode() != null) {
-			dspMsg = "DSP:" + msg.getMessage(creativeDto.getDspErrorCode(), null, null);
-		}
-		if (creativeDto.getGoogleErrorCode() != null) {
-			googleMsg = "Google:" + msg.getMessage(creativeDto.getGoogleErrorCode(), null, null);
-		}
-		if (creativeDto.getFacebookErrorCode() != null) {
-			facebookMsg = "Facebook:"
-					+ msg.getMessage(creativeDto.getFacebookErrorCode(), creativeDto.getFacebookParam(), null);
-		}
-		if (creativeDto.getTwitterErrorCode() != null) {
-			twitterMsg = "Twitter:" + msg.getMessage(creativeDto.getTwitterErrorCode(),
-					new Object[] { creativeDto.getTwitterParam() }, null);
-		}
-		ModelAndView mv = new ModelAndView("creative/completeCreative");
+		List<String> dspImageList = (ArrayList<String>)session.getAttribute("dspImageList");
+		List<String> facebookImageList = (ArrayList<String>)session.getAttribute("facebookImageList");
+		
+		String dspMsg = (String)session.getAttribute("dspMsg");
+		String googleMsg = (String)session.getAttribute("googleMsg");
+		String facebookMsg = (String)session.getAttribute("facebookMsg");
+		String twitterMsg = (String)session.getAttribute("twitterMsg");
+		List<TwitterAdDto> twitterAdDtoList = (ArrayList<TwitterAdDto>)session.getAttribute("twitterAdDtoList");
+		
+		ModelAndView mv = new ModelAndView("creative/creativeComplete");
 		mv.addObject("creativeDto", creativeDto);
 		mv.addObject("resAdImageList", resAdImageList);
 		mv.addObject("imageAdImageList", imageAdImageList);
-		mv.addObject("creativeInputForm", creativeInputForm);
+		mv.addObject("dspImageList", dspImageList);
+		mv.addObject("facebookImageList", facebookImageList);
+		mv.addObject("twitterAdDtoList", twitterAdDtoList);
 		mv.addObject("dspMsg", dspMsg);
 		mv.addObject("googleMsg", googleMsg);
 		mv.addObject("facebookMsg", facebookMsg);
 		mv.addObject("twitterMsg", twitterMsg);
 
-		// キャンペーン作成成功したらツイートリストをsessionから削除
-		session.removeAttribute("websiteTweetList");
+		session.removeAttribute("creativeDto");
+		session.removeAttribute("resAdImageList");
+		session.removeAttribute("imageAdImageList");
+		session.removeAttribute("dspImageList");
+		session.removeAttribute("facebookImageList");
+		session.removeAttribute("twitterAdDtoList");
+		session.removeAttribute("dspMsg");
+		session.removeAttribute("googleMsg");
+		session.removeAttribute("facebookMsg");
+		session.removeAttribute("twitterMsg");
 
 		// オペレーションログ記録
 		// operationService.create(Operation.ISSUE_CREATE.getValue(),

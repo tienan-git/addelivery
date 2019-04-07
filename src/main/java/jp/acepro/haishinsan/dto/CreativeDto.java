@@ -19,6 +19,7 @@ public class CreativeDto {
 	String campaignName;
 	String campaignStatus;
 	String checkStatus;
+	String creativeType;
 	boolean dspSelected = false;
 	boolean googleSelected = false;
 	boolean facebookSelected = false;
@@ -53,6 +54,8 @@ public class CreativeDto {
 
 	// -------- Facebook関連 --------
 	MultipartFile facebookImage;
+	// 説明文
+	String textFacebookDescription;
 
 	// -------- Google関連 --------
 	// 広告タイプ
