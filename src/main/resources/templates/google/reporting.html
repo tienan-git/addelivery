@@ -42,7 +42,7 @@
 					<div class="form-radio">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">期間</label>
-							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.reporting.backoffice.enums.PeriodSet).values()}">
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.PeriodSet).values()}">
 								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{period}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
 								</label>
 							</div>
@@ -78,7 +78,7 @@
 				<div class="card">
 					<div class="card-block">
 						<h4 class="sub-title">データ</h4>
-						<div th:if="${reportType} == ${T(jp.acepro.reporting.backoffice.enums.ReportType).DEVICE.getValue()}" class="dt-responsive table-responsive">
+						<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}" class="dt-responsive table-responsive">
 							<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
@@ -121,7 +121,7 @@
 								</tbody>
 							</table>
 						</div>
-						<div th:if="${reportType} == ${T(jp.acepro.reporting.backoffice.enums.ReportType).REGIONS.getValue()}" class="dt-responsive table-responsive">
+						<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}" class="dt-responsive table-responsive">
 							<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
@@ -164,7 +164,7 @@
 								</tbody>
 							</table>
 						</div>
-						<div th:if="${reportType} == ${T(jp.acepro.reporting.backoffice.enums.ReportType).DATE.getValue()}" class="dt-responsive table-responsive">
+						<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}" class="dt-responsive table-responsive">
 							<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
@@ -225,9 +225,9 @@
 					
 				// グラフデータ作成
 				var reportType = /*[[${reportType}]]*/
-				var DEVICE = /*[[${T(jp.acepro.reporting.backoffice.enums.ReportType).DEVICE.getValue()}]]*/;
-				var REGIONS = /*[[${T(jp.acepro.reporting.backoffice.enums.ReportType).REGIONS.getValue()}]]*/;
-				var DATE = /*[[${T(jp.acepro.reporting.backoffice.enums.ReportType).DATE.getValue()}]]*/;
+				var DEVICE = /*[[${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}]]*/;
+				var REGIONS = /*[[${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}]]*/;
+				var DATE = /*[[${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}]]*/;
 				var googleReportGraphDtoList = /*[[${googleReportGraphDtoList}]]*/;
 				var reportTypeArr = new Array("x");
 				var impressionsArr = new Array("impressions");

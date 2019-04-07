@@ -28,13 +28,13 @@
 					<div class="form-group row">
 						<label class="col-sm-2">審査状況</label>
 						<div class="col-sm-4">
-							<label th:text="${T(jp.acepro.reporting.backoffice.enums.ApprovalFlag).of(googleCampaignDetailDto.approvalFlag).getLabel()}">承認待ち</label>
+							<label th:text="${T(jp.acepro.haishinsan.enums.ApprovalFlag).of(googleCampaignDetailDto.approvalFlag).getLabel()}">承認待ち</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2">ステータス</label>
 						<div class="col-sm-4">
-							<label th:text="${T(jp.acepro.reporting.backoffice.enums.GoogleCampaignStatus).of(googleCampaignDetailDto.campaignStatus).getLabel()}">承認待ち</label>
+							<label th:text="${T(jp.acepro.haishinsan.enums.GoogleCampaignStatus).of(googleCampaignDetailDto.campaignStatus).getLabel()}">承認待ち</label>
 						</div>
 					</div>
 				</div>
@@ -69,19 +69,19 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${T(jp.acepro.reporting.backoffice.enums.DeviceType).of(googleCampaignDetailDto.deviceType).getLabel()}">パソコン</label>
+							<label th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(googleCampaignDetailDto.deviceType).getLabel()}">パソコン</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">地域</label>
 						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(googleCampaignDetailDto.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(googleCampaignDetailDto.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignDetailDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignDetailDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
@@ -90,10 +90,10 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label id="adType" th:text="${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).of(googleCampaignDetailDto.adType).getLabel()}">レスポンシブ広告</label>
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleCampaignDetailDto.adType).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
-					<div th:if="${googleCampaignDetailDto.adType == T(jp.acepro.reporting.backoffice.enums.GoogleAdType).RESPONSIVE.getValue()}">
+					<div th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4 col-form-label">
@@ -130,7 +130,7 @@
 							</div>
 						</div>
 					</div>
-					<div th:if="${googleCampaignDetailDto.adType == T(jp.acepro.reporting.backoffice.enums.GoogleAdType).IMAGE.getValue()}">
+					<div th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-4 col-form-label">
@@ -155,7 +155,7 @@
 							</div>
 						</div>
 					</div>
-					<div th:if="${googleCampaignDetailDto.adType == T(jp.acepro.reporting.backoffice.enums.GoogleAdType).TEXT.getValue()}">
+					<div th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-4 col-form-label">

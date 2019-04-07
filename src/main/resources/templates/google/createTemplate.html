@@ -61,7 +61,7 @@
 						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-2">
 							<select class="form-control" th:field="*{deviceType}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.DeviceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.DeviceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
@@ -69,12 +69,12 @@
 						<label class="col-sm-2 col-form-label text-right">地域</label>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4" th:unless="${#lists.isEmpty(googleTemplateForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
@@ -82,7 +82,7 @@
 						<label class="col-sm-2 col-form-label text-right">地域単価タイプ<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{unitPriceType}" required>
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.UnitPriceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.UnitPriceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
@@ -90,7 +90,7 @@
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{adType}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).values()}" th:selected="${googleTemplateForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.GoogleAdType).values()}" th:selected="${googleTemplateForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>

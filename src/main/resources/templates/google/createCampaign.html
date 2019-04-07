@@ -70,7 +70,7 @@
 						<label class="col-sm-2 col-form-label text-right">デバイス<span class="text-danger">※</span></label>
 						<div class="col-sm-2">
 							<select class="form-control" th:field="*{deviceType}" onchange="changeAdBlock()">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.DeviceType).values()}" th:selected="${googleCampaignForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.DeviceType).values()}" th:selected="${googleCampaignForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
@@ -78,12 +78,12 @@
 						<label class="col-sm-2 col-form-label text-right">地域<span class="text-danger">※</span></label>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(googleCampaignForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4" th:unless="${#lists.isEmpty(googleCampaignForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
@@ -93,7 +93,7 @@
 						<label class="col-sm-2 col-form-label text-right">広告タイプ<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{adType}">
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).values()}" th:selected="${googleCampaignForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.GoogleAdType).values()}" th:selected="${googleCampaignForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
@@ -227,9 +227,9 @@
 		<script th:inline="javascript">
 			/*<![CDATA[*/
 
-			var responsiveAd = /*[[${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).RESPONSIVE.getValue()}]]*/
-			var imageAd = /*[[${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).IMAGE.getValue()}]]*/
-			var textAd = /*[[${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).TEXT.getValue()}]]*/
+			var responsiveAd = /*[[${T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}]]*/
+			var imageAd = /*[[${T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}]]*/
+			var textAd = /*[[${T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}]]*/
 			
 			// 広告タイプの選択により、表示内容を切り替える
 			$(document).ready(function() {
