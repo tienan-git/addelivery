@@ -54,7 +54,7 @@
 					<div class="form-radio">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">課金方式</label>
-							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.reporting.backoffice.enums.BillingType).values()}">
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.BillingType).values()}">
 								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{billingType}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
 								</label>
 							</div>

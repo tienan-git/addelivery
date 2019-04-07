@@ -49,7 +49,7 @@
 									<td th:text="*{dspTemplateDto.templateName}">テンプレート１</td>
 									<td th:text="*{dspTemplateDto.templatePriority}">2</td>
 									<td th:text="*{dspTemplateDto.bidCpcPrice}+'円'">100円</td>
-									<td th:text="${T(jp.acepro.reporting.backoffice.enums.BillingType).of(__${dspTemplateDto.billingType}__).getLabel()}">100円</td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.BillingType).of(__${dspTemplateDto.billingType}__).getLabel()}">100円</td>
 								</tr>
 							</tbody>
 						</table>
