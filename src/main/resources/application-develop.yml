@@ -34,4 +34,4 @@ email:
     
 awsConfig: 
   region: ap-northeast-1
-  bucket: files.restaurant.sparkworks.jp
+  bucket: mock.reporting
