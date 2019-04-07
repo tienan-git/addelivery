@@ -28,9 +28,16 @@
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/newIssueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/creative/creativeList}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">新規作成</span></a></li>
 			<li class="active"><a th:href="@{/creative/createCreative}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告アップロード</span></a></li>
-			<li class="active"><a th:href="@{/issue/createIssue}"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span></a></li>
+			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
+					class="pcoded-mcaret"></span></a>
+				<ul class="pcoded-submenu">
+				<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
+ 					</a></li>
+				<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span>
+ 					</a></li>
 		</ul>
-		
+		</li>
+
 		<div class="pcoded-navigatio-lavel">ナビゲーション</div>
 		<ul class="pcoded-item pcoded-left-item">
 		
@@ -38,23 +45,23 @@
 		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">リンク先管理</span><span class="pcoded-mcaret"></span> </a>
-						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li> 
-							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span> </a></li> 
-						</ul></li>
-					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">クリエイティブ管理</span><span class="pcoded-mcaret"></span> </a>
-						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_CREATIVE_MANAGE')" class=" "><a th:href="@{/dsp/createCreative}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_CREATIVE_VIEW')" class=" "><a th:href="@{/dsp/creativeList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
-						</ul></li>
-					<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">案件管理</span><span class="pcoded-mcaret"></span> </a>
-						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/dsp/createCampaign}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class=" "><a th:href="@{/dsp/campaignList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
-						</ul></li>
-					<li sec:authorize="hasAuthority('DSP_REPORT_VIEW')" class=" "><a th:href="@{/dsp/reporting}"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">レポート</span><span class="pcoded-mcaret"></span> </a></li>
+<!-- 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">リンク先管理</span><span class="pcoded-mcaret"></span> </a> -->
+<!-- 						<ul class="pcoded-submenu"> -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>  -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li> -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span> </a></li>  -->
+<!-- 						</ul></li> -->
+<!-- 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">クリエイティブ管理</span><span class="pcoded-mcaret"></span> </a> -->
+<!-- 						<ul class="pcoded-submenu"> -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_CREATIVE_MANAGE')" class=" "><a th:href="@{/dsp/createCreative}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li> -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_CREATIVE_VIEW')" class=" "><a th:href="@{/dsp/creativeList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li> -->
+<!-- 						</ul></li> -->
+<!-- 					<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">案件管理</span><span class="pcoded-mcaret"></span> </a> -->
+<!-- 						<ul class="pcoded-submenu"> -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/dsp/createCampaign}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li> -->
+<!-- 							<li sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')" class=" "><a th:href="@{/dsp/campaignList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li> -->
+<!-- 						</ul></li> -->
+<!-- 					<li sec:authorize="hasAuthority('DSP_REPORT_VIEW')" class=" "><a th:href="@{/dsp/reporting}"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">レポート</span><span class="pcoded-mcaret"></span> </a></li> -->
 					<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">テンプレート管理</span><span class="pcoded-mcaret"></span> </a>
 						<ul class="pcoded-submenu">
 							<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
@@ -65,16 +72,16 @@
 				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-google"></i><b>F</b></span> <span class="pcoded-mtext">Google</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span>
-					</a>
-						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/google/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
-							</a></li>
-							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class=" "><a th:href="@{/google/listCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
-							</a></li>
-						</ul></li>
-					<li sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class=" "><a th:href="@{/google/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
-					</a></li>
+<!-- 					<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span> -->
+<!-- 					</a> -->
+<!-- 						<ul class="pcoded-submenu"> -->
+<!-- 							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/google/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> -->
+<!-- 							</a></li> -->
+<!-- 							<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class=" "><a th:href="@{/google/listCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> -->
+<!-- 							</a></li> -->
+<!-- 						</ul></li> -->
+<!-- 					<li sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class=" "><a th:href="@{/google/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span> -->
+<!-- 					</a></li> -->
 					<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
@@ -88,16 +95,16 @@
 		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-facebook"></i><b>T</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.to-do.main">Facebook</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.ecommerce">案件管理</span> <span class="pcoded-mcaret"></span>
-					</a>
-						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/facebook/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
-							</a></li>
-							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class=" "><a th:href="@{/facebook/campaignList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
-							</a></li>
-						</ul></li>
-					<li sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class=" "><a th:href="@{/facebook/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
-					</a></li>
+<!-- 					<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.ecommerce">案件管理</span> <span class="pcoded-mcaret"></span> -->
+<!-- 					</a> -->
+<!-- 						<ul class="pcoded-submenu"> -->
+<!-- 							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/facebook/createCampaign}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> -->
+<!-- 							</a></li> -->
+<!-- 							<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class=" "><a th:href="@{/facebook/campaignList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> -->
+<!-- 							</a></li> -->
+<!-- 						</ul></li> -->
+<!-- 					<li sec:authorize="hasAuthority('FACEBOOK_REPORT_VIEW')" class=" "><a th:href="@{/facebook/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span> -->
+<!-- 					</a></li> -->
 					<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
@@ -111,16 +118,16 @@
 			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-twitter"></i><b>FU</b></span> <span class="pcoded-mtext">Twitter</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span>
-					</a>
-						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/twitter/createAds}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
-							</a></li>
-							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class=" "><a th:href="@{/twitter/adsList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
-							</a></li>
-						</ul></li>
-					<li sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" class=" "><a th:href="@{/twitter/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
-					</a></li>
+<!-- 					<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span> -->
+<!-- 					</a> -->
+<!-- 						<ul class="pcoded-submenu"> -->
+<!-- 							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/twitter/createAds}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> -->
+<!-- 							</a></li> -->
+<!-- 							<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class=" "><a th:href="@{/twitter/adsList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> -->
+<!-- 							</a></li> -->
+<!-- 						</ul></li> -->
+<!-- 					<li sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" class=" "><a th:href="@{/twitter/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span> -->
+<!-- 					</a></li> -->
 					<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.analytics">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">

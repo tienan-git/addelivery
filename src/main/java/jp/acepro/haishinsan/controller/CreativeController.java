@@ -130,6 +130,109 @@ public class CreativeController {
 
 	}
 
+	@PostMapping("/creativeConfirm")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
+	public ModelAndView confirmCreative(@Validated CreativeInputForm creativeInputForm, BindingResult result)
+			throws IOException {
+
+
+		CreativeDto creativeDto = CreativeMapper.INSTANCE.map(creativeInputForm);
+
+		List<String> resAdImageList = new ArrayList<String>();
+		List<String> imageAdImageList = new ArrayList<String>();
+
+		if (CodeMasterServiceImpl.keywordNameList == null) {
+			codeMasterService.getKeywordNameList();
+		}
+
+		// 完了画面にGoogle画像を表示するため、画像データを取得
+		if (creativeInputForm.isGoogleSelected()) {
+			// キャンプーン作成用パラメタ設定（画像）
+			switch (GoogleAdType.of(creativeInputForm.getAdType())) {
+			case RESPONSIVE:
+				for (MultipartFile imageFile : creativeInputForm.getResAdImageFileList()) {
+					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
+					StringBuffer data = new StringBuffer();
+					data.append("data:image/jpeg;base64,");
+					data.append(base64Str);
+					resAdImageList.add(data.toString());
+				}
+				break;
+			case IMAGE:
+				for (MultipartFile imageFile : creativeInputForm.getImageAdImageFileList()) {
+					String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
+					StringBuffer data = new StringBuffer();
+					data.append("data:image/jpeg;base64,");
+					data.append(base64Str);
+					imageAdImageList.add(data.toString());
+				}
+				break;
+			case TEXT:
+				break;
+			}
+		}
+		// 完了画面にTwitterリストを表示するため、セッションからリストを取得
+		if (creativeInputForm.isTwitterSelected()) {
+			TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
+			twitterAdsDto.setTweetIdList(creativeDto.getTweetIdList());
+			// キャンペーン目的がwebsiteのみ
+			List<TwitterTweet> selectedWebsiteTweetList = twitterApiService.searchWebsiteTweetsById(twitterAdsDto);
+			creativeDto.setWebsiteTweetList(selectedWebsiteTweetList);
+		}
+
+		// creativeService.createCreative(creativeDto);
+		// 作成したCreativeを取得
+		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
+
+		// dspCampaignCreInputFormList作成して、UIに添付
+		List<DspCampaignCreInputForm> dspCampaignCreInputFormList = new ArrayList<DspCampaignCreInputForm>();
+		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
+			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
+			dspCampaignCreInputForm.setCreativeId(dspCreativeDto.getCreativeId());
+			dspCampaignCreInputForm.setCreativeName(dspCreativeDto.getCreativeName());
+			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
+		}
+
+		creativeDto.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
+
+		String dspMsg = null;
+		String googleMsg = null;
+		String facebookMsg = null;
+		String twitterMsg = null;
+		if (creativeDto.getDspErrorCode() != null) {
+			dspMsg = "DSP:" + msg.getMessage(creativeDto.getDspErrorCode(), null, null);
+		}
+		if (creativeDto.getGoogleErrorCode() != null) {
+			googleMsg = "Google:" + msg.getMessage(creativeDto.getGoogleErrorCode(), null, null);
+		}
+		if (creativeDto.getFacebookErrorCode() != null) {
+			facebookMsg = "Facebook:"
+					+ msg.getMessage(creativeDto.getFacebookErrorCode(), creativeDto.getFacebookParam(), null);
+		}
+		if (creativeDto.getTwitterErrorCode() != null) {
+			twitterMsg = "Twitter:" + msg.getMessage(creativeDto.getTwitterErrorCode(),
+					new Object[] { creativeDto.getTwitterParam() }, null);
+		}
+		ModelAndView mv = new ModelAndView("creative/creativeConfirm");
+		mv.addObject("creativeDto", creativeDto);
+		mv.addObject("resAdImageList", resAdImageList);
+		mv.addObject("imageAdImageList", imageAdImageList);
+		mv.addObject("creativeInputForm", creativeInputForm);
+		mv.addObject("dspMsg", dspMsg);
+		mv.addObject("googleMsg", googleMsg);
+		mv.addObject("facebookMsg", facebookMsg);
+		mv.addObject("twitterMsg", twitterMsg);
+
+		// キャンペーン作成成功したらツイートリストをsessionから削除
+		session.removeAttribute("websiteTweetList");
+
+		// オペレーションログ記録
+		// operationService.create(Operation.ISSUE_CREATE.getValue(),
+		// String.valueOf(creativeDto.getCreativeId()));
+		return mv;
+
+	}
+
 	@PostMapping("/completeCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
 	public ModelAndView completeCreative(@Validated CreativeInputForm creativeInputForm, BindingResult result)
