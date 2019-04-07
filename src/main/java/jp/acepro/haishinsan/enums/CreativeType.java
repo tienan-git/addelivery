@@ -5,17 +5,17 @@ package jp.acepro.haishinsan.enums;
  *
  *
  */
-public enum CreativeType implements CodeEnum<Integer> {
+public enum CreativeType implements CodeEnum<String> {
 
-	DSP(1, "ファンへの配信"), GOOGLE(2, "Google"), FACEBOOK(3, "Facebook"), TWITTER(4, "Twitter");
+	DSP("1", "ファンへの配信"), GOOGLE("2", "Google"), FACEBOOK("3", "Facebook"), TWITTER("4", "Twitter");
 
-	private CreativeType(Integer value, String label) {
+	private CreativeType(String value, String label) {
 		this.value = value;
 		this.label = label;
 	}
 
 	/** 値 */
-	private Integer value;
+	private String value;
 
 	/** 名称 */
 	private String label;
@@ -24,11 +24,11 @@ public enum CreativeType implements CodeEnum<Integer> {
 		return label;
 	}
 
-	public Integer getValue() {
+	public String getValue() {
 		return value;
 	}
 
-	public static CreativeType of(Integer code) {
+	public static CreativeType of(String code) {
 		return CodeEnum.of(CreativeType.class, code);
 	}
 }

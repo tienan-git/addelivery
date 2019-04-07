@@ -35,6 +35,7 @@
  					</a></li>
 				<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span>
  					</a></li>
+ <li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span> </a></li>
 		</ul>
 		</li>
 

@@ -27,10 +27,13 @@ public class CreativeInputForm {
 	String url;
 	
 	// -------- Facebook関連 --------
+	List<MultipartFile> myfile4;
 	MultipartFile facebookImage;
-	
+	// 説明文
+	String textFacebookDescription;
 	
 	// -------- DSP関連 --------
+	List<MultipartFile> myfile1;
 	List<DspCampaignCreInputForm> dspCampaignCreInputFormList;
 	List<Integer> idList;
 	Integer segmentId;
@@ -42,6 +45,7 @@ public class CreativeInputForm {
 	// -------- レスポンシブ広告関連 --------
 	// 画像ファイル
 	List<MultipartFile> resAdImageFileList;
+	List<MultipartFile> myfile2;
 	List<byte[]> resAdImageDateList;
 
 	// 短い広告見出し
@@ -53,6 +57,7 @@ public class CreativeInputForm {
 	// -------- イメージ広告関連 --------
 	// 画像ファイル
 	List<MultipartFile> imageAdImageFileList;
+	List<MultipartFile> myfile3;
 	List<byte[]> imageAdImageDataList;
 
 	// -------- 拡張テキスト広告関連 --------
