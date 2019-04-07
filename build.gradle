@@ -61,6 +61,12 @@ eclipse {
   }
 }
 
+dependencyManagement {
+  imports {
+      mavenBom 'com.amazonaws:aws-java-sdk-bom:1.11.385'
+  }
+}
+
 processResources.destinationDir = compileJava.destinationDir
 compileJava.dependsOn processResources
 
@@ -130,6 +136,9 @@ dependencies {
     
     // Facebook
 	compile "com.facebook.business.sdk:facebook-java-business-sdk:3.1.0"
+	
+	// AWS SDK
+	compile 'com.amazonaws:aws-java-sdk-s3'
 }
     sourceSets {
         main {
