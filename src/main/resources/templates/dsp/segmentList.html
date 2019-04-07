@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-envira bg-c-blue"></i>
 						<div class="d-inline">
-							<h4>繝ｪ繝ｳ繧ｯ蜈井ｸ�隕ｧ</h4>
+							<h4>リンク先一覧</h4>
 						</div>
 					</div>
 				</div>
@@ -27,32 +27,32 @@
 						<table id="basicTable" class="table table-striped table-bordered nowrap" style="width: 100%;">
 							<thead>
 								<tr>
-									<th>繝ｪ繝ｳ繧ｯ蜈育ｮ｡逅�ID</th>
-									<th>繝ｪ繝ｳ繧ｯ蜈�ID</th>
-									<th>繝ｪ繝ｳ繧ｯ蜈亥錐</th>
+									<th>リンク先管理ID</th>
+									<th>リンク先ID</th>
+									<th>リンク先名</th>
 									<th>URL</th>
-									<th>繝ｪ繝ｳ繧ｯ蜈医ヵ繝ｩ繧ｰ</th>
-									<th>蜍穂ｽ�</th>
+									<th>リンク先フラグ</th>
+									<th>動作</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>繝ｪ繝ｳ繧ｯ蜈育ｮ｡逅�ID</th>
-									<th>繝ｪ繝ｳ繧ｯ蜈�ID</th>
-									<th>繝ｪ繝ｳ繧ｯ蜈亥錐</th>
+									<th>リンク先管理ID</th>
+									<th>リンク先ID</th>
+									<th>リンク先名</th>
 									<th>URL</th>
-									<th>繝ｪ繝ｳ繧ｯ蜈医ヵ繝ｩ繧ｰ</th>
-									<th>蜍穂ｽ�</th>
+									<th>リンク先フラグ</th>
+									<th>動作</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<tr th:each="dspSegmentListDto : ${dspSegmentDtoList}">
 									<td th:text="*{dspSegmentListDto.segmentManageId}">></td>
 									<td th:text="*{dspSegmentListDto.segmentId}"></td>
-									<td th:text="*{dspSegmentListDto.segmentName}">繧ｻ繧ｰ繝｡繝ｳ繝茨ｼ�</td>
-									<td th:text="*{dspSegmentListDto.url}">繧ｻ繧ｰ繝｡繝ｳ繝茨ｼ�</td>
-									<td th:text="${T(jp.acepro.haishinsan.enums.SegmentFlag).of(__*{dspSegmentListDto.is_enabled}__).label}">http://ace-pro.com</td>
-									<td><button type="submit" class="btn btn-danger" onclick="return check('DSP繧ｻ繧ｰ繝｡繝ｳ繝医ｒ蜑企勁縺励※繧医ｍ縺励＞縺ｧ縺励ｇ縺�縺具ｼ�')" th:formaction="@{/dsp/segmentDelete(segmentManageId=*{dspSegmentListDto.segmentManageId})}" sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" th:formmethod="post">蜑企勁</button></td>
+									<td th:text="*{dspSegmentListDto.segmentName}">セグメント１</td>
+									<td th:text="*{dspSegmentListDto.url}">セグメント１</td>
+									<td th:text="${T(jp.acepro.reporting.backoffice.enums.SegmentFlag).of(__*{dspSegmentListDto.is_enabled}__).label}">http://ace-pro.com</td>
+									<td><button type="submit" class="btn btn-danger" onclick="return check('DSPセグメントを削除してよろしいでしょうか？')" th:formaction="@{/dsp/segmentDelete(segmentManageId=*{dspSegmentListDto.segmentManageId})}" sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" th:formmethod="post">削除</button></td>
 								</tr>
 							</tbody>
 						</table>
