@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-google bg-googleplus"></i>
 						<div class="d-inline">
-							<h4>Google蠎�蜻� 繝�繝ｳ繝励Ξ繝ｼ繝亥炎髯､螳御ｺ�</h4>
+							<h4>Google広告 テンプレート削除完了</h4>
 						</div>
 					</div>
 				</div>
@@ -25,19 +25,19 @@
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<i class="icofont icofont-close-line-circled text-white"></i>
 				</button>
-				<strong>繝�繝ｳ繝励Ξ繝ｼ繝医�ｮ蜑企勁縺梧�仙粥縺励∪縺励◆!</strong>
+				<strong>テンプレートの削除が成功しました!</strong>
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝�</h4>
+					<h4 class="sub-title">テンプレート</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝亥錐</label>
+						<label class="col-sm-2 col-form-label text-right">テンプレート名</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{templateName}">繝�繝ｳ繝励Ξ繝ｼ繝茨ｼ�</label>
+							<label th:text="*{templateName}">テンプレート１</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蜆ｪ蜈磯��<br>窶ｻ蟆上＆縺�謨ｰ蛟､縺悟━蜈�
+						<label class="col-sm-2 col-form-label text-right">優先順<br>※小さい数値が優先
 						</label>
 						<div class="col-sm-4 col-form-label">
 							<label th:text="*{templatePriority}">1</label>
@@ -47,109 +47,109 @@
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ</h4>
+					<h4 class="sub-title">キャンペーン</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ蜷�</label>
+						<label class="col-sm-2 col-form-label text-right">キャンペーン名</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{campaignName}">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ蜷�>繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ縺ゅ≠縺�</label>
+							<label th:text="*{campaignName}">キャンペーン名>キャンペーンあああ</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譌･蛻･莠育ｮ�</label>
+						<label class="col-sm-2 col-form-label text-right">日別予算</label>
 						<div th:if="*{budget} != null" class="col-sm-4 col-form-label">
-							<label th:text="*{budget} + 蜀�">1,000</label>
+							<label th:text="*{budget} + 円">1,000</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(googleTemplateDto.deviceType).getLabel()}">繝代た繧ｳ繝ｳ</label>
+							<label th:text="${T(jp.acepro.reporting.backoffice.enums.DeviceType).of(googleTemplateDto.deviceType).getLabel()}">パソコン</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�</label>
+						<label class="col-sm-2 col-form-label text-right">地域</label>
 						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(googleTemplateDto.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(googleTemplateDto.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓溷腰萓｡繧ｿ繧､繝�</label>
+						<label class="col-sm-2 col-form-label text-right">地域単価タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(googleTemplateDto.unitPriceType).getLabel()}">陦ｨ遉ｺ驥崎ｦ�</label>
+							<label th:text="${T(jp.acepro.reporting.backoffice.enums.UnitPriceType).of(googleTemplateDto.unitPriceType).getLabel()}">表示重視</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleTemplateDto.adType).getLabel()}">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</label>
+							<label id="adType" th:text="${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).of(googleTemplateDto.adType).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</h4>
+					<h4 class="sub-title">レスポンシブ広告</h4>
 					<div id="advertisementType1" style="display: inline">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{resAdDescription}">譁ｰ縺励＞繝代た繧ｳ繝ｳ縺檎匱螢ｲ</label>
+								<label th:text="*{resAdDescription}">新しいパソコンが発売</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{resAdFinalPageUrl}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">繧､繝｡繝ｼ繧ｸ蠎�蜻�</h4>
+					<h4 class="sub-title">イメージ広告</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+						<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 						<div class="col-sm-4 col-form-label">
 							<label th:text="*{imageAdFinalPageUrl}">https://www.apple.com/macbook</label>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">諡｡蠑ｵ繝�繧ｭ繧ｹ繝亥ｺ�蜻�</h4>
+					<h4 class="sub-title">拡張テキスト広告</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+						<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 						<div class="col-sm-4 col-form-label">
 							<label th:text="*{textAdFinalPageUrl}">https://www.apple.com/macbook</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+						<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdTitle1}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label th:text="*{textAdTitle1}">MacBook Pro広告見出し１</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+						<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdTitle2}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label th:text="*{textAdTitle2}">MacBook Pro広告見出し２</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+						<label class="col-sm-2 col-form-label text-right">説明文</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdDescription}">MacBook Pro隱ｬ譏取枚</label>
+							<label th:text="*{textAdDescription}">MacBook Pro説明文</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/google/listTemplate}">荳�隕ｧ縺ｸ</button>
+							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/google/listTemplate}">一覧へ</button>
 						</div>
 					</div>
 				</div>

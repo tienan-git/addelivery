@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-google bg-googleplus"></i>
 						<div class="d-inline">
-							<h4>Google蠎�蜻� 譯井ｻｶ菴懈�仙ｮ御ｺ�</h4>
+							<h4>Google広告 案件作成完了</h4>
 						</div>
 					</div>
 				</div>
@@ -25,94 +25,94 @@
 				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 					<i class="icofont icofont-close-line-circled text-white"></i>
 				</button>
-				<strong>Google蠎�蜻翫�ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+				<strong>Google広告の作成が成功しました!</strong>
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝磯∈謚�</h4>
+					<h4 class="sub-title">テンプレート選択</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝�</label>
+						<label class="col-sm-2 col-form-label text-right">テンプレート</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{templateName}">陦ｨ遉ｺ驥崎ｦ�</label>
+							<label th:text="*{templateName}">表示重視</label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<label class="col-sm-2 col-form-label text-right">案件名</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{campaignName}">繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ蜷�</label>
+							<label th:text="*{campaignName}">キャンペーン名</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律</label>
+						<label class="col-sm-2 col-form-label text-right">配信開始日</label>
 						<div class="col-sm-4 col-form-label">
 							<label th:text="*{startDateSlash}">2018/10/10</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･</label>
+						<label class="col-sm-2 col-form-label text-right">配信終了日</label>
 						<div class="col-sm-4 col-form-label">
 							<label th:text="*{endDateSlash}">2018/10/15</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譌･蛻･莠育ｮ�</label>
+						<label class="col-sm-2 col-form-label text-right">日別予算</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{budget} + 蜀�">1,000</label>
+							<label th:text="*{budget} + 円">1,000</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(googleCampaignForm.deviceType).getLabel()}">繝代た繧ｳ繝ｳ</label>
+							<label th:text="${T(jp.acepro.reporting.backoffice.enums.DeviceType).of(googleCampaignForm.deviceType).getLabel()}">パソコン</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�</label>
+						<label class="col-sm-2 col-form-label text-right">地域</label>
 						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(googleCampaignForm.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(googleCampaignForm.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleCampaignForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">蠎�蜻頑ュ蝣ｱ</h4>
+					<h4 class="sub-title">広告情報</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleCampaignForm.adType).getLabel()}">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</label>
+							<label id="adType" th:text="${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).of(googleCampaignForm.adType).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
-					<div th:if="${googleCampaignForm.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
+					<div th:if="${googleCampaignForm.adType == T(jp.acepro.reporting.backoffice.enums.GoogleAdType).RESPONSIVE.getValue()}">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{resAdDescription}">譁ｰ縺励＞繝代た繧ｳ繝ｳ縺檎匱螢ｲ</label>
+								<label th:text="*{resAdDescription}">新しいパソコンが発売</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{resAdFinalPageUrl}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
 						<div class="card-block">
-							<div class="sub-title">逕ｻ蜒上ヵ繧｡繧､繝ｫ</div>
+							<div class="sub-title">画像ファイル</div>
 							<div class="card">
 								<div class="card-block masonry-image">
 									<div class="default-grid ">
@@ -129,15 +129,15 @@
 							</div>
 						</div>
 					</div>
-					<div th:if="${googleCampaignForm.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
+					<div th:if="${googleCampaignForm.adType == T(jp.acepro.reporting.backoffice.enums.GoogleAdType).IMAGE.getValue()}">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{imageAdFinalPageUrl}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
 						<div class="card-block">
-							<div class="sub-title">逕ｻ蜒上ヵ繧｡繧､繝ｫ</div>
+							<div class="sub-title">画像ファイル</div>
 							<div class="card">
 								<div class="card-block masonry-image">
 									<div class="default-grid ">
@@ -154,35 +154,35 @@
 							</div>
 						</div>
 					</div>
-					<div th:if="${googleCampaignForm.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
+					<div th:if="${googleCampaignForm.adType == T(jp.acepro.reporting.backoffice.enums.GoogleAdType).TEXT.getValue()}">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{textAdFinalPageUrl}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdTitle1}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+								<label th:text="*{textAdTitle1}">MacBook Pro広告見出し１</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdTitle2}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+								<label th:text="*{textAdTitle2}">MacBook Pro広告見出し２</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdDescription}">MacBook Pro隱ｬ譏取枚</label>
+								<label th:text="*{textAdDescription}">MacBook Pro説明文</label>
 							</div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/google/listCampaign}">荳�隕ｧ縺ｸ</button>
+							<button sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/google/listCampaign}">一覧へ</button>
 						</div>
 					</div>
 				</div>
