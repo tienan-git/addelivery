@@ -50,11 +50,11 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="campaign : ${googleCampaignInfoDtoList}">
-									<td><label hidden="hidden" th:text="${campaign.campaignId}"></label> <input type="checkbox" class="js-switch" th:checked="${campaign.campaignStatus} == 'ENABLED'" th:disabled="${(campaign.approvalFlag == T(jp.acepro.reporting.backoffice.enums.ApprovalFlag).WAITING.getValue()) && !(T(jp.acepro.reporting.backoffice.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}"></td>
-									<td th:text="${T(jp.acepro.reporting.backoffice.enums.ApprovalFlag).of(campaign.approvalFlag).getLabel()}">承認待ち</td>
+									<td><label hidden="hidden" th:text="${campaign.campaignId}"></label> <input type="checkbox" class="js-switch" th:checked="${campaign.campaignStatus} == 'ENABLED'" th:disabled="${(campaign.approvalFlag == T(jp.acepro.haishinsan.enums.ApprovalFlag).WAITING.getValue()) && !(T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}"></td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.ApprovalFlag).of(campaign.approvalFlag).getLabel()}">承認待ち</td>
 									<td><a th:text="${campaign.campaignId}" th:href="@{/google/detailCampaign(campaignId=${campaign.campaignId})}">00000001</a></td>
 									<td th:text="${campaign.campaignName}">キャンペーン１</td>
-									<td th:text="${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).of(campaign.adType).getLabel()}">レスポンシブ広告</td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(campaign.adType).getLabel()}">レスポンシブ広告</td>
 									<td th:text="${campaign.startDateSlash}">2018/10/01</td>
 									<td th:text="${campaign.endDateSlash}">2018/10/31</td>
 								</tr>

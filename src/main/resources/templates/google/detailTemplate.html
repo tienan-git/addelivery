@@ -57,32 +57,32 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${T(jp.acepro.reporting.backoffice.enums.DeviceType).of(googleTemplateDto.deviceType).getLabel()}">パソコン</label>
+							<label th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(googleTemplateDto.deviceType).getLabel()}">パソコン</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">地域</label>
 						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(googleTemplateDto.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(googleTemplateDto.locationList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
-								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">地域単価タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${T(jp.acepro.reporting.backoffice.enums.UnitPriceType).of(googleTemplateDto.unitPriceType).getLabel()}">表示重視</label>
+							<label th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(googleTemplateDto.unitPriceType).getLabel()}">表示重視</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label id="adType" th:text="${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).of(googleTemplateDto.adType).getLabel()}">レスポンシブ広告</label>
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleTemplateDto.adType).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
 					<br />
