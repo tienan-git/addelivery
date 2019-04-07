@@ -9,8 +9,8 @@
 					<div class="page-header-title">
 						<i class="fa fa-google bg-googleplus"></i>
 						<div class="d-inline">
-							<h4>Google蠎�蜻� 繝�繝ｳ繝励Ξ繝ｼ繝域峩譁ｰ</h4>
-							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+							<h4>Google広告 テンプレート更新</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
 				</div>
@@ -26,15 +26,15 @@
 			<input type="hidden" th:field="*{templateId}">
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝�</h4>
+					<h4 class="sub-title">テンプレート</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝ｳ繝励Ξ繝ｼ繝亥錐<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">テンプレート名<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
 							<input type="text" class="form-control" th:field="*{templateName}" required maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蜆ｪ蜈磯���ｼ亥ｰ上＆縺�謨ｰ蛟､縺悟━蜈医＆繧後ｋ�ｼ�<span class="text-danger">窶ｻ</span>
+						<label class="col-sm-2 col-form-label text-right">優先順（小さい数値が優先される）<span class="text-danger">※</span>
 						</label>
 						<div class="col-sm-4">
 							<input type="number" class="form-control" th:field="*{templatePriority}" required min="1">
@@ -44,118 +44,118 @@
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">譯井ｻｶ</h4>
+					<h4 class="sub-title">案件</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<label class="col-sm-2 col-form-label text-right">案件名</label>
 						<div class="col-sm-6">
 							<input type="text" class="form-control" th:field="*{campaignName}" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譌･蛻･莠育ｮ�</label>
+						<label class="col-sm-2 col-form-label text-right">日別予算</label>
 						<div class="col-sm-2">
 							<input type="number" class="form-control" th:field="*{budget}" min="1">
 						</div>
-						<span class="col-form-label">蜀�</span>
+						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-2">
 							<select class="form-control" th:field="*{deviceType}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.DeviceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">蜈ｨ縺ｦ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.DeviceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�</label>
+						<label class="col-sm-2 col-form-label text-right">地域</label>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4" th:unless="${#lists.isEmpty(googleTemplateForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓溷腰萓｡繧ｿ繧､繝�<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">地域単価タイプ<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{unitPriceType}" required>
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.UnitPriceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">蜈ｨ縺ｦ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.UnitPriceType).values()}" th:selected="${googleTemplateForm.deviceType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{adType}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.GoogleAdType).values()}" th:selected="${googleTemplateForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">蜈ｨ縺ｦ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.GoogleAdType).values()}" th:selected="${googleTemplateForm.adType == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">全て</option>
 							</select>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</h4>
+					<h4 class="sub-title">レスポンシブ広告</h4>
 					<div id="advertisementType1">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{resAdShortTitle}" maxlength="15">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{resAdDescription}" maxlength="45">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-6">
 								<select class="form-control" th:field="*{resAdFinalPageUrl}" required>
-									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.resAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.resAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">繧､繝｡繝ｼ繧ｸ蠎�蜻�</h4>
+					<h4 class="sub-title">イメージ広告</h4>
 					<div id="advertisementType2">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-6">
 								<select class="form-control" th:field="*{imageAdFinalPageUrl}" required>
-									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.imageAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.imageAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
 						</div>
 					</div>
 					<br />
-					<h4 class="sub-title">諡｡蠑ｵ繝�繧ｭ繧ｹ繝亥ｺ�蜻�</h4>
+					<h4 class="sub-title">拡張テキスト広告</h4>
 					<div id="advertisementType3">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛�邨ゅ�壹�ｼ繧ｸURL</label>
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-6">
 								<select class="form-control" th:field="*{textAdFinalPageUrl}" required>
-									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.textAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.textAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{textAdTitle1}" maxlength="15">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{textAdTitle2}" maxlength="15">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{textAdDescription}" maxlength="45">
 							</div>
@@ -163,7 +163,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/google/updateTemplateComplete}">譖ｴ譁ｰ</button>
+							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/google/updateTemplateComplete}">更新</button>
 						</div>
 					</div>
 				</div>

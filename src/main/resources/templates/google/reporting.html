@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-google bg-googleplus"></i>
 						<div class="d-inline">
-							<h4>Google蠎�蜻� 繝ｬ繝昴�ｼ繝�繧｣繝ｳ繧ｰ</h4>
+							<h4>Google広告 レポーティング</h4>
 						</div>
 					</div>
 				</div>
@@ -23,10 +23,10 @@
 		<form th:action="@{/}" method="post">
 			<div class="card">
 				<div class="card-block" th:object="${googleReportSearchForm}">
-					<h4 class="sub-title">讀懃ｴ｢譚｡莉ｶ</h4>
+					<h4 class="sub-title">検索条件</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�</label>
+							<label class="col-form-label">案件名</label>
 						</div>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(googleReportSearchForm.campaignIdList)}">
 							<select class="searchable" multiple="multiple" th:field="*{campaignIdList}">
@@ -41,29 +41,29 @@
 					</div>
 					<div class="form-radio">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">譛滄俣</label>
-							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.PeriodSet).values()}">
+							<label class="col-sm-2 col-form-label text-right">期間</label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.reporting.backoffice.enums.PeriodSet).values()}">
 								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{period}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
 								</label>
 							</div>
 						</div>
 					</div>
 					<div class="form-group row" id="search">
-						<label class="col-sm-2 col-form-label text-right">髢句ｧ区律</label>
+						<label class="col-sm-2 col-form-label text-right">開始日</label>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="*{startDate}">
 						</div>
-						<label class="col-sm-2 col-form-label text-right">邨ゆｺ�譌･</label>
+						<label class="col-sm-2 col-form-label text-right">終了日</label>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="*{endDate}">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">陦ｨ遉ｺ蛻･</label>
+						<label class="col-sm-2 col-form-label text-right">表示別</label>
 						<div class="col-sm-10">
-							<button sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class="btn btn-primary" type="submit" th:formmethod="post" th:formaction="@{/google/showDeviceReport}">繝�繝舌う繧ｹ蛻･</button>
-							<button sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/google/showLocationReport}">蝨ｰ蝓溷挨</button>
-							<button sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class="btn btn-info" type="submit" th:formmethod="post" th:formaction="@{/google/showDailyReport}">譌･蛻･</button>
+							<button sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class="btn btn-primary" type="submit" th:formmethod="post" th:formaction="@{/google/showDeviceReport}">デバイス別</button>
+							<button sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/google/showLocationReport}">地域別</button>
+							<button sec:authorize="hasAuthority('GOOGLE_REPORT_VIEW')" class="btn btn-info" type="submit" th:formmethod="post" th:formaction="@{/google/showDailyReport}">日別</button>
 						</div>
 					</div>
 				</div>
@@ -71,23 +71,23 @@
 			<div th:if="${(reportType != null) && (reportType != '')} ">
 				<div class="card">
 					<div class="card-block">
-						<h4 class="sub-title">繧ｰ繝ｩ繝�</h4>
+						<h4 class="sub-title">グラフ</h4>
 						<div id="google_reporting" class="c3"></div>
 					</div>
 				</div>
 				<div class="card">
 					<div class="card-block">
-						<h4 class="sub-title">繝�繝ｼ繧ｿ</h4>
-						<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}" class="dt-responsive table-responsive">
+						<h4 class="sub-title">データ</h4>
+						<div th:if="${reportType} == ${T(jp.acepro.reporting.backoffice.enums.ReportType).DEVICE.getValue()}" class="dt-responsive table-responsive">
 							<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>繝�繝舌う繧ｹ</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>デバイス</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -95,12 +95,12 @@
 								</thead>
 								<tfoot>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>繝�繝舌う繧ｹ</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>デバイス</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -111,9 +111,9 @@
 										<td th:text="${googleReportDisplayDto.campaignId}"></td>
 										<td th:text="${googleReportDisplayDto.campaignName}"></td>
 										<td th:text="${googleReportDisplayDto.deviceName}"></td>
-										<td th:text="${googleReportDisplayDto.impressions}+'蝗�'"></td>
-										<td th:text="${googleReportDisplayDto.clicks}+'蝗�'"></td>
-										<td th:text="${googleReportDisplayDto.costs} + '蜀�'"></td>
+										<td th:text="${googleReportDisplayDto.impressions}+'回'"></td>
+										<td th:text="${googleReportDisplayDto.clicks}+'回'"></td>
+										<td th:text="${googleReportDisplayDto.costs} + '円'"></td>
 										<td th:text="${googleReportDisplayDto.ctr} + '%'"></td>
 										<td th:text="${googleReportDisplayDto.cpc}"></td>
 										<td th:text="${googleReportDisplayDto.cpm}"></td>
@@ -121,16 +121,16 @@
 								</tbody>
 							</table>
 						</div>
-						<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}" class="dt-responsive table-responsive">
+						<div th:if="${reportType} == ${T(jp.acepro.reporting.backoffice.enums.ReportType).REGIONS.getValue()}" class="dt-responsive table-responsive">
 							<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>蝨ｰ蝓�</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>地域</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -138,12 +138,12 @@
 								</thead>
 								<tfoot>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>蝨ｰ蝓�</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>地域</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -154,9 +154,9 @@
 										<td th:text="${googleReportDisplayDto.campaignId}"></td>
 										<td th:text="${googleReportDisplayDto.campaignName}"></td>
 										<td th:text="${googleReportDisplayDto.locationName}"></td>
-										<td th:text="${googleReportDisplayDto.impressions}+'蝗�'"></td>
-										<td th:text="${googleReportDisplayDto.clicks}+'蝗�'"></td>
-										<td th:text="${googleReportDisplayDto.costs} + '蜀�'"></td>
+										<td th:text="${googleReportDisplayDto.impressions}+'回'"></td>
+										<td th:text="${googleReportDisplayDto.clicks}+'回'"></td>
+										<td th:text="${googleReportDisplayDto.costs} + '円'"></td>
 										<td th:text="${googleReportDisplayDto.ctr} + '%'"></td>
 										<td th:text="${googleReportDisplayDto.cpc}"></td>
 										<td th:text="${googleReportDisplayDto.cpm}"></td>
@@ -164,16 +164,16 @@
 								</tbody>
 							</table>
 						</div>
-						<div th:if="${reportType} == ${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}" class="dt-responsive table-responsive">
+						<div th:if="${reportType} == ${T(jp.acepro.reporting.backoffice.enums.ReportType).DATE.getValue()}" class="dt-responsive table-responsive">
 							<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 								<thead>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>譌･莉�</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>日付</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -181,12 +181,12 @@
 								</thead>
 								<tfoot>
 									<tr>
-										<th>譯井ｻｶID</th>
-										<th>譯井ｻｶ蜷�</th>
-										<th>譌･莉�</th>
-										<th>陦ｨ遉ｺ蝗樊焚</th>
-										<th>繧ｯ繝ｪ繝�繧ｯ謨ｰ</th>
-										<th>縺泌茜逕ｨ驥鷹｡�</th>
+										<th>案件ID</th>
+										<th>案件名</th>
+										<th>日付</th>
+										<th>表示回数</th>
+										<th>クリック数</th>
+										<th>ご利用金額</th>
 										<th>CTR</th>
 										<th>CPC</th>
 										<th>CPM</th>
@@ -197,9 +197,9 @@
 										<td th:text="${googleReportDisplayDto.campaignId}"></td>
 										<td th:text="${googleReportDisplayDto.campaignName}"></td>
 										<td th:text="${googleReportDisplayDto.dateSlash}"></td>
-										<td th:text="${googleReportDisplayDto.impressions}+'蝗�'"></td>
-										<td th:text="${googleReportDisplayDto.clicks}+'蝗�'"></td>
-										<td th:text="${googleReportDisplayDto.costs} + '蜀�'"></td>
+										<td th:text="${googleReportDisplayDto.impressions}+'回'"></td>
+										<td th:text="${googleReportDisplayDto.clicks}+'回'"></td>
+										<td th:text="${googleReportDisplayDto.costs} + '円'"></td>
 										<td th:text="${googleReportDisplayDto.ctr} + '%'"></td>
 										<td th:text="${googleReportDisplayDto.cpc}"></td>
 										<td th:text="${googleReportDisplayDto.cpm}"></td>
@@ -209,7 +209,7 @@
 						</div>
 						<div class="form-group row" th:if="${reportType} != null">
 							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" th:formmethod="post" th:formaction="@{/google/download(reportType=${reportType})}">CSV繝�繧ｦ繝ｳ繝ｭ繝ｼ繝�</button>
+								<button class="btn btn-success" th:formmethod="post" th:formaction="@{/google/download(reportType=${reportType})}">CSVダウンロード</button>
 							</div>
 						</div>
 					</div>
@@ -223,11 +223,11 @@
 			window.onload = function() {
 				/*<![CDATA[*/
 					
-				// 繧ｰ繝ｩ繝輔ョ繝ｼ繧ｿ菴懈��
+				// グラフデータ作成
 				var reportType = /*[[${reportType}]]*/
-				var DEVICE = /*[[${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}]]*/;
-				var REGIONS = /*[[${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}]]*/;
-				var DATE = /*[[${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}]]*/;
+				var DEVICE = /*[[${T(jp.acepro.reporting.backoffice.enums.ReportType).DEVICE.getValue()}]]*/;
+				var REGIONS = /*[[${T(jp.acepro.reporting.backoffice.enums.ReportType).REGIONS.getValue()}]]*/;
+				var DATE = /*[[${T(jp.acepro.reporting.backoffice.enums.ReportType).DATE.getValue()}]]*/;
 				var googleReportGraphDtoList = /*[[${googleReportGraphDtoList}]]*/;
 				var reportTypeArr = new Array("x");
 				var impressionsArr = new Array("impressions");
@@ -258,7 +258,7 @@
 				    }
 			    );
 				
-				// 繧ｰ繝ｩ繝墓緒逕ｻ
+				// グラフ描画
 				var chart = c3.generate({
 					bindto : '#google_reporting',
 					data : {
@@ -274,9 +274,9 @@
 						],
 						type : 'bar',
 						names : {
-							impressions : '陦ｨ遉ｺ蝗樊焚',
-							clicks : '繧ｯ繝ｪ繝�繧ｯ蝗樊焚',
-							costs : '縺泌茜逕ｨ驥鷹｡�',
+							impressions : '表示回数',
+							clicks : 'クリック回数',
+							costs : 'ご利用金額',
 							ctr : 'CTR',
 							cpc : 'CPC',
 							cpm : 'CPM'
@@ -303,7 +303,7 @@
 			}
 		</script>
 		<script type="text/javascript">
-		// 讀懃ｴ｢譛滄俣陦ｨ遉ｺ繧貞宛蠕｡
+		// 検索期間表示を制御
 			$(document).ready(function() {
 				if ($('[id=period1]').prop('checked')) {
 					$('[id=search]').hide();
