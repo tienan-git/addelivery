@@ -215,7 +215,10 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 
 		// DBからテンプレートをすべて取得して、リストとして返却
 		List<DspTemplate> dspTemplateList = dspTemplateCustomDao.selectByShopId(ContextUtil.getCurrentShopId());
-		List<DspTemplateDto> dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
+		// TODO
+		List<DspTemplateDto> dspTemplateDtoLiist = new ArrayList<DspTemplateDto>();
+		// TODO dspTemplateDtoLiist
+		//dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
 
 		return dspTemplateDtoLiist;
 	}
