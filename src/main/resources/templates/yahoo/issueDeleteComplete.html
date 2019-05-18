@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
 						<div class="d-inline">
-							<h4>Yahoo蠎�蜻� 譯井ｻｶ蜑企勁螳御ｺ�</h4>
+							<h4>Yahoo広告 案件削除完了</h4>
 						</div>
 					</div>
 				</div>
@@ -24,7 +24,7 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<i class="icofont icofont-close-line-circled text-white"></i>
 			</button>
-			<strong>Yahoo譯井ｻｶ萓晞�ｼ縺ｮ蜑企勁縺梧�仙粥縺励∪縺励◆!</strong>
+			<strong>Yahoo案件依頼の削除が成功しました!</strong>
 		</div>
 		<form th:action="@{/yahoo/yahooList}" method="get" th:object="${yahooIssueDto}">
 			<div th:replace="common/errorMessages"></div>
@@ -34,10 +34,10 @@
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">譯井ｻｶ諠�蝣ｱ</h4>
+					<h4 class="sub-title">案件情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶID</label>
+							<label class="col-form-label">案件ID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{issueId}">123</label>
@@ -45,7 +45,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Yahoo蠎�蜻蟹D</label>
+							<label class="col-form-label">Yahoo広告ID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${#strings.isEmpty(yahooIssueDto.campaignId)} ? '--' : ${yahooIssueDto.campaignId}">12345</label>
@@ -53,7 +53,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�</label>
+							<label class="col-form-label">案件名</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{campaignName}"></label>
@@ -61,15 +61,15 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">莠育ｮ�</label>
+							<label class="col-form-label">予算</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{budget} + '蜀�'">1000蜀�</label>
+							<label class="col-form-label" th:text="*{budget} + '円'">1000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律</label>
+							<label class="col-form-label">配信開始日</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{startDate}">2018/10/10</label>
@@ -77,7 +77,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･</label>
+							<label class="col-form-label">配信終了日</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{endDate}">2018/10/10</label>
@@ -85,40 +85,40 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡蝨ｰ蝓�</label>
+							<label class="col-form-label">配信地域</label>
 						</div>
 						<div class="col-sm-8">
 							<ul class="col-form-label" th:remove="all-but-first" th:each="yahooLocationDto : *{locationList}">
-								<li th:text="${yahooLocationDto.locationName}">譚ｱ莠ｬ</li>
+								<li th:text="${yahooLocationDto.locationName}">東京</li>
 							</ul>
 						</div>
 					</div>
-					<h4 class="sub-title">蠎�蜻頑ュ蝣ｱ</h4>
+					<h4 class="sub-title">広告情報</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蠎�蜻翫ち繧､繝�</label>
+						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.AdvDestination).of(__${yahooIssueDto.advDestination}__).getLabel()}">繝ｬ繧ｹ繝昴Φ繧ｷ繝門ｺ�蜻�</label>
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.AdvDestination).of(__${yahooIssueDto.advDestination}__).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝�繝舌う繧ｹ</label>
+							<label class="col-form-label">デバイス</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(yahooIssueDto.deviceType).getLabel()}">繝｢繝舌う繝ｫ</label>
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(yahooIssueDto.deviceType).getLabel()}">モバイル</label>
 						</div>
 					</div>
 					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).RESPONSIVE.getValue()}">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�</label>
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4 col-form-label">
 								<label th:text="*{adShortTitle}">MacBook Pro</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{adDescription}">譁ｰ縺励＞繝代た繧ｳ繝ｳ縺檎匱螢ｲ</label>
+								<label th:text="*{adDescription}">新しいパソコンが発売</label>
 							</div>
 						</div>
 						<div class="form-group row">
@@ -128,7 +128,7 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">逕ｻ蜒上ヵ繧｡繧､繝ｫ</label>
+							<label class="col-sm-2 col-form-label text-right">画像ファイル</label>
 							<div class="col-sm-8">
 								<ul class="col-form-label" th:remove="all-but-first" th:each="imageName : *{imageNameList}">
 									<li th:text="${imageName}">test.jpg</li>
@@ -144,7 +144,7 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">逕ｻ蜒上ヵ繧｡繧､繝ｫ</label>
+							<label class="col-sm-2 col-form-label text-right">画像ファイル</label>
 							<div class="col-sm-8">
 								<ul class="col-form-label" th:remove="all-but-first" th:each="imageName : *{imageNameList}">
 									<li th:text="${imageName}">test.jpg</li>
@@ -160,21 +160,21 @@
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{adTitle1}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+								<label th:text="*{adTitle1}">MacBook Pro広告見出し１</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{adTitle2}">MacBook Pro蠎�蜻願ｦ句�ｺ縺暦ｼ�</label>
+								<label th:text="*{adTitle2}">MacBook Pro広告見出し２</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚</label>
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{adDescription}">MacBook Pro隱ｬ譏取枚</label>
+								<label th:text="*{adDescription}">MacBook Pro説明文</label>
 							</div>
 						</div>
 					</div>
@@ -182,7 +182,7 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<button class="btn btn-warning" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" type="submit" th:formaction="@{/yahoo/issueList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+					<button class="btn btn-warning" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" type="submit" th:formaction="@{/yahoo/issueList}" th:formmethod="get">一覧へ</button>
 				</div>
 			</div>
 		</form>

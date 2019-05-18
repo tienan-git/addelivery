@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-envira bg-c-blue"></i>
 						<div class="d-inline">
-							<h4>繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝紋ｸ�隕ｧ</h4>
+							<h4>クリエイティブ一覧</h4>
 						</div>
 					</div>
 				</div>
@@ -27,23 +27,23 @@
 						<table id="basicTable" class="table table-striped table-bordered nowrap" style="width: 100%;">
 							<thead>
 								<tr>
-									<th>繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝蜂D</th>
-									<th>繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝門錐</th>
-									<th>蟇ｩ譟ｻ</th>
+									<th>クリエイティブID</th>
+									<th>クリエイティブ名</th>
+									<th>審査</th>
 								</tr>
 							</thead>
 							<tfoot>
 								<tr>
-									<th>繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝蜂D</th>
-									<th>繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝門錐</th>
-									<th>蟇ｩ譟ｻ</th>
+									<th>クリエイティブID</th>
+									<th>クリエイティブ名</th>
+									<th>審査</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<tr th:each="dspCreativeDto,stat : ${dspCreativeDtoList}">
 									<td><a sec:authorize="hasAuthority('DSP_CREATIVE_VIEW')" th:href="@{/dsp/creativeDetail(creativeId=${dspCreativeDto.creativeId})}" th:text="*{dspCreativeDto.creativeId}">0001</a></td>
 									<td><a href="#" th:onclick="|show((${stat.index}))|" th:text="*{dspCreativeDto.creativeName}">0001</a><img th:src="*{dspCreativeDto.src}" style='display: none' th:id="${stat.index}"></td>
-									<td th:text="${T(jp.acepro.haishinsan.enums.ScreeningFlag).of(__*{dspCreativeDto.screening}__).label}">蟇ｩ譟ｻ</td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.ScreeningFlag).of(__*{dspCreativeDto.screening}__).label}">審査</td>
 								</tr>
 							</tbody>
 						</table>

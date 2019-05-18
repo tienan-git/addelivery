@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="fa fa-envira bg-c-blue"></i>
 						<div class="d-inline">
-							<h4>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫��譯井ｻｶ蜑企勁</h4>
+							<h4>ファンへの配信広告　案件削除</h4>
 						</div>
 					</div>
 				</div>
@@ -24,61 +24,61 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<i class="icofont icofont-close-line-circled text-white"></i>
 			</button>
-			<strong>繝輔ぃ繝ｳ縺ｸ縺ｮ驟堺ｿ｡蠎�蜻翫�ｮ蜑企勁縺梧�仙粥縺励∪縺励◆!</strong>
+			<strong>ファンへの配信広告の削除が成功しました!</strong>
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+				<h4 class="sub-title">基本情報</h4>
 				<form action="#">
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譯井ｻｶID</label>
+						<label class="col-sm-2 col-form-label text-right">案件ID</label>
 						<div class="col-sm-4">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignId}">DSP繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ繝�繧ｹ繝�</label>
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignId}">DSPキャンペーンテスト</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�</label>
+						<label class="col-sm-2 col-form-label text-right">案件名</label>
 						<div class="col-sm-4">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignName}">DSP繧ｭ繝｣繝ｳ繝壹�ｼ繝ｳ繝�繧ｹ繝�</label>
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignName}">DSPキャンペーンテスト</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律</label>
+						<label class="col-sm-2 col-form-label text-right">配信開始日</label>
 						<div class="col-sm-2">
 							<label class="col-form-label" th:text="${dspCampaignDetailDto.startDatetime}">2018-09-16</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･</label>
+						<label class="col-sm-2 col-form-label text-right">配信終了日</label>
 						<div class="col-sm-2">
 							<label class="col-form-label" th:text="${dspCampaignDetailDto.endDatetime}">2018-10-16</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">邱丈ｺ育ｮ�</label>
+						<label class="col-sm-2 col-form-label text-right">総予算</label>
 						<div class="col-sm-2">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.budget}">50,000蜀�</label>
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.budget}">50,000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝�繝舌う繧ｹ</label>
+						<label class="col-sm-2 col-form-label text-right">デバイス</label>
 						<div class="col-sm-1">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000蜀�</label>
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繧ｹ繝�繝ｼ繧ｿ繧ｹ</label>
+						<label class="col-sm-2 col-form-label text-right">ステータス</label>
 						<div class="col-sm-1">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SegmentFlag).of(__${dspCampaignDetailDto.status}__).label}">50,000蜀�</label>
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SegmentFlag).of(__${dspCampaignDetailDto.status}__).label}">50,000円</label>
 						</div>
 					</div>
-					<h4 class="sub-title">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝匁ュ蝣ｱ</h4>
+					<h4 class="sub-title">クリエイティブ情報</h4>
 					<div th:each="dspCreativeDto, stat : ${dspCampaignDetailDto.dspCreativeDtoList}">
 						<fieldset class="form_block" id="form_block[0]">
 							<div class="form-group row">
-								<label class="col-sm-2 col-form-label text-right">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝�</label>
+								<label class="col-sm-2 col-form-label text-right">クリエイティブ</label>
 								<div class="col-sm-3">
-									<label class="col-form-label" th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)繝｡繧ｬ繧ｬ繝ｼ繝�繝ｳ謌ｸ蝪壼ｺ誉300x250</label>
+									<label class="col-form-label" th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)メガガーデン戸塚店_300x250</label>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -89,16 +89,16 @@
 							</div>
 						</fieldset>
 					</div>
-					<h4 class="sub-title">繝ｪ繝ｳ繧ｯ蜈域ュ蝣ｱ</h4>
+					<h4 class="sub-title">リンク先情報</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繝ｪ繝ｳ繧ｯ蜈�</label>
+						<label class="col-sm-2 col-form-label text-right">リンク先</label>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.dspSegmentDto.segmentName}+'--'+${dspCampaignDetailDto.dspSegmentDto.url}">50,000蜀�</label>
+							<label class="col-form-label" th:text="${dspCampaignDetailDto.dspSegmentDto.segmentName}+'--'+${dspCampaignDetailDto.dspSegmentDto.url}">50,000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-warning" type="submit" th:formaction="@{/dsp/campaignList}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+							<button class="btn btn-warning" type="submit" th:formaction="@{/dsp/campaignList}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>
 
@@ -121,9 +121,9 @@
 			        frm_cnt++;
 			
 			        original.clone().hide().insertAfter(clone).attr('id', 'form_block[' + frm_cnt + ']')
-			        // 繧ｯ繝ｭ繝ｼ繝ｳ縺ｮid螻樊�ｧ繧貞､画峩縲�
+			        // クローンのid属性を変更。
 			        .find('span.bank_no').text(frm_cnt + 1).end()
-			        // 荳�蠎ｦ驕ｩ逕ｨ縺吶ｋ
+			        // 一度適用する
 			        .find('input, textarea, select, hidden').each(function(idx, obj) {
 			            $(obj).attr({
 			                id: $(obj).attr('id').replace(/[0-9]+/, frm_cnt),
@@ -144,7 +144,7 @@
 			            $(obj).children().removeAttr('selected');
 			        });
 			
-			        // clone蜿門ｾ�
+			        // clone取得
 			        clone = $('#form_block\\[' + frm_cnt + '\\]');
 			        clone.find('fieldset').each(function(idx, obj) {
 			            $(obj).removeAttr('data-select2-id');
