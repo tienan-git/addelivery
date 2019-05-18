@@ -3,47 +3,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	layout:decorator="layout">
-	<head>
-	<style type="text/css">
-      .label {
-       border-radius: 2px;
-       text-transform: capitalize;
-       color: #fff;
-       font-size: 15px;
-       padding: 6px 10px;
-        
-      }
-      .faceBook {
-          background-color: #3c5a99;
-		  border-color: #3c5a99;
-      }
-      .google {
-        background-color: #DD4B39;
-        border-color: #3c5a99;
-      }
-      .twitter {
-        background-color: #41abe1;
-        border-color: #41abe1;
-      }
-      .dsp {
-        background-color: #73993a;
-        border-color: #73993a;
-      }
-      .active {
-        background-color: #93BE52;
-      }
-      .stop {
-        background-color: #FA1D1D;
-      }
-      .wait {
-        background-color: #6EC6FC;
-      }
-      .delete {
-       cursor: pointer;
-       background-color: #F93707;
-      }
-    </style>
-    </head>
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -73,7 +32,7 @@
 					</div>
 					<div class="col-sm-2">
 						<select class="form-control select">
-						    <option value="0">すべて</option>
+							<option value="0">すべて</option>
 							<option value="1">Facebook</option>
 							<option value="2">Google</option>
 							<option value="3">Twitter</option>
@@ -128,7 +87,7 @@
 									<th>費用</th>
 									<th>配信開始日</th>
 									<th>配信終了日</th>
-									<th></th>
+									<th>アクション</th>
 								</tr>
 							</thead>
 							<tfoot>
@@ -141,14 +100,14 @@
 									<th>費用</th>
 									<th>配信開始日</th>
 									<th>配信終了日</th>
-									<th></th>
+									<th>アクション</th>
 								</tr>
 							</tfoot>
 							<tbody>
 								<tr>
 									<td>法人１</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件1</a></td>
+									<td>案件1</td>
 									<td>
 										<label class="label faceBook">FaceBook</label>
 										<label class="label dsp">DSP</label>
@@ -160,13 +119,14 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 								<tr>
 									<td>法人２</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件2</a></td>
+									<td>案件2</td>
 									<td>
 										<label class="label faceBook">FaceBook</label>
 										<label class="label dsp">DSP</label>
@@ -180,13 +140,14 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 								<tr>
 									<td>法人３</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件3</a></td>
+									<td>案件3</td>
 									<td>
 										<label class="label google">Google</label>
 									</td>
@@ -197,13 +158,14 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 								<tr>
 									<td>法人４</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件4</a></td>
+									<td>案件4</td>
 									<td>
 										<label class="label twitter">Twitter</label>
 									</td>
@@ -214,13 +176,14 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 								<tr>
 									<td>法人５</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件5</a></td>
+									<td>案件5</td>
 									<td>
 										<label class="label dsp">DSP</label>
 									</td>
@@ -231,13 +194,14 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 								<tr>
 									<td>法人６</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件6</a></td>
+									<td>案件6</td>
 									<td>
 										<label class="label faceBook">FaceBook</label>
 									</td>
@@ -248,13 +212,14 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 								<tr>
 									<td>法人７</td>
 									<td>秋葉原店舗</td>
-									<td><a href="/reporting/allReporting">案件7</a></td>
+									<td>案件7</td>
 									<td>
 										<label class="label dsp">DSP</label>
 										<label class="label google">Google</label>
@@ -267,6 +232,7 @@
 									<td>2018-03-02</td>
 									<td>2018-05-01</td>
 									<td>
+										<button class="label detail" type="button" onclick="move(this)"><i class="ti-bar-chart"></i>詳細</button>
 										<button class="label delete" type="button" onclick="coldel(this)"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
@@ -285,6 +251,9 @@
 	        tr = obj.parentNode.parentNode;
 	        // trのインデックスを取得して行を削除する
 	        tr.parentNode.deleteRow(tr.sectionRowIndex);
+	    }
+		function move(obj) {
+	        window.location = '/reporting/allReporting';
 	    }
 		
 		$(function() {
