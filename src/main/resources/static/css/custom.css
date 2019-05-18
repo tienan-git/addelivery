@@ -1,0 +1,49 @@
+/**
+Ž©•ª‚ª’è‹`‚µ‚½css‚Í‚±‚±‚É
+**/
+/*
+============= */
+/**  =====================
+      Custom css start
+==========================  **/
+.label {
+       border-radius: 2px;
+       text-transform: capitalize;
+       color: #fff;
+       font-size: 15px;
+       padding: 6px 10px;
+        
+      }
+      .faceBook {
+          background-color: #3c5a99;
+		  border-color: #3c5a99;
+      }
+      .google {
+        background-color: #DD4B39;
+        border-color: #3c5a99;
+      }
+      .twitter {
+        background-color: #41abe1;
+        border-color: #41abe1;
+      }
+      .dsp {
+        background-color: #73993a;
+        border-color: #73993a;
+      }
+      .active {
+        background-color: #93BE52;
+      }
+      .stop {
+        background-color: #FA1D1D;
+      }
+      .wait {
+        background-color: #6EC6FC;
+      }
+       .detail {
+       cursor: pointer;
+       background-color: #7A9DFF;
+      }
+      .delete {
+       cursor: pointer;
+       background-color: #F93707;
+      }
