@@ -9,8 +9,8 @@
 					<div class="page-header-title">
 						<i class="icofont icofont-social-yahoo bg-c-pink"></i>
 						<div class="d-inline">
-							<h4>Yahoo蠎�蜻� 譯井ｻｶ萓晞�ｼ菴懈��</h4>
-							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+							<h4>Yahoo広告 案件依頼作成</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
 				</div>
@@ -25,10 +25,10 @@
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4>
+					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">譯井ｻｶ蜷�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">案件名<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
 							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
@@ -36,16 +36,16 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">莠育ｮ�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">予算<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-2">
 							<input type="number" class="form-control" th:field="*{budget}" min="1" max="9999999999" required="required">
 						</div>
-						<span class="col-form-label">蜀�</span>
+						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡髢句ｧ区律<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">配信開始日<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="*{startDate}" required="required">
@@ -53,29 +53,29 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">驟堺ｿ｡邨ゆｺ�譌･<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">配信終了日<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="*{endDate}" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 text-right">驟堺ｿ｡蝨ｰ蝓�<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 text-right">配信地域<span class="text-danger">※</span></label>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(yahooIssueinputForm.locationIdList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationIdList}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).yahooAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).yahooAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4" th:unless="${#lists.isEmpty(yahooIssueinputForm.locationIdList)}">
 							<select id="custom-headers" class="searchable" multiple th:field="*{locationIdList}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).yahooAreaNameList}" th:selected="${#lists.contains(yahooIssueinputForm.locationIdList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).yahooAreaNameList}" th:selected="${#lists.contains(yahooIssueinputForm.locationIdList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
-					<h4 class="sub-title">蠎�蜻頑ュ蝣ｱ</h4>
+					<h4 class="sub-title">広告情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎�蜻翫ち繧､繝�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">広告タイプ<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
 							<select class="form-control select" th:field="*{advDestination}" required="required" id="advDestination">
@@ -85,85 +85,85 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝�繝舌う繧ｹ<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">デバイス<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
 							<select class="form-control select" th:field="*{deviceType}" required="required" id="device">
-								<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
+								<option value="">-- 選択してください --</option>
 								<option th:each="obj : ${T(jp.acepro.haishinsan.enums.DeviceType).values()}" th:selected="${yahooIssueinputForm.deviceType == obj.value}" th:value="${obj.value}" th:text="${obj.label}"></option>
 							</select>
 						</div>
 					</div>
 					<div id="infeedAdBlock">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">遏ｭ縺�蠎�蜻願ｦ句�ｺ縺�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し<span class="text-danger">※</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{infeedAdShortTitle}" required="required" maxlength="30">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">説明文<span class="text-danger">※</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{infeedAdDescription}" required="required" maxlength="80">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">LP<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">LP<span class="text-danger">※</span></label>
 							<div class="col-sm-6">
 								<select class="form-control" th:field="*{infeedAdFinalPageUrl}" required="required">
-									<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
-									<option th:each="segment : *{segmentList}" th:selected="${yahooIssueinputForm.infeedAdFinalPageUrl == segment.getSecond()}" th:value="${segment.getSecond()}" th:text="${segment.getSecond()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+									<option value="">-- 選択してください --</option>
+									<option th:each="segment : *{segmentList}" th:selected="${yahooIssueinputForm.infeedAdFinalPageUrl == segment.getSecond()}" th:value="${segment.getSecond()}" th:text="${segment.getSecond()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-12">
 							<div class="card-block">
-								<div class="sub-title">逕ｻ蜒上い繝�繝励Ο繝ｼ繝�<span class="text-danger">窶ｻ</span></div>
+								<div class="sub-title">画像アップロード<span class="text-danger">※</span></div>
 								<input type="file" multiple th:field="*{infeedAdImageFileList}" required="required">
 							</div>
 						</div>
 					</div>
 					<div id="targetAdBlock">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">LP<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">LP<span class="text-danger">※</span></label>
 							<div class="col-sm-6">
 								<select class="form-control" th:field="*{targetAdFinalPageUrl}" required="required">
-									<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
-									<option th:each="segment : *{segmentList}" th:selected="${yahooIssueinputForm.targetAdFinalPageUrl == segment.getSecond()}" th:value="${segment.getSecond()}" th:text="${segment.getSecond()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+									<option value="">-- 選択してください --</option>
+									<option th:each="segment : *{segmentList}" th:selected="${yahooIssueinputForm.targetAdFinalPageUrl == segment.getSecond()}" th:value="${segment.getSecond()}" th:text="${segment.getSecond()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-12">
 							<div class="card-block">
-								<div class="sub-title">逕ｻ蜒上い繝�繝励Ο繝ｼ繝�<span class="text-danger">窶ｻ</span></div>
+								<div class="sub-title">画像アップロード<span class="text-danger">※</span></div>
 								<input type="file" multiple th:field="*{targetAdImageFileList}" required="required">
 							</div>
 						</div>
 					</div>
 					<div id="listingAdBlock">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">LP<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">LP<span class="text-danger">※</span></label>
 							<div class="col-sm-6">
 								<select class="form-control" th:field="*{listingAdFinalPageUrl}" required="required">
-									<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
-									<option th:each="segment : *{segmentList}" th:selected="${yahooIssueinputForm.listingAdFinalPageUrl == segment.getSecond()}" th:value="${segment.getSecond()}" th:text="${segment.getSecond()}">繧ｯ繝ｪ繧ｨ繧､繝�繧｣繝悶ｒ驕ｸ謚槭＠縺ｦ縺上□縺輔＞</option>
+									<option value="">-- 選択してください --</option>
+									<option th:each="segment : *{segmentList}" th:selected="${yahooIssueinputForm.listingAdFinalPageUrl == segment.getSecond()}" th:value="${segment.getSecond()}" th:text="${segment.getSecond()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し１<span class="text-danger">※</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{listingAdTitle1}" required="required" maxlength="30">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">蠎�蜻願ｦ句�ｺ縺暦ｼ�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">広告見出し２<span class="text-danger">※</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{listingAdTitle2}" required="required" maxlength="30">
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">隱ｬ譏取枚<span class="text-danger">窶ｻ</span></label>
+							<label class="col-sm-2 col-form-label text-right">説明文<span class="text-danger">※</span></label>
 							<div class="col-sm-4">
 								<input type="text" class="form-control" th:field="*{listingAdDescription}" required="required" maxlength="80">
 							</div>
@@ -171,7 +171,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-10 text-center">
-							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_REQUEST')" th:formaction="@{/yahoo/issueCreateComplete}" th:formmethod="post">菴懈��</button>
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_REQUEST')" th:formaction="@{/yahoo/issueCreateComplete}" th:formmethod="post">作成</button>
 						</div>
 					</div>
 				</div>
@@ -183,7 +183,7 @@
 	<div layout:fragment="custom_resource_body">
 		<script>
 			window.onload = function() {
-				//驟堺ｿ｡譌･縺ｮ險ｭ螳壹��驕主悉縺ｯ驕ｸ謚槭〒縺阪↑縺�縺ｫ縺吶ｋ
+				//配信日の設定、過去は選択できないにする
 				$(function() {
 					var toDay = new Date();
 					var year = toDay.getFullYear();
@@ -200,19 +200,19 @@
 			/*<![CDATA[*/
 			var infeed = /*[[${T(jp.acepro.haishinsan.enums.AdvDestination).RESPONSIVE.getValue()}]]*/
 
-			// 蠎�蜻翫ち繧､繝励�ｮ驕ｸ謚槭↓繧医ｊ縲∬｡ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			// 広告タイプの選択により、表示内容を切り替える
 			$(document).ready(function() {
 				$('[id="advDestination"]').change(function() {
 					changeOptions();
 				});
 			});
-			// 蠎�蜻翫ち繧､繝励�ｮ險ｭ螳壼�､縺ｫ繧医ｊ縲∬｡ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			// 広告タイプの設定値により、表示内容を切り替える
 			$(document).ready(function() {
 				changeOptions();
 			});
-			// 驕ｸ謚樣��逶ｮ縺ｮ繝ｪ繧ｻ繝�繝�
+			// 選択項目のリセット
 			function changeOptions() {
-				// 驕ｸ謚槭＠縺溷�､
+				// 選択した値
 				var val = $('[id="advDestination"]').val();
 				if (val === infeed) {
 					$('#device').val('02');
@@ -230,19 +230,19 @@
 			var targetAd = /*[[${T(jp.acepro.haishinsan.enums.AdvDestination).IMAGE.getValue()}]]*/
 			var listingAd = /*[[${T(jp.acepro.haishinsan.enums.AdvDestination).LISTING.getValue()}]]*/
 			
-			// 蠎�蜻翫ち繧､繝励�ｮ驕ｸ謚槭↓繧医ｊ縲∬｡ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			// 広告タイプの選択により、表示内容を切り替える
 			$(document).ready(function() {
 				$('[name="advDestination"]').change(function() {
 				    changeAdBlcok();
 				});
 			});
 
-				// 蠎�蜻翫ち繧､繝励�ｮ險ｭ螳壼�､縺ｫ繧医ｊ縲∬｡ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+				// 広告タイプの設定値により、表示内容を切り替える
 			$(document).ready(function() {
 				changeAdBlcok();
 			});
 				
-			// 陦ｨ遉ｺ蜀�螳ｹ繧貞�繧頑崛縺医ｋ
+			// 表示内容を切り替える
 			function changeAdBlcok() {
 				var val = $('[name="advDestination"]').val();
 				switch (val) {

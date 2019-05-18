@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
 						<div class="d-inline">
-							<h4>蠎苓�玲眠隕丈ｽ懈�仙ｮ御ｺ�</h4>
+							<h4>店舗新規作成完了</h4>
 						</div>
 					</div>
 				</div>
@@ -24,15 +24,15 @@
 			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 				<i class="icofont icofont-close-line-circled text-white"></i>
 			</button>
-			<strong>蠎苓�励�ｮ菴懈�舌′謌仙粥縺励∪縺励◆!</strong>
+			<strong>店舗の作成が成功しました!</strong>
 		</div>
 		<form th:action="@{/shop/list}" method="get">
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">蠎苓�玲ュ蝣ｱ</h4>
+					<h4 class="sub-title">店舗情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�悠D</label>
+							<label class="col-form-label">店舗ID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.shopId}">123</label>
@@ -40,15 +40,15 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�怜錐</label>
+							<label class="col-form-label">店舗名</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.shopName}">繧ｨ繝ｼ繧ｹ繝励Ο</label>
+							<label class="col-form-label" th:text="${shopDto.shopName}">エースプロ</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">豕穂ｺｺID</label>
+							<label class="col-form-label">法人ID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.corporationId}">0001</label>
@@ -56,7 +56,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">豕穂ｺｺ蜷�</label>
+							<label class="col-form-label">法人名</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.corporationName}">1</label>
@@ -64,7 +64,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP繝ｦ繝ｼ繧ｶ繝ｼID</label>
+							<label class="col-form-label">DSPユーザーID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.dspUserId}">1</label>
@@ -72,7 +72,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+							<label class="col-form-label">GoogleアカウントID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.googleAccountId}">1</label>
@@ -80,7 +80,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook繝壹�ｼ繧ｸID</label>
+							<label class="col-form-label">FacebookページID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.facebookPageId}">1</label>
@@ -88,7 +88,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+							<label class="col-form-label">TwitterアカウントID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.twitterAccountId}">1</label>
@@ -96,7 +96,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP蛻�驟咲紫</label>
+							<label class="col-form-label">DSP分配率</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="${shopDto.dspDistributionRatio}+'%'">1</label>
@@ -104,64 +104,64 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google蛻�驟咲紫</label>
+							<label class="col-form-label">Google分配率</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.googleDistributionRatio}+'%'">豕穂ｺｺ1</label>
+							<label class="col-form-label" th:text="${shopDto.googleDistributionRatio}+'%'">法人1</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook蛻�驟咲紫</label>
+							<label class="col-form-label">Facebook分配率</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.facebookDistributionRatio}+'%'">豕穂ｺｺ1</label>
+							<label class="col-form-label" th:text="${shopDto.facebookDistributionRatio}+'%'">法人1</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter蛻�驟咲紫</label>
+							<label class="col-form-label">Twitter分配率</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.twitterDistributionRatio}+'%'">豕穂ｺｺ1</label>
+							<label class="col-form-label" th:text="${shopDto.twitterDistributionRatio}+'%'">法人1</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蝟ｶ讌ｭ蟇ｩ譟ｻ繝輔Λ繧ｰ</label>
+							<label class="col-form-label">営業審査フラグ</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__${shopDto.salesCheckFlag}__).label}">豕穂ｺｺ1</label>
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__${shopDto.salesCheckFlag}__).label}">法人1</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝槭�ｼ繧ｸ繝ｳ邇�</label>
+							<label class="col-form-label">マージン率</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.marginRatio}+'%'">豕穂ｺｺ1</label>
+							<label class="col-form-label" th:text="${shopDto.marginRatio}+'%'">法人1</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�</label>
+							<label class="col-form-label">店舗通知メール先</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.shopMailList}">蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�</label>
+							<label class="col-form-label" th:text="${shopDto.shopMailList}">店舗通知メール先</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�</label>
+							<label class="col-form-label">営業通知メール先</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${shopDto.salesMailList}">蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�</label>
+							<label class="col-form-label" th:text="${shopDto.salesMailList}">営業通知メール先</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-primary" type="button" sec:authorize="hasAuthority('SHOP_MANAGE')" th:onclick="'window.location.href = \'' + @{/shop/create(corporationId=${shopDto.corporationId})} + '\''">譁ｰ隕上�ｮ邯咏ｶ�</button>
-							<button class="btn btn-warning" type="submit" sec:authorize="hasAuthority('SHOP_VIEW')" th:formaction="@{/shop/list}" th:formmethod="get">荳�隕ｧ縺ｸ</button>
+							<button class="btn btn-primary" type="button" sec:authorize="hasAuthority('SHOP_MANAGE')" th:onclick="'window.location.href = \'' + @{/shop/create(corporationId=${shopDto.corporationId})} + '\''">新規の継続</button>
+							<button class="btn btn-warning" type="submit" sec:authorize="hasAuthority('SHOP_VIEW')" th:formaction="@{/shop/list}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>
 				</div>

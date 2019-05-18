@@ -9,8 +9,8 @@
 					<div class="page-header-title">
 						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
 						<div class="d-inline">
-							<h4>蠎苓�玲眠隕丈ｽ懈��</h4>
-							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+							<h4>店舗新規作成</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
 				</div>
@@ -26,10 +26,10 @@
 			<div class="card">
 				<div class="card-block">
 					<input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" />
-					<h4 class="sub-title">蠎苓�玲ュ蝣ｱ</h4>
+					<h4 class="sub-title">店舗情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">豕穂ｺｺID</label>
+							<label class="col-form-label">法人ID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{corporationId}">0001</label>
@@ -37,91 +37,91 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">豕穂ｺｺ蜷�</label>
+							<label class="col-form-label">法人名</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{corporationName}">豕穂ｺｺ�ｼ�</label>
+							<label class="col-form-label" th:text="*{corporationName}">法人１</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�怜錐<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">店舗名<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="蠎苓�怜錐" th:field="*{shopName}" required="required" maxlength="60">
+							<input type="text" class="form-control" placeholder="店舗名" th:field="*{shopName}" required="required" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP繝ｦ繝ｼ繧ｶ繝ｼID</label>
+							<label class="col-form-label">DSPユーザーID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="DSP繝ｦ繝ｼ繧ｶ繝ｼID" th:field="*{dspUserId}" maxlength="60">
+							<input type="number" class="form-control" placeholder="DSPユーザーID" th:field="*{dspUserId}" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+							<label class="col-form-label">GoogleアカウントID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="Google繧｢繧ｫ繧ｦ繝ｳ繝�ID" th:field="*{googleAccountId}" maxlength="60">
+							<input type="text" class="form-control" placeholder="GoogleアカウントID" th:field="*{googleAccountId}" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook繝壹�ｼ繧ｸID</label>
+							<label class="col-form-label">FacebookページID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="Facebook繝壹�ｼ繧ｸID" th:field="*{facebookPageId}" maxlength="60">
+							<input type="text" class="form-control" placeholder="FacebookページID" th:field="*{facebookPageId}" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter繧｢繧ｫ繧ｦ繝ｳ繝�ID</label>
+							<label class="col-form-label">TwitterアカウントID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="Twitter繧｢繧ｫ繧ｦ繝ｳ繝�ID" th:field="*{twitterAccountId}" maxlength="60">
+							<input type="text" class="form-control" placeholder="TwitterアカウントID" th:field="*{twitterAccountId}" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">DSP分配率<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="DSP蛻�驟咲紫" th:field="*{dspDistributionRatio}" required="required" min="0" max="100">
+							<input type="number" class="form-control" placeholder="DSP分配率" th:field="*{dspDistributionRatio}" required="required" min="0" max="100">
 						</div>
 						<span class="col-form-label">%</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">Google分配率<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="Google蛻�驟咲紫" th:field="*{googleDistributionRatio}" required="required" min="0" max="100">
+							<input type="number" class="form-control" placeholder="Google分配率" th:field="*{googleDistributionRatio}" required="required" min="0" max="100">
 						</div>
 						<span class="col-form-label">%</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">Facebook分配率<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="Facebook蛻�驟咲紫" th:field="*{facebookDistributionRatio}" required="required" min="0" max="100">
+							<input type="number" class="form-control" placeholder="Facebook分配率" th:field="*{facebookDistributionRatio}" required="required" min="0" max="100">
 						</div>
 						<span class="col-form-label">%</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter蛻�驟咲紫<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">Twitter分配率<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="Twitter蛻�驟咲紫" th:field="*{twitterDistributionRatio}" required="required" min="0" max="100">
+							<input type="number" class="form-control" placeholder="Twitter分配率" th:field="*{twitterDistributionRatio}" required="required" min="0" max="100">
 						</div>
 						<span class="col-form-label">%</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蝟ｶ讌ｭ蟇ｩ譟ｻ繝輔Λ繧ｰ</label>
+							<label class="col-form-label">営業審査フラグ</label>
 						</div>
 						<div class="col-sm-6">
 							<select name="select" class="form-control" th:field="*{salesCheckFlag}" required="required">
@@ -131,33 +131,33 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝槭�ｼ繧ｸ繝ｳ邇�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">マージン率<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="繝槭�ｼ繧ｸ繝ｳ邇�" th:field="*{marginRatio}" required="required" min="0" max="100">
+							<input type="number" class="form-control" placeholder="マージン率" th:field="*{marginRatio}" required="required" min="0" max="100">
 						</div>
 						<span class="col-form-label">%</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�</label>
+							<label class="col-form-label">店舗通知メール先</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="蠎苓�鈴�夂衍繝｡繝ｼ繝ｫ蜈�" th:field="*{shopMailList}" maxlength="300">
+							<input type="text" class="form-control" placeholder="店舗通知メール先" th:field="*{shopMailList}" maxlength="300">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�</label>
+							<label class="col-form-label">営業通知メール先</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="蝟ｶ讌ｭ騾夂衍繝｡繝ｼ繝ｫ蜈�" th:field="*{salesMailList}" maxlength="300">
+							<input type="text" class="form-control" placeholder="営業通知メール先" th:field="*{salesMailList}" maxlength="300">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('SHOP_MANAGE')"  th:formaction="@{/shop/createComplete}" th:formmethod="post">菴懈��</button>
-							<button class="btn btn-warning" type="button" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:onclick="'window.location.href = \'' + @{/corporation/detail?corporationId={id}(id=*{corporationId})} + '\''">豕穂ｺｺ縺ｮ隧ｳ邏ｰ縺ｸ謌ｻ繧�</button>
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('SHOP_MANAGE')"  th:formaction="@{/shop/createComplete}" th:formmethod="post">作成</button>
+							<button class="btn btn-warning" type="button" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:onclick="'window.location.href = \'' + @{/corporation/detail?corporationId={id}(id=*{corporationId})} + '\''">法人の詳細へ戻る</button>
 						</div>
 					</div>
 				</div>

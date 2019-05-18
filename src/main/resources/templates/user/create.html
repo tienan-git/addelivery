@@ -9,8 +9,8 @@
 					<div class="page-header-title">
 						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
 						<div class="d-inline">
-							<h4>繝ｦ繝ｼ繧ｶ繝ｼ譁ｰ隕丈ｽ懈��</h4>
-							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+							<h4>ユーザー新規作成</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
 				</div>
@@ -26,10 +26,10 @@
 			<div class="card">
 				<div class="card-block">
 					<input type="hidden" th:field="*{userId}" /> <input type="hidden" th:field="*{shopId}" /> <input type="hidden" th:field="*{shopName}" />
-					<h4 class="sub-title">繝ｦ繝ｼ繧ｶ繝ｼ諠�蝣ｱ</h4>
+					<h4 class="sub-title">ユーザー情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�悠D</label>
+							<label class="col-form-label">店舗ID</label>
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label" th:text="*{shopId}">0001</label>
@@ -37,51 +37,51 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">蠎苓�怜錐</label>
+							<label class="col-form-label">店舗名</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{shopName}">蠎苓��1</label>
+							<label class="col-form-label" th:text="*{shopName}">店舗1</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝ｦ繝ｼ繧ｶ繝ｼ蜷�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">ユーザー名<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="繝ｦ繝ｼ繧ｶ繝ｼ蜷�" th:field="*{userName}" required="required" maxlength="60">
+							<input type="text" class="form-control" placeholder="ユーザー名" th:field="*{userName}" required="required" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">メールアドレス<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="email" class="form-control" placeholder="繝｡繝ｼ繝ｫ繧｢繝峨Ξ繧ｹ" th:field="*{email}" required="required" maxlength="60">
+							<input type="email" class="form-control" placeholder="メールアドレス" th:field="*{email}" required="required" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row gutter">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝代せ繝ｯ繝ｼ繝�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">パスワード<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-lg-2">
-							<input type="text" class="form-control" placeholder="繝代せ繝ｯ繝ｼ繝�" th:field="*{password}" required="required" minlength="6" maxlength="20" />
+							<input type="text" class="form-control" placeholder="パスワード" th:field="*{password}" required="required" minlength="6" maxlength="20" />
 						</div>
 					</div>
 					<div class="form-group row gutter">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">讓ｩ髯�<span class="text-danger">窶ｻ</span></label>
+							<label class="col-form-label">権限<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-lg-2">
 							<select class="form-control" th:field="*{roleId}" required="required">
-								<option value="">-- 驕ｸ謚槭＠縺ｦ縺上□縺輔＞ --</option>
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.Role).values()}" th:selected="${roleId == object.value}" th:value="${object.value}" th:text="${object.label}">邂｡逅�閠�</option>
+								<option value="">-- 選択してください --</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.Role).values()}" th:selected="${roleId == object.value}" th:value="${object.value}" th:text="${object.label}">管理者</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" sec:authorize="hasAuthority('USER_MANAGE')" type="submit" th:formaction="@{/user/createComplete}" th:formmethod="post">菴懈��</button>
-							<button type="button" sec:authorize="hasAuthority('SHOP_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/shop/detail?shopId={id}(id=*{shopId})} + '\''">蠎苓�苓ｩｳ邏ｰ縺ｸ謌ｻ繧�</button>
+							<button class="btn btn-success" sec:authorize="hasAuthority('USER_MANAGE')" type="submit" th:formaction="@{/user/createComplete}" th:formmethod="post">作成</button>
+							<button type="button" sec:authorize="hasAuthority('SHOP_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/shop/detail?shopId={id}(id=*{shopId})} + '\''">店舗詳細へ戻る</button>
 						</div>
 					</div>
 				</div>
