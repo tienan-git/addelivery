@@ -30,6 +30,14 @@
         background-color: #73993a;
         border-color: #73993a;
       }
+      .yahoo {
+        background-color: #ff0033;
+        border-color: #ff0033;
+      }
+      .youtube {
+        background-color: #ff0000;
+        border-color: #ff0000;
+      }
       .active {
         background-color: #93BE52;
       }
