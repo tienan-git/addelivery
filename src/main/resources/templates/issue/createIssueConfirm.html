@@ -12,7 +12,7 @@
 					<div class="page-header-title">
 						<i class="ti-eye bg-c-pink"></i>
 						<div class="d-inline">
-							<h4>案件簡単作成確認</h4>
+							<h4>新規作成（STEP3：基本情報入力確認）</h4>
 						</div>
 						<div id="resultBox"></div>
 					</div>
@@ -25,88 +25,6 @@
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
 		<form id="defaultForm" class="form-horizontal">
-			<div class="card">
-				<div class="card-block">
-					<h4 class="sub-title">DSP、Google、Facebook</h4>
-					<div class="dt-responsive table-responsive">
-						<table id="basicTable"
-							class="table table-striped table-hover table-bordered nowrap"
-							style="width: 100%;">
-							<thead>
-								<tr>
-									<th>画像名</th>
-									<th>画像サイズ</th>
-									<th>画像</th>
-									<th>テキスト</th>
-									<th>審査状況</th>
-									<th>送信日</th>
-									<th>審査完了日</th>
-									<th>設定先案件</th>
-									<th>出稿先</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>画像名</th>
-									<th>画像サイズ</th>
-									<th>画像</th>
-									<th>テキスト</th>
-									<th>審査状況</th>
-									<th>送信日</th>
-									<th>審査完了日</th>
-									<th>設定先案件</th>
-									<th>出稿先</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<tr th:each="nonTwitterAdDto,stat : ${nonTwitterAdDtoList}">
-									<td><pre th:text="${nonTwitterAdDto.adImageName}"></pre></td>
-									<td><pre th:text="${nonTwitterAdDto.adImageSize}"></pre></td>
-									<td><span
-										th:each="adImageUrl : ${nonTwitterAdDto.adImageUrlList}">
-											<img th:src="${adImageUrl}" style="width: 200px;"></img></br>
-									</span></td>
-									<td><pre th:text="${nonTwitterAdDto.adText}"></pre></td>
-									<td th:text="${nonTwitterAdDto.adReviewStatus}"></td>
-									<td th:text="${nonTwitterAdDto.adCreateDate}"></td>
-									<td th:text="${nonTwitterAdDto.adReviewDate}"></td>
-									<td><u><a th:text="${nonTwitterAdDto.adIssue}"
-											href="/issue/newIssueList"></a></u></td>
-									<td><i th:class="${nonTwitterAdDto.adIcon}"
-										style="width: 30px"></i></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="card" id="twitter">
-				<div class="card-block">
-					<h4 class="sub-title">Twitter</h4>
-					<!-- Scrolling DataTable table start -->
-					<div id="websiteTwitter" class="dt-responsive table-responsive">
-						<table id="basicTable"
-							class="table table-striped table-bordered nowrap">
-							<thead>
-								<tr>
-									<th>ツイート内容</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>ツイート内容</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<tr th:each="twitterAdDto,stat : ${twitterAdDtoList}">
-									<td><pre th:utext="${twitterAdDto.adText}"></pre></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<!-- Scrolling DataTable table end -->
-				</div>
-			</div>
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">基本情報</h4>
@@ -147,15 +65,97 @@
 							<label class="col-form-label">リンク先のURL</label>
 						</div>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="${issueInputForm.url}">https://www.apple.com/macbook</label>
+							<a href="https://www.apple.com/macbook" target="_blank"><u>https://www.apple.com/macbook</u></a>
 						</div>
 					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">広告物（DSP、Google、Facebook）</h4>
+					<div class="dt-responsive table-responsive">
+						<table id="basicTable"
+							class="table table-striped table-hover table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>画像</th>
+									<th>画像名</th>
+									<th>画像サイズ</th>
+									<th>テキスト</th>
+									<th>審査状況</th>
+									<th>送信日</th>
+									<th>審査完了日</th>
+									<th>設定先案件</th>
+									<th>出稿先</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>画像</th>
+									<th>画像名</th>
+									<th>画像サイズ</th>
+									<th>テキスト</th>
+									<th>審査状況</th>
+									<th>送信日</th>
+									<th>審査完了日</th>
+									<th>設定先案件</th>
+									<th>出稿先</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="nonTwitterAdDto,stat : ${nonTwitterAdDtoList}">
+									<td><span
+										th:each="adImageUrl : ${nonTwitterAdDto.adImageUrlList}">
+											<img th:src="${adImageUrl}" style="width: 200px;"></img></br>
+									</span></td>
+									<td><pre th:text="${nonTwitterAdDto.adImageName}"></pre></td>
+									<td><pre th:text="${nonTwitterAdDto.adImageSize}"></pre></td>
+									<td><pre th:text="${nonTwitterAdDto.adText}"></pre></td>
+									<td th:text="${nonTwitterAdDto.adReviewStatus}"></td>
+									<td th:text="${nonTwitterAdDto.adCreateDate}"></td>
+									<td th:text="${nonTwitterAdDto.adReviewDate}"></td>
+									<td><u><a th:text="${nonTwitterAdDto.adIssue}"
+											href="/issue/newIssueList"></a></u></td>
+									<td><i th:class="${nonTwitterAdDto.adIcon}"
+										style="width: 30px"></i></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="card" id="twitter">
+				<div class="card-block">
+					<h4 class="sub-title">広告物（Twitter）</h4>
+					<!-- Scrolling DataTable table start -->
+					<div id="websiteTwitter" class="dt-responsive table-responsive">
+						<table id="basicTable"
+							class="table table-striped table-bordered nowrap">
+							<thead>
+								<tr>
+									<th>ツイート内容</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>ツイート内容</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="twitterAdDto,stat : ${twitterAdDtoList}">
+									<td><pre th:utext="${twitterAdDto.adText}"></pre></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<!-- Scrolling DataTable table end -->
 				</div>
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
 					<a href="/issue/createIssueComplete"><button
-							class="btn btn-success" type="button">確認</button></a> <span></span><a
+							class="btn btn-success" type="button">次へ</button></a> <span></span><a
 						href="/issue/createIssue"><button class="btn btn-warning"
 							type="button">戻る</button></a>
 				</div>
