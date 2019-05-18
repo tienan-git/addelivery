@@ -7,7 +7,7 @@ package jp.acepro.haishinsan.enums;
  */
 public enum BillingType implements CodeEnum<Integer> {
 
-	CPM(0, "CPM"), CPC(1, "CPC");
+	CPM(0, "CPMクリック課金"), CPC(1, "CPCクリック課金");
 
 	private BillingType(Integer value, String label) {
 		this.value = value;
