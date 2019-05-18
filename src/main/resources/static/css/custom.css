@@ -55,3 +55,11 @@
        cursor: pointer;
        background-color: #F93707;
       }
+.linkSaki {
+        background-color: #FFB64D;
+        border-color: #FFB64D;
+        }
+.issueList {
+        background-color: #4680ff;
+        border-color: #4680ff;	
+}
