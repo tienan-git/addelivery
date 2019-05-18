@@ -43,7 +43,7 @@
 		<ul class="pcoded-item pcoded-left-item">
 		
 		<!-- ファンへの配信 -->
-		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
+		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira" style="color:#73993a"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 <!-- 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">リンク先管理</span><span class="pcoded-mcaret"></span> </a> -->
@@ -70,7 +70,7 @@
 						</ul></li>
 				</ul></li>
 				<!-- Google -->
-				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-google"></i><b>F</b></span> <span class="pcoded-mtext">Google</span>
+				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-google" style="color:#DD4B39"></i><b>F</b></span> <span class="pcoded-mtext">Google</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 <!-- 					<li sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span> -->
@@ -93,7 +93,7 @@
 						</ul></li>
 				</ul></li>
 				<!-- Facebook -->
-		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-facebook"></i><b>T</b></span> <span class="pcoded-mtext"
+		<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-facebook" style="color:#3c5a99"></i><b>T</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.to-do.main">Facebook</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 <!-- 					<li sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.ecommerce">案件管理</span> <span class="pcoded-mcaret"></span> -->
@@ -116,7 +116,7 @@
 						</ul></li>
 				</ul></li>
 			<!-- Twitter -->
-			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-twitter"></i><b>FU</b></span> <span class="pcoded-mtext">Twitter</span>
+			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-twitter-alt" style="color:#41abe1"></i></span> <span class="pcoded-mtext">Twitter</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 <!-- 					<li sec:authorize="hasAuthority('TWITTER_CAMPAIGN_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span> -->
@@ -139,7 +139,7 @@
 						</ul></li>
 				</ul></li>
 			<!-- yahoo -->
-			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="icofont icofont-social-yahoo"></i><b>FU</b></span> <span class="pcoded-mtext" data-i18n="nav.file-upload.main">Yahoo</span> <span class="pcoded-mcaret"></span></a>
+			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="icofont icofont-social-yahoo" style="color:#ff0033"></i><b>FU</b></span> <span class="pcoded-mtext" data-i18n="nav.file-upload.main">Yahoo</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">
@@ -150,7 +150,7 @@
 					<li sec:authorize="hasAuthority('YAHOO_REPORT_VIEW')" class=" "><a th:href="@{/yahoo/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span></a></li>
 				</ul></li>
 			<!-- youtube -->
-			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-youtube-play"></i><b>FU</b></span> <span class="pcoded-mtext"
+			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-youtube-play" style="color:#ff0000"></i><b>FU</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.file-upload.main">Youtube</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span>
