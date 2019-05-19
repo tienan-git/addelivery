@@ -2026,9 +2026,9 @@ img.comment-img {
   .masonry-media img {
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out; }
-    .masonry-media img:hover {
-      -webkit-transform: scale(1.1);
-              transform: scale(1.1); }
+/*     .masonry-media img:hover { */
+/*       -webkit-transform: scale(1.1); */
+/*               transform: scale(1.1); } */
 
 .masonry-image .masonry-media {
   margin-bottom: 20px; }
