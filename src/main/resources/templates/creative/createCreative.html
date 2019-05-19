@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="ti-palette bg-c-green"></i>
 						<div class="d-inline">
-							<h4>広告アップロード</h4>
+							<h4>広告アップロード（STEP1：基本情報入力）</h4>
 							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
@@ -123,7 +123,7 @@
 									画像アップロード<span class="text-danger">※</span>
 								</div>
 <input type="file" th:field="*{myfile1}" multiple ><br>
-<img id="img1" style="width:300px;height:300px;" />	
+<img id="img1" style="max-width:25%;height:auto;" />	
 							</div>
 				</div>
 			</div>
@@ -157,7 +157,7 @@
 									画像アップロード<span class="text-danger">※</span>
 								</div>
 <input type="file" th:field="*{myfile2}" multiple><br>
-<img id="img2" style="width:300px;height:300px;" />	
+<img id="img2" style="max-width:25%;height:auto;" />	
 							</div>
 <!-- 						</div> -->
 					</div>
@@ -168,9 +168,8 @@
 									画像アップロード<span class="text-danger">※</span>
 								</div>
 <input type="file" th:field="*{myfile3}" multiple><br>
-<img id="img3" style="width:300px;height:300px;" />	
+<img id="img3" style="max-width:25%;height:auto;" />	
 						</div>
-<!-- 						</div> -->
 					</div>
 					<div id="textAdBlock">
 						<div class="form-group row">
@@ -204,18 +203,15 @@
 								<input type="text" class="form-control" th:field="*{textFacebookDescription}" maxlength="45">
 							</div>
 						</div>
-<!-- 						<div class="col-sm-12"> -->
 							<div class="card-block">
 								<div class="sub-title">
 									画像アップロード<span class="text-danger">※</span>
 								</div>
-<input type="file" th:field="*{myfile3}" multiple><br>
-<img id="img3" style="width:300px;height:300px;" />						
+<input type="file" th:field="*{myfile4}" multiple><br>
+<img id="img4" style="max-width:25%;height:auto;" />						
                             </div>
-<!-- 						</div> -->
 				</div>
 			</div>
-		
 			<div class="card" id="instagram">
 				<div class="card-block">
 					<h4 class="sub-title text-capitalize">Instagram<span class="text-danger">※</span></h4>
@@ -230,8 +226,8 @@
 								<div class="sub-title">
 									画像アップロード<span class="text-danger">※</span>
 								</div>
-<input type="file" th:field="*{myfile3}" multiple><br>
-<img id="img3" style="width:300px;height:300px;" />						
+<input type="file" th:field="*{myfile5}" multiple><br>
+<img id="img5" style="max-width:25%;height:auto;" />						
                             </div>
 <!-- 						</div> -->
 				</div>
@@ -654,6 +650,27 @@ $(function(){
 	      return function(e){
 	        $("#img4").attr("src", e.target.result);
 	        $("#img4").attr("title", file.name);
+	      };
+	    })(file);
+	    reader.readAsDataURL(file);
+	 
+	  });
+  $('#myfile5').change(function(e){
+	    //ファイルオブジェクトを取得する
+	    var file = e.target.files[0];
+	    var reader = new FileReader();
+	 
+	    //画像でない場合は処理終了
+	    if(file.type.indexOf("image") < 0){
+	      alert("画像ファイルを指定してください。");
+	      return false;
+	    }
+	 
+	    //アップロードした画像を設定する
+	    reader.onload = (function(file){
+	      return function(e){
+	        $("#img5").attr("src", e.target.result);
+	        $("#img5").attr("title", file.name);
 	      };
 	    })(file);
 	    reader.readAsDataURL(file);

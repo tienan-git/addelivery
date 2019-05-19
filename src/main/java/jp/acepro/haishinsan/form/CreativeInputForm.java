@@ -26,12 +26,6 @@ public class CreativeInputForm {
 	String linkUrl;
 	String url;
 	
-	// -------- Facebook関連 --------
-	List<MultipartFile> myfile4;
-	MultipartFile facebookImage;
-	// 説明文
-	String textFacebookDescription;
-	
 	// -------- DSP関連 --------
 	List<MultipartFile> myfile1;
 	List<DspCampaignCreInputForm> dspCampaignCreInputFormList;
@@ -70,6 +64,14 @@ public class CreativeInputForm {
 	// 説明文
 	String textAdDescription;
 	
+	// -------- Facebook関連 --------
+	// 説明文
+	String textFacebookDescription;
+	List<MultipartFile> myfile4;
+	List<MultipartFile> myfile5;
+	MultipartFile facebookImage;
+
+
 	// -------- Twitter関連 --------
 	List<String> tweetIdList;
 	List<TwitterTweet> websiteTweetList;

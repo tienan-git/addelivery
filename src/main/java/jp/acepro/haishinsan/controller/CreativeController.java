@@ -149,6 +149,16 @@ public class CreativeController {
 			codeMasterService.getKeywordNameList();
 		}
 
+		if (CreativeType.DSP.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile1()) {
+				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
+				StringBuffer data = new StringBuffer();
+				data.append("data:image/jpeg;base64,");
+				data.append(base64Str);
+				dspImageList.add(data.toString());
+			}
+		}
+
 		// 完了画面にGoogle画像を表示するため、画像データを取得
 		if (CreativeType.GOOGLE.getValue().equals(creativeInputForm.getCreativeType())) {
 			// キャンプーン作成用パラメタ設定（画像）
@@ -175,19 +185,19 @@ public class CreativeController {
 				break;
 			}
 		}
-
-		if (CreativeType.DSP.getValue().equals(creativeInputForm.getCreativeType())) {
-			for (MultipartFile imageFile : creativeInputForm.getMyfile1()) {
+		
+		if (CreativeType.FACEBOOK.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile4()) {
 				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 				StringBuffer data = new StringBuffer();
 				data.append("data:image/jpeg;base64,");
 				data.append(base64Str);
-				dspImageList.add(data.toString());
+				facebookImageList.add(data.toString());
 			}
 		}
 		
-		if (CreativeType.FACEBOOK.getValue().equals(creativeInputForm.getCreativeType())) {
-			for (MultipartFile imageFile : creativeInputForm.getMyfile4()) {
+		if (CreativeType.INSTAGRAM.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile5()) {
 				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 				StringBuffer data = new StringBuffer();
 				data.append("data:image/jpeg;base64,");
