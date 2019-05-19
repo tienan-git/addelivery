@@ -39,16 +39,16 @@
 				
 					<div class="form-radio">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">広告媒体選択<span class="text-danger">※</span></label>
-							<div class="radio radio-inline col-sm-2 col-form-label" th:each="object : ${T(jp.acepro.haishinsan.enums.CreativeType).values()}">
+						
+							<label class="col-form-label col-sm-2 text-right">媒体選択<span class="text-danger">※</span></label>
+							<div class="col-sm-8">
+							<div class="radio radio-inline col-sm-4" th:each="object : ${T(jp.acepro.haishinsan.enums.CreativeType).values()}">	
 								<label> <input class="form-control" type="radio" th:value="${object.value}" th:field="*{creativeType}" th:text="${object.label}" checked="checked" required="required"> <i class="helper"></i>
 								</label>
 							</div>
+							</div>
 						</div>
 					</div>
-
-					
-					
 <!-- 					<div class="form-radio"> -->
 <!-- 					<div class="form-group row"> -->
 <!-- 						<div class="col-sm-2 text-right"> -->
@@ -105,17 +105,16 @@
 							<select name="select" class="form-control" th:field="*{segmentId}" required>
 								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${creativeInputForm.segmentId} == ${dspSegmentDto.getSegmentId()}" th:value="${dspSegmentDto.getSegmentId()}" th:text="${dspSegmentDto.getUrl()}">リンク先のURLを選択してください</option>
 							</select>
-
 						</div>
 						<div class="col-sm-4">
-							<label class="col-form-label text-danger">リンク先がなければ、リンク先を先に作成してください。</label>
+							<label class="col-form-label text-danger">リンク先はリンク先管理画面で作成する必要があります。</label>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="card" id="dsp">
 				<div class="card-block">
-					<h4 class="sub-title">
+					<h4 class="sub-title text-capitalize">
 						ファンへの配信<span class="text-danger">※</span>
 					</h4>
 <!-- 						<div class="col-sm-12"> -->
@@ -130,7 +129,7 @@
 			</div>
 			<div class="card" id="google">
 				<div class="card-block">
-					<h4 class="sub-title">Google</h4>
+					<h4 class="sub-title text-capitalize">Google</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4">
@@ -195,9 +194,52 @@
 					</div>
 				</div>
 			</div>
+
+			<div class="card" id="facebook">
+				<div class="card-block">
+					<h4 class="sub-title text-capitalize">Facebook<span class="text-danger">※</span></h4>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文<span class="text-danger">※</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{textFacebookDescription}" maxlength="45">
+							</div>
+						</div>
+<!-- 						<div class="col-sm-12"> -->
+							<div class="card-block">
+								<div class="sub-title">
+									画像アップロード<span class="text-danger">※</span>
+								</div>
+<input type="file" th:field="*{myfile3}" multiple><br>
+<img id="img3" style="width:300px;height:300px;" />						
+                            </div>
+<!-- 						</div> -->
+				</div>
+			</div>
+		
+			<div class="card" id="instagram">
+				<div class="card-block">
+					<h4 class="sub-title text-capitalize">Instagram<span class="text-danger">※</span></h4>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文<span class="text-danger">※</span></label>
+							<div class="col-sm-4">
+								<input type="text" class="form-control" th:field="*{textFacebookDescription}" maxlength="45">
+							</div>
+						</div>
+<!-- 						<div class="col-sm-12"> -->
+							<div class="card-block">
+								<div class="sub-title">
+									画像アップロード<span class="text-danger">※</span>
+								</div>
+<input type="file" th:field="*{myfile3}" multiple><br>
+<img id="img3" style="width:300px;height:300px;" />						
+                            </div>
+<!-- 						</div> -->
+				</div>
+			</div>
+	
 			<div class="card" id="twitter">
 				<div class="card-block">
-					<h4 class="sub-title">Twitter</h4>
+					<h4 class="sub-title text-capitalize">Twitter</h4>
 					<!-- Scrolling DataTable table start -->
 					<div id="websiteTwitter" class="dt-responsive table-responsive">
 						<table id="basicTable" class="table table-striped table-bordered nowrap">
@@ -227,33 +269,14 @@
 					<!-- Scrolling DataTable table end -->
 				</div>
 			</div>
-			<div class="card" id="facebook">
-				<div class="card-block">
-					<h4 class="sub-title">Facebook<span class="text-danger">※</span></h4>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">説明文<span class="text-danger">※</span></label>
-							<div class="col-sm-4">
-								<input type="text" class="form-control" th:field="*{textFacebookDescription}" maxlength="45">
-							</div>
-						</div>
-<!-- 						<div class="col-sm-12"> -->
-							<div class="card-block">
-								<div class="sub-title">
-									画像アップロード<span class="text-danger">※</span>
-								</div>
-<input type="file" th:field="*{myfile4}" multiple><br>
-<img id="img4" style="width:300px;height:300px;" />						
-                            </div>
-<!-- 						</div> -->
-				</div>
-			</div>
+
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
 					<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formaction="@{/creative/creativeConfirm}" th:formmethod="post"
 						th:disabled="${#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId()) && 
 								#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId()) && 
 								#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId()) && 
-								#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}">作成</button>
+								#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}">次へ</button>
 				</div>
 			</div>
 		</form>
@@ -294,19 +317,27 @@
 					$('[id=resAdDescription]').prop("required", false);
 					$('[id=resAdImageFileList]').prop("required", false);
 				}
-				var prop3 = $('#creativeType4').prop('checked');
-				if (prop3) {
-					$('#twitter').show();
-				} else {
-					$('#twitter').hide();
-				}
-				var prop4 = $('#creativeType3').prop('checked');
+				var prop3 = $('#creativeType3').prop('checked');
 				if (prop3) {
 					$('#facebook').show();
 				} else {
 					$('#facebook').hide();
 					$('[id=facebookImage]').prop("required", false);
 				}
+				var prop4 = $('#creativeType4').prop('checked');
+				if (prop4) {
+					$('#instagram').show();
+				} else {
+					$('#instagram').hide();
+					$('[id=facebookImage]').prop("required", false);
+				}
+				var prop5 = $('#creativeType5').prop('checked');
+				if (prop5) {
+					$('#twitter').show();
+				} else {
+					$('#twitter').hide();
+				}
+
 			});
 				
 			// 表示内容を切り替える
@@ -405,15 +436,6 @@
 					}
 				});
 
-				$('input[name="creativeType4"]').change(function() {
-					var prop = $('#creativeType4').prop('checked');
-					if (prop) {
-						$('#twitter').fadeIn();
-					} else {
-						$('#twitter').fadeOut();
-					}
-				});
-				
 				$('input[name="creativeType3"]').change(function() {
 					var prop = $('#creativeType3').prop('checked');
 					if (prop) {
@@ -422,6 +444,26 @@
 						$('#facebook').fadeOut();
 					}
 				});
+
+				$('input[name="creativeType4"]').change(function() {
+					var prop = $('#creativeType4').prop('checked');
+					if (prop) {
+						$('#instagram').fadeIn();
+					} else {
+						$('#instagram').fadeOut();
+					}
+				});
+
+				$('input[name="creativeType5"]').change(function() {
+					var prop = $('#creativeType5').prop('checked');
+					if (prop) {
+						$('#twitter').fadeIn();
+					} else {
+						$('#twitter').fadeOut();
+					}
+				});
+				
+
 			});
 			// Creative Copy
 			$(document).ready(function() {
@@ -495,12 +537,14 @@
 					if ($('[id=creativeType1]').prop('checked')) {
 						$('[id=google]').fadeOut();
 						$('[id=facebook]').fadeOut();
+						$('[id=instagram]').fadeOut();
 						$('[id=twitter]').fadeOut();
 						$('[id=dsp]').fadeIn();
 					}
 					if ($('[id=creativeType2]').prop('checked')) {
 						$('[id=dsp]').fadeOut();
 						$('[id=facebook]').fadeOut();
+						$('[id=instagram]').fadeOut();
 						$('[id=twitter]').fadeOut();
 						$('[id=google]').fadeIn();
 						changeAdBlcok();
@@ -508,6 +552,7 @@
 					if ($('[id=creativeType3]').prop('checked')) {
 						$('[id=dsp]').fadeOut();
 						$('[id=google]').fadeOut();
+						$('[id=instagram]').fadeOut();
 						$('[id=twitter]').fadeOut();
 						$('[id=facebook]').fadeIn();
 					}
@@ -515,6 +560,14 @@
 						$('[id=dsp]').fadeOut();
 						$('[id=google]').fadeOut();
 						$('[id=facebook]').fadeOut();
+						$('[id=twitter]').fadeOut();
+						$('[id=instagram]').fadeIn();
+					}
+					if ($('[id=creativeType5]').prop('checked')) {
+						$('[id=dsp]').fadeOut();
+						$('[id=google]').fadeOut();
+						$('[id=facebook]').fadeOut();
+						$('[id=instagram]').fadeOut();
 						$('[id=twitter]').fadeIn();
 					}
 				});
