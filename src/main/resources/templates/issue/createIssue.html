@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -25,67 +22,52 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form id="defaultForm" class="form-horizontal">
+		<form th:action="@{/}" method="post" th:object="${createIssueForm}">
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">案件名<span
-								class="text-danger">※</span></label>
+							<label class="col-form-label">案件名<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-8">
-							<input type="text" class="form-control"
-								th:field="${issueInputForm.issueName}" required="required"
-								maxlength="60">
+							<input type="text" class="form-control" th:field="${createIssueForm.issueName}" required="required" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">日別予算<span
-								class="text-danger">※</span></label>
+							<label class="col-form-label">日別予算<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control"
-								th:field="${issueInputForm.budget}" required="required" min="1">
+							<input type="number" class="form-control" th:field="${createIssueForm.dayBudget}" required="required" min="1">
 						</div>
 						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信開始日<span
-								class="text-danger">※</span></label>
+							<label class="col-form-label">配信開始日<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="date" class="form-control"
-								th:field="${issueInputForm.startDate}" required="required">
+							<input type="date" class="form-control" th:field="${createIssueForm.issueStartDate}" required="required">
 						</div>
 
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信終了日<span
-								class="text-danger">※</span></label>
+							<label class="col-form-label">配信終了日<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="date" class="form-control"
-								th:field="${issueInputForm.endDate}" required="required">
+							<input type="date" class="form-control" th:field="${createIssueForm.issueEndDate}" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">リンク先<span
-								class="text-danger">※</span></label>
+							<label class="col-form-label">リンク先<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<select name="select" class="form-control"
-								th:field="${issueInputForm.segmentId}" required>
-								<option th:each="dspSegmentDto : ${dspSegmentDtoList}"
-									th:selected="${issueInputForm.segmentId} == ${dspSegmentDto.getSegmentId()}"
-									th:value="${dspSegmentDto.getSegmentId()}"
-									th:text="${dspSegmentDto.getUrl()}">リンク先のURLを選択してください</option>
+							<select name="select" class="form-control" th:field="${createIssueForm.segmentId}" required>
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${createIssueForm.segmentId} == ${dspSegmentDto.getSegmentId()}" th:value="${dspSegmentDto.getSegmentId()}" th:text="${dspSegmentDto.getUrl()}">リンク先のURLを選択してください</option>
 							</select>
-
 						</div>
 						<div class="col-sm-4">
 							<label class="col-form-label text-danger">リンク先がなければ、DSPリンク先を作成してください。</label>
@@ -97,9 +79,7 @@
 				<div class="card-block">
 					<h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4>
 					<div class="dt-responsive table-responsive">
-						<table id="basicTable"
-							class="table table-striped table-hover table-bordered nowrap"
-							style="width: 100%;">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 							<thead>
 								<tr>
 									<th>画像</th>
@@ -128,9 +108,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="nonTwitterAdDto,stat : ${nonTwitterAdDtoList}">
-									<td><span
-										th:each="adImageUrl : ${nonTwitterAdDto.adImageUrlList}">
-											<img th:src="${adImageUrl}" style="width: 200px;"></img></br>
+									<td><span th:each="adImageUrl : ${nonTwitterAdDto.adImageUrlList}"> <img th:src="${adImageUrl}" style="width: 200px;"></img></br>
 									</span></td>
 									<td><pre th:text="${nonTwitterAdDto.adImageName}"></pre></td>
 									<td><pre th:text="${nonTwitterAdDto.adImageSize}"></pre></td>
@@ -138,10 +116,8 @@
 									<td th:text="${nonTwitterAdDto.adReviewStatus}"></td>
 									<td th:text="${nonTwitterAdDto.adCreateDate}"></td>
 									<td th:text="${nonTwitterAdDto.adReviewDate}"></td>
-									<td><u><a th:text="${nonTwitterAdDto.adIssue}"
-											href="/issue/newIssueList"></a></u></td>
-									<td><i th:class="${nonTwitterAdDto.adIcon}"
-										style="width: 30px"></i></td>
+									<td><u><a th:text="${nonTwitterAdDto.adIssue}" href="/issue/newIssueList"></a></u></td>
+									<td><i th:class="${nonTwitterAdDto.adIcon}" style="width: 30px"></i></td>
 								</tr>
 							</tbody>
 						</table>
@@ -153,8 +129,7 @@
 					<h4 class="sub-title text-capitalize">広告物（Twitter）</h4>
 					<!-- Scrolling DataTable table start -->
 					<div id="websiteTwitter" class="dt-responsive table-responsive">
-						<table id="basicTable"
-							class="table table-striped table-bordered nowrap">
+						<table id="basicTable" class="table table-striped table-bordered nowrap">
 							<thead>
 								<tr>
 									<th>ツイート内容</th>
@@ -177,10 +152,7 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<a href="/issue/createIssueConfirm"><button
-							class="btn btn-success" type="button">次へ</button></a> <a
-						href="/creative/creativeList"><button class="btn btn-warning"
-							type="button">戻る</button></a>
+					<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssueConfirm}">次へ</button>
 				</div>
 			</div>
 		</form>
