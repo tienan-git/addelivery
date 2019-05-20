@@ -67,6 +67,7 @@ public class CreativeInputForm {
 	// -------- Facebook関連 --------
 	// 説明文
 	String textFacebookDescription;
+	String textInstagramDescription;
 	List<MultipartFile> myfile4;
 	List<MultipartFile> myfile5;
 	MultipartFile facebookImage;

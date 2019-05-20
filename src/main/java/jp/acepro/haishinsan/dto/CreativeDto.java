@@ -56,6 +56,7 @@ public class CreativeDto {
 	MultipartFile facebookImage;
 	// 説明文
 	String textFacebookDescription;
+	String textInstagramDescription;
 
 	// -------- Google関連 --------
 	// 広告タイプ
