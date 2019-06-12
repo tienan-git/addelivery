@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-palette bg-c-green"></i>
+						<div class="d-inline">
+							<h4>広告アップロード</h4>
+							<!-- <strong class="text-danger">※の項目は、必須項目です。</strong> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/}" method="post" th:object="${createIssueForm}">
+			<div class="card">
+				<div class="card-block">
+					<div class="card-block">
+	    				<img style="width:100%" th:src="@{/images/surougen05.jpg}" />
+					</div>
+		 			<div class="card-block" align="center">
+						<h2>5.いつ配信しますか？</h2>
+					</div>
+				<div class="form-group row">
+					<div class="col-sm-2 text-right">
+						<label class="col-form-label">配信開始日</label>
+					</div>
+					<div class="col-sm-6">
+						<!-- <input type="date" class="form-control" th:field="${createIssueForm.issueStartDate}" required="required"> -->
+						<input type="date" class="form-control" required="required">
+					</div>
+
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-2 text-right">
+						<label class="col-form-label">配信終了日</label>
+					</div>
+					<div class="col-sm-6">
+						<!-- <input type="date" class="form-control" th:field="${createIssueForm.issueEndDate}" required="required"> -->
+						<input type="date" class="form-control" required="required">
+					</div>
+				</div>
+
+			</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createArea}">戻る</button>
+					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createBudget}">次へ</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

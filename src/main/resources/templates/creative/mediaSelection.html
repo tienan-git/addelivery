@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+ 	<style type="text/css">
+      /* #basicTable img {width:80px}
+      .table td, .table th {
+      	border:none;
+      	text-align:center;
+      	font-size:12px;
+      	font-weight:bold;
+      } */
+      .cssgrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 0.5fr));
+/*   grid-auto-rows: 1fr;
+  grid-gap: 0.8em;
+  border: 1px solid #ddd;
+  padding: 0.8em;
+  margin: 0 0 2em; */
+}
+.grid-header {
+	text-align:center;
+	font-weight:bold;
+}
+.cssgrid > div {
+  overflow: auto;
+  min-width: 0;
+  padding: 1em;
+}
+.cssgrid img {
+    max-width: 100%;
+    height: auto;
+    width: auto\9;
+    margin-bottom: 1em;
+}
+    </style>
+</head>
+<body>
+   
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-palette bg-c-green"></i>
+						<div class="d-inline">
+							<!-- <h4>蠎�蜻翫い繝�繝励Ο繝ｼ繝会ｼ�STEP1�ｼ壼渕譛ｬ諠�蝣ｱ蜈･蜉幢ｼ�</h4> -->
+							<h4>広告アップロード</h4>
+							<!-- <strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<!-- <form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data"> -->
+<!-- 		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
+
+			<!-- <div th:replace="common/errorMessages"></div> -->
+			<div class="card">
+				<div class="card-block">
+					<!-- <h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4> -->
+					<div class="card-block">
+					    <img style="width:100%" th:src="@{/images/surougen.jpg}" />
+				    </div>
+				    <div class="card-block" align="center">
+						<h2>1.どこに登録しますか？</h2>
+				    </div>
+				    <div class="card-block">
+				<!--     	<table id="basicTable" class="table nowrap" style="width: 100%;">
+				    		<tbody>
+				    			<tr role="row" class="odd">
+				    				<td>google</td>
+				    				<td>facebook</td>
+				    				<td>Instagram</td>
+				    				<td>Twitter</td>
+				    				<td>Yahoo!</td>
+				    				<td>Youtube</td>
+				    		
+				    			</tr>
+				    			<tr role="row" class="odd"> 
+				    				<td rowspan="2"><a href="#!"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" /></a></td>
+				    				<td><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></td>
+				    				<td><img src="https://is5-ssl.mzstatic.com/image/thumb/Purple123/v4/2f/09/df/2f09dfae-7d0f-6047-a035-ddb3082e6205/Prod-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-6.png/1200x630wa.png" /></td>
+				    				<td><img src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" /></td>
+				    				<td><img src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" /></td>
+				    				<td><img src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" /></td>
+				    			</tr>
+				    	 	</tbody>
+						</table> -->
+						<div class="cssgrid">
+						  <div><p class="grid-header">google</p><div><a th:href="@{/creative/mediaDescription}"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" /></a></div></div>
+						  <div><p class="grid-header">facebook</p><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></div>
+						  <div><p class="grid-header">Instagram</p><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></div>
+						  <div><p class="grid-header">Twitter</p><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></div>
+						  <div><p class="grid-header">Yahoo!</p><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></div>
+						  <div><p class="grid-header">Youtube</p><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></div>
+						</div>
+				    </div>
+				</div>
+			</div>
+	</div>
+	<!-- page body end -->
+</body>
+</html>
