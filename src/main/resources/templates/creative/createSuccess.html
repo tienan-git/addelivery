@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -20,8 +23,8 @@
 	z-index: 1;
 	background-color: #3f70b9;
 	border-radius: 0 5px 0 50px;
-	border-top: 1px solid #ffffff;
-	border-right: 1px solid #ffffff;
+	border-top: 1px solid #354cbd;
+	border-right: 1px solid #354cbd;
 	box-sizing: content-box;
 }
 
@@ -33,7 +36,7 @@
 }
 
 #progressbar {
-	background-color:#fff
+	background-color: #fff
 }
 
 #progressbar li.active a, .step-arrow li.active a:hover {
@@ -66,9 +69,13 @@
 	margin-bottom
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	0;
 }
@@ -119,20 +126,30 @@
 	display
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	table-cell
+	
+	
 	
 	
 	;
 	width
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	1%;
 }
@@ -241,14 +258,14 @@ ol, ul {
 
 .pheader {
 	margin-bottom: 0;
-    /* font-size: 1rem; */
-    padding-bottom: 0;
-    padding-top: 4rem;
+	/* font-size: 1rem; */
+	padding-bottom: 0;
+	padding-top: 4rem;
 }
 
 .pheader h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 </style>
 </head>
@@ -270,49 +287,32 @@ ol, ul {
 		</div>
 	</div>
 	<!-- Page-header end -->
-
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${googleTemplateForm}">
-			<!-- <div th:replace="common/errorMessages"></div> -->
+		<!-- <form id="defaultForm" class="form-horizontal" th:action="@{/creative/creativeComplete}" th:object="${creativeDto}" method="post"> -->
+		<form id="defaultForm" class="form-horizontal" style="height: 70%;">
 			<div class="card">
-				<div class="card-block1" id="progressbar">
-	    			<ul class="nav nav-pills nav-justified step step-arrow" >
+				<div id="progressbar">
+					<ul class="nav nav-pills nav-justified step step-arrow">
 						<li><a>1.媒体</a></li>
 						<li><a>2.広告/バナー</a></li>
 						<li><a>3.リンク先</a></li>
-						<li class="active"><a>4.配信地域</a></li>
+						<li><a>4.配信地域</a></li>
 						<li><a>5.日程</a></li>
 						<li><a>6.予算</a></li>
 						<li><a>7.確認</a></li>
-						<li><a>8.配信確認</a></li>
+						<li class="active"><a>8.配信確認</a></li>
 					</ul>
 				</div>
-		 		<div class="card-block2 pheader" align="center">
-					<h3>4.だれに配信しますか？</h3>
+				<div class="pheader" align="center" style="margin-bottom:60px">
+					<h3>配信を登録しました</h3>
 				</div>
-				<div class="card-block3" align="center">
-                    <div align="center">
-					<div class="form-group row">
-						<!-- <label class="col-form-label text-right">地域</label> -->
-						<!-- <div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}"> -->
-						<div class="col-sm-4" style="margin:20px auto">
-							<!-- <select class="searchable" multiple="multiple" th:field="*{locationList}"> -->
-							<select class="searchable" multiple="multiple" >
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
-							</select>
-						</div>
-					</div>
-					</div>
-					<div class="col-sm-12 text-center" style="margin-bottom:20px">						
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createLink}">戻る</button>		       		
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createDate}">次へ</button>							
-					</div>
+				<div class="col-sm-12 text-center" style="margin-bottom:40px">
+					<!-- <button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createBudget}">戻る</button> -->
+					<a href="http://localhost:8080/index"><font color='blue'>ホームページへ</font></a>
 				</div>
 			</div>
 		</form>
 	</div>
-	<!-- page body end -->
-	<div layout:fragment="custom_resource_body"></div>
 </body>
 </html>
