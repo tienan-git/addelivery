@@ -43,8 +43,8 @@
 		<ul class="pcoded-item pcoded-left-item">
 		　　　　<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/creative/mediaSelection}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">広告作成</span></a></li>
 			<!-- <li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/issue/creativeList}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">広告作成</span></a></li> -->
-			<!-- <li class="active"><a th:href="@{/creative/createCreative}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li> -->
-			<li class="active"><a ><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
+			<li class="active"><a th:href="@{/creative/uploadMediaSelection}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
+			<!-- <li class="active"><a ><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li> -->
 
 		<div class="pcoded-navigatio-lavel">案件管理</div>
 		<ul class="pcoded-item pcoded-left-item">
@@ -141,7 +141,7 @@
 						<ul class="pcoded-submenu">
 							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/yahoo/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span></a></li>
 							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" class=" "><a th:href="@{/yahoo/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span></a></li>
-						</ul></li>
+						</ul></lfqih１i>
 					<li sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" class=" "><a th:href="@{/yahoo/csvUpload}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">CSVアップロード</span><span class="pcoded-mcaret"></span></a></li>
 					<li sec:authorize="hasAuthority('YAHOO_REPORT_VIEW')" class=" "><a th:href="@{/yahoo/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span></a></li>
 				</ul></li>

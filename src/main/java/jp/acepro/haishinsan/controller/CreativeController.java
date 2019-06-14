@@ -587,7 +587,41 @@ public class CreativeController {
 		mv.setViewName("creative/createSuccess");
 		return mv;
 	}
+	
+	@GetMapping("/uploadMediaSelection")
+	public ModelAndView uploadMediaSelection(ModelAndView mv) {
 
+		mv.setViewName("creative/uploadMediaSelection");
+		return mv;
+	}
+	
+	@GetMapping("/uploadMediaDescription")
+	public ModelAndView uploadMediaDescription(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadMediaDescription");
+		return mv;
+	}
+
+	@GetMapping("/uploadGoogleBanner")
+	public ModelAndView uploadGoogleBanner(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadGoogleBanner");
+		return mv;
+	}
+	
+	@GetMapping("/uploadCreateConfirm")
+	public ModelAndView uploadCreateConfirm(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadCreateConfirm");
+		return mv;
+	}
+	
+	@GetMapping("/uploadCreateSuccess")
+	public ModelAndView uploadCreateSuccess(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadCreateSuccess");
+		return mv;
+	}
 
 	private void getGoogleAreaList() {
 

@@ -33,7 +33,7 @@
 }
 
 #progressbar {
-	background-color:#fff
+	background-color: #fff
 }
 
 #progressbar li.active a, .step-arrow li.active a:hover {
@@ -66,9 +66,13 @@
 	margin-bottom
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	0;
 }
@@ -119,20 +123,30 @@
 	display
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	table-cell
+	
+	
 	
 	
 	;
 	width
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	1%;
 }
@@ -190,65 +204,16 @@ ol, ul {
 	border-radius: 0;
 }
 
-.card-block {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-}
-
-.card-block .left {
-	padding: 0px 50px;
-}
-
-.card-block .right {
-	margin: 10px 150px;
-	border: 2px solid #b3aeae;
-	border-radius: 28px;
-	position: relative;
-}
-
-.card-block .img {
-	margin-top: 36px;
-	width: 200px;
-	margin-left: 120px;
-}
-
-.card-block .preview {
-	position: absolute;
-	right: 43%;
-	top: -14px;
-	marign-left: 10px;
-	background: white;
-	padding: 0px 10px;
-	font-weight: bold;
-}
-
-.midashi {
-	margin: 5px 0px;
-	font-size: 17px;
-	font-weight: bold;
-	color: #191619;
-}
-
-.native {
-	text-align: center;
-	margin-top: 27px;
-	font-weight: bold;
-}
-
-.card-block .row {
-	justify-content: space-between
-}
-
 .pheader {
 	margin-bottom: 0;
-    /* font-size: 1rem; */
-    padding-bottom: 0;
-    padding-top: 4rem;
+	/* font-size: 1rem; */
+	padding-bottom: 0;
+	padding-top: 4rem;
 }
 
 .pheader h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 </style>
 </head>
@@ -270,49 +235,91 @@ ol, ul {
 		</div>
 	</div>
 	<!-- Page-header end -->
-
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${googleTemplateForm}">
-			<!-- <div th:replace="common/errorMessages"></div> -->
+		<!-- <form id="defaultForm" class="form-horizontal" th:action="@{/creative/creativeComplete}" th:object="${creativeDto}" method="post"> -->
+		<form id="defaultForm" class="form-horizontal" th:object="${creativeDto}" method="post">
 			<div class="card">
-				<div class="card-block1" id="progressbar">
+					<div class="card-block1" id="progressbar">
 	    			<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
 						<li><a>2.広告/バナー</a></li>
-						<li><a>3.リンク先</a></li>
-						<li class="active"><a>4.配信地域</a></li>
+					<!-- 	<li><a>3.リンク先</a></li>
+						<li><a>4.配信地域</a></li>
 						<li><a>5.日程</a></li>
-						<li><a>6.予算</a></li>
-						<li><a>7.確認</a></li>
-						<li><a>8.配信確定</a></li>
+						<li><a>6.予算</a></li> -->
+						<li class="active"><a>3.確認</a></li>
+						<li><a>4.配信確定</a></li>
 					</ul>
 				</div>
-		 		<div class="card-block2 pheader" align="center">
-					<h3>4.だれに配信しますか？</h3>
+		 		<div class="pheader" align="center">
+					<h3>3.以下の内容で配信します。</h3>
 				</div>
-				<div class="card-block3" align="center">
-                    <div align="center">
+				<div class="card-block">
+					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
-						<!-- <label class="col-form-label text-right">地域</label> -->
-						<!-- <div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}"> -->
-						<div class="col-sm-4" style="margin:20px auto">
-							<!-- <select class="searchable" multiple="multiple" th:field="*{locationList}"> -->
-							<select class="searchable" multiple="multiple" >
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
-							</select>
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">広告名</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label >広告名</label>
 						</div>
 					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">説明文</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label >バナー広告　４５文字</label>
+						</div>
 					</div>
-					<div class="col-sm-12 text-center" style="margin-bottom:20px">						
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createLink}">戻る</button>		       		
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createDate}">次へ</button>							
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信地域</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label>東京都</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">日別予算</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label>1,000円</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label>2019-06-13</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<label>2020-06-12</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">リンク先</label>
+						</div>
+						<div class="col-sm-4 col-form-label">
+							<a target="_blank"><u>https://www.apple.com/macbook</u></a>
+						</div>
 					</div>
 				</div>
-			</div>
+				<div class="col-sm-12 text-center"  style="margin-bottom:20px">
+					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadGoogleBanner}">戻る</button>
+					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadCreateSuccess}">次へ</button>
+				</div>
+			</div>		
 		</form>
 	</div>
-	<!-- page body end -->
-	<div layout:fragment="custom_resource_body"></div>
 </body>
 </html>
