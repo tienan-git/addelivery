@@ -229,7 +229,8 @@ ol, ul {
 			<div class="row align-items-end">
 				<div class="col-lg-8">
 					<div class="page-header-title">
-						<i class="ti-palette bg-c-green"></i>
+						<!-- <i class="ti-palette bg-c-green"></i> -->
+						<i class="ti-crown bg-c-pink"></i>					
 						<div class="d-inline">
 							<!-- <h4>蠎�蜻翫い繝�繝励Ο繝ｼ繝会ｼ�STEP1�ｼ壼渕譛ｬ諠�蝣ｱ蜈･蜉幢ｼ�</h4> -->
 							<h4>新規広告アップロード</h4>
@@ -293,7 +294,7 @@ ol, ul {
 						<div>
 							<p class="grid-header">google</p>
 							<div>
-								<a th:href="@{/creative/mediaDescription}"><img
+								<a th:href="@{/issue/creativeList}"><img
 									th:src="@{/images/google.png}"/></a>
 							</div>
 						</div>
@@ -314,8 +315,10 @@ ol, ul {
 						</div>
 						<div>
 							<p class="grid-header">Yahoo!</p>
-							<img
-								th:src="@{/images/Yahoo.png}" />
+							<div>
+								<a th:href="@{/creative/mediaDescriptionByYahoo}"><img
+									th:src="@{/images/Yahoo.png}" /></a>
+							</div>
 						</div>
 						<div>
 							<p class="grid-header">Youtube</p>

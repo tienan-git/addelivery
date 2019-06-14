@@ -131,7 +131,7 @@ public class CreativeController {
 
 	}
 
-	@PostMapping("/creativeConfirm_bk")
+	@PostMapping("/creativeConfirm")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
 	public ModelAndView confirmCreative(@Validated CreativeInputForm creativeInputForm, BindingResult result)
 			throws IOException {
@@ -536,6 +536,13 @@ public class CreativeController {
 	public ModelAndView mediaDescription(ModelAndView mv) {
 
 		mv.setViewName("creative/mediaDescription");
+		return mv;
+	}
+	
+	@GetMapping("/mediaDescriptionByYahoo")
+	public ModelAndView mediaDescriptionByYahoo(ModelAndView mv) {
+
+		mv.setViewName("creative/mediaDescriptionByYahoo");
 		return mv;
 	}
 

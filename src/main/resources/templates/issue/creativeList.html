@@ -9,7 +9,7 @@
 					<div class="page-header-title">
 						<i class="ti-crown bg-c-pink"></i>
 						<div class="d-inline">
-							<h4>新規作成（STEP1：広告物選択）</h4>
+							<h4>新規作成</h4>
 						</div>
 						<div id="resultBox"></div>
 					</div>
@@ -25,7 +25,11 @@
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4>
+					<!-- <h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4> -->
+					<div>
+					<h4 class="sub-title">広告物</h4>
+					<a href="/creative/mediaDescription"><button class="btn btn-danger" type="button" style="width: 15rem;">新規広告アップロード</button></a>
+					</div>
 					<div class="dt-responsive table-responsive">
 						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 							<thead>
@@ -78,10 +82,10 @@
 					</div>
 				</div>
 			</div>
-			<div class="card" id="twitter">
+<!-- 			<div class="card" id="twitter">
 				<div class="card-block">
 					<h4 class="sub-title text-capitalize">広告物（Twitter）</h4>
-					<!-- Scrolling DataTable table start -->
+					Scrolling DataTable table start
 					<div id="websiteTwitter" class="dt-responsive table-responsive">
 						<table id="basicTable" class="table table-striped table-bordered nowrap">
 							<thead>
@@ -104,9 +108,9 @@
 							</tbody>
 						</table>
 					</div>
-					<!-- Scrolling DataTable table end -->
+					Scrolling DataTable table end
 				</div>
-			</div>
+			</div> -->
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
 					<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button>
