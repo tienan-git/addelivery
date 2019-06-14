@@ -69,7 +69,7 @@
 				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira" style="color:#73993a"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
+					<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"　></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
 					<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class=" "><a th:href="@{/dsp/templateList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
 							
 <!-- 					<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-angle-right"></i></span><span class="pcoded-mtext">テンプレート管理</span><span class="pcoded-mcaret"></span> </a>
@@ -289,8 +289,8 @@
 					</a></li>
 				</ul></li>
 			</ul> -->	
-			<ul class="pcoded-item pcoded-left-item">
-				<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-star"></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
+			<ul class="pcoded-item pcoded-left-item"> 
+				<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-star" style="color:#FC6180" ></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 				<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
