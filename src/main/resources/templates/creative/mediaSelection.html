@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -45,7 +42,7 @@
 	color: #ffffff;
 	background-color: #3f70b9;
 	line-height: 40px;
-	font-size: 0.8rem;
+	font-size: 0.7rem;
 }
 
 .step li a {
@@ -62,10 +59,7 @@
 }
 
 @media ( min-width : 768px) .nav-justified>li>a {
-	margin-bottom
-	:
-	 
-	0;
+	margin-bottom :0;
 }
 
 .nav-justified>li>a {
@@ -104,7 +98,7 @@ a {
 }
 
 .step-arrow li {
-	width: 8rem;
+	width: 6rem;
 	height: 40px;
 }
 
@@ -193,6 +187,21 @@ ol, ul {
 .grid-header {
 	text-align: center;
 	font-weight: bold;
+} 
+.cssgrid img {
+	max-width: 100%;
+	height: auto;
+	width: auto\9;
+	margin-bottom: 1em;
+}
+
+@media only screen and (max-device-width: 480px) {
+.color-filter .grid-header {
+	opacity:0.4;
+} 
+.color-filter img {
+	opacity: 0.6;    /* カラーフィルタ効果の度合いを指定 */
+}
 }
 
 .cssgrid>div {
@@ -201,12 +210,10 @@ ol, ul {
 	padding: 1em;
 }
 
-.cssgrid img {
-	max-width: 100%;
-	height: auto;
-	width: auto\9;
-	margin-bottom: 1em;
+.cssgrid .color-filter {
+	background:white;
 }
+
 
 .pheader {
 	margin-bottom: 0;
@@ -232,9 +239,7 @@ ol, ul {
 						<!-- <i class="ti-palette bg-c-green"></i> -->
 						<i class="ti-crown bg-c-pink"></i>					
 						<div class="d-inline">
-							<!-- <h4>蠎�蜻翫い繝�繝励Ο繝ｼ繝会ｼ�STEP1�ｼ壼渕譛ｬ諠�蝣ｱ蜈･蜉幢ｼ�</h4> -->
 							<h4>広告作成</h4>
-							<!-- <strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong> -->
 						</div>
 					</div>
 				</div>
@@ -246,7 +251,7 @@ ol, ul {
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
 		<!-- <form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data"> -->
-		<!-- 		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
+		<!-- <form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
 
 		<!-- <div th:replace="common/errorMessages"></div> -->
 		<div class="card">
@@ -294,36 +299,40 @@ ol, ul {
 						<div>
 							<p class="grid-header">google</p>
 							<div>
-								<a th:href="@{/issue/creativeList}"><img
-									th:src="@{/images/google.png}"/></a>
+								<a th:href="@{/issue/creativeList}">
+								<img th:src="@{/images/google.png}"/></a>
 							</div>
 						</div>
 						<div>
 							<p class="grid-header">facebook</p>
-							<img
-								 th:src="@{/images/facebook.png}"/>
-						</div>
-						<div>
-							<p class="grid-header">Instagram</p>
-							<img
-								th:src="@{/images/Instagram.png}" />
-						</div>
-						<div>
-							<p class="grid-header">Twitter</p>
-							<img
-								th:src="@{/images/Twitter.png}"  />
-						</div>
-						<div>
-							<p class="grid-header">Yahoo!</p>
 							<div>
-								<a th:href="@{/creative/mediaDescriptionByYahoo}"><img
-									th:src="@{/images/Yahoo.png}" /></a>
+								<img th:src="@{/images/facebook.png}"/>
 							</div>
 						</div>
 						<div>
+							<p class="grid-header">Instagram</p>
+							<div>
+								<img th:src="@{/images/Instagram.png}" />
+							</div>
+						</div>
+						<div>
+							<p class="grid-header">Twitter</p>
+							<div>
+								<img th:src="@{/images/Twitter.png}"  />
+							</div>
+						</div>
+						<div class="color-filter">
+							<p class="grid-header">Yahoo!</p>
+							<div>
+								<a th:href="@{/creative/mediaDescriptionByYahoo}">
+								<img th:src="@{/images/Yahoo.png}" /></a>
+							</div>
+						</div>
+						<div class="color-filter">
 							<p class="grid-header">Youtube</p>
-							<img
-								th:src="@{/images/youtube.png}" />
+							<div>
+								<img th:src="@{/images/youtube.png}" />
+							</div>
 						</div>
 					</div>
 				</div>
