@@ -253,6 +253,11 @@ ol, ul {
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
+@media only screen and (max-width: 750px) {
+.sp { display: none !important; }
+}
 </style>
 <script type="text/javascript">
 	function myFunc1() {
@@ -331,7 +336,7 @@ ol, ul {
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
 		<div class="card">
-			<div class="card" id="progressbar">
+			<div class="card sp" id="progressbar">
 				<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
 						<li class="active"><a>2.広告/バナー</a></li>

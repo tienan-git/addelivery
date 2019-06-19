@@ -219,6 +219,11 @@ ol, ul {
     font-size: 1.2rem;
     font-weight: bold;
 }
+
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
+@media only screen and (max-width: 750px) {
+.sp { display: none !important; }
+}
 </style>
 </head>
 <body>
@@ -251,7 +256,7 @@ ol, ul {
 		<div class="card">
 			<div class="card-block-container" id="progressbar">
 				<!-- <h4 class="sub-title">陜難ｽｺ隴幢ｽｬ隲��ｿｽ陜｣�ｽｱ</h4> -->
-				<div class="card-block">
+				<div class="card-block sp">
 					<!-- <img style="width:100%" th:src="@{/images/surougen01.jpg}" /> -->
 					<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li class="active"><a>1.媒体</a></li>
