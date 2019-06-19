@@ -215,9 +215,13 @@ ol, ul {
 	font-size: 1.2rem;
 	font-weight: bold;
 }
-/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
+
 @media only screen and (max-width: 750px) {
 .sp { display: none !important; }
+
+.text-right {
+	display:inherit;
+}
 }
 </style>
 </head>
@@ -263,7 +267,7 @@ ol, ul {
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">広告名</label>
+							<label class="col-form-label"><strong>広告名</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label >広告名</label>
@@ -271,7 +275,7 @@ ol, ul {
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">説明文</label>
+							<label class="col-form-label"><strong>説明文</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label >バナー広告　４５文字</label>
@@ -279,7 +283,7 @@ ol, ul {
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信地域</label>
+							<label class="col-form-label"><strong>配信地域</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label>東京都</label>
@@ -287,7 +291,7 @@ ol, ul {
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">日別予算</label>
+							<label class="col-form-label"><strong>日別予算</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label>1,000円</label>
@@ -295,7 +299,7 @@ ol, ul {
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信開始日</label>
+							<label class="col-form-label"><strong>配信開始日</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label>2019-06-13</label>
@@ -303,7 +307,7 @@ ol, ul {
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">配信終了日</label>
+							<label class="col-form-label"><strong>配信終了日</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label>2020-06-12</label>
@@ -311,7 +315,7 @@ ol, ul {
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">リンク先</label>
+							<label class="col-form-label"><strong>リンク先</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<a target="_blank"><u>https://www.apple.com/macbook</u></a>

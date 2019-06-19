@@ -1,4 +1,4 @@
-uploadMediaDescription<!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
@@ -44,10 +44,6 @@ uploadMediaDescription<!DOCTYPE html>
     cursor: pointer;
 }
 
-/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
-@media only screen and (max-width: 750px) {
-.sp { display: none !important; }
-}
 @media only screen and (min-width: 320px) {
 .card-block li {
     grid-template-columns: 100px 0.7fr 2fr;
@@ -62,6 +58,7 @@ uploadMediaDescription<!DOCTYPE html>
     grid-template-columns: 144px 0.7fr 2fr;
 }
 }
+
 </style>
 
 </head>
@@ -72,12 +69,9 @@ uploadMediaDescription<!DOCTYPE html>
 			<div class="row align-items-end">
 				<div class="col-lg-8">
 					<div class="page-header-title">
-						<!-- <i class="ti-palette bg-c-green"></i> -->
-						<i class="ti-crown bg-c-pink"></i>
+						<i class="ti-palette bg-c-green"></i>
 						<div class="d-inline">
-							<!-- <h4>広告アップロード（STEP1：基本情報入力）</h4> -->
-							<h4>新規広告物アップロード</h4>
-							<!-- <strong class="text-danger">※の項目は、必須項目です。</strong> -->
+							<h4>広告物アップロード</h4>
 						</div>
 					</div>
 				</div>
@@ -87,7 +81,7 @@ uploadMediaDescription<!DOCTYPE html>
 			<div class="card-block">
 				  <ul>
 				    <li>
-				    	<div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/googleBanner}">選択</a></div></div>
+				    	<div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/uploadGoogleBanner}">選択</a></div></div>
 				    	<div class="inline"><img class="middle" th:src="@{/images/google_layout1.png}"/></div>
 				    	<div class="inline"><span class="right">▼バナー<br />
 横長・縦長など形や大きさは多岐にわたります。サイト内（ポータルサイト、情報サイト、個人サイト）に画像広告が掲載され、<br />クリックすることで自社サイトに誘導します。</span></div>
