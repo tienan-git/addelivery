@@ -202,7 +202,12 @@ ol, ul {
 .color-filter img {
 	opacity: 0.3;    /* カラーフィルタ効果の度合いを指定 */
 }
+.pc { display: none !important; }
+.sp { display: block !important; }
 }
+
+.pc { display: block !important; }
+.sp { display: none !important; }
 
 .cssgrid>div {
 	overflow: auto;
@@ -257,7 +262,7 @@ ol, ul {
 		<div class="card">
 			<div class="card-block-container" id="progressbar">
 				<!-- <h4 class="sub-title">蝓ｺ譛ｬ諠�蝣ｱ</h4> -->
-				<div class="card-block">
+				<div class="card-block sp">
 					<!-- <img style="width:100%" th:src="@{/images/surougen01.jpg}" /> -->
 					<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li class="active"><a>1.媒体</a></li>
@@ -323,9 +328,11 @@ ol, ul {
 						</div>
 						<div class="color-filter">
 							<p class="grid-header">Yahoo!</p>
-							<div>
-								<a th:href="@{/creative/mediaDescriptionByYahoo}">
-								<img th:src="@{/images/Yahoo.png}" /></a>
+							<div >
+								<a class="pc" th:href="@{/creative/mediaDescriptionByYahoo}"><img th:src="@{/images/Yahoo.png}" /></a>
+							</div>
+							<div >
+								<img class="sp" th:src="@{/images/Yahoo.png}" />
 							</div>
 						</div>
 						<div class="color-filter" style=" white-space: nowrap">
