@@ -254,8 +254,12 @@ ol, ul {
     font-weight: bold;
 }
 
-@media only screen and (max-width: 750px) {
+.pc { display: block !important; }
 .sp { display: none !important; }
+
+@media only screen and (max-width: 750px) {
+.sp { display: block !important; }
+.pc { display: none !important; }
 .card .card-block .left {
 	padding: 0px 1rem;
 }
@@ -345,7 +349,7 @@ ol, ul {
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
 		<div class="card">
-			<div class="card sp" id="progressbar">
+			<div class="card pc" id="progressbar">
 				<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
 						<li class="active"><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
@@ -357,12 +361,24 @@ ol, ul {
 						<li><a>4.配信確認</a></li>
 					</ul>
 			</div>
-			<div align="center" class="pheader">
+			<!-- <div align="center" class="pheader">
 				<h3>2.どれを配信しますか？</h3>
 				<br />
 				<p>
 					<strong>Googleバナー広告(文字+バナー)</strong>
 				</p>
+			</div> -->
+			<div align="center" class="pheader pc">		
+				<h3><img th:src="@{/images/google.png}" style="width:80px;"/><span style="margin-left:40px;">2.どれを配信しますか？</span></h3>
+				<br />
+				<p style="margin-left:100px;">
+					<strong>Googleバナー広告(文字+バナー)</strong>
+				</p>
+			</div>
+			<div class="pheader sp">			
+				<h4><img th:src="@{/images/google.png}" style="width:60px; margin-left:20px;"/><strong style="margin-left:30px;">Googleバナー広告(文字+バナー)</strong></h4>
+				<h2 style="margin-top:30px;margin-left:80px;"><strong>2.どれを配信しますか？</strong></h2>
+				<br />
 			</div>
 			<div class="card-block">
 				<div class="left">

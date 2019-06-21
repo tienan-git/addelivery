@@ -235,6 +235,19 @@ ol, ul {
     font-weight: bold;
 }
 </style>
+<script>
+window.onload=function(){
+var btn1=document.getElementById("sp_yahoo")
+var btn2=document.getElementById("sp_youtube")
+
+btn1.onclick=function(){
+	alert("こちらはPCからのみの配信となります。")
+		}
+btn2.onclick=function(){
+	alert("こちらはPCからのみの配信となります。")
+		}
+	} 
+</script>
 </head>
 <body>
 
@@ -333,13 +346,14 @@ ol, ul {
 							<p class="grid-header">Yahoo!</p>
 							<div >
 								<a class="pc" th:href="@{/creative/mediaDescriptionByYahoo}"><img th:src="@{/images/Yahoo.png}" /></a>
-								<img class="sp" th:src="@{/images/Yahoo.png}" />
+								<img class="sp"  id="sp_yahoo" th:src="@{/images/Yahoo.png}"/>
 							</div>
 						</div>
 						<div class="color-filter" style=" white-space: nowrap">
 							<p class="grid-header">Youtube</p>
 							<div>
-								<img th:src="@{/images/youtube.png}" />
+								<a class="pc" th:href="@{/}"><img th:src="@{/images/youtube.png}" /></a>
+								<img  class="sp"  id="sp_youtube" th:src="@{/images/youtube.png}" />
 							</div>
 						</div>
 					</div>
