@@ -256,8 +256,12 @@ public class IssueController {
 	}
 
 	// 新規作成（STEP2：基本情報入力）
-	@PostMapping("/createIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
+	//@PostMapping("/createIssue")
+	@GetMapping("/createIssue")
+	/*
+	 * @PreAuthorize("hasAuthority('" +
+	 * jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
+	 */
 	public ModelAndView createIssue(@ModelAttribute @Validated CreateIssueForm createIssueForm, BindingResult result) {
 
 		// 入力ＦＯＲＭ内容をＳＥＳＳＯＮへ一時退避
@@ -293,7 +297,8 @@ public class IssueController {
 
 		// 画面遷移
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("issue/createIssue");
+		//mv.setViewName("issue/createIssue");
+		mv.setViewName("creative/createLink");
 		mv.addObject("createIssueForm", createIssueForm);
 		mv.addObject("nonTwitterAdDtoList", nonTwitterAdDtoList);
 		mv.addObject("twitterAdDtoList", twitterAdDtoList);
