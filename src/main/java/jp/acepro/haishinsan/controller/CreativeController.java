@@ -616,6 +616,13 @@ public class CreativeController {
 		return mv;
 	}
 	
+	@GetMapping("/uploadCreateLink")
+	public ModelAndView uploadCreateLink(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadCreateLink");
+		return mv;
+	}
+	
 	@GetMapping("/uploadCreateConfirm")
 	public ModelAndView uploadCreateConfirm(ModelAndView mv) {
 
