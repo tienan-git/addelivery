@@ -650,6 +650,13 @@ public class CreativeController {
 		mv.setViewName("creative/uploadCreateSuccess");
 		return mv;
 	}
+	
+	@GetMapping("/uploadDescriptionOfGoogle")
+	public ModelAndView uploadDescriptionOfGoogle(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadDescriptionOfGoogle");
+		return mv;
+	}
 
 	private void getGoogleAreaList() {
 

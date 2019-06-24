@@ -526,5 +526,29 @@ public class IssueController {
 		return issueList();
 
 	}
+	
+	@GetMapping("/googleBanner")
+	/*
+	 * @PreAuthorize("hasAuthority('" +
+	 * jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
+	 */
+	public ModelAndView googleBanner(@ModelAttribute CreateIssueForm createIssueForm ) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("issue/googleBanner");
+		return mv;
+
+	}
+	
+	@GetMapping("/googleText")
+	/*
+	 * @PreAuthorize("hasAuthority('" +
+	 * jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
+	 */
+	public ModelAndView googleText(@ModelAttribute CreateIssueForm createIssueForm ) {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("issue/googleText");
+		return mv;
+
+	}
 
 }

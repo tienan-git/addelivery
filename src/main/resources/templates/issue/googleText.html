@@ -47,6 +47,39 @@
     border-bottom: 1px solid #e2e2e2;
     padding: 10px;
 }
+
+.card-block .right {
+	margin: 10px 550px;
+	border: 2px solid #b3aeae;
+	border-radius: 28px;
+	position: relative;
+}
+
+.card-block .preview {
+	position: absolute;
+	right: 43%;
+	top: -14px;
+	marign-left: 10px;
+	background: white;
+	padding: 0px 10px;
+	font-weight: bold;
+}
+
+.right-container .ad {
+	border:1px solid #93be52;
+	border-radius:4px;
+	color:#93be52;
+	padding:2px;
+}
+.right-container .ad-link {
+	color:#93be52;
+}
+
+.card-block .img {
+	margin-top: 70px;
+    width: 232px;
+    margin: 70px auto;
+}
 </style>
 </head>
 <body>
@@ -79,40 +112,24 @@
 						<div class="">広告物</div>
 						<div><a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a></div>
 					</div>
+					<div class="right">
 					<div class="right-container">
+						<p class="preview">プレビュー</p>
 						<div class="img">
-							<img id="xmTanImg" alt=""
-								src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-								style="width: 100%">
-							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
-							<div id="textField1" class="midashi">見出し</div>
-							<!-- 							<div id="textField2" class="midashi">見出し</div> -->
-							<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
-							<p id="textField3">説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</p>
 							<div>
-								<span>店舗名</span> <span><a href="http://www.google.co.jp"
-									style="float: right"><font color='blue'>サイトへ</font></a></span>
+								<span class="midashi">見出し1</span>
+								|
+								<span class="midashi">見出し2</span>
 							</div>
+							<div>
+								<span class="ad">広告</span>
+								<a class="ad-link">https://www.ace-pro.com</a>
+							</div>
+							<p id="textField3"><strong>説明文</strong></p>
+							<p><strong>説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</strong></p>
 						</div>
 					</div>
-					<div class="right-container-2">
-						<div class="img">
-							<img id="xmTanImg" alt=""
-								src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-								style="width: 38%">
-							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
-							<div>
-								<div id="textField1" class="midashi">見出し</div>
-								<!-- 							<div id="textField2" class="midashi">見出し</div> -->
-								<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
-								<p id="textField3">説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</p>
-								<div>
-									<span>店舗名</span> <span><a href="http://www.google.co.jp"
-										style="float: right"><font color='blue'>サイトへ</font></a></span>
-								</div>
-							</div>
-						</div>
-					</div>
+				</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
