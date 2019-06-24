@@ -552,6 +552,20 @@ public class CreativeController {
 		mv.setViewName("creative/googleBanner");
 		return mv;
 	}
+	
+	@GetMapping("/googleBannerText")
+	public ModelAndView googleBannerText(ModelAndView mv) {
+
+		mv.setViewName("creative/googleBannerText");
+		return mv;
+	}
+	
+	@GetMapping("/googleText")
+	public ModelAndView googleText(ModelAndView mv) {
+
+		mv.setViewName("creative/googleText");
+		return mv;
+	}
 
 	@GetMapping("/createLink")
 	public ModelAndView createLink(ModelAndView mv) {

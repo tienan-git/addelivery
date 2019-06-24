@@ -80,7 +80,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="card">
+		<div class="card" id="google">
 			<div class="card-block">
 				  <ul>
 				    <li>
@@ -90,19 +90,47 @@
 横長・縦長など形や大きさは多岐にわたります。サイト内（ポータルサイト、情報サイト、個人サイト）に画像広告が掲載され、<br />クリックすることで自社サイトに誘導します。</span></div>
 				    </li>
 				    <li>
-				    <div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white">選択</a></div></div>
+				    <div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/googleBannerText}">選択</a></div></div>
 				    	<div class="inline"><img class="middle" th:src="@{/images/google_layout2.png}"/></div>
 				    	<div class="inline"><span class="right">▼バナー+文字<br />
 見出し、説明文、URLからなる広告です。スポンサードリンクとも呼ばれます。<br />Google 検索結果ページのほか、検索パートナー サイト（BIGLOBE など）の検索結果ページに掲載されます。
 </span></div>
 				    </li>
 				    <li>
-				    <div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white">選択</a></div></div>
+				    <div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/googleText}">選択</a></div></div>
 				    	<div class="inline"><img class="middle" th:src="@{/images/google_layout3.png}"/></div>
 				    	<div class="inline"><span class="right">▼文字<br />
 見出し、説明文、URLからなる広告です。スポンサードリンクとも呼ばれます。<br />Google 検索結果ページのほか、検索パートナー サイト（BIGLOBE など）の検索結果ページに掲載されます。
 </span></div>
 				    </li>
+				  </ul>
+				  <a href="/creative/mediaSelection"> <button class="btn btn-success" type="submit" th:formmethod="get" style="margin:10px 0px 15px 0px">戻る</button></a>
+				</div>
+				
+			</div>
+			<div class="card" id="dsp">
+			<div class="card-block">
+				  <ul>
+				    <li>
+				    	<div class="inline"><img class="left" th:src="@{/images/dsp.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/googleBanner}">選択</a></div></div>
+				    	<div class="inline"><img class="middle" th:src="@{/images/google_layout1.png}"/></div>
+				    	<div class="inline"><span class="right">▼バナー<br />
+横長・縦長など形や大きさは多岐にわたります。サイト内（ポータルサイト、情報サイト、個人サイト）に画像広告が掲載され、<br />クリックすることで自社サイトに誘導します。</span></div>
+				    </li>
+				    <!-- <li>
+				    <div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/googleBannerText}">選択</a></div></div>
+				    	<div class="inline"><img class="middle" th:src="@{/images/google_layout2.png}"/></div>
+				    	<div class="inline"><span class="right">▼バナー+文字<br />
+見出し、説明文、URLからなる広告です。スポンサードリンクとも呼ばれます。<br />Google 検索結果ページのほか、検索パートナー サイト（BIGLOBE など）の検索結果ページに掲載されます。
+</span></div>
+				    </li>
+				    <li>
+				    <div class="inline"><img class="left" th:src="@{/images/google.png}"/><div class="button-wrap"><a class="button-link"  style="color:white" th:href="@{/creative/googleText}">選択</a></div></div>
+				    	<div class="inline"><img class="middle" th:src="@{/images/google_layout3.png}"/></div>
+				    	<div class="inline"><span class="right">▼文字<br />
+見出し、説明文、URLからなる広告です。スポンサードリンクとも呼ばれます。<br />Google 検索結果ページのほか、検索パートナー サイト（BIGLOBE など）の検索結果ページに掲載されます。
+</span></div>
+				    </li> -->
 				  </ul>
 				  <a href="/creative/mediaSelection"> <button class="btn btn-success" type="submit" th:formmethod="get" style="margin:10px 0px 15px 0px">戻る</button></a>
 				</div>

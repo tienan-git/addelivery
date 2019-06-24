@@ -28,7 +28,7 @@ btn1.onclick=function(){
 				<option th:each="obj : ${T(jp.acepro.haishinsan.util.ContextUtil).getShopList()}" th:selected="${T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getShopId()==obj.getShopId()}" th:value="${obj.getShopId()}" th:text="${obj.getShopName()}">10323 ： 店舗名１</option>
 			</select>
 		</div>
-		<ul class="pcoded-item pcoded-left-item">
+		<!-- <ul class="pcoded-item pcoded-left-item">
 			<li sec:authorize="hasAuthority('USER_VIEW')" class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-users"></i></i><b>N</b></span> <span class="pcoded-mtext">アカウント体制管理</span><span class="pcoded-mcaret"></span>
 			</a>
 				<ul class="pcoded-submenu">
@@ -41,7 +41,7 @@ btn1.onclick=function(){
 					<li sec:authorize="hasAuthority('USER_VIEW')" class=" "><a th:href="@{/user/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">ユーザー管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
 				</ul></li>
-		</ul>
+		</ul> -->
 <!-- 		<div class="pcoded-navigatio-lavel">案件簡単作成</div>
 		<ul class="pcoded-item pcoded-left-item">
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/newIssueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
@@ -84,10 +84,10 @@ btn1.onclick=function(){
 		<ul class="pcoded-item pcoded-left-item">
 			<li class="active"><a href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/manual.pdf" target="_blank"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">マニュアル</span></a></li>
 			<li class="active"><a href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/provision.pdf" target="_blank"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">入稿規定</span></a></li>
-		<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">テンプレート設定</span><span
+		<!-- <li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">テンプレート設定</span><span
 					class="pcoded-mcaret"></span></a>
 			<ul class="pcoded-submenu">
-				<!-- ファンへの配信 -->
+				ファンへの配信
 				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira" style="color:#73993a"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
@@ -95,7 +95,7 @@ btn1.onclick=function(){
 					<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class=" "><a th:href="@{/dsp/templateList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
 				</ul></li>
 				
-				<!-- Google -->
+				Google
 				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-google" style="color:#DD4B39"></i><b>F</b></span> <span class="pcoded-mtext">Google</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
@@ -105,7 +105,7 @@ btn1.onclick=function(){
 					</a></li>
 				</ul></li>
 				
-				<!-- Facebook -->
+				Facebook
 				<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-facebook" style="color:#3c5a99"></i><b>T</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.to-do.main">Facebook</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
@@ -114,8 +114,8 @@ btn1.onclick=function(){
 					<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class=" "><a th:href="@{/facebook/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 					</a></li>							
 				</ul></li>
-				
-			<!-- Twitter -->
+		
+			Twitter
 			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-twitter-alt" style="color:#41abe1"></i></span> <span class="pcoded-mtext">Twitter</span>
 					<span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">			
@@ -123,17 +123,17 @@ btn1.onclick=function(){
 				</a></li>
 				<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitter/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 				</a></li>
-<!-- 					<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.analytics">テンプレート管理</span> <span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.analytics">テンプレート管理</span> <span class="pcoded-mcaret"></span>
 					</a>
 						<ul class="pcoded-submenu">
 							<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/twitter/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
 							<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitter/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
-						</ul></li> -->
+						</ul></li>
 				</ul></li>
 				
-			<!-- yahoo -->
+			yahoo
 			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="icofont icofont-social-yahoo" style="color:#ff0033"></i><b>FU</b></span> <span class="pcoded-mtext" data-i18n="nav.file-upload.main">Yahoo</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span></a>
@@ -145,7 +145,7 @@ btn1.onclick=function(){
 					<li sec:authorize="hasAuthority('YAHOO_REPORT_VIEW')" class=" "><a th:href="@{/yahoo/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span></a></li>
 				</ul></li>
 				
-			<!-- youtube -->
+			youtube
 			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-youtube-play" style="color:#ff0000"></i><b>FU</b></span> <span class="pcoded-mtext"
 					data-i18n="nav.file-upload.main">Youtube</span> <span class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
@@ -160,10 +160,9 @@ btn1.onclick=function(){
 					<li sec:authorize="hasAuthority('YOUTUBE_REPORT_VIEW')" class=" "><a th:href="@{/youtube/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span>
 					</a></li>
 				</ul></li>
-			
 			</ul>
 			
-		</li>
+		</li> -->
 		</ul> 	
 			<ul class="pcoded-item pcoded-left-item"> 
 				<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-star" style="color:#FC6180" ></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
