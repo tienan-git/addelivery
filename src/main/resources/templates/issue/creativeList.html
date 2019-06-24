@@ -15,6 +15,38 @@
 } 
 .sp{display:none}
 }
+
+.right-container {
+	margin: 2rem 0;
+}
+.right-container-2 {
+	width: 28%;
+    margin: 0 auto;
+    border: 1px solid #e2e2e2;
+}
+.right-container-2 .img{
+	display:flex;
+	flex-direction:row;
+}
+
+.right-container .img {
+	display: flex;
+    flex-direction: column;
+    width: 28%;
+	border:1px solid #e2e2e2;
+	margin: 0 auto;
+}
+
+.midashi {
+	font-weight:bold;
+}
+
+.header {
+	display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e2e2e2;
+    padding: 10px;
+}
 </style>
 </head>
 <body>
@@ -43,98 +75,58 @@
 			<div class="card">
 				<div class="card-block">
 					<!-- <h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4> -->
-					<div>
-					<h4 class="sub-title">広告物</h4>
+					<div class="header">
+						<div class="">広告物</div>
+						<div><a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a></div>
 					</div>
-					<div class="dt-responsive table-responsive">
-						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
-							<a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a>
-							<thead>
-								<tr>
-									<th>選択</th>
-									<th>画像</th>
-									<th>画像名</th>
-									<th>画像サイズ</th>
-									<th>テキスト</th>
-									<th>審査状況</th>
-									<th>送信日</th>
-									<th>審査完了日</th>
-									<th>設定先案件</th>
-									<th>出稿先</th>
-									<th>削除</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>選択</th>
-									<th>画像</th>
-									<th>画像名</th>
-									<th>画像サイズ</th>
-									<th>テキスト</th>
-									<th>審査状況</th>
-									<th>送信日</th>
-									<th>審査完了日</th>
-									<th>設定先案件</th>
-									<th>出稿先</th>
-									<th>削除</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<tr th:each="nonTwitterAdDto,stat : ${nonTwitterAdDtoList}">
-									<td><input type="checkbox" name="nonTwitterAdIdList" th:value="${nonTwitterAdDto.adId}"></td>
-									<td><span th:each="adImageUrl : ${nonTwitterAdDto.adImageUrlList}"> <img th:src="${adImageUrl}" style="width: 200px;"></img>
-									</span></td>
-									<td><pre th:text="${nonTwitterAdDto.adImageName}"></pre></td>
-									<td><pre th:text="${nonTwitterAdDto.adImageSize}"></pre></td>
-									<td><pre th:text="${nonTwitterAdDto.adText}"></pre></td>
-									<td th:text="${nonTwitterAdDto.adReviewStatus}"></td>
-									<td th:text="${nonTwitterAdDto.adCreateDate}"></td>
-									<td th:text="${nonTwitterAdDto.adReviewDate}"></td>
-									<td><u><a th:text="${nonTwitterAdDto.adIssue}" href="/issue/newIssueList"></a></u></td>
-									<td><i th:class="${nonTwitterAdDto.adIcon}" style="width: 30px"></i></td>
-									<td><a href="/issue/creativeList"><button class="btn btn-danger" type="button">削除</button></a></td>
-								</tr>
-							</tbody>
-						</table>
+					<div class="right-container">
+						<div class="img">
+							<img id="xmTanImg" alt=""
+								src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
+								style="width: 100%">
+							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
+							<div id="textField1" class="midashi">見出し</div>
+							<!-- 							<div id="textField2" class="midashi">見出し</div> -->
+							<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
+							<p id="textField3">説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</p>
+							<div>
+								<span>店舗名</span> <span><a href="http://www.google.co.jp"
+									style="float: right"><font color='blue'>サイトへ</font></a></span>
+							</div>
+						</div>
+					</div>
+					<div class="right-container-2">
+						<div class="img">
+							<img id="xmTanImg" alt=""
+								src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
+								style="width: 38%">
+							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
+							<div>
+								<div id="textField1" class="midashi">見出し</div>
+								<!-- 							<div id="textField2" class="midashi">見出し</div> -->
+								<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
+								<p id="textField3">説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</p>
+								<div>
+									<span>店舗名</span> <span><a href="http://www.google.co.jp"
+										style="float: right"><font color='blue'>サイトへ</font></a></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
+						<button class="btn btn-success" type="submit" th:formmethod="get"
+							th:formaction="@{/creative/mediaSelection}">戻る</button>
+						<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
+							class="btn btn-success" type="submit"
+							th:formaction="@{/creative/createLink}">次へ</button>
 					</div>
 				</div>
 			</div>
-<!-- 			<div class="card" id="twitter">
-				<div class="card-block">
-					<h4 class="sub-title text-capitalize">広告物（Twitter）</h4>
-					Scrolling DataTable table start
-					<div id="websiteTwitter" class="dt-responsive table-responsive">
-						<table id="basicTable" class="table table-striped table-bordered nowrap">
-							<thead>
-								<tr>
-									<th>選択</th>
-									<th>ツイート内容</th>
-								</tr>
-							</thead>
-							<tfoot>
-								<tr>
-									<th>選択</th>
-									<th>ツイート内容</th>
-								</tr>
-							</tfoot>
-							<tbody>
-								<tr th:each="twitterAdDto,stat : ${twitterAdDtoList}">
-									<td><input type="checkbox" name="twitterAdIdList" th:value="${twitterAdDto.adId}"></td>
-									<td><pre th:utext="${twitterAdDto.adText}"></pre></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					Scrolling DataTable table end
-				</div>
-			</div> -->
-			<div class="form-group row">
-				<div class="col-sm-12 text-center">
-					<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
-					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/mediaSelection}">戻る</button>
-					<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formaction="@{/creative/createLink}">次へ</button>
-				</div>
-			</div>
+
+			
 		</form>
 	</div>
 	<!-- page body end -->
