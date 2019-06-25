@@ -214,14 +214,6 @@ ol, ul {
 }
 }
 
-.color-filter .grid-header {
-	opacity:0.4;
-} 
-.color-filter img {
-	opacity: 0.3;    /* カラーフィルタ効果の度合いを指定 */
-}
-
-
 .cssgrid>div {
 	overflow: auto;
 	min-width: 0;
@@ -245,19 +237,6 @@ ol, ul {
     font-weight: bold;
 }
 </style>
-<script>
-window.onload=function(){
-var btn1=document.getElementById("sp_yahoo")
-var btn2=document.getElementById("sp_youtube")
-
-btn1.onclick=function(){
-	alert("モバイル端末ではご利用いただけません。PCから操作してください。")
-		}
-btn2.onclick=function(){
-	alert("モバイル端末ではご利用いただけません。PCから操作してください。")
-		}
-	} 
-</script>
 </head>
 <body>
 
@@ -281,6 +260,22 @@ btn2.onclick=function(){
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
+ <script type="text/javascript">
+window.onload=function(){
+
+document.getElementById("sp_yahoo").onclick=function(){showAlert();}
+document.getElementById("sp_youtube").onclick=function(){showAlert();}
+document.getElementById("sp_twitter").onclick=function(){showAlert();}
+document.getElementById("sp_facebook").onclick=function(){showAlert();}
+document.getElementById("sp_instagram").onclick=function(){showAlert();}
+document.getElementById("sp_dsp").onclick=function(){showAlert();}
+		
+		function showAlert(){
+			alert("使用できません。アカウントを連携してください。");
+		}
+		
+	} 
+</script>
 		<!-- <form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data"> -->
 		<!-- <form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
 
@@ -328,16 +323,16 @@ btn2.onclick=function(){
 						</table> -->
 					<div class="cssgrid">
 						<div>
-							<p class="grid-header">Google</p>
+							<p class="grid-header">google</p>
 							<div>
-								<a th:href="@{/creative/uploadDescriptionOfGoogle}">
+								<a th:href="@{/issue/creativeList}">
 								<img th:src="@{/images/google.png}"/></a>
 							</div>
 						</div>
-					<!-- 	<div>
+						<!-- <div>
 							<p class="grid-header" style=" white-space: nowrap">Facebook</p>
 							<div>
-								<img class="pc" th:src="@{/images/facebook.png}"/>
+								<img th:src="@{/images/facebook.png}"/>
 							</div>
 						</div> -->
 						
@@ -345,13 +340,15 @@ btn2.onclick=function(){
 							<p class="grid-header">Facebook</p>
 							<div>
 								<a class="pc" th:href="@{/}"><img th:src="@{/images/facebook.png}" /></a>
-								<img  class="sp"  id="sp_youtube" th:src="@{/images/facebook.png}" />
+								<img  class="sp"  id="sp_facebook" th:src="@{/images/facebook.png}" />
 							</div>
 						</div>
-					<!-- 	<div style=" white-space: nowrap">
+						
+						
+						<!-- <div style=" white-space: nowrap">
 							<p class="grid-header" >Instagram</p>
 							<div>
-								<img class="pc" th:src="@{/images/Instagram.png}" />
+								<img th:src="@{/images/Instagram.png}" />
 							</div>
 						</div> -->
 						
@@ -359,35 +356,23 @@ btn2.onclick=function(){
 							<p class="grid-header">Instagram</p>
 							<div>
 								<a class="pc" th:href="@{/}"><img th:src="@{/images/Instagram.png}" /></a>
-								<img  class="sp"  id="sp_youtube" th:src="@{/images/Instagram.png}" />
+								<img  class="sp"  id="sp_instagram" th:src="@{/images/Instagram.png}" />
 							</div>
 						</div>
-					
-						<!-- <div style=" white-space: nowrap">
-							<p class="grid-header" >FreatkOut</p>
-							<div>
-								<img class="pc" th:src="@{/images/dsp.png}" />
-							</div>
-						</div> -->
 						
 						<div class="color-filter" style=" white-space: nowrap">
-							<p class="grid-header">FreatkOut</p>
+							<p class="grid-header">FreakOut</p>
 							<div>
 								<a class="pc" th:href="@{/}"><img th:src="@{/images/dsp.png}" /></a>
 								<img  class="sp"  id="sp_dsp" th:src="@{/images/dsp.png}" />
 							</div>
 						</div>
-						
-						
-						<!-- <div>
+					<!-- 	<div>
 							<p class="grid-header">Twitter</p>
 							<div>
-								<a class="pc" th:href="@{/}"><img th:src="@{/images/Twitter.png}" /></a>
-								<img  class="sp"  id="sp_youtube" th:src="@{/images/Twitter.png}" />
+								 <img th:src="@{/images/Twitter.png}"  />
 							</div>
 						</div> -->
-						
-						
 						<div class="color-filter" style=" white-space: nowrap">
 							<p class="grid-header">Twitter</p>
 							<div>
