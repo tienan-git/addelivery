@@ -13,7 +13,7 @@
 window.onload=function(){
 var btn1=document.getElementById("sp_upload")
 btn1.onclick=function(){
-	alert("こちらはPCからのみの配信となります。")
+	alert("モバイル端末ではご利用いただけません。PCから操作してください。")
 		}
 	} 
 </script>
@@ -60,12 +60,11 @@ btn1.onclick=function(){
 			
 		<div class="pcoded-navigatio-lavel">広告作成</div>
 		<ul class="pcoded-item pcoded-left-item">
-		　　　　<!-- <li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/creative/mediaSelection}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">広告作成</span></a></li> -->
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/creative/mediaSelection}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">広告作成</span></a></li>
 			<li class="active pc"><a th:href="@{/creative/uploadMediaSelection}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
-			<li class="active sp" id="sp_upload"><a class="disabled" th:href="@{/}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
+			<li class="active sp" id="sp_upload"><a class="disabled" href="#"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
 			<!-- <li class="active"><a ><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li> -->
-
+</ul>
 		<div class="pcoded-navigatio-lavel">案件管理</div>
 		<ul class="pcoded-item pcoded-left-item">
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/newIssueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
