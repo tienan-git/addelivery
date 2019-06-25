@@ -47,10 +47,37 @@
     border-bottom: 1px solid none;
     padding: 10px;
 }
+
+.pc {
+	display: block !important;
+}
+
+.sp {
+	display: none !important;
+}
+
+@media only screen and (max-width: 750px) {
+	.sp {
+		display: block !important;
+	}
+	.pc {
+		display: none !important;
+	}
+	.card-block .form-control {
+		width: auto;
+	}
+	.card-block {
+		padding: 1rem;
+	}
+	.card-block .bottom {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+}
 </style>
 </head>
 <body>
-	<div class="top-bar clearfix" layout:fragment="page_header_container">
+	<div class="top-bar clearfix pc" layout:fragment="page_header_container">
 		<!-- Page-header start -->
 		<div class="page-header card">
 			<div class="row align-items-end">
@@ -70,13 +97,35 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
+		<div align="center" class="pheader pc">
+				<h3>
+					<img th:src="@{/images/google.png}" style="width: 80px;" /><span
+						style="margin-left: 40px;">2.どれを配信しますか？</span>
+				</h3>
+				<br />
+				<p style="margin-left: 100px;">
+					<strong>Googleバナー広告(画像のみ)</strong>
+				</p>
+		</div>
+		<div class="pheader sp">
+				
+					<img th:src="@{/images/google.png}"
+						style="width: 60px; margin-left: 20px;" />
+						<span style="margin-left: 30px;">Googleバナー広告(画像のみ)</span>
+				
+				<h5 style="margin-top: 30px; margin-left: 50px;">
+					<strong>2.どれを配信しますか？</strong>
+				</h5>
+		</div>
+		<br />
+		<div>
 		<form th:action="@{/}" method="get" th:object="${createIssueForm}">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
 					<!-- <h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4> -->
 					<div class="header">
-						<div class="">広告物</div>
+						<div class="pc">広告物</div>
 						<div><a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a></div>
 					</div>
 					<div class="right-container">
@@ -115,16 +164,15 @@
 					<div class="col-sm-12 text-center">
 						<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
 						<button class="btn btn-success" type="submit" th:formmethod="get"
-							th:formaction="@{/creative/mediaDescription}">戻る</button>
+							th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
 						<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
 							class="btn btn-success" type="submit"
 							th:formaction="@{/creative/createLink}">選択</button>
 					</div>
 				</div>
-			</div>
-
-			
+			</div>			
 		</form>
+		</div>
 	</div>
 	<!-- page body end -->
 
