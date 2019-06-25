@@ -80,7 +80,7 @@
 						<div><a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a></div>
 					</div>
 					<div class="right-container">
-						<div class="img">
+						<div class="">
 							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 100%">
 							<!-- <img id="xmTanImg" alt="" th:src="@{/images/画像グループ1_300x250.jpg}" > -->
 							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
@@ -95,7 +95,7 @@
 						</div>
 					</div>
 					<div class="right-container-2">
-						<div class="img">
+						<div class="">
 							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 38%">
 							<!-- <img id="xmTanImg" alt="" th:src="@{/images/画像グループ1_320x50.jpg}" > -->
 							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
@@ -103,7 +103,6 @@
 								<div id="textField1" class="midashi">見出し</div>
 								<!-- 							<div id="textField2" class="midashi">見出し</div> -->
 								<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
-								<p id="textField3">説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</p>
 								<div>
 									<span>店舗名</span> <span><a href="http://www.google.co.jp"
 										style="float: right"><font color='blue'>サイトへ</font></a></span>
@@ -116,7 +115,7 @@
 					<div class="col-sm-12 text-center">
 						<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
 						<button class="btn btn-success" type="submit" th:formmethod="get"
-							th:formaction="@{/creative/uploadDescriptionOfGoogle}">戻る</button>
+							th:formaction="@{/creative/mediaDescription}">戻る</button>
 						<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
 							class="btn btn-success" type="submit"
 							th:formaction="@{/creative/createLink}">選択</button>

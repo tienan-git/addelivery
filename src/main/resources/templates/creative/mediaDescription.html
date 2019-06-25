@@ -100,9 +100,9 @@
 									横長・縦長など形や大きさは多岐にわたります。<br />サイト内（ポータルサイト、情報サイト、個人サイト）に画像広告が掲載され、クリックすることで自社サイトに誘導します。
 								</span>
 							</div>
-							<div class="button-wrap col-lg-8">
+							<div class="button-wrap">
 								<a class="button-link" style="color: white; font-size: 15px;"
-									th:href="@{/creative/googleBanner}">選択</a>
+									th:href="@{/issue/googleBanner}">選択</a>
 							</div>
 						</div>
 					</li>
@@ -140,7 +140,7 @@
 							</div>
 							<div class="button-wrap">
 								<a class="button-link" style="color: white; font-size: 15px;"
-									th:href="@{/creative/googleBannerText}">選択</a>
+									th:href="@{/issue/creativeList}">選択</a>
 							</div>
 						</div>
 					</li>
@@ -175,15 +175,18 @@
 							</div>
 							<div class="button-wrap">
 								<a class="button-link" style="color: white; font-size: 15px;"
-									th:href="@{/creative/googleBannerText}">選択</a>
+									th:href="@{/issue/googleText}">選択</a>
 							</div>
 						</div>
 					</li>
 				</ul>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
 				<a href="/creative/mediaSelection">
 					<button class="btn btn-success" type="submit" th:formmethod="get"
 						style="margin: 30px 0px 15px 0px">戻る</button>
-				</a>
+				</a>	</div>
+						</div>
 			</div>
 
 		</div>

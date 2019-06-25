@@ -1,51 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <head>
 <style type="text/css">
 .button-upload {
-	float:left;
-	font-size:0.8rem;
+	float: left;
+	font-size: 0.8rem;
 	padding: 0.8rem 1.2rem;
 }
 
 @media only screen and (max-device-width: 480px) {
-.button-upload {
-	float:none;
-    margin-bottom: 2px;
-} 
-.sp{display:none}
+	.button-upload {
+		float: none;
+		margin-bottom: 2px;
+	}
+	.sp {
+		display: none
+	}
 }
 
 .right-container {
 	margin: 2rem 0;
 }
+
 .right-container-2 {
 	width: 28%;
-    margin: 0 auto;
-    border: 1px solid #e2e2e2;
+	margin: 0 auto;
+	border: 1px solid #e2e2e2;
 }
-.right-container-2 .img{
-	display:flex;
-	flex-direction:row;
+
+.right-container-2 .img {
+	display: flex;
+	flex-direction: row;
 }
 
 .right-container .img {
 	display: flex;
-    flex-direction: column;
-    width: 28%;
-	border:1px solid #e2e2e2;
+	flex-direction: column;
+	width: 28%;
+	border: 1px solid #e2e2e2;
 	margin: 0 auto;
 }
 
 .midashi {
-	font-weight:bold;
+	font-weight: bold;
 }
 
 .header {
 	display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #e2e2e2;
-    padding: 10px;
+	justify-content: space-between;
+	border-bottom: 1px solid #e2e2e2;
+	padding: 10px;
 }
 
 .card-block .right {
@@ -66,19 +73,20 @@
 }
 
 .right-container .ad {
-	border:1px solid #93be52;
-	border-radius:4px;
-	color:#93be52;
-	padding:2px;
+	border: 1px solid #93be52;
+	border-radius: 4px;
+	color: #93be52;
+	padding: 2px;
 }
+
 .right-container .ad-link {
-	color:#93be52;
+	color: #93be52;
 }
 
 .card-block .img {
 	margin-top: 70px;
-    width: 232px;
-    margin: 70px auto;
+	width: 232px;
+	margin: 70px auto;
 }
 </style>
 </head>
@@ -110,32 +118,38 @@
 					<!-- <h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4> -->
 					<div class="header">
 						<div class="">広告物</div>
-						<div><a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a></div>
-					</div>
-					<div class="right">
-					<div class="right-container">
-						<p class="preview">プレビュー</p>
-						<div class="img">
-							<div>
-								<span class="midashi">見出し1</span>
-								|
-								<span class="midashi">見出し2</span>
-							</div>
-							<div>
-								<span class="ad">広告</span>
-								<a class="ad-link">https://www.ace-pro.com</a>
-							</div>
-							<p id="textField3"><strong>説明文</strong></p>
-							<p><strong>説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</strong></p>
+						<div>
+							<a href="/creative/mediaDescription"><button
+									class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a>
 						</div>
 					</div>
-				</div>
+		<div class="card" id="google">
+					<div class="center">
+						<div class="center-container">
+			
+							<div class="img">
+								<div>
+									<span class="midashi">見出し1</span> | <span class="midashi">見出し2</span>
+								</div>
+								<div>
+									<span class="ad">広告</span> <a class="ad-link">https://www.ace-pro.com</a>
+								</div>
+								<p id="textField3">
+									<strong>説明文</strong>
+								</p>
+								<p>
+									<strong>説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文説明文</strong>
+								</p>
+							</div>
+						</div>
+					</div>
+					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
 						<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
 						<button class="btn btn-success" type="submit" th:formmethod="get"
-							th:formaction="@{/creative/uploadDescriptionOfGoogle}">戻る</button>
+							th:formaction="@{/creative/mediaDescription}">戻る</button>
 						<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
 							class="btn btn-success" type="submit"
 							th:formaction="@{/creative/createLink}">選択</button>
@@ -143,7 +157,7 @@
 				</div>
 			</div>
 
-			
+
 		</form>
 	</div>
 	<!-- page body end -->
