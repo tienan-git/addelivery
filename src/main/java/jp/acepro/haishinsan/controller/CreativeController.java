@@ -623,10 +623,24 @@ public class CreativeController {
 		return mv;
 	}
 
+
 	@GetMapping("/uploadGoogleBanner")
 	public ModelAndView uploadGoogleBanner(ModelAndView mv) {
 
 		mv.setViewName("creative/uploadGoogleBanner");
+		return mv;
+	}
+
+	@GetMapping("/uploadGoogleBannerText")
+	public ModelAndView uploadGoogleBannerText(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadGoogleBannerText");
+		return mv;
+	}
+	@GetMapping("/uploadGoogleText")
+	public ModelAndView uploadGoogleText(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadGoogleText");
 		return mv;
 	}
 	
