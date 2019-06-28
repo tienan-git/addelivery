@@ -24,9 +24,10 @@ btn1.onclick=function(){
 	</div>
 	<div class="pcoded-inner-navbar main-menu">
 		<div class="pcoded-navigatio-lavel">現在の店舗<br/>
-			<select class="form-control form-control-primary" name="shopSelecter">
+		秋葉原店舗
+			<!-- <select class="form-control form-control-primary" name="shopSelecter">
 				<option th:each="obj : ${T(jp.acepro.haishinsan.util.ContextUtil).getShopList()}" th:selected="${T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getShopId()==obj.getShopId()}" th:value="${obj.getShopId()}" th:text="${obj.getShopName()}">10323 ： 店舗名１</option>
-			</select>
+			</select>-->
 		</div>
 		<!-- <ul class="pcoded-item pcoded-left-item">
 			<li sec:authorize="hasAuthority('USER_VIEW')" class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-users"></i></i><b>N</b></span> <span class="pcoded-mtext">アカウント体制管理</span><span class="pcoded-mcaret"></span>
