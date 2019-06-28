@@ -672,6 +672,22 @@ public class CreativeController {
 		return mv;
 	}
 
+	@GetMapping("/issueListGoogleText")
+	public ModelAndView issueListGoogleText(ModelAndView mv) {
+		mv.setViewName("creative/issueListGoogleText");
+		return mv;
+	}
+
+	@GetMapping("/issueListGoogleBanner")
+	public ModelAndView issueListGoogleBanner(ModelAndView mv) {
+		mv.setViewName("creative/issueListGoogleBanner");
+		return mv;
+	}
+	@GetMapping("/issueListGoogleBannerText")
+	public ModelAndView issueListGoogleBannerText(ModelAndView mv) {
+		mv.setViewName("creative/issueListGoogleBannerText");
+		return mv;
+	}
 	private void getGoogleAreaList() {
 
 		if (CodeMasterServiceImpl.googleAreaNameList == null) {
