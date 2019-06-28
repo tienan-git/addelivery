@@ -252,25 +252,35 @@ ol, ul {
 	    			<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
 						<li><a>2.広告/バナー</a></li>
-						<li><a>4.リンク先</a></li>
 						<!-- <li><a>4.配信地域</a></li>
 						<li><a>5.日程</a></li>
 						<li><a>6.予算</a></li> -->
-						<li class="active"><a>4.確認</a></li>
-						<li><a>5.配信確定</a></li>
+						<li class="active"><a>3.確認</a></li>
+						<li><a>4.配信確定</a></li>
 					</ul>
 				</div>
 		 		<div class="pheader" align="center">
-					<h3>3.以下の内容で配信します。</h3>
+					<h3>3.以下の内容で登録します。</h3>
 				</div>
 				<div class="card-block">
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>広告名</strong></label>
+							<label class="col-form-label"><strong>広告</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
 							<label >広告名</label>
+						</div>
+					</div>
+									<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label"><strong></strong></label>
+						</div>
+						<!-- <div class="col-sm-4 col-form-label">
+							<label >バナー広告　４５文字</label>
+						</div> -->
+						<div>
+						<img th:src="@{/images/画像グループ1_300x250.jpg}" />
 						</div>
 					</div>
 					<div class="form-group row">
@@ -312,7 +322,7 @@ ol, ul {
 						<div class="col-sm-4 col-form-label">
 							<label>2020-06-12</label>
 						</div>
-					</div> -->
+					</div> 
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
 							<label class="col-form-label"><strong>リンク先</strong></label>
@@ -320,7 +330,7 @@ ol, ul {
 						<div class="col-sm-4 col-form-label">
 							<a target="_blank"><u>https://www.apple.com/macbook</u></a>
 						</div>
-					</div>
+					</div>-->
 				</div>
 				<div class="col-sm-12 text-center"  style="margin-bottom:20px">
 					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadGoogleBanner}">戻る</button>
