@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<style type="text/css">
+.step-arrow li.active a:after, .step-arrow li.active a:hover:after {
+	background-color: #ffffff !important;
+}
+
+.step-arrow li.active a:after {
+	background-color: #ffffff;
+}
+
+.step-arrow li a:after {
+	position: absolute;
+	top: -1px;
+	right: -21px;
+	width: 40px;
+	height: 40px;
+	transform: scale(0.707) rotate(45deg);
+	z-index: 1;
+	background-color: #3f70b9;
+	border-radius: 0 5px 0 50px;
+	border-top: 1px solid #ffffff;
+	border-right: 1px solid #ffffff;
+	box-sizing: content-box;
+}
+
+.step li a:after {
+	content: "";
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+#progressbar {
+	background-color: #fff
+}
+
+#progressbar li.active a, .step-arrow li.active a:hover {
+	background-color: #ffffff;
+	color: #354cbd;
+}
+
+#progressbar ul a {
+	border-radius: 0;
+	color: #ffffff;
+	background-color: #3f70b9;
+	line-height: 40px;
+	font-size: 0.7rem;
+}
+
+.step li a {
+	cursor: pointer;
+	display: table-cell;
+	width: 2.5rem;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+#progressbar {
+	margin: 0 auto;
+}
+
+@media ( min-width : 768px) .nav-justified>li>a {
+	margin-bottom
+	
+	
+	
+	
+	:
+	
+	
+	 
+	
+	
+	0;
+}
+
+.nav-justified>li>a {
+	text-align: center;
+}
+
+.nav>li>a {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.btn-group-vertical>.btn-group:after, .btn-group-vertical>.btn-group:before,
+	.btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before,
+	.container-fluid:after, .container-fluid:before, .container:after,
+	.container:before, .dl-horizontal dd:after, .dl-horizontal dd:before,
+	.form-horizontal .form-group:after, .form-horizontal .form-group:before,
+	.modal-footer:after, .modal-footer:before, .modal-header:after,
+	.modal-header:before, .nav:after, .nav:before, .navbar-collapse:after,
+	.navbar-collapse:before, .navbar-header:after, .navbar-header:before,
+	.navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after,
+	.panel-body:before, .row:after, .row:before {
+	display: table;
+	content: " ";
+}
+
+:after, :before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.step-arrow li {
+	width: 6rem;
+	height: 40px;
+}
+
+.step li {
+	position: relative;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+@media ( min-width : 768px) .nav-justified>li {
+	display
+	
+	
+	
+	
+	:
+	
+	
+	 
+	
+	
+	table-cell
+	
+	
+	
+	
+	;
+	width
+	
+	
+	
+	
+	:
+	
+	
+	 
+	
+	
+	1%;
+}
+
+.nav>li {
+	position: relative;
+	display: table;
+	border: 1px solid #3f70b9;
+	border-right: none;
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+user agent stylesheet
+li {
+	display: list-item;
+	text-align: -webkit-match-parent;
+}
+
+.step-arrow {
+	margin: 20px 0;
+}
+
+.step {
+	counter-reset: flag;
+}
+
+.nav-justified {
+	width: 100%;
+}
+
+.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+	display: flex;
+}
+
+ol, ul {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.step-arrow li:nth-child(n+2) a {
+	border-radius: 0;
+}
+
+.card-block {
+	display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 8rem;
+    padding: 0 16rem;
+    margin-bottom: 20px;
+}
+
+.card-block .left {
+	padding: 0px 50px;
+}
+
+.card-block .right {
+	margin: 10px 150px;
+	border: 2px solid #b3aeae;
+	border-radius: 28px;
+	position: relative;
+}
+
+.card-block .grid-child {
+	
+}
+
+.card-block .img {
+	margin-top: 36px;
+	width: 200px;
+	margin-left: 120px;
+}
+
+.card-block .preview {
+	position: absolute;
+	right: 43%;
+	top: -14px;
+	marign-left: 10px;
+	background: white;
+	padding: 0px 10px;
+	font-weight: bold;
+}
+
+.midashi {
+	margin: 5px 0px;
+	font-size: 17px;
+	font-weight: bold;
+	color: #191619;
+}
+
+.native {
+	text-align: center;
+	margin-top: 27px;
+	font-weight: bold;
+}
+
+.card-block .row {
+	justify-content: space-between
+}
+
+.pheader {
+	margin-bottom: 0;
+	/* font-size: 1rem; */
+	padding-bottom: 0;
+	padding-top: 4rem;
+}
+
+.pheader h3 {
+	font-size: 1.2rem;
+	font-weight: bold;
+}
+
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
+@media only screen and (max-width: 750px) {
+.sp { display: none !important; }
+}
+</style>
+</head>
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<!-- <i class="ti-palette bg-c-green"></i> -->
+						<i class="ti-crown bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>広告作成</h4>
+							<!-- <strong class="text-danger">※の項目は、必須項目です。</strong> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+<!-- 		<div class="card-block">
+	    	<img style="width:100%" th:src="@{/images/surougen03.jpg}" />
+		</div>
+		 <div class="card-block" align="center">
+			<h2>3.どこへ誘導しますか？</h2>
+		</div> -->
+		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data">
+<!-- 		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
+
+			<!-- <div th:replace="common/errorMessages"></div> -->
+			<div class="card">
+				<div class="card-block1 pc" id="progressbar">
+						<ul class="nav nav-pills nav-justified step step-arrow">
+							<li><a>1.媒体</a></li>
+							<li><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
+							<li><a>3.リンク先</a></li>
+							<li><a>4.配信地域</a></li>
+							<li><a>5.日程</a></li>
+							<li class="active"><a>6.予算</a></li>
+							<li><a>7.確認</a></li>
+							<li><a>8.配信確定</a></li>
+						</ul>
+					</div>
+		 		<div class="card-block2 pheader" align="center">
+					<h3>6.いくら配信しますか？</h3>
+				</div>
+				<div class="card-block3" align="center" style="margin:20px">		
+					<div class="">	   			
+						<div class="col-sm-8" id="option" style="width:70%; margin-bottom:50px">
+							<input type="number" maxlength="9" min="0" style="width:60%; height:40px"/>円
+						</div >
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center" style="margin-bottom:20px">						
+							<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createDate}">戻る</button>		       		
+							<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createConfirm}">次へ</button>							
+						</div>
+					</div>	
+				</div>
+			</div>
+			</form>		
+		</div>
+	<!-- page body end -->
+	<div layout:fragment="custom_resource_body">
+	</div>
+</body>
+</html>

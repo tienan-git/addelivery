@@ -136,7 +136,6 @@ public class CreativeController {
 	public ModelAndView confirmCreative(@Validated CreativeInputForm creativeInputForm, BindingResult result)
 			throws IOException {
 
-
 		CreativeDto creativeDto = CreativeMapper.INSTANCE.map(creativeInputForm);
 
 		List<String> resAdImageList = new ArrayList<String>();
@@ -144,9 +143,19 @@ public class CreativeController {
 
 		List<String> dspImageList = new ArrayList<String>();
 		List<String> facebookImageList = new ArrayList<String>();
-		
+
 		if (CodeMasterServiceImpl.keywordNameList == null) {
 			codeMasterService.getKeywordNameList();
+		}
+
+		if (CreativeType.DSP.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile1()) {
+				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
+				StringBuffer data = new StringBuffer();
+				data.append("data:image/jpeg;base64,");
+				data.append(base64Str);
+				dspImageList.add(data.toString());
+			}
 		}
 
 		// 完了画面にGoogle画像を表示するため、画像データを取得
@@ -176,18 +185,18 @@ public class CreativeController {
 			}
 		}
 
-		if (CreativeType.DSP.getValue().equals(creativeInputForm.getCreativeType())) {
-			for (MultipartFile imageFile : creativeInputForm.getMyfile1()) {
+		if (CreativeType.FACEBOOK.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile4()) {
 				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 				StringBuffer data = new StringBuffer();
 				data.append("data:image/jpeg;base64,");
 				data.append(base64Str);
-				dspImageList.add(data.toString());
+				facebookImageList.add(data.toString());
 			}
 		}
-		
-		if (CreativeType.FACEBOOK.getValue().equals(creativeInputForm.getCreativeType())) {
-			for (MultipartFile imageFile : creativeInputForm.getMyfile4()) {
+
+		if (CreativeType.INSTAGRAM.getValue().equals(creativeInputForm.getCreativeType())) {
+			for (MultipartFile imageFile : creativeInputForm.getMyfile5()) {
 				String base64Str = Base64.getEncoder().encodeToString(imageFile.getBytes());
 				StringBuffer data = new StringBuffer();
 				data.append("data:image/jpeg;base64,");
@@ -281,7 +290,7 @@ public class CreativeController {
 		session.setAttribute("googleMsg", googleMsg);
 		session.setAttribute("facebookMsg", facebookMsg);
 		session.setAttribute("twitterMsg", twitterMsg);
-		
+
 		// キャンペーン作成成功したらツイートリストをsessionから削除
 		session.removeAttribute("websiteTweetList");
 
@@ -294,23 +303,22 @@ public class CreativeController {
 
 	@GetMapping("/creativeComplete")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView completeCreative()
-			throws IOException {
+	public ModelAndView completeCreative() throws IOException {
 
-		CreativeDto creativeDto = (CreativeDto)session.getAttribute("creativeDto");
+		CreativeDto creativeDto = (CreativeDto) session.getAttribute("creativeDto");
 
-		List<String> resAdImageList = (ArrayList<String>)session.getAttribute("resAdImageList");
-		List<String> imageAdImageList = (ArrayList<String>)session.getAttribute("imageAdImageList");
+		List<String> resAdImageList = (ArrayList<String>) session.getAttribute("resAdImageList");
+		List<String> imageAdImageList = (ArrayList<String>) session.getAttribute("imageAdImageList");
 
-		List<String> dspImageList = (ArrayList<String>)session.getAttribute("dspImageList");
-		List<String> facebookImageList = (ArrayList<String>)session.getAttribute("facebookImageList");
-		
-		String dspMsg = (String)session.getAttribute("dspMsg");
-		String googleMsg = (String)session.getAttribute("googleMsg");
-		String facebookMsg = (String)session.getAttribute("facebookMsg");
-		String twitterMsg = (String)session.getAttribute("twitterMsg");
-		List<TwitterAdDto> twitterAdDtoList = (ArrayList<TwitterAdDto>)session.getAttribute("twitterAdDtoList");
-		
+		List<String> dspImageList = (ArrayList<String>) session.getAttribute("dspImageList");
+		List<String> facebookImageList = (ArrayList<String>) session.getAttribute("facebookImageList");
+
+		String dspMsg = (String) session.getAttribute("dspMsg");
+		String googleMsg = (String) session.getAttribute("googleMsg");
+		String facebookMsg = (String) session.getAttribute("facebookMsg");
+		String twitterMsg = (String) session.getAttribute("twitterMsg");
+		List<TwitterAdDto> twitterAdDtoList = (ArrayList<TwitterAdDto>) session.getAttribute("twitterAdDtoList");
+
 		ModelAndView mv = new ModelAndView("creative/creativeComplete");
 		mv.addObject("creativeDto", creativeDto);
 		mv.addObject("resAdImageList", resAdImageList);
@@ -352,7 +360,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoD1 = new NonTwitterAdDto();
 		nonTwitterAdDtoD1.setAdImageName("image1.jpg\r\nimage2.jpg");
 		nonTwitterAdDtoD1.setAdImageSize("100x100\r\n200x200");
-		nonTwitterAdDtoD1.getAdImageUrlList().add("https://www.fout.co.jp/images/freakout/product/product_freakout.png");
+		nonTwitterAdDtoD1.getAdImageUrlList()
+				.add("https://www.fout.co.jp/images/freakout/product/product_freakout.png");
 		nonTwitterAdDtoD1.getAdImageUrlList().add("https://upload.wikimedia.org/wikipedia/commons/7/71/Freak_Out.jpg");
 		nonTwitterAdDtoD1.setAdText("");
 		nonTwitterAdDtoD1.setAdReviewStatus("承認済み");
@@ -365,7 +374,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoD2 = new NonTwitterAdDto();
 		nonTwitterAdDtoD2.setAdImageName("image1.jpg");
 		nonTwitterAdDtoD2.setAdImageSize("100x100");
-		nonTwitterAdDtoD2.getAdImageUrlList().add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+		nonTwitterAdDtoD2.getAdImageUrlList()
+				.add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
 		nonTwitterAdDtoD2.setAdText("");
 		nonTwitterAdDtoD2.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoD2.setAdCreateDate("2019/04/01");
@@ -378,8 +388,10 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoG1 = new NonTwitterAdDto();
 		nonTwitterAdDtoG1.setAdImageName("image1.jpg\r\nimage2.jpg");
 		nonTwitterAdDtoG1.setAdImageSize("100x100\r\n200x200");
-		nonTwitterAdDtoG1.getAdImageUrlList().add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
-		nonTwitterAdDtoG1.getAdImageUrlList().add("https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png");
+		nonTwitterAdDtoG1.getAdImageUrlList()
+				.add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+		nonTwitterAdDtoG1.getAdImageUrlList()
+				.add("https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png");
 		nonTwitterAdDtoG1.setAdText("短い広告見出し\r\n説明文");
 		nonTwitterAdDtoG1.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoG1.setAdCreateDate("2019/04/01");
@@ -392,8 +404,10 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoG2 = new NonTwitterAdDto();
 		nonTwitterAdDtoG2.setAdImageName("image1.jpg\r\nimage2.jpg");
 		nonTwitterAdDtoG2.setAdImageSize("100x100\r\n200x200");
-		nonTwitterAdDtoG2.getAdImageUrlList().add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
-		nonTwitterAdDtoG2.getAdImageUrlList().add("https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png");
+		nonTwitterAdDtoG2.getAdImageUrlList()
+				.add("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png");
+		nonTwitterAdDtoG2.getAdImageUrlList()
+				.add("https://www.gstatic.com/android/market_images/web/play_prism_hlock_2x.png");
 		nonTwitterAdDtoG2.setAdText("");
 		nonTwitterAdDtoG2.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoG2.setAdCreateDate("2019/04/01");
@@ -418,7 +432,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoF1 = new NonTwitterAdDto();
 		nonTwitterAdDtoF1.setAdImageName("image1.jpg");
 		nonTwitterAdDtoF1.setAdImageSize("500x500");
-		nonTwitterAdDtoF1.getAdImageUrlList().add("https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg");
+		nonTwitterAdDtoF1.getAdImageUrlList()
+				.add("https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg");
 		nonTwitterAdDtoF1.setAdText("説明文");
 		nonTwitterAdDtoF1.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoF1.setAdCreateDate("2019/04/01");
@@ -430,7 +445,8 @@ public class CreativeController {
 		NonTwitterAdDto nonTwitterAdDtoF2 = new NonTwitterAdDto();
 		nonTwitterAdDtoF2.setAdImageName("image2.jpg");
 		nonTwitterAdDtoF2.setAdImageSize("500x500");
-		nonTwitterAdDtoF2.getAdImageUrlList().add("https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/2000px-Facebook_New_Logo_%282015%29.svg.png");
+		nonTwitterAdDtoF2.getAdImageUrlList().add(
+				"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/Facebook_New_Logo_%282015%29.svg/2000px-Facebook_New_Logo_%282015%29.svg.png");
 		nonTwitterAdDtoF2.setAdText("");
 		nonTwitterAdDtoF2.setAdReviewStatus("承認済み");
 		nonTwitterAdDtoF2.setAdCreateDate("2019/04/01");
@@ -509,4 +525,173 @@ public class CreativeController {
 
 	}
 
+	@GetMapping("/mediaSelection")
+	public ModelAndView mediaSelection(ModelAndView mv) {
+
+		mv.setViewName("creative/mediaSelection");
+		return mv;
+	}
+
+	@GetMapping("/mediaDescription")
+	public ModelAndView mediaDescription(ModelAndView mv) {
+
+		mv.setViewName("creative/mediaDescription");
+		return mv;
+	}
+	
+	@GetMapping("/mediaDescriptionByYahoo")
+	public ModelAndView mediaDescriptionByYahoo(ModelAndView mv) {
+
+		mv.setViewName("creative/mediaDescriptionByYahoo");
+		return mv;
+	}
+
+	@GetMapping("/googleBanner")
+	public ModelAndView googleBanner(ModelAndView mv) {
+
+		mv.setViewName("creative/googleBanner");
+		return mv;
+	}
+	
+	@GetMapping("/googleBannerText")
+	public ModelAndView googleBannerText(ModelAndView mv) {
+
+		mv.setViewName("creative/googleBannerText");
+		return mv;
+	}
+	
+	@GetMapping("/googleText")
+	public ModelAndView googleText(ModelAndView mv) {
+
+		mv.setViewName("creative/googleText");
+		return mv;
+	}
+
+	@GetMapping("/createLink")
+	public ModelAndView createLink(ModelAndView mv) {
+
+		mv.setViewName("creative/createLink");
+		return mv;
+	}
+
+	@GetMapping("/createArea")
+	public ModelAndView createArea(ModelAndView mv) {
+		getGoogleAreaList();
+		mv.setViewName("creative/createArea");
+		return mv;
+	}
+
+	@GetMapping("/createDate")
+	public ModelAndView createDate(ModelAndView mv) {
+
+		mv.setViewName("creative/createDate");
+		return mv;
+	}
+
+	@GetMapping("/createBudget")
+	public ModelAndView createBudget(ModelAndView mv) {
+
+		mv.setViewName("creative/createBudget");
+		return mv;
+	}
+
+	@GetMapping("/createConfirm")
+	public ModelAndView createConfirm(ModelAndView mv) {
+
+		mv.setViewName("creative/createConfirm");
+		return mv;
+	}
+	
+	@GetMapping("/createSuccess")
+	public ModelAndView createSuccess(ModelAndView mv) {
+
+		mv.setViewName("creative/createSuccess");
+		return mv;
+	}
+	
+	@GetMapping("/uploadMediaSelection")
+	public ModelAndView uploadMediaSelection(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadMediaSelection");
+		return mv;
+	}
+	
+	@GetMapping("/uploadMediaDescription")
+	public ModelAndView uploadMediaDescription(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadMediaDescription");
+		return mv;
+	}
+
+
+	@GetMapping("/uploadGoogleBanner")
+	public ModelAndView uploadGoogleBanner(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadGoogleBanner");
+		return mv;
+	}
+
+	@GetMapping("/uploadGoogleBannerText")
+	public ModelAndView uploadGoogleBannerText(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadGoogleBannerText");
+		return mv;
+	}
+	@GetMapping("/uploadGoogleText")
+	public ModelAndView uploadGoogleText(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadGoogleText");
+		return mv;
+	}
+	
+	@GetMapping("/uploadCreateLink")
+	public ModelAndView uploadCreateLink(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadCreateLink");
+		return mv;
+	}
+	
+	@GetMapping("/uploadCreateConfirm")
+	public ModelAndView uploadCreateConfirm(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadCreateConfirm");
+		return mv;
+	}
+	
+	@GetMapping("/uploadCreateSuccess")
+	public ModelAndView uploadCreateSuccess(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadCreateSuccess");
+		return mv;
+	}
+	
+	@GetMapping("/uploadDescriptionOfGoogle")
+	public ModelAndView uploadDescriptionOfGoogle(ModelAndView mv) {
+
+		mv.setViewName("creative/uploadDescriptionOfGoogle");
+		return mv;
+	}
+
+	@GetMapping("/issueListGoogleText")
+	public ModelAndView issueListGoogleText(ModelAndView mv) {
+		mv.setViewName("creative/issueListGoogleText");
+		return mv;
+	}
+
+	@GetMapping("/issueListGoogleBanner")
+	public ModelAndView issueListGoogleBanner(ModelAndView mv) {
+		mv.setViewName("creative/issueListGoogleBanner");
+		return mv;
+	}
+	@GetMapping("/issueListGoogleBannerText")
+	public ModelAndView issueListGoogleBannerText(ModelAndView mv) {
+		mv.setViewName("creative/issueListGoogleBannerText");
+		return mv;
+	}
+	private void getGoogleAreaList() {
+
+		if (CodeMasterServiceImpl.googleAreaNameList == null) {
+			codeMasterService.getGoogleAreaList();
+		}
+	}
 }

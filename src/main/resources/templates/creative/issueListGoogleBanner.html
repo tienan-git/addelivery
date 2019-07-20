@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<style type="text/css">
+.button-upload {
+	float:left;
+	font-size:0.8rem;
+	padding: 0.8rem 1.2rem;
+}
+
+@media only screen and (max-device-width: 480px) {
+.button-upload {
+	float:none;
+    margin-bottom: 2px;
+} 
+.sp{display:none}
+}
+
+.right-container {
+	margin: 2rem 0;
+}
+.right-container-2 {
+	width: 28%;
+    margin: 0 auto;
+    border: 1px solid #e2e2e2;
+}
+.right-container-2 .img{
+	display:flex;
+	flex-direction:row;
+}
+
+.right-container .img {
+	display: flex;
+    flex-direction: column;
+    width: 28%;
+	/* border:1px solid #e2e2e2; */
+	margin: 0 auto;
+}
+
+.midashi {
+	font-weight:bold;
+}
+
+.header {
+	display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid none;
+    padding: 10px;
+}
+
+.pc {
+	display: block !important;
+}
+
+.sp {
+	display: none !important;
+}
+
+@media only screen and (max-width: 750px) {
+	.sp {
+		display: block !important;
+	}
+	.pc {
+		display: none !important;
+	}
+	.card-block .form-control {
+		width: auto;
+	}
+	.card-block {
+		padding: 1rem;
+	}
+	.card-block .bottom {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="top-bar clearfix pc" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-crown bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>広告作成</h4>
+						</div>
+						<div id="resultBox"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div align="center" class="pheader pc">
+				<h3>
+					<img th:src="@{/images/google.png}" style="width: 80px;" /><span
+						style="margin-left: 40px;">2.どれを配信しますか？</span>
+				</h3>
+				<br />
+				<p style="margin-left: 100px;">
+					<strong>Googleバナー広告(画像のみ)</strong>
+				</p>
+		</div>
+		<div class="pheader sp">
+				
+					<img th:src="@{/images/google.png}"
+						style="width: 60px; margin-left: 20px;" />
+						<span style="margin-left: 30px;">Googleバナー広告(画像のみ)</span>
+				
+				<h5 style="margin-top: 30px; margin-left: 50px;">
+					<strong>2.どれを配信しますか？</strong>
+				</h5>
+		</div>
+		<br />
+		<div>
+		<form th:action="@{/}" method="get">
+			<!--<div th:replace="common/errorMessages"></div>-->
+			<div class="card">
+				<div class="card-block">
+					<!-- <h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4> -->
+					<div class="header">
+						<div class="pc">広告物</div>
+						<div><a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a></div>
+					</div>
+					<div class="right-container">
+						<div class="img">
+							<img id="xmTanImg" alt="" th:src="@{/images/画像グループ3_300x250.png}" >
+							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
+							<!-- <div id="textField1" class="midashi">見出し</div> -->
+							<!-- 							<div id="textField2" class="midashi">見出し</div> -->
+							<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
+							<p id="textField3"></p>
+							<!-- <div>
+								<span>店舗名</span> <span><a href="http://www.google.co.jp"
+									style="float: right"><font color='blue'>サイトへ</font></a></span>
+							</div> -->
+						</div>
+					</div>
+					<div class="right-container-2">
+						<div class="img">
+							<!-- <img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/320x100.png" style="width: 100%"> -->
+							<img id="xmTanImg" alt="" th:src="@{/images/画像グループ3_320x100.png}" >
+							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
+							<!-- <div>
+								<div id="textField1" class="midashi">見出し</div>
+															<div id="textField2" class="midashi">見出し</div>
+								<p id="textField3" style="color:#d2d2d2">説明文 </p>
+								<p id="textField3"></p>
+								<div>
+									<span>店舗名</span> <span><a href="http://www.google.co.jp"
+										style="float: right"><font color='blue'>サイトへ</font></a></span>
+								</div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
+						<button class="btn btn-success" type="submit" th:formmethod="get"
+							th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
+						<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
+							class="btn btn-success" type="submit"
+							th:formaction="@{/creative/createLink}">選択</button>
+					</div>
+				</div>
+			</div>			
+		</form>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

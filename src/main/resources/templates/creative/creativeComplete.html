@@ -12,7 +12,7 @@
 					<div class="page-header-title">
 						<i class="ti-palette bg-c-green"></i>
 						<div class="d-inline">
-							<h4>広告アップロード完了</h4>
+							<h4>広告アップロード（STEP3：完了）</h4>
 						</div>
 					</div>
 				</div>
@@ -57,7 +57,7 @@
 			</div>
 			<div th:if="${creativeDto.creativeType} == '1'" class="card">
 				<div class="card-block">
-					<h4 class="sub-title">ファンへの配信</h4>
+					<h4 class="sub-title text-capitalize">ファンへの配信</h4>
 						<div class="card-block">
 							<div class="sub-title">画像ファイル</div>
 							<div class="card">
@@ -81,7 +81,7 @@
 			</div>
 			<div th:if="${creativeDto.creativeType} == '2'" class="card">
 				<div class="card-block">
-					<h4 class="sub-title">Google</h4>
+					<h4 class="sub-title text-capitalize">Google</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
@@ -170,7 +170,7 @@
 			</div>
 			<div th:if="${creativeDto.creativeType} == '3'" class="card">
 				<div class="card-block">
-					<h4 class="sub-title">Facebook</h4>
+					<h4 class="sub-title text-capitalize">Facebook</h4>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
@@ -200,7 +200,37 @@
 			</div>
 			<div th:if="${creativeDto.creativeType} == '4'" class="card">
 				<div class="card-block">
-					<h4 class="sub-title">Twitter</h4>
+					<h4 class="sub-title text-capitalize">Instagram</h4>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textInstagramDescription}">Instagram説明文</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">画像ファイル</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="image : ${facebookImageList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${image}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			</div>
+			<div th:if="${creativeDto.creativeType} == '5'" class="card">
+				<div class="card-block">
+					<h4 class="sub-title text-capitalize">Twitter</h4>
 					<!-- Scrolling DataTable table start -->
 					<div id="twitterTweets" class="dt-responsive table-responsive">
 						<table id="basicTable"
@@ -244,7 +274,7 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<a href="/creative/creativeList"><button
+					<a href="/issue/creativeList"><button
 							class="btn btn-success" type="button">案件新規作成へ</button></a>
 				</div>
 			</div>

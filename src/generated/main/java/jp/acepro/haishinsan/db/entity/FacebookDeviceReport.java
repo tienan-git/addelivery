@@ -22,62 +22,62 @@ import org.seasar.doma.Version;
 @Table(name = "facebook_device_report")
 public class FacebookDeviceReport extends BaseEntity {
 
-    /** Facebookデバイス別レポートID */
+    /** Facebook?????????ID */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "facebook_device_report_id")
     Long facebookDeviceReportId;
 
-    /** キャンペーンID */
+    /** ??????ID */
     @Column(name = "campaign_id")
     String campaignId;
 
-    /** キャンペーン名 */
+    /** ??????? */
     @Column(name = "campaign_name")
     String campaignName;
 
-    /** 日付 */
+    /** ?? */
     @Column(name = "date")
     LocalDate date;
 
-    /** デバイス名 */
+    /** ????? */
     @Column(name = "device")
     String device;
 
-    /** 表示回数 */
+    /** ???? */
     @Column(name = "impressions")
     Long impressions;
 
-    /** クリック数 */
+    /** ????? */
     @Column(name = "clicks")
     Long clicks;
 
-    /** 利用金額 */
+    /** ???? */
     @Column(name = "spend")
     Long spend;
 
-    /** バージョン番号 */
+    /** ??????? */
     @Version
     @Column(name = "version_no")
     Long versionNo;
 
-    /** 登録日時 */
+    /** ???? */
     @Column(name = "created_at")
     LocalDateTime createdAt;
 
-    /** 登録者 */
+    /** ??? */
     @Column(name = "created_by")
     String createdBy;
 
-    /** 更新日時 */
+    /** ???? */
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
 
-    /** 更新者 */
+    /** ??? */
     @Column(name = "updated_by")
     String updatedBy;
 
-    /** アクティブフラグ:0：無効、1：有効 */
+    /** ????????:0????1??? */
     @Column(name = "is_actived")
     Integer isActived;
 

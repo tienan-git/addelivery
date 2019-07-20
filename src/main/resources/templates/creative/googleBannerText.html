@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<style type="text/css">
+.step-arrow li.active a:after, .step-arrow li.active a:hover:after {
+	background-color: #ffffff !important;
+}
+
+.step-arrow li.active a:after {
+	background-color: #ffffff;
+}
+
+.step-arrow li a:after {
+	position: absolute;
+	top: -1px;
+	right: -21px;
+	width: 40px;
+	height: 40px;
+	transform: scale(0.707) rotate(45deg);
+	z-index: 1;
+	background-color: #3f70b9;
+	border-radius: 0 5px 0 50px;
+	border-top: 1px solid #ffffff;
+	border-right: 1px solid #ffffff;
+	box-sizing: content-box;
+}
+
+.step li a:after {
+	content: "";
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+#progressbar {
+	background-color:#f3f3f3
+}
+
+#progressbar li.active a, .step-arrow li.active a:hover {
+	background-color: #ffffff;
+	color: #354cbd;
+}
+
+#progressbar ul a {
+	border-radius: 0;
+	color: #ffffff;
+	background-color: #3f70b9;
+	line-height: 40px;
+	font-size: 0.7rem;
+}
+
+.step li a {
+	cursor: pointer;
+	display: table-cell;
+	width: 2.5rem;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+#progressbar {
+	margin: 0 auto;
+}
+
+@media ( min-width : 768px) .nav-justified>li>a {
+	margin-bottom
+	
+	
+	:
+	
+	 
+	
+	0;
+}
+
+.nav-justified>li>a {
+	text-align: center;
+}
+
+.nav>li>a {
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.btn-group-vertical>.btn-group:after, .btn-group-vertical>.btn-group:before,
+	.btn-toolbar:after, .btn-toolbar:before, .clearfix:after, .clearfix:before,
+	.container-fluid:after, .container-fluid:before, .container:after,
+	.container:before, .dl-horizontal dd:after, .dl-horizontal dd:before,
+	.form-horizontal .form-group:after, .form-horizontal .form-group:before,
+	.modal-footer:after, .modal-footer:before, .modal-header:after,
+	.modal-header:before, .nav:after, .nav:before, .navbar-collapse:after,
+	.navbar-collapse:before, .navbar-header:after, .navbar-header:before,
+	.navbar:after, .navbar:before, .pager:after, .pager:before, .panel-body:after,
+	.panel-body:before, .row:after, .row:before {
+	display: table;
+	content: " ";
+}
+
+:after, :before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.step-arrow li {
+	width: 6rem;
+	height: 40px;
+}
+
+.step li {
+	position: relative;
+	transition: all 0.3s ease-in-out;
+	-webkit-transition: all 0.3s ease-in-out;
+	-ms-transition: all 0.3s ease-in-out;
+}
+
+@media ( min-width : 768px) .nav-justified>li {
+	display
+	
+	
+	:
+	
+	 
+	
+	table-cell
+	
+	
+	;
+	width
+	
+	
+	:
+	
+	 
+	
+	1%;
+}
+
+.nav>li {
+	position: relative;
+	display: table;
+	border: 1px solid #3f70b9;
+	border-right: none;
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+user agent stylesheet
+li {
+	display: list-item;
+	text-align: -webkit-match-parent;
+}
+
+.step-arrow {
+	margin: 20px 0;
+}
+
+.step {
+	counter-reset: flag;
+}
+
+.nav-justified {
+	width: 100%;
+}
+
+.nav {
+	padding-left: 0;
+	margin-bottom: 0;
+	list-style: none;
+	display: flex;
+}
+
+ol, ul {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.step-arrow li:nth-child(n+2) a {
+	border-radius: 0;
+}
+
+.card-block {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.card-block .left {
+	padding: 0px 50px;
+}
+
+.card-block .right {
+	margin: 10px 150px;
+	border: 2px solid #b3aeae;
+	border-radius: 28px;
+	position: relative;
+}
+
+.card-block .img {
+	margin-top: 36px;
+	width: 200px;
+	margin-left: 120px;
+}
+
+.card-block .preview {
+	position: absolute;
+	right: 43%;
+	top: -14px;
+	marign-left: 10px;
+	background: white;
+	padding: 0px 10px;
+	font-weight: bold;
+}
+
+.midashi {
+	margin: 5px 0px;
+	font-size: 17px;
+	font-weight: bold;
+	color: #191619;
+}
+
+.native {
+	text-align: center;
+	margin-top: 27px;
+	font-weight: bold;
+}
+
+.card-block .row {
+	justify-content: space-between
+}
+
+.pheader {
+	margin-bottom: 0;
+    /* font-size: 1rem; */
+    padding-bottom: 0;
+    padding-top: 4rem;
+}
+
+.pheader h3 {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.pc { display: block !important; }
+.sp { display: none !important; }
+
+@media only screen and (max-width: 750px) {
+.sp { display: block !important; }
+.pc { display: none !important; }
+
+.card .card-block .left {
+	padding: 0px 1rem;
+}
+
+.card-block .form-control {
+	width:auto;
+}
+.card-block {
+    padding: 1rem;
+}
+}
+</style>
+<script type="text/javascript">
+	function myFunc1() {
+		var myInput = document.getElementById("inputfield_1");
+		if (myInput.value !== "") {
+			document.getElementById("textField1").innerHTML = myInput.value
+		} else {
+			document.getElementById("textField1").innerHTML = "見出し1"
+		}
+	}
+	function myFunc2() {
+		var myInput = document.getElementById("inputfield_2");
+		if (myInput.value !== "") {
+			document.getElementById("textField2").innerHTML = myInput.value
+		} else {
+			document.getElementById("textField2").innerHTML = "見出し2"
+		}
+	}
+	function myFunc() {
+		var myInput = document.getElementById("inputfield_3");
+		if (myInput.value !== "") {
+			document.getElementById("textField3").innerHTML = myInput.value
+		} else {
+			document.getElementById("textField3").innerHTML = "説明文 "
+		}
+	}
+
+	function myFile_upload1(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+
+			var img = document.getElementById("xmTanImg");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+</script>
+</head>
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<!-- <i class="ti-palette bg-c-green"></i> -->
+						<i class="ti-crown bg-c-pink"></i>
+						<div class="d-inline">
+							<!-- <h4>広告アップロード（STEP1：基本情報入力）</h4> -->
+							<h4>広告作成</h4>
+							<!-- <strong class="text-danger">※の項目は、必須項目です。</strong> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card pc" id="progressbar">
+				<ul class="nav nav-pills nav-justified step step-arrow" >
+						<li><a>1.媒体</a></li>
+						<li class="active"><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
+						<li><a>3.リンク先</a></li>
+						<li><a>4.配信地域</a></li>
+						<li><a>5.日程</a></li>
+						<li><a>6.予算</a></li>
+						<li><a>7.確認</a></li>
+						<li><a>8.配信確定</a></li>
+					</ul>
+			</div>
+			<div align="center" class="pheader pc">		
+				<h3><img th:src="@{/images/google.png}" style="width:80px;"/><span style="margin-left:40px;">2.どれを配信しますか？</span></h3>
+				<br />
+				<p style="margin-left:100px;">
+					<strong>Googleバナー広告(文字+バナー)</strong>
+				</p>
+			</div>
+			<div class="pheader sp">			
+				<h4><img th:src="@{/images/google.png}" style="width:60px; margin-left:20px;"/><strong style="margin-left:30px;">Googleバナー広告(文字+バナー)</strong></h4>
+				<h2 style="margin-top:30px;margin-left:80px;"><strong>2.どれを配信しますか？</strong></h2>
+				<br />
+			</div>
+			<div class="card-block">
+				<div class="left">
+					<form method="post">
+						<div>
+							<div class="" align="left">
+								<span>見出し1</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
+								<input type="text" class="form-control" maxlength="15"
+									id="inputfield_1" onchange="myFunc1()" placeholder="見出し1">
+							</div>
+							<div class="" align="left">
+								<span>見出し2</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+								<!-- <textarea type="text" class="form-control"  required maxlength="15" id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea> -->
+								<textarea type="text" class="form-control" maxlength="15"
+									id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea>
+							</div>
+							<div class="" align="left">
+								<span>説明文</span> <span class="text-danger"
+									style="text-align: right;">(〇〇/〇〇文字)</span>
+								<!-- <textarea type="text" class="form-control"  required maxlength="45" id="inputfield_3" onchange="myFunc()" placeholder="説明文を入力してください"></textarea> -->
+								<textarea type="text" class="form-control" maxlength="45"
+									id="inputfield_3" onchange="myFunc()"
+									placeholder="説明文を入力してください"></textarea>
+							</div>
+						</div>
+						<div class="">
+							<div>バナー 1200ｘ628</div>
+							<!-- <div class="jFiler jFiler-theme-default"> -->
+							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+						</div>
+						<div class="">
+							<div>バナー 300ｘ300</div>
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+						</div>
+						<div class="form-group row" style="margin:20px 0 20px 0">
+							<div class="col-sm-12 text-center">
+								<button class="btn btn-success" type="submit"
+									th:formmethod="get"
+									th:formaction="@{/creative/mediaDescription}">戻る</button>
+								<button class="btn btn-success" type="submit"
+									th:formmethod="get" th:formaction="@{/creative/createLink}">次へ</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="right">
+					<div class="right-container">
+						<p class="preview">プレビュー</p>
+						<div class="img">
+							<img id="xmTanImg" alt=""
+								src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
+								style="width: 200px">
+							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
+							<div id="textField1" class="midashi">見出し</div>
+							<div id="textField2" class="midashi">見出し</div>
+							<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
+							<p id="textField3">説明文</p>
+							<div>
+								<span>店舗名</span> <span><a href="http://www.google.co.jp"
+									style="float: right"><font color='blue'>サイトへ</font></a></span>
+							</div>
+							<p class="native">
+								<strong>ネイティブ</strong>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<!-- page body end -->
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

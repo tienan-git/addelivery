@@ -3,6 +3,14 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	layout:decorator="layout">
+<head>
+<style>
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
+@media only screen and (max-width: 750px) {
+.sp { display: none !important; }
+}
+</style>
+</head>
 <body>
 	<!-- Page title start -->
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
@@ -28,21 +36,21 @@
 				<div class="card-block">
 					<h4 class="sub-title">案件情報</h4>
 				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">案件名</label>
-					<div class="col-sm-8">
+				<div class="form-group row" style="margin-left: 20px;">
+					<label class="col-sm-2 col-form-label"><strong>案件名</strong></label>
+					<div class="col-sm-2">
 						<label class="col-form-label">秋葉原一番店舗</label>
 					</div>
 				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">案件掲載期間</label>
-					<div class="col-sm-8">
+				<div class="form-group row" style="margin-left: 20px;">
+					<label class="col-sm-2 col-form-label"><strong>案件掲載期間</strong></label>
+					<div class="col-sm-2">
 						<label class="col-form-label">2019年04月01日~2019年04月15日</label>
 					</div>
 				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">総金額</label>
-					<div class="col-sm-8">
+				<div class="form-group row" style="margin-left: 20px;">
+					<label class="col-sm-2 col-form-label"><strong>総金額</strong></label>
+					<div class="col-sm-2">
 						<label class="col-form-label">28,234円</label>
 					</div>
 				</div>
@@ -51,7 +59,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">全体統計ー日付別</h4>
 				</div>
-				<div class="card-block">
+				<div class="card-block sp">
 					<div id="totalDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -103,7 +111,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">全体統計ーデバイス別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="totalClick" style="width: 33%; display: inline-block;"></div>
 					<div id="totalImpression"
@@ -168,7 +176,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">ファンへ配信-日付別</h4>
 				</div>
-				<div class="card-block">
+				<div class="card-block sp">
 					<div id="dspDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -220,7 +228,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">ファンへ配信ーデバイス別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="dspDeviceClick" style="width: 33%; display: inline-block;"></div>
 					<div id="dspDeviceImpression"
@@ -276,7 +284,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">ファンへ配信ークリエイティブ別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="dspCreativeClick"
 						style="width: 33%; display: inline-block;"></div>
@@ -344,7 +352,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Twitter-日付別</h4>
 				</div>
-				<div class="card-block">
+				<div class="card-block sp">
 					<div id="twitterDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -396,7 +404,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Twitterーデバイス別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="twitterDeviceFollow"
 						style="width: 33%; display: inline-block;"></div>
@@ -458,7 +466,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Twitterークリエイティブ別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="twitterCreativeImpression"
 						style="width: 33%; display: inline-block;"></div>
@@ -582,7 +590,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Google-日付別</h4>
 				</div>
-				<div class="card-block">
+				<div class="card-block sp">
 					<div id="googleDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -634,7 +642,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Googleーデバイス別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 
 					<div id="googleDeviceImpression"
@@ -693,7 +701,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Googleークリエイティブ別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="googleCreativeImpression"
 						style="width: 33%; display: inline-block;"></div>
@@ -858,7 +866,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Facebook-日付別</h4>
 				</div>
-				<div class="card-block">
+				<div class="card-block sp">
 					<div id="facebookDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -910,7 +918,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Facebookーデバイス別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="facebookDeviceClick"
 						style="width: 33%; display: inline-block;"></div>
@@ -968,7 +976,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Facebookークリエイティブ別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="facebookCreativeClick"
 						style="width: 33%; display: inline-block;"></div>
@@ -1083,7 +1091,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Youtube-日付別</h4>
 				</div>
-				<div class="card-block">
+				<div class="card-block sp">
 					<div id="youtubeDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -1135,7 +1143,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Youtubeーデバイス別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="youtubeDeviceClick"
 						style="width: 33%; display: inline-block;"></div>
@@ -1193,7 +1201,7 @@
 				<div class="card-block">
 					<h4 class="sub-title">Youtubeークリエイティブ別</h4>
 				</div>
-				<div class="card-block col-lg-12"
+				<div class="card-block col-lg-12 sp"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="youtubeCreativeClick"
 						style="width: 33%; display: inline-block;"></div>
