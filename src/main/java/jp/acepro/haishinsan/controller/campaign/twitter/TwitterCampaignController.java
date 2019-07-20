@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.campaign.twitter;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -54,8 +54,8 @@ import jp.acepro.haishinsan.util.TwitterUtil;
 import jp.acepro.haishinsan.util.Utf8BomUtil;
 
 @Controller
-@RequestMapping("/twitter_bak")
-public class TwitterController {
+@RequestMapping("/twitter")
+public class TwitterCampaignController {
 
     @Autowired
     ApplicationProperties applicationProperties;
