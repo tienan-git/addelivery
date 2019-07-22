@@ -78,6 +78,62 @@ public class TwitterCampaignController {
     @Autowired
     OperationService operationService;
 
+    // キャンペーン目的選択
+    @GetMapping("/mediaDescription")
+    public ModelAndView mediaDescription(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/mediaDescription");
+        return mv;
+    }
+
+    // ツイート選択
+    @GetMapping("/selectTweetList")
+    public ModelAndView selectTweetList(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/selectTweetList");
+        return mv;
+    }
+
+    // 配信地域
+    @GetMapping("/createArea")
+    public ModelAndView createArea(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/createArea");
+        return mv;
+    }
+
+    // 日程
+    @GetMapping("/createDate")
+    public ModelAndView createDate(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/createDate");
+        return mv;
+    }
+
+    // 予算
+    @GetMapping("/createBudget")
+    public ModelAndView createBudget(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/createBudget");
+        return mv;
+    }
+
+    // 確認
+    @GetMapping("/createConfirm")
+    public ModelAndView createConfirm(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/createConfirm");
+        return mv;
+    }
+
+    // 成功
+    @GetMapping("/createSuccess")
+    public ModelAndView createSuccess(ModelAndView mv) {
+
+        mv.setViewName("campaign/twitter/createSuccess");
+        return mv;
+    }
+
     /**
      * ---------------------------------------- キャンペーン管理
      * ----------------------------------------

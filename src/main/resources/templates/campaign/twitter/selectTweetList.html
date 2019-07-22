@@ -288,9 +288,9 @@ ol, ul {
 				<div class="card-block1 pc" id="progressbar">
 	    			<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
-						<li><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
-						<li><a>3.ツイート</a></li>
-						<li class="active"><a>4.配信地域</a></li>
+						<li><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
+						<li class="active"><a>3.ツイート</a></li>
+						<li><a>4.配信地域</a></li>
 						<li><a>5.日程</a></li>
 						<li><a>6.予算</a></li>
 						<li><a>7.確認</a></li>
@@ -298,24 +298,41 @@ ol, ul {
 					</ul>
 				</div>
 		 		<div class="card-block2 pheader" align="center">
-					<h3>4.だれに配信しますか？</h3>
+					<h3>4.どのツイートを選びますか？</h3>
 				</div>
 				<div class="card-block3" align="center">
                     <div align="center">
-					<div class="form-group row">
-						<!-- <label class="col-form-label text-right">地域</label> -->
-						<!-- <div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}"> -->
-						<div class="col-sm-4" style="margin:20px auto">
-							<!-- <select class="searchable" multiple="multiple" th:field="*{locationList}"> -->
-							<select class="searchable" multiple="multiple" >
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
-							</select>
-						</div>
+					
+						<div id="tweet" class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-bordered nowrap" style="width: 95%;">
+							<thead>
+								<tr>
+									<th></th>
+									<th>ツイートレビュー</th>
+									<th>ツイート内容</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th></th>
+									<th>ツイートレビュー</th>
+									<th>ツイート内容</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr>
+									<td><input type="checkbox" name="tweetIdList"></td>
+									<td>プレビュー</td>
+									<td>Tiger Nixon</td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
+					
 					</div>
 					<div class="col-sm-12 text-center" style="margin-bottom:20px">						
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/selectTweetList}">戻る</button>		       		
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createDate}">次へ</button>							
+						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/mediaDescription}">戻る</button>		       		
+						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createArea}">次へ</button>							
 					</div>
 				</div>
 			</div>

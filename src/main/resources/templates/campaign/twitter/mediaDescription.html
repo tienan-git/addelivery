@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<style type="text/css">
+.cssgrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 0.5fr));
+}
+
+.card-block .left {
+	display: block;
+	width: 30%;
+	margin: 10px auto 8px;
+}
+
+.card-block .middle {
+	height: 100%;
+}
+
+.card-block .button {
+	background: #6382c7
+}
+
+.card-block li {
+	display: grid;
+	grid-template-columns: 0.5fr 0.7fr 2fr;
+	padding-bottom: 25px;
+	padding-top: 15px;
+	/* grid-template-rows: 760px; */
+	border-bottom: 2px solid #6382c7;
+}
+
+.button-wrap {
+	text-align: center;
+}
+
+.button-wrap .button-link {
+	display: inline-block;
+	background: #6382c7;
+	margin-top: 6px;
+	padding: 8px 40px;
+	border-radius: 8px;
+	border: 1px solid;
+	color: white;
+	cursor-point: cursor;
+	cursor: pointer;
+}
+
+@media only screen and (min-width: 320px) {
+	.card-block li {
+		grid-template-columns: 100px 0.7fr 2fr;
+	}
+	.button-wrap .button-link {
+		padding: 0.5rem 6rem;
+	}
+}
+
+@media only screen and (min-width: 375px) {
+	.card-block li {
+		grid-template-columns: 144px 0.7fr 2fr;
+	}
+}
+</style>
+
+</head>
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<!-- <i class="ti-palette bg-c-green"></i> -->
+						<i class="ti-crown bg-c-pink"></i>
+						<div class="d-inline">
+							<!-- <h4>広告アップロード（STEP1：基本情報入力）</h4> -->
+							<h4>広告作成</h4>
+							<!-- <strong class="text-danger">※の項目は、必須項目です。</strong> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card" id="google">
+			<div class="card">
+				<ul>
+					<li>
+						<div>
+							<div class="">
+								<div align="center" style="margin-top: 50px;">
+									<img class="left" th:src="@{/images/google.png}"
+										style="width: 80px; height: 80px" /> <img class="right"
+										th:src="@{/images/google_layout1.png}"
+										style="width: 120px; height: 140px; margin-left: 50px;" />
+								</div>
+							</div>
+							<div class="inline"
+								style="margin: 30px 15px 15px 15px; background: #ddd;">
+								<span>▼フォロワー<br /> オーディエンスのエンゲージメントを獲得して、Twitterの内外でメッセージを広めます。
+								</span>
+							</div>
+							<div class="button-wrap">
+								<a class="button-link" style="color: white; font-size: 15px;"
+									th:href="@{/twitter/selectTweetList}">選択</a>
+							</div>
+						</div>
+					</li>
+					<li>
+						
+
+						<div>
+							<div class="">
+								<div align="center" style="margin-top: 50px;">
+									<img class="left" th:src="@{/images/google.png}"
+										style="width: 80px; height: 80px" /> <img class="right"
+										th:src="@{/images/google_layout2.png}"
+										style="width: 120px; height: 140px; margin-left: 50px;" />
+								</div>
+							</div>
+							<div class="inline"
+								style="margin: 30px 15px 15px 15px; background: #ddd;">
+								<span>▼ウェブサイトのクリックまたはコンバージョン<br /> 利用者がウェブサイトにアクセスしてアクション（文書のダウンロードや購入など）を行うようにします。
+								</span>
+							</div>
+							<div class="button-wrap">
+								<a class="button-link" style="color: white; font-size: 15px;"
+									th:href="@{/twitter/selectTweetList}">選択</a>
+							</div>
+						</div>
+					</li>
+					<li>
+					</li>
+				</ul>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<a href="/creative/mediaSelection">
+							<button class="btn btn-success" type="submit" th:formmethod="get"
+								style="margin: 30px 0px 15px 0px">戻る</button>
+						</a>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		
+	</div>
+</body>
+</html>

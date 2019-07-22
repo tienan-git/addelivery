@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -33,7 +36,7 @@
 }
 
 #progressbar {
-	background-color:#fff
+	background-color: #fff
 }
 
 #progressbar li.active a, .step-arrow li.active a:hover {
@@ -66,9 +69,13 @@
 	margin-bottom
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	0;
 }
@@ -119,20 +126,30 @@
 	display
 	
 	
+	
+	
 	:
+	
 	
 	 
 	
+	
 	table-cell
+	
+	
 	
 	
 	;
 	width
 	
 	
+	
+	
 	:
 	
+	
 	 
+	
 	
 	1%;
 }
@@ -192,7 +209,10 @@ ol, ul {
 
 .card-block {
 	display: grid;
-	grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 8rem;
+    padding: 0 16rem;
+    margin-bottom: 20px;
 }
 
 .card-block .left {
@@ -204,6 +224,10 @@ ol, ul {
 	border: 2px solid #b3aeae;
 	border-radius: 28px;
 	position: relative;
+}
+
+.card-block .grid-child {
+	
 }
 
 .card-block .img {
@@ -241,21 +265,25 @@ ol, ul {
 
 .pheader {
 	margin-bottom: 0;
-    /* font-size: 1rem; */
-    padding-bottom: 0;
-    padding-top: 4rem;
+	/* font-size: 1rem; */
+	padding-bottom: 0;
+	padding-top: 4rem;
 }
 
 .pheader h3 {
-    font-size: 1.2rem;
-    font-weight: bold;
+	font-size: 1.2rem;
+	font-weight: bold;
 }
 
 /* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
 @media only screen and (max-width: 750px) {
-.sp { display:none;}
-.ms-container {
-    width: 318px;
+.sp { display: none !important; }
+
+.card .card-block {
+	display:contents;
+}
+.card-block .grid-child {
+	margin: 0 0.5rem 1rem;
 }
 }
 </style>
@@ -282,46 +310,46 @@ ol, ul {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${googleTemplateForm}">
-			<!-- <div th:replace="common/errorMessages"></div> -->
+		<form th:action="@{/}" method="post" th:object="${createIssueForm}">
 			<div class="card">
-				<div class="card-block1 pc" id="progressbar">
-	    			<ul class="nav nav-pills nav-justified step step-arrow" >
-						<li><a>1.媒体</a></li>
-						<li><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
-						<li><a>3.ツイート</a></li>
-						<li class="active"><a>4.配信地域</a></li>
-						<li><a>5.日程</a></li>
-						<li><a>6.予算</a></li>
-						<li><a>7.確認</a></li>
-						<li><a>8.配信確定</a></li>
-					</ul>
-				</div>
-		 		<div class="card-block2 pheader" align="center">
-					<h3>4.だれに配信しますか？</h3>
-				</div>
-				<div class="card-block3" align="center">
-                    <div align="center">
-					<div class="form-group row">
-						<!-- <label class="col-form-label text-right">地域</label> -->
-						<!-- <div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}"> -->
-						<div class="col-sm-4" style="margin:20px auto">
-							<!-- <select class="searchable" multiple="multiple" th:field="*{locationList}"> -->
-							<select class="searchable" multiple="multiple" >
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
-							</select>
+					<div class="card-block1 pc" id="progressbar">
+						<ul class="nav nav-pills nav-justified step step-arrow">
+							<li><a>1.媒体</a></li>
+							<li><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
+							<li><a>3.ツイート</a></li>
+							<li><a>4.配信地域</a></li>
+							<li class="active"><a>5.日程</a></li>
+							<li><a>6.予算</a></li>
+							<li><a>7.確認</a></li>
+							<li><a>8.配信確定</a></li>
+						</ul>
+					</div>
+					<div class="pheader" align="center">
+						<h3>5.いつ配信しますか？</h3>
+					</div>
+					<div class="card-block" style="margin-bottom:50px">
+						<div class="grid-child">
+							<label class="col-form-label">配信開始日</label>
+							<input type="date" class="form-control">
+						</div>
+						<div class="grid-child">
+							<label class="col-form-label">配信終了日</label>
+							<input type="date" class="form-control">
 						</div>
 					</div>
-					</div>
-					<div class="col-sm-12 text-center" style="margin-bottom:20px">						
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/selectTweetList}">戻る</button>		       		
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createDate}">次へ</button>							
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit" th:formmethod="get"
+							th:formaction="@{/twitter/createArea}">戻る</button>
+						<button class="btn btn-success" type="submit" th:formmethod="get"
+							th:formaction="@{/twitter/createBudget}">次へ</button>
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
 	<!-- page body end -->
+
 	<div layout:fragment="custom_resource_body"></div>
 </body>
 </html>
