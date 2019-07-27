@@ -23,4 +23,7 @@ public interface DspTemplateCustomDao {
 
 	@Select
 	List<DspTemplate> selectByShopId(Long shopId);
+
+	@Select
+	DspTemplate selectDefaultTemplate(long currentShopId);
 }

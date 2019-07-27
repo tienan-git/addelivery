@@ -158,7 +158,7 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		// Req Body作成
 		DspSegmentListReq dspSegmentListReq = new DspSegmentListReq();
 		dspSegmentListReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
-		dspSegmentListReq.setIds(ids);
+		//dspSegmentListReq.setIds(ids);
 
 		// セグメントリストを取得して、Res 返す
 		DspSegmentListRes dspSegmentListRes = null;
@@ -187,6 +187,17 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 					dspSegmentListDtoList.add(dspSegmentListDto);
 				}
 			}
+//			if(dspSegmentListResult.getIs_enabled() == 1) {
+//				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
+//				dspSegmentListDto.setSegmentId(dspSegmentListResult.getId());
+//				dspSegmentListDto.setSegmentName(dspSegmentListResult.getName());
+//				if (Objects.nonNull(dspSegmentListResult.getUrl_rules()) && !dspSegmentListResult.getUrl_rules().isEmpty() && Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
+//					dspSegmentListDto.setUrl(dspSegmentListResult.getUrl_rules().get(0).getUrl_match_rule());
+//				}
+//				
+//				dspSegmentListDto.setIs_enabled(dspSegmentListResult.getIs_enabled());
+//				dspSegmentListDtoList.add(dspSegmentListDto);
+//			}
 		}
 
 		return dspSegmentListDtoList;

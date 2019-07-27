@@ -218,7 +218,7 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		// TODO
 		List<DspTemplateDto> dspTemplateDtoLiist = new ArrayList<DspTemplateDto>();
 		// TODO dspTemplateDtoLiist
-		//dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
+		// dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
 
 		return dspTemplateDtoLiist;
 	}
@@ -649,6 +649,19 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		writer.close();
 
 		return out.toString();
+	}
+
+	@Override
+	public DspTemplateDto getDefaultTemplate() {
+
+		DspTemplate dspTemplate = dspTemplateCustomDao.selectDefaultTemplate(ContextUtil.getCurrentShopId());
+		DspTemplateDto dspTemplateDto = new DspTemplateDto();
+		dspTemplateDto.setTemplateId(dspTemplate.getTemplateId());
+		dspTemplateDto.setTemplateName(dspTemplate.getTemplateName());
+		dspTemplateDto.setBidCpcPrice(dspTemplate.getBidCpcPrice());
+		dspTemplateDto.setBillingType(dspTemplate.getBillingType());
+		dspTemplateDto.setTemplatePriority(dspTemplate.getTemplatePriority());
+		return dspTemplateDto;
 	}
 
 }
