@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller.upload;
+package jp.acepro.haishinsan.controller.upload.facebook;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -30,13 +30,16 @@ import jp.acepro.haishinsan.dto.TwitterAdDto;
 import jp.acepro.haishinsan.dto.CreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
+import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterAdsDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
 import jp.acepro.haishinsan.enums.CreativeType;
+import jp.acepro.haishinsan.enums.FacebookArrangePlace;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.form.CreativeInputForm;
 import jp.acepro.haishinsan.form.DspCampaignCreInputForm;
+import jp.acepro.haishinsan.form.FbCampaignInputForm;
 import jp.acepro.haishinsan.form.CreativeInputForm;
 import jp.acepro.haishinsan.mapper.CreativeMapper;
 import jp.acepro.haishinsan.mapper.CreativeMapper;
@@ -54,7 +57,7 @@ import jp.acepro.haishinsan.util.ContextUtil;
 
 @Controller
 @RequestMapping("/upload")
-public class UploadComController {
+public class FacebookUploadController {
 
 	@Autowired
 	HttpSession session;
@@ -94,12 +97,31 @@ public class UploadComController {
 
 
 
-	@GetMapping("/mediaSelection")
-	public ModelAndView uploadMediaSelection(ModelAndView mv) {
-		mv.setViewName("upload/mediaSelection");
+	@GetMapping("/createFacebookCreative")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	public ModelAndView createFacebookCreative(@ModelAttribute FbCampaignInputForm fbCampaignInputForm) {
+
+		// テンプレート一覧を取得
+		List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
+		// コードマスタをメモリへロード
+		getFacebookAreaList();
+		// ＤＳＰＵＲＬを読込
+		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
+
+		// -------- 優先度一番高いテンプレートで初期値を設定 --------
+		if (fbTemplateDtoList != null && fbTemplateDtoList.size() > 0) {
+			fbCampaignInputForm.setLocationList(fbTemplateDtoList.get(0).getLocationList());
+			fbCampaignInputForm.setTemplateId(fbTemplateDtoList.get(0).getTemplateId());
+			fbCampaignInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
+		}
+		// 配置場所の初期値を両方に設定
+		fbCampaignInputForm.setArrangePlace(FacebookArrangePlace.BOTH.getValue());
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("facebook/createCampaign");
+		mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
+		mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
 		return mv;
+
 	}
-	
-
-
 }
