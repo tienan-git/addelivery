@@ -409,19 +409,13 @@ ol, ul {
 			</div>
 			<div class="card-block">
 				<div class="left">
-					<form method="post">
+					<form th:action="@{/}" th:method="post" enctype="multipart/form-data" th:object=${form}>
 						<div>
 							<div class="" align="left">
-								<span>見出し1</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+								<span>短い広告見出し</span> <span class="text-danger">(〇〇/〇〇文字)</span>
 								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
 								<input type="text" class="form-control" maxlength="15"
-									id="inputfield_1" onchange="myFunc1()" placeholder="見出し1">
-							</div>
-							<div class="" align="left">
-								<span>見出し2</span> <span class="text-danger">(〇〇/〇〇文字)</span>
-								<!-- <textarea type="text" class="form-control"  required maxlength="15" id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea> -->
-								<textarea type="text" class="form-control" maxlength="15"
-									id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea>
+									id="inputfield_1" onchange="myFunc1()" placeholder="短い広告見出し" th:field=*{resAdShortTitle}>
 							</div>
 							<div class="" align="left">
 								<span>説明文</span> <span class="text-danger"
@@ -429,18 +423,18 @@ ol, ul {
 								<!-- <textarea type="text" class="form-control"  required maxlength="45" id="inputfield_3" onchange="myFunc()" placeholder="説明文を入力してください"></textarea> -->
 								<textarea type="text" class="form-control" maxlength="45"
 									id="inputfield_3" onchange="myFunc()"
-									placeholder="説明文を入力してください"></textarea>
+									placeholder="説明文を入力してください" th:field=*{resAdDescription}></textarea>
 							</div>
 						</div>
 						<div class="">
 							<div>バナー 1200ｘ628</div>
 							<!-- <div class="jFiler jFiler-theme-default"> -->
 							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile01}/>
 						</div>
 						<div class="">
 							<div>バナー 300ｘ300</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)"  th:field=*{imageFile02}/>
 							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
 						</div>
 						<div class="form-group row" style="margin: 20px 0 20px 0">
@@ -449,8 +443,8 @@ ol, ul {
 									th:formmethod="get"
 									th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
 								<button class="btn btn-success" type="submit"
-									th:formmethod="get"
-									th:formaction="@{/creative/uploadCreateConfirm}">次へ</button>
+									th:formmethod="post"
+									th:formaction="@{/upload/google/bannerTextAd/confirm}">次へ</button>
 							</div>
 						</div>
 					</form>
