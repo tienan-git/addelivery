@@ -220,7 +220,7 @@ ol, ul {
     font-weight: bold;
 }
 
-/* 繧ｹ繝槭�ｼ繝医ヵ繧ｩ繝ｳ縺ｧ隕九◆縺ｨ縺阪�ｯ"sp"縺ｮclass縺後▽縺�縺溘げ繝ｩ繝輔�ｯ髱櫁｡ｨ遉ｺ */
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
 @media only screen and (max-width: 750px) {
 .sp { display: none !important; }
 }
@@ -236,7 +236,7 @@ ol, ul {
 					<div class="page-header-title">
 						<i class="ti-palette bg-c-green"></i>
 						<div class="d-inline">
-							<h4>蠎�蜻顔黄繧｢繝�繝励Ο繝ｼ繝�</h4>
+							<h4>広告物アップロード</h4>
 						</div>
 					</div>
 				</div>
@@ -253,22 +253,17 @@ ol, ul {
 		<!-- <div th:replace="common/errorMessages"></div> -->
 		<div class="card">
 			<div class="card-block-container" id="progressbar">
-				<!-- <h4 class="sub-title">髯憺屮�ｽｽ�ｽｺ髫ｴ蟷｢�ｽｽ�ｽｬ髫ｲ�ｿｽ�ｿｽ�ｽｿ�ｽｽ髯懶ｽ｣�ｿｽ�ｽｽ�ｽｱ</h4> -->
 				<div class="card-block pc">
 					<!-- <img style="width:100%" th:src="@{/images/surougen01.jpg}" /> -->
 					<ul class="nav nav-pills nav-justified step step-arrow" >
-						<li class="active"><a>1.蟐剃ｽ�</a></li>
-						<li><a>2.蠎�蜻�/繝舌リ繝ｼ</a></li>
-<!-- 						<li><a>3.繝ｪ繝ｳ繧ｯ蜈�</a></li> -->
-						<!--<li><a>4.驟堺ｿ｡蝨ｰ蝓�</a></li>
-						<li><a>5.譌･遞�</a></li>
-						<li><a>6.莠育ｮ�</a></li> -->
-						<li><a>3.遒ｺ隱�</a></li>
-						<li><a>4.驟堺ｿ｡遒ｺ螳�</a></li>
+						<li class="active"><a>1.媒体</a></li>
+						<li><a>2.広告/バナー</a></li>
+						<li><a>3.確認</a></li>
+						<li><a>4.配信確定</a></li>
 					</ul>
 				</div>
 				<div class="card-block pheader" align="center">
-					<h3>1.縺ｩ縺薙↓逋ｻ骭ｲ縺励∪縺吶°�ｼ�</h3>
+					<h3>1.どこに登録しますか？</h3>
 				</div>
 				<div class="card-block">
 					<!--     	<table id="basicTable" class="table nowrap" style="width: 100%;">
@@ -296,19 +291,20 @@ ol, ul {
 						<div>
 							<p class="grid-header">Google</p>
 							<div>
-								<a th:href="@{/creative/uploadMediaDescription}"><img
-									th:src="@{/images/google.png}"/></a>
+								<a th:href="@{/creative/uploadMediaDescription}"><img th:src="@{/images/google.png}"/></a>
 							</div>
 						</div>
 						<div>
 							<p class="grid-header">Facebook</p>
-							<img
-								 th:src="@{/images/facebook.png}"/>
+							<div>
+								<a th:href="@{/upload/createFacebookCreative}"><img th:src="@{/images/facebook.png}"/></a>
+							</div>
 						</div>
 						<div>
 							<p class="grid-header">Instagram</p>
-							<img
-								th:src="@{/images/Instagram.png}" />
+							<div>
+								<a th:href="@{/upload/createInstagramCreative}"><img th:src="@{/images/Instagram.png}"/></a>
+							</div>
 						</div>
 						<div>
 							<p class="grid-header">FreakOut</p>
