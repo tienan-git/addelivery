@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.link;
 
 import java.io.IOException;
 import java.text.ParseException;
