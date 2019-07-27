@@ -104,7 +104,7 @@ public class FacebookUploadController {
 		// テンプレート一覧を取得
 		List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
 		// コードマスタをメモリへロード
-		getFacebookAreaList();
+//		getFacebookAreaList();
 		// ＤＳＰＵＲＬを読込
 		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 
