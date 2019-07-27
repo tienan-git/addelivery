@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -73,11 +70,23 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
+	
+	
+	
 	 
+	
+	
+	
 	
 	
 	
@@ -134,7 +143,16 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
 	
 	
 	
@@ -142,7 +160,16 @@
 	
 	
 	
+	
+	
+	
 	table-cell
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -157,11 +184,23 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
+	
+	
+	
 	 
+	
+	
+	
 	
 	
 	
@@ -398,8 +437,7 @@ li {
 			</div>
 			<div align="center" class="pheader pc">
 				<h3>
-					<img th:src="@{/images/google.png}" style="width: 80px;" /><span
-						style="margin-left: 40px;">2.どれを配信しますか？</span>
+					<img th:src="@{/images/google.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
 				</h3>
 				<br />
 				<p style="margin-left: 100px;">
@@ -408,87 +446,73 @@ li {
 			</div>
 			<div class="pheader sp">
 				<h4>
-					<img th:src="@{/images/google.png}"
-						style="width: 60px; margin-left: 20px;" /><strong
-						style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
+					<img th:src="@{/images/google.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
 				</h4>
 				<h2 style="margin-top: 30px; margin-left: 80px;">
 					<strong>2.どれを配信しますか？</strong>
 				</h2>
 				<br />
 			</div>
-			<div class="card-block">
-				<div class="top">
-					<div class="banner-left">
-						<div>バナー 300ｘ250</div>
-						<!-- <div class="jFiler jFiler-theme-default"> -->
-						<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<div>バナー 320ｘ50</div>
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+
+			<form th:action="@{/}" th:method="post">
+				<div class="card-block">
+					<div class="top">
+						<div class="banner-left">
+							<div>バナー 300ｘ250</div>
+							<!-- <div class="jFiler jFiler-theme-default"> -->
+							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<div>バナー 320ｘ50</div>
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+						</div>
+						<div class="banner-right">
+							<div>バナー 728ｘ90</div>
+							<!-- <div class="jFiler jFiler-theme-default"> -->
+							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<div>バナー 320ｘ100</div>
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+						</div>
 					</div>
-					<div class="banner-right">
-						<div>バナー 728ｘ90</div>
-						<!-- <div class="jFiler jFiler-theme-default"> -->
-						<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<div>バナー 320ｘ100</div>
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+					<div class="bottom">
+						<p class="preview">プレビュー</p>
+						<div class="img">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px">
+						</div>
+						<div class="img">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 100px; height: 40px">
+						</div>
+						<div class="img">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px; height: 40px">
+						</div>
+						<div class="img">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 150px; height: 40px">
+						</div>
 					</div>
-				</div>
-				<div class="bottom">
-					<p class="preview">プレビュー</p>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 200px">
+					<div class="bottom2">
+						<div>
+							<span>リターゲット配信</span>
+						</div>
+						<div>
+							<input type="radio" id="huey" name="drone" value="huey" checked> <label for="do">する</label> <input type="radio" id="huey" name="drone" value="huey" checked> <label for="dont">しない</label>
+						</div>
+						<div>
+							<a href="">リターゲット配信とは？</a>
+						</div>
 					</div>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 100px; height: 40px">
-					</div>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 200px; height: 40px">
-					</div>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 150px; height: 40px">
-					</div>
-				</div>
-				<div class="bottom2">
-					<div>
-						<span>リターゲット配信</span>
-					</div>
-					<div>
-						<input type="radio" id="huey" name="drone" value="huey" checked>
-						<label for="do">する</label> <input type="radio" id="huey"
-							name="drone" value="huey" checked> <label for="dont">しない</label>
-					</div>
-					<div>
-						<a href="">リターゲット配信とは？</a>
-					</div>
-				</div>
-				<form method="">
 					<div class="">
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" type="submit"
-									th:formmethod="get"
-									th:formaction="@{/creative/mediaDescription}">戻る</button>
-								<button class="btn btn-success" type="submit"
-									th:formmethod="get" 	th:formaction="@{/creative/uploadCreateConfirm}">次へ</button>
-						 
+								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/mediaDescription}">戻る</button>
+								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadCreateConfirm}">次へ</button>
+
 							</div>
 						</div>
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 	</div>
 	<!-- page body end -->
