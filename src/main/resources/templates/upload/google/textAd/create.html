@@ -415,19 +415,19 @@ ol, ul {
 			</div>
 			<div class="card-block">
 				<div class="left">
-					<form method="post">
+					<form th:action="@{/}" th:method="post" th:object=${form}>
 						<div>
 							<div class="" align="left">
 								<span>見出し1</span> <span class="text-danger">(〇〇/〇〇文字)</span>
 								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
 								<input type="text" class="form-control" maxlength="15"
-									id="inputfield_1" onchange="myFunc1()" placeholder="見出し1">
+									id="inputfield_1" onchange="myFunc1()" placeholder="見出し1" th:field=*{textAdTitle1}>
 							</div>
 							<div class="" align="left">
 								<span>見出し2</span> <span class="text-danger">(〇〇/〇〇文字)</span>
 								<!-- <textarea type="text" class="form-control"  required maxlength="15" id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea> -->
 								<textarea type="text" class="form-control" maxlength="15"
-									id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea>
+									id="inputfield_2" onchange="myFunc2()" placeholder="見出し２" th:field=*{textAdTitle2}></textarea>
 							</div>
 							<div class="" align="left">
 								<span>説明文</span> <span class="text-danger"
@@ -435,7 +435,7 @@ ol, ul {
 								<!-- <textarea type="text" class="form-control"  required maxlength="45" id="inputfield_3" onchange="myFunc()" placeholder="説明文を入力してください"></textarea> -->
 								<textarea type="text" class="form-control" maxlength="45"
 									id="inputfield_3" onchange="myFunc()"
-									placeholder="説明文を入力してください"></textarea>
+									placeholder="説明文を入力してください" th:field=*{textAdDescription}></textarea>
 							</div>
 						</div>
 						<!-- <div class="">
@@ -455,8 +455,8 @@ ol, ul {
 									th:formmethod="get"
 									th:formaction="@{/creative/mediaDescription}">戻る</button>
 								<button class="btn btn-success" type="submit"
-									th:formmethod="get"
-									th:formaction="@{/creative/uploadCreateConfirm}">次へ</button>
+									th:formmethod="post"
+									th:formaction="@{/upload/google/textAd/confirm}">次へ</button>
 							</div>
 						</div>
 					</form>
