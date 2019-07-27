@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<style type="text/css">
+.cssgrid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(150px, 0.5fr));
+}
+
+.card-block .left {
+	display: block;
+	width: 30%;
+	margin: 10px auto 8px;
+}
+
+.card-block .middle {
+	height: 100%;
+}
+
+.card-block .button {
+	background: #6382c7
+}
+
+.card-block li {
+	display: grid;
+	grid-template-columns: 0.5fr 0.7fr 2fr;
+	padding-bottom: 25px;
+	padding-top: 15px;
+	/* grid-template-rows: 760px; */
+	border-bottom: 2px solid #6382c7;
+}
+
+.button-wrap {
+	text-align: center;
+}
+
+.button-wrap .button-link {
+	display: inline-block;
+	background: #6382c7;
+	margin-top: 6px;
+	padding: 8px 40px;
+	border-radius: 8px;
+	border: 1px solid;
+	color: white;
+	cursor-point: cursor;
+	cursor: pointer;
+}
+
+.sp {
+	display: none !important;
+}
+
+.pc {
+	display: block !important;
+}
+
+@media only screen and (min-width: 320px) {
+	.card-block li {
+		grid-template-columns: 100px 0.7fr 2fr;
+	}
+	.button-wrap .button-link {
+		padding: 0.5rem 6rem;
+	}
+	.pc {
+		display: none !important;
+	}
+	.sp {
+		display: block !important;
+	}
+}
+
+@media only screen and (min-width: 375px) {
+	.card-block li {
+		grid-template-columns: 144px 0.7fr 2fr;
+	}
+}
+</style>
+
+</head>
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card pc">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<!-- <i class="ti-palette bg-c-green"></i> -->
+						<i class="ti-crown bg-c-pink"></i>
+						<div class="d-inline">
+							<!-- <h4>広告アップロード（STEP1：基本情報入力）</h4> -->
+							<h4>広告物アップロード</h4>
+							<!-- <strong class="text-danger">※の項目は、必須項目です。</strong> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<!-- Page body start -->
+		<div layout:fragment="page_body_container">
+			<form th:action="@{/dsp/completeCreative}" method="post" th:object="${dspCreativeInputForm}" enctype="multipart/form-data" onsubmit="return check('')">
+				<div th:replace="common/errorMessages"></div>
+				<div class="card">
+					<div class="card-block">
+						<div class="sub-title">クリエイティブ情報</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">クリエイティブ名<span class="text-danger">※</span></label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" th:field="*{creativeName}" required="required">
+							</div>
+						</div>
+						<div class="sub-title">
+							バナー画像<span class="text-danger">※</span>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right"></label>
+							<div class="col-sm-8">
+								<input type="file" class="form-control" th:field="*{image}" required="required">
+							</div>
+						</div>
+						<div class="form-group row">
+							<div class="col-sm-12 text-center">
+								<button class="btn btn-success" sec:authorize="hasAuthority('DSP_CREATIVE_MANAGE')" type="submit" th:formaction="@{/dsp/confirmCreative}" th:formmethod="post">次へ</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+		<!-- Page body end -->
+
+	</div>
+</body>
+</html>
