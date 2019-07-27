@@ -76,6 +76,8 @@
 	
 	
 	
+	
+	
 	:
 	
 	
@@ -83,7 +85,9 @@
 	
 	
 	
+	
 	 
+	
 	
 	
 	
@@ -149,7 +153,10 @@
 	
 	
 	
+	
+	
 	:
+	
 	
 	
 	
@@ -163,7 +170,10 @@
 	
 	
 	
+	
 	table-cell
+	
+	
 	
 	
 	
@@ -190,6 +200,8 @@
 	
 	
 	
+	
+	
 	:
 	
 	
@@ -197,7 +209,9 @@
 	
 	
 	
+	
 	 
+	
 	
 	
 	
@@ -454,25 +468,25 @@ li {
 				<br />
 			</div>
 
-			<form th:action="@{/}" th:method="post">
+			<form th:action="@{/}" th:method="post" enctype="multipart/form-data" th:object=${form}>
 				<div class="card-block">
 					<div class="top">
 						<div class="banner-left">
 							<div>バナー 300ｘ250</div>
 							<!-- <div class="jFiler jFiler-theme-default"> -->
 							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile01}/>
 							<div>バナー 320ｘ50</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile02}/>
 							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
 						</div>
 						<div class="banner-right">
 							<div>バナー 728ｘ90</div>
 							<!-- <div class="jFiler jFiler-theme-default"> -->
 							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile03}/>
 							<div>バナー 320ｘ100</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
+							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile04}/>
 							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
 						</div>
 					</div>
@@ -496,7 +510,7 @@ li {
 							<span>リターゲット配信</span>
 						</div>
 						<div>
-							<input type="radio" id="huey" name="drone" value="huey" checked> <label for="do">する</label> <input type="radio" id="huey" name="drone" value="huey" checked> <label for="dont">しない</label>
+							<input type="radio" id="do" value="01" th:field=*{retargeting}> <label for="do">する</label> <input type="radio" id="donot" value="00" checked th:field=*{retargeting}> <label for="donot">しない</label>
 						</div>
 						<div>
 							<a href="">リターゲット配信とは？</a>
@@ -506,7 +520,7 @@ li {
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
 								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/mediaDescription}">戻る</button>
-								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadCreateConfirm}">次へ</button>
+								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/bannerAd/confirm}">次へ</button>
 
 							</div>
 						</div>
