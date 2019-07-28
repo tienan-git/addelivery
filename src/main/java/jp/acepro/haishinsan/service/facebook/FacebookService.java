@@ -7,6 +7,7 @@ import com.facebook.ads.sdk.AdsInsights.EnumDatePreset;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.dto.IssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
+import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
 import jp.acepro.haishinsan.dto.facebook.FbGraphReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbReportDisplayDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
@@ -24,7 +25,9 @@ public interface FacebookService {
 	List<FbTemplateDto> searchList();
 
 	FbTemplateDto templateDelete(Long templateId);
-	
+
+    void createCreative(FbCreativeDto fbCreativeDto, IssueDto issueDto);
+
 	FbCampaignDto createCampaign(FbCampaignDto fbCampaignDto, IssueDto issueDto);
 
 	List<FbCampaignDto> campaignList(List<FacebookCampaignManage> facebookCampaignManageList);
