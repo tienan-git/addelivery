@@ -1,5 +1,8 @@
 package jp.acepro.haishinsan.controller.upload.google;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/upload/google")
 public class GoogleUploadController {
+
+	@Autowired
+	HttpSession session;
 
 	// Select Ad Type
 	@GetMapping("/adTypeSelection")
@@ -65,7 +71,21 @@ public class GoogleUploadController {
 	@PostMapping("/textAd/confirm")
 	public ModelAndView textAdConfirm(UploadGoogleTextAdCreateForm form) {
 		log.debug(form.toString());
-		return null;
+		session.setAttribute("textAdForm", form);
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("upload/google/textAd/confirm");
+		mv.addObject("form", form);
+		return mv;
+	}
+
+	@PostMapping("/textAd/complete")
+	public ModelAndView textAdComplete() {
+		UploadGoogleTextAdCreateForm form = (UploadGoogleTextAdCreateForm) session.getAttribute("textAdForm");
+		log.debug(form.toString());
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("upload/google/textAd/complete");
+		session.removeAttribute("textAdForm");
+		return mv;
 	}
 
 }
