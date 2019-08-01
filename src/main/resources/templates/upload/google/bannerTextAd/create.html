@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -71,10 +68,54 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	0;
@@ -128,13 +169,79 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	 
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	table-cell
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -145,10 +252,54 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	1%;
@@ -300,7 +451,7 @@ ol, ul {
 		if (myInput.value !== "") {
 			document.getElementById("textField1").innerHTML = myInput.value
 		} else {
-			document.getElementById("textField1").innerHTML = "見出し1"
+			document.getElementById("textField1").innerHTML = "短い広告見出し1"
 		}
 	}
 	function myFunc2() {
@@ -308,15 +459,7 @@ ol, ul {
 		if (myInput.value !== "") {
 			document.getElementById("textField2").innerHTML = myInput.value
 		} else {
-			document.getElementById("textField2").innerHTML = "見出し2"
-		}
-	}
-	function myFunc() {
-		var myInput = document.getElementById("inputfield_3");
-		if (myInput.value !== "") {
-			document.getElementById("textField3").innerHTML = myInput.value
-		} else {
-			document.getElementById("textField3").innerHTML = "説明文 "
+			document.getElementById("textField2").innerHTML = "説明文"
 		}
 	}
 
@@ -340,7 +483,33 @@ ol, ul {
 		reader.onload = function(e) {
 			console.log("画像の読み込みは成功....");
 
-			var img = document.getElementById("xmTanImg");
+			var img = document.getElementById("previewImg01");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+
+	function myFile_upload2(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+
+			var img = document.getElementById("previewImg02");
 			img.src = e.target.result;
 		}
 		reader.readAsDataURL(file);
@@ -388,19 +557,16 @@ ol, ul {
 			</div> -->
 			<div align="center" class="pheader pc">
 				<h3>
-					<img th:src="@{/images/google.png}" style="width: 80px;" /><span
-						style="margin-left: 40px;">2.どれを配信しますか？</span>
+					<img th:src="@{/images/google.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
 				</h3>
 				<br />
 				<p style="margin-left: 100px;">
-					<strong>Googleバナー広告(文字+バナー)</strong>
+					<strong>Googleバナー広告(バナー+文字)</strong>
 				</p>
 			</div>
 			<div class="pheader sp">
 				<h4>
-					<img th:src="@{/images/google.png}"
-						style="width: 60px; margin-left: 20px;" /><strong
-						style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
+					<img th:src="@{/images/google.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
 				</h4>
 				<h2 style="margin-top: 30px; margin-left: 80px;">
 					<strong>2.どれを配信しますか？</strong>
@@ -412,39 +578,29 @@ ol, ul {
 					<form th:action="@{/}" th:method="post" enctype="multipart/form-data" th:object=${form}>
 						<div>
 							<div class="" align="left">
-								<span>短い広告見出し</span> <span class="text-danger">(〇〇/〇〇文字)</span>
-								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
-								<input type="text" class="form-control" maxlength="15"
-									id="inputfield_1" onchange="myFunc1()" placeholder="短い広告見出し" th:field=*{resAdShortTitle}>
+								<span>広告</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onkeyup="myFunc1()" placeholder="見出し1"> -->
+								<input type="text" class="form-control" maxlength="15" placeholder="広告名" th:field=*{resAdName}>
 							</div>
 							<div class="" align="left">
-								<span>説明文</span> <span class="text-danger"
-									style="text-align: right;">(〇〇/〇〇文字)</span>
-								<!-- <textarea type="text" class="form-control"  required maxlength="45" id="inputfield_3" onchange="myFunc()" placeholder="説明文を入力してください"></textarea> -->
-								<textarea type="text" class="form-control" maxlength="45"
-									id="inputfield_3" onchange="myFunc()"
-									placeholder="説明文を入力してください" th:field=*{resAdDescription}></textarea>
+								<span>短い広告見出し</span> <span class="text-danger">(〇〇/〇〇文字)</span> <input type="text" class="form-control" maxlength="15" id="inputfield_1" onkeyup="myFunc1()" placeholder="短い広告見出し" th:field=*{resAdShortTitle}>
+							</div>
+							<div class="" align="left">
+								<span>説明文</span> <span class="text-danger" style="text-align: right;">(〇〇/〇〇文字)</span> <input type="text" class="form-control" maxlength="45" id="inputfield_2" onkeyup="myFunc2()" placeholder="説明文" th:field=*{resAdDescription}>
 							</div>
 						</div>
 						<div class="">
 							<div>バナー 1200ｘ628</div>
-							<!-- <div class="jFiler jFiler-theme-default"> -->
-							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile01}/>
+							<input type="file" id="uploadImg01" onchange="myFile_upload1(this)" th:field=*{imageFile01} />
 						</div>
 						<div class="">
 							<div>バナー 300ｘ300</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)"  th:field=*{imageFile02}/>
-							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+							<input type="file" id="uploadImg02" onchange="myFile_upload2(this)" th:field=*{imageFile02} />
 						</div>
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" type="submit"
-									th:formmethod="get"
-									th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
-								<button class="btn btn-success" type="submit"
-									th:formmethod="post"
-									th:formaction="@{/upload/google/bannerTextAd/confirm}">次へ</button>
+								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
+								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/bannerTextAd/confirm}">次へ</button>
 							</div>
 						</div>
 					</form>
@@ -453,21 +609,9 @@ ol, ul {
 					<div class="right-container">
 						<p class="preview">プレビュー</p>
 						<div class="img">
-							<img id="xmTanImg" alt=""
-								src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-								style="width: 200px">
-							<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
-							<div id="textField1" class="midashi">見出し</div>
-							<div id="textField2" class="midashi">見出し</div>
-							<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
-							<p id="textField3">説明文</p>
-							<div>
-								<span>店舗名</span> <span><a href="http://www.google.co.jp"
-									style="float: right"><font color='blue'>サイトへ</font></a></span>
-							</div>
-							<p class="native">
-								<strong>ネイティブ</strong>
-							</p>
+							<img id="previewImg01" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px"><img id="previewImg02" alt="" src="http://placehold.jp/3c5c7d/ffffff/300x300.png" style="width: 100px">
+							<div id="textField1" class="midashi">短い広告見出し</div>
+							<p id="textField2">説明文</p>
 						</div>
 					</div>
 				</div>
