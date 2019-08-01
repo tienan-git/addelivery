@@ -322,7 +322,7 @@ ol, ul {
 			document.getElementById("textField2").innerHTML = "見出し2"
 		}
 	}
-	function myFunc() {
+	function myFunc3() {
 		var myInput = document.getElementById("inputfield_3");
 		if (myInput.value !== "") {
 			document.getElementById("textField3").innerHTML = myInput.value
@@ -418,37 +418,31 @@ ol, ul {
 					<form th:action="@{/}" th:method="post" th:object=${form}>
 						<div>
 							<div class="" align="left">
+								<span>広告</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
+								<input type="text" class="form-control" maxlength="15" placeholder="広告名" th:field=*{textAdName}>
+							</div>
+							<div class="" align="left">
 								<span>見出し1</span> <span class="text-danger">(〇〇/〇〇文字)</span>
 								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
 								<input type="text" class="form-control" maxlength="15"
-									id="inputfield_1" onchange="myFunc1()" placeholder="見出し1" th:field=*{textAdTitle1}>
+									id="inputfield_1" onkeyup="myFunc1()" placeholder="見出し1" th:field=*{textAdTitle1}>
 							</div>
 							<div class="" align="left">
 								<span>見出し2</span> <span class="text-danger">(〇〇/〇〇文字)</span>
 								<!-- <textarea type="text" class="form-control"  required maxlength="15" id="inputfield_2" onchange="myFunc2()" placeholder="見出し２"></textarea> -->
-								<textarea type="text" class="form-control" maxlength="15"
-									id="inputfield_2" onchange="myFunc2()" placeholder="見出し２" th:field=*{textAdTitle2}></textarea>
+								<input type="text" class="form-control" maxlength="15"
+									id="inputfield_2" onkeyup="myFunc2()" placeholder="見出し２" th:field=*{textAdTitle2}></textarea>
 							</div>
 							<div class="" align="left">
 								<span>説明文</span> <span class="text-danger"
 									style="text-align: right;">(〇〇/〇〇文字)</span>
 								<!-- <textarea type="text" class="form-control"  required maxlength="45" id="inputfield_3" onchange="myFunc()" placeholder="説明文を入力してください"></textarea> -->
-								<textarea type="text" class="form-control" maxlength="45"
-									id="inputfield_3" onchange="myFunc()"
-									placeholder="説明文を入力してください" th:field=*{textAdDescription}></textarea>
+								<input type="text" class="form-control" maxlength="45"
+									id="inputfield_3" onkeyup="myFunc3()"
+									placeholder="説明文" th:field=*{textAdDescription}></textarea>
 							</div>
 						</div>
-						<!-- <div class="">
-							<div>バナー 1200ｘ628</div>
-							<div class="jFiler jFiler-theme-default">
-							<input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;">
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						</div>
-						<div class="">
-							<div>バナー 300ｘ300</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-							<div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div>
-						</div> -->
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
 								<button class="btn btn-success" type="submit"
@@ -466,7 +460,7 @@ ol, ul {
 						<p class="preview">プレビュー</p>
 						<div class="img">
 							<div>
-								<span class="midashi">見出し1</span> | <span class="midashi">見出し2</span>
+								<span id="textField1" class="midashi">見出し1</span> | <span id="textField2" class="midashi">見出し2</span>
 							</div>
 							<div>
 								<span class="ad">広告</span> <a class="ad-link">https://www.ace-pro.com</a>

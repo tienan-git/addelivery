@@ -78,6 +78,18 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
@@ -86,7 +98,19 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	 
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -155,7 +179,25 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -171,7 +213,25 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	table-cell
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -202,6 +262,18 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
@@ -210,7 +282,19 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	 
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -388,7 +472,6 @@ li {
 			document.getElementById("textField3").innerHTML = "説明文 "
 		}
 	}
-
 	function myFile_upload1(obj) {
 		var file = obj.files[0];
 		var reader = new FileReader();
@@ -409,7 +492,85 @@ li {
 		reader.onload = function(e) {
 			console.log("画像の読み込みは成功....");
 
-			var img = document.getElementById("xmTanImg");
+			var img = document.getElementById("previewImg01");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+
+	function myFile_upload2(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+
+			var img = document.getElementById("previewImg02");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+
+	function myFile_upload3(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+
+			var img = document.getElementById("previewImg03");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+
+	function myFile_upload4(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+
+			var img = document.getElementById("previewImg04");
 			img.src = e.target.result;
 		}
 		reader.readAsDataURL(file);
@@ -470,50 +631,38 @@ li {
 
 			<form th:action="@{/}" th:method="post" enctype="multipart/form-data" th:object=${form}>
 				<div class="card-block">
+					<div>
+						<span>広告</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+						<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
+						<input type="text" class="form-control" maxlength="15" placeholder="広告名" th:field=*{imgAdName}>
+					</div>
 					<div class="top">
 						<div class="banner-left">
 							<div>バナー 300ｘ250</div>
-							<!-- <div class="jFiler jFiler-theme-default"> -->
-							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile01}/>
+							<input type="file" id="uploadImg01" onchange="myFile_upload1(this)" th:field=*{imageFile01} />
 							<div>バナー 320ｘ50</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile02}/>
-							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+							<input type="file" id="uploadImg02" onchange="myFile_upload2(this)" th:field=*{imageFile02} />
 						</div>
 						<div class="banner-right">
 							<div>バナー 728ｘ90</div>
-							<!-- <div class="jFiler jFiler-theme-default"> -->
-							<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile03}/>
+							<input type="file" id="uploadImg03" onchange="myFile_upload3(this)" th:field=*{imageFile03} />
 							<div>バナー 320ｘ100</div>
-							<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" th:field=*{imageFile04}/>
-							<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
+							<input type="file" id="uploadImg04" onchange="myFile_upload4(this)" th:field=*{imageFile04} />
 						</div>
 					</div>
 					<div class="bottom">
 						<p class="preview">プレビュー</p>
 						<div class="img">
-							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px">
+							<img id="previewImg01" alt="" src="http://placehold.jp/3c5c7d/ffffff/300x250.png" style="width: 200px">
 						</div>
 						<div class="img">
-							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 100px; height: 40px">
+							<img id="previewImg02" alt="" src="http://placehold.jp/3c5c7d/ffffff/320x50.png" style="width: 200px">
 						</div>
 						<div class="img">
-							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px; height: 40px">
+							<img id="previewImg03" alt="" src="http://placehold.jp/3c5c7d/ffffff/728x90.png" style="width: 200px">
 						</div>
 						<div class="img">
-							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 150px; height: 40px">
-						</div>
-					</div>
-					<div class="bottom2">
-						<div>
-							<span>リターゲット配信</span>
-						</div>
-						<div>
-							<input type="radio" id="do" value="01" th:field=*{retargeting}> <label for="do">する</label> <input type="radio" id="donot" value="00" checked th:field=*{retargeting}> <label for="donot">しない</label>
-						</div>
-						<div>
-							<a href="">リターゲット配信とは？</a>
+							<img id="previewImg04" alt="" src="http://placehold.jp/3c5c7d/ffffff/320x100.png" style="width: 200px">
 						</div>
 					</div>
 					<div class="">
