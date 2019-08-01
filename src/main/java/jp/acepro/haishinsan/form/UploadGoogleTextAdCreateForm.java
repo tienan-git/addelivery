@@ -5,6 +5,9 @@ import lombok.Data;
 @Data
 public class UploadGoogleTextAdCreateForm {
 
+	// 広告名
+	String textAdName;
+
 	// 広告見出し１
 	String textAdTitle1;
 

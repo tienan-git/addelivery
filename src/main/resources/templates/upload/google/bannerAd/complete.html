@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
-
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -21,8 +23,8 @@
 	z-index: 1;
 	background-color: #3f70b9;
 	border-radius: 0 5px 0 50px;
-	border-top: 1px solid #ffffff;
-	border-right: 1px solid #ffffff;
+	border-top: 1px solid #354cbd;
+	border-right: 1px solid #354cbd;
 	box-sizing: content-box;
 }
 
@@ -72,13 +74,7 @@
 	:
 	
 	
-	
-
-
-
-
-
-				
+	 
 	
 	
 	0;
@@ -135,13 +131,7 @@
 	:
 	
 	
-	
-
-
-
-
-
-				
+	 
 	
 	
 	table-cell
@@ -158,13 +148,7 @@
 	:
 	
 	
-	
-
-
-
-
-
-				
+	 
 	
 	
 	1%;
@@ -183,7 +167,8 @@
 	box-sizing: border-box;
 }
 
-user agent stylesheet li {
+user agent stylesheet
+li {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
@@ -222,6 +207,55 @@ ol, ul {
 	border-radius: 0;
 }
 
+.card-block {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+}
+
+.card-block .left {
+	padding: 0px 50px;
+}
+
+.card-block .right {
+	margin: 10px 150px;
+	border: 2px solid #b3aeae;
+	border-radius: 28px;
+	position: relative;
+}
+
+.card-block .img {
+	margin-top: 36px;
+	width: 200px;
+	margin-left: 120px;
+}
+
+.card-block .preview {
+	position: absolute;
+	right: 43%;
+	top: -14px;
+	marign-left: 10px;
+	background: white;
+	padding: 0px 10px;
+	font-weight: bold;
+}
+
+.midashi {
+	margin: 5px 0px;
+	font-size: 17px;
+	font-weight: bold;
+	color: #191619;
+}
+
+.native {
+	text-align: center;
+	margin-top: 27px;
+	font-weight: bold;
+}
+
+.card-block .row {
+	justify-content: space-between
+}
+
 .pheader {
 	margin-bottom: 0;
 	/* font-size: 1rem; */
@@ -233,18 +267,12 @@ ol, ul {
 	font-size: 1.2rem;
 	font-weight: bold;
 }
-
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
 @media only screen and (max-width: 750px) {
-	.sp {
-		display: none !important;
-	}
-	.text-right {
-		display: inherit;
-	}
+.sp { display: none !important; }
 }
 </style>
 </head>
-
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -265,61 +293,26 @@ ol, ul {
 	<!-- Page-header end -->
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form id="defaultForm" class="form-horizontal" th:method="post" th:action="@{/}" th:object="${form}">
+		<!-- <form id="defaultForm" class="form-horizontal" th:action="@{/creative/creativeComplete}" th:object="${creativeDto}" method="post"> -->
+		<form id="defaultForm" class="form-horizontal" style="height: 70%;">
 			<div class="card">
-				<div class="card-block1 pc" id="progressbar">
+				<div id="progressbar" class="sp">
 					<ul class="nav nav-pills nav-justified step step-arrow">
 						<li><a>1.媒体</a></li>
 						<li><a>2.広告/バナー</a></li>
-						<li class="active"><a>3.確認</a></li>
-						<li><a>4.配信確定</a></li>
+						<li><a>3.確認</a></li>
+						<li class="active"><a>4.配信確定</a></li>
 					</ul>
 				</div>
-				<div class="pheader" align="center">
-					<h3>3.以下の内容で登録します。</h3>
+				<div class="pheader" align="center" style="margin-bottom:60px">
+					<h3>登録を完了しました</h3>
 				</div>
-				<div class="card-block">
-					<h4 class="sub-title">基本情報</h4>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>広告</strong></label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdName}">広告名</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>広告見出し１</strong></label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdTitle1}">広告見出し１</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>広告見出し２</strong></label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdTitle2}">広告見出し２</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>説明文</strong></label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdDescription}">説明文</label>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-12 text-center" style="margin-bottom: 20px">
-					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadGoogleBanner}">戻る</button>
-					<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/textAd/complete}">次へ</button>
+				<div class="col-sm-12 text-center" style="margin-bottom:40px">
+					<!-- <button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/createBudget}">戻る</button> -->
+					<a href="/"><font color='blue'>ホームページへ</font></a>
 				</div>
 			</div>
 		</form>
 	</div>
 </body>
-
 </html>

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
-
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -69,16 +68,30 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
-
-
-
-
-
-				
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	
 	
 	
 	0;
@@ -132,19 +145,43 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
-
-
-
-
-
-				
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	
 	
 	
 	table-cell
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -155,16 +192,30 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
-
-
-
-
-
-				
+	
+	
+	
+	
+	 
+	
+	
+	
+	
+	
 	
 	
 	1%;
@@ -183,7 +234,8 @@
 	box-sizing: border-box;
 }
 
-user agent stylesheet li {
+user agent stylesheet
+li {
 	display: list-item;
 	text-align: -webkit-match-parent;
 }
@@ -244,7 +296,6 @@ ol, ul {
 }
 </style>
 </head>
-
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -265,6 +316,7 @@ ol, ul {
 	<!-- Page-header end -->
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
+		<!-- <form id="defaultForm" class="form-horizontal" th:action="@{/creative/creativeComplete}" th:object="${creativeDto}" method="post"> -->
 		<form id="defaultForm" class="form-horizontal" th:method="post" th:action="@{/}" th:object="${form}">
 			<div class="card">
 				<div class="card-block1 pc" id="progressbar">
@@ -285,23 +337,15 @@ ol, ul {
 							<label class="col-form-label"><strong>広告</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdName}">広告名</label>
+							<label th:text="*{resAdName}">広告名</label>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>広告見出し１</strong></label>
+							<label class="col-form-label"><strong>短い広告見出し</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdTitle1}">広告見出し１</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label"><strong>広告見出し２</strong></label>
-						</div>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdTitle2}">広告見出し２</label>
+							<label th:text="*{resAdShortTitle}">短い広告見出し</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -309,17 +353,32 @@ ol, ul {
 							<label class="col-form-label"><strong>説明文</strong></label>
 						</div>
 						<div class="col-sm-4 col-form-label">
-							<label th:text="*{textAdDescription}">説明文</label>
+							<label th:text="*{resAdDescription}">説明文</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label"><strong>バナー 1200ｘ628</strong></label>
+						</div>
+						<div>
+							<img style="width: 200px" th:src="*{imageData01}" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label"><strong>バナー 300ｘ300</strong></label>
+						</div>
+						<div>
+							<img style="width: 100px" th:src="*{imageData02}" />
 						</div>
 					</div>
 				</div>
 				<div class="col-sm-12 text-center" style="margin-bottom: 20px">
 					<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadGoogleBanner}">戻る</button>
-					<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/textAd/complete}">次へ</button>
+					<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/bannerTextAd/complete}">次へ</button>
 				</div>
 			</div>
 		</form>
 	</div>
 </body>
-
 </html>

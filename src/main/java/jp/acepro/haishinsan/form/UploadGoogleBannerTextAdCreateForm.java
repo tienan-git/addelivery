@@ -7,6 +7,9 @@ import lombok.Data;
 @Data
 public class UploadGoogleBannerTextAdCreateForm {
 
+	// 広告名
+	String resAdName;
+
 	// 短い広告見出し
 	String resAdShortTitle;
 
@@ -15,9 +18,9 @@ public class UploadGoogleBannerTextAdCreateForm {
 
 	// 画像ファイル01
 	MultipartFile imageFile01;
-	byte[] imageData01;
+	String imageData01;
 
 	// 画像ファイル02
 	MultipartFile imageFile02;
-	byte[] imageData02;
+	String imageData02;
 }
