@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.controller.campaign.dsp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +58,7 @@ public class DspCampaignController {
 	@Autowired
 	OperationService operationService;
 
-	@GetMapping("/selectCreative")
+	@GetMapping("/selectCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
 	public ModelAndView selectCreative() {
 
@@ -80,6 +81,7 @@ public class DspCampaignController {
 		modelAndView.setViewName("campaign/dsp/selectCreative");
 		modelAndView.addObject("dspCampaignInputForm", dspCampaignInputForm);
 
+		session.setAttribute("dspCreativeDtoList", dspCreativeDtoList);
 		return modelAndView;
 	}
 
@@ -91,32 +93,53 @@ public class DspCampaignController {
 		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
 		// 最低日次予算金額
 		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
-		
-		// 作成したSegmentを取得 TODO 
-		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
+
+		// 選択したクリエイティブ情報を取得
+		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("dspCreativeDtoList");
+
+		// 選択したクリエイティブ情報の上、最も早い日付を取得
+		LocalDateTime dateTime = null;
+		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
+			for (Integer id : dspCampaignInputForm.getIdList()) {
+				if (dspCreativeDto.getCreativeId().equals(id)) {
+					if (dateTime != null) {
+						dateTime = dspCreativeDto.getCreatedAt().isAfter(dateTime) ? dateTime : dspCreativeDto.getCreatedAt();
+					} else {
+						dateTime = dspCreativeDto.getCreatedAt();
+					}
+				}
+			}
+		}
+
+		if (dateTime == null) {
+			dateTime = LocalDateTime.now();
+		}
+
+		// 日付によるセグメント情報を取得
+		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlByDateTime(dateTime);
 		dspCampaignInputForm.setDeviceType(9);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("campaign/dsp/createCampaign");
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 		modelAndView.addObject("dailyBudgetFlag", dailyBudgetFlag.longValue());
-		
+
 		session.setAttribute("idList", dspCampaignInputForm.getIdList());
 
 		return modelAndView;
 	}
-	
+
 	@PostMapping("/confirmCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
 	public ModelAndView confirmCampaign(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
-		
+
 		// テンプレート情報を取って、優先度一番高いの方で使う
 		DspTemplateDto dspTemplateDto = dspApiService.getDefaultTemplate();
 
 		// FormをDtoにして、キャンペーンを作成する
 		DspCampaignDto dspCampaignDto = DspMapper.INSTANCE.campFormToDto(dspCampaignInputForm);
 		dspCampaignDto.setTemplateId(dspTemplateDto.getTemplateId());
-		List<Integer> ids = (List<Integer>)session.getAttribute("idList");
+		List<Integer> ids = (List<Integer>) session.getAttribute("idList");
 		for (Integer i : ids) {
 			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
 			dspCampaignCreInputForm.setCreativeId(i);

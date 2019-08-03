@@ -209,9 +209,18 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 			DspCreativeDto dspCreativeDto = new DspCreativeDto();
 			dspCreativeDto.setCreativeId(Integer.valueOf(dreativeManage.getCreativeId()));
 			dspCreativeDto.setCreativeName(dreativeManage.getCreativeName());
+			dspCreativeDto.setCreatedAt(dreativeManage.getCreatedAt());
 			dspCreativeDtoList.add(dspCreativeDto);
 		}
 		
 		return dspCreativeDtoList;
+	}
+
+	@Override
+	@Transactional
+	public List<DspCreativeDto> selectCreativeByIdList(List<Integer> idList) {
+		
+		
+		return null;
 	}
 }
