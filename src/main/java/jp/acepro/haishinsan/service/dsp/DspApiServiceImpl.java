@@ -654,13 +654,13 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 	@Override
 	public DspTemplateDto getDefaultTemplate() {
 
-		DspTemplate dspTemplate = dspTemplateCustomDao.selectDefaultTemplate(ContextUtil.getCurrentShopId());
+		List<DspTemplate> dspTemplateList = dspTemplateCustomDao.selectDefaultTemplate(ContextUtil.getCurrentShopId());
 		DspTemplateDto dspTemplateDto = new DspTemplateDto();
-		dspTemplateDto.setTemplateId(dspTemplate.getTemplateId());
-		dspTemplateDto.setTemplateName(dspTemplate.getTemplateName());
-		dspTemplateDto.setBidCpcPrice(dspTemplate.getBidCpcPrice());
-		dspTemplateDto.setBillingType(dspTemplate.getBillingType());
-		dspTemplateDto.setTemplatePriority(dspTemplate.getTemplatePriority());
+		dspTemplateDto.setTemplateId(dspTemplateList.get(0).getTemplateId());
+		dspTemplateDto.setTemplateName(dspTemplateList.get(0).getTemplateName());
+		dspTemplateDto.setBidCpcPrice(dspTemplateList.get(0).getBidCpcPrice());
+		dspTemplateDto.setBillingType(dspTemplateList.get(0).getBillingType());
+		dspTemplateDto.setTemplatePriority(dspTemplateList.get(0).getTemplatePriority());
 		return dspTemplateDto;
 	}
 

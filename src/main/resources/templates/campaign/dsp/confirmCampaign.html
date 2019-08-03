@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>広告物作成</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<div layout:fragment="page_body_container">
+		<div class="card" th:object="${dspCampaignDto}">
+			<div class="card-block">
+				<h4 class="sub-title">広告イメージ</h4>
+				<div class="form-group row" th:each="dspCreativeDto,stat : ${dspCampaignDto.dspCreativeDtoList}">
+					<label class="col-sm-2 col-form-label text-right" th:text="${dspCreativeDto.creativeName}">URL</label>
+					<div class="col-sm-8">
+						<img th:src="${dspCreativeDto.url}" th:id="${stat.index}"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card" th:object="${dspCampaignDto}">
+			<div class="card-block">
+				<h4 class="sub-title">広告基本情報</h4>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">案件名</label>
+					<div class="col-sm-8">
+						<label class="col-form-label" th:text="*{campaignName}">DSPキャンペーンテスト</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">配信開始日</label>
+					<div class="col-sm-8">
+						<label class="col-form-label" th:text="*{startDatetime}">2018-09-16</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">配信終了日</label>
+					<div class="col-sm-8">
+						<label class="col-form-label" th:text="*{endDatetime}">2018-10-16</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">予算</label>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="${#numbers.formatInteger(__*{budget}__,1,'COMMA')} + '円'">50,000円</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">デバイス</label>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__*{deviceType}__).label}">http://ace-pro.com/</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="card" th:object="${dspTemplateDto}">
+			<div class="card-block">
+				<h4 class="sub-title">固定項目</h4>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">入札CPC単価</label>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="${#numbers.formatInteger(__*{bidCpcPrice}__,1,'COMMA')} + '円'">50,000円</label>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">課金方式</label>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="${T(jp.acepro.haishinsan.enums.BillingType).of(__*{billingType}__).label}">50,000円</label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-sm-12 text-center">
+				<button class="btn btn-success" type="submit"
+					sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')"
+					th:formaction="@{/dsp/completeCampaign}" th:formmethod="get">確認</button>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript" src="../files/assets/js/script.js"></script>
+	</div>
+</body>
+</html>

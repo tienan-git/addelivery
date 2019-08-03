@@ -7,4 +7,5 @@ public class DspCampaignCreInputForm {
 
 	Integer creativeId;
 	String creativeName;
+	String url;
 }

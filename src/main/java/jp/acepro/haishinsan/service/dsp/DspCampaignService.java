@@ -20,4 +20,11 @@ public interface DspCampaignService {
 
 	void createDspCampaign(DspCampaignDto dspCampaignDto, IssueDto issueDto);
 
+	/**
+	 * 入力チェック
+	 * @param dspCampaignDto
+	 * @return 
+	 */
+	DspCampaignDto validate(DspCampaignDto dspCampaignDto);
+
 }

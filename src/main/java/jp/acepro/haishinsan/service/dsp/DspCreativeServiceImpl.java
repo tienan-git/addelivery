@@ -98,7 +98,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 			DspCreativeDto newDspCreativeDto = new DspCreativeDto();
 			newDspCreativeDto.setCreativeId(dspCreativeListDto.getId());
 			newDspCreativeDto.setCreativeName(dspCreativeListDto.getName());
-			newDspCreativeDto.setSrc(dspCreativeListDto.getSrc());
+			newDspCreativeDto.setUrl(dspCreativeListDto.getSrc());
 			newDspCreativeDto.setScreening(dspCreativeListDto.getScreening());
 			newDspCreativeDtoList.add(newDspCreativeDto);
 		}
@@ -147,7 +147,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		DspCreativeDto newDspCreativeDto = new DspCreativeDto();
 		newDspCreativeDto.setCreativeId(dspCreateCreativeRes.getId());
 		newDspCreativeDto.setCreativeName(dspCreateCreativeRes.getName());
-		newDspCreativeDto.setSrc(dspCreateCreativeRes.getSrc());
+		newDspCreativeDto.setUrl(dspCreateCreativeRes.getSrc());
 		
 		return dspCreativeDto;
 	}
@@ -184,7 +184,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		DspCreativeDto dspCreativeDto = new DspCreativeDto();
 		dspCreativeDto.setCreativeId(dspCreativeListRes.getResult().get(0).getId());
 		dspCreativeDto.setCreativeName(dspCreativeListRes.getResult().get(0).getName());
-		dspCreativeDto.setSrc(dspCreativeListRes.getResult().get(0).getSrc());
+		dspCreativeDto.setUrl(dspCreativeListRes.getResult().get(0).getSrc());
 		
 		return dspCreativeDto;
 	}
@@ -210,6 +210,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 			dspCreativeDto.setCreativeId(Integer.valueOf(dreativeManage.getCreativeId()));
 			dspCreativeDto.setCreativeName(dreativeManage.getCreativeName());
 			dspCreativeDto.setCreatedAt(dreativeManage.getCreatedAt());
+			dspCreativeDto.setUrl(dreativeManage.getUrl());
 			dspCreativeDtoList.add(dspCreativeDto);
 		}
 		
