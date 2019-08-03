@@ -315,7 +315,7 @@ ol, ul {
 						<div th:if="*{location} == 2">
 							<div class="col-sm-4 col-form-label">
 								<select class="searchable" multiple disabled>
-									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterAdsDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">全ての都道府県</option>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${#lists.contains(twitterAdsDto.regions, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">全ての都道府県</option>
 								</select>
 							</div>
 						</div>
