@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.seasar.doma.Dao;
@@ -38,5 +39,13 @@ public interface DspSegmentCustomDao {
 
 	@Select
 	List<SegmentReportManage> selectReportForGraph(DspSegmentSearchDto dspSegmentSearchDto);
+
+	/**
+	 * 日付によるURL取得
+	 * @param LocalDateTime dateTime
+	 * @return
+	 */
+	@Select
+	List<SegmentManage> selectUrlByDateTime(LocalDateTime dateTime, Long shopId);
 
 }
