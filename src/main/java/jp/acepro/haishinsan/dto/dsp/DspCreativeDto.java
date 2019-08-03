@@ -1,5 +1,7 @@
 package jp.acepro.haishinsan.dto.dsp;
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
@@ -12,4 +14,5 @@ public class DspCreativeDto {
 	String src;
 	String Base64Str;
 	Integer screening;
+	LocalDateTime createdAt;
 }

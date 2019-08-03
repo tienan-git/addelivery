@@ -1,6 +1,7 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.campaign.dsp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,19 +58,14 @@ public class DspCampaignController {
 	@Autowired
 	OperationService operationService;
 
-	@GetMapping("/createCampaign")
+	@GetMapping("/selectCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView createCampaign(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
+	public ModelAndView selectCreative() {
 
 		// 作成したCreativeを取得
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
 
-		// 最低予算金額
-		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000)
-				.divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio())
-						.divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
-		// 最低日次予算金額
-		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
+		DspCampaignInputForm dspCampaignInputForm = new DspCampaignInputForm();
 
 		// dspCampaignCreInputFormList作成して、UIに添付
 		List<DspCampaignCreInputForm> dspCampaignCreInputFormList = new ArrayList<DspCampaignCreInputForm>();
@@ -79,20 +75,83 @@ public class DspCampaignController {
 			dspCampaignCreInputForm.setCreativeName(dspCreativeDto.getCreativeName());
 			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
 		}
-		// 作成したSegmentを取得
-		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 		dspCampaignInputForm.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
-		dspCampaignInputForm.setDeviceType(9);
-
-		// テンプレート情報を取得
-		List<DspTemplateDto> dspTemplateDtoList = dspApiService.templateList();
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/createCampaign");
+		modelAndView.setViewName("campaign/dsp/selectCreative");
 		modelAndView.addObject("dspCampaignInputForm", dspCampaignInputForm);
+
+		session.setAttribute("dspCreativeDtoList", dspCreativeDtoList);
+		return modelAndView;
+	}
+
+	@PostMapping("/createCampaign")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	public ModelAndView createCampaign(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
+
+		// 最低予算金額
+		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
+		// 最低日次予算金額
+		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
+
+		// 選択したクリエイティブ情報を取得
+		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("dspCreativeDtoList");
+
+		// 選択したクリエイティブ情報の上、最も早い日付を取得
+		LocalDateTime dateTime = null;
+		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
+			for (Integer id : dspCampaignInputForm.getIdList()) {
+				if (dspCreativeDto.getCreativeId().equals(id)) {
+					if (dateTime != null) {
+						dateTime = dspCreativeDto.getCreatedAt().isAfter(dateTime) ? dateTime : dspCreativeDto.getCreatedAt();
+					} else {
+						dateTime = dspCreativeDto.getCreatedAt();
+					}
+				}
+			}
+		}
+
+		if (dateTime == null) {
+			dateTime = LocalDateTime.now();
+		}
+
+		// 日付によるセグメント情報を取得
+		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlByDateTime(dateTime);
+		dspCampaignInputForm.setDeviceType(9);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("campaign/dsp/createCampaign");
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
-		modelAndView.addObject("dspTemplateDtoList", dspTemplateDtoList);
 		modelAndView.addObject("dailyBudgetFlag", dailyBudgetFlag.longValue());
+
+		session.setAttribute("idList", dspCampaignInputForm.getIdList());
+
+		return modelAndView;
+	}
+
+	@PostMapping("/confirmCampaign")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	public ModelAndView confirmCampaign(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
+
+		// テンプレート情報を取って、優先度一番高いの方で使う
+		DspTemplateDto dspTemplateDto = dspApiService.getDefaultTemplate();
+
+		// FormをDtoにして、キャンペーンを作成する
+		DspCampaignDto dspCampaignDto = DspMapper.INSTANCE.campFormToDto(dspCampaignInputForm);
+		dspCampaignDto.setTemplateId(dspTemplateDto.getTemplateId());
+		List<Integer> ids = (List<Integer>) session.getAttribute("idList");
+		for (Integer i : ids) {
+			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
+			dspCampaignCreInputForm.setCreativeId(i);
+			dspCampaignDto.getDspCampaignCreInputFormList().add(dspCampaignCreInputForm);
+			dspCampaignDto.getIdList().add(i);
+		}
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("campaign/dsp/confirmCampaign");
+		modelAndView.addObject("dspCampaignDto", dspCampaignDto);
+		modelAndView.addObject("dspTemplateDto", dspTemplateDto);
+		session.setAttribute("dspCampaignDto", dspCampaignDto);
 
 		return modelAndView;
 	}
@@ -134,8 +193,7 @@ public class DspCampaignController {
 		modelAndView.addObject("newDspCampaignDto", dspCampaignDto);
 
 		// オペレーションログ記録
-		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(),
-				String.valueOf(newDspCampaignDto.getCampaignId()));
+		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(newDspCampaignDto.getCampaignId()));
 
 		return modelAndView;
 	}
@@ -163,8 +221,7 @@ public class DspCampaignController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_VIEW + "')")
 	public ModelAndView campaignDetail(@RequestParam Integer campaignId) {
 
-		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(campaignId,
-				ContextUtil.getCurrentShop().getDspUserId());
+		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(campaignId, ContextUtil.getCurrentShop().getDspUserId());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("dsp/campaignDetail");

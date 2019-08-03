@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>広告物アップロード</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/dsp/completeCampaign}" method="post" th:object="${dspCampaignInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">クリエイティブ情報</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ情報<span class="text-danger">※</span></label>
+						<div class="col-sm-4" th:if="${#lists.isEmpty(dspCampaignInputForm.dspCampaignCreInputFormList)}">
+							<select class="searchable" multiple="multiple" th:field="*{idList}">
+								<option th:each="object : ${dspCampaignInputForm.dspCampaignCreInputFormList}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">日本</option>
+							</select>
+						</div>
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(dspCampaignInputForm.dspCampaignCreInputFormList)}">
+							<select class="searchable" multiple="multiple" th:field="*{idList}">
+								<option th:each="object : ${dspCampaignInputForm.dspCampaignCreInputFormList}" th:selected="${#lists.contains(dspCampaignInputForm.dspCampaignCreInputFormList, object.getCreativeId())}" th:value="${object.getCreativeId()}" th:text="${object.getCreativeName()}">日本</option>
+							</select>
+						</div>
+					</div>
+					
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')" th:formaction="@{/dsp/createCampaign}" th:formmethod="post">次へ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		
+		<script>
+			$(document).ready(function() {
+				$('.lightgallery-popup').lightGallery();
+			});
+			function refreshVal(sel) {
+				var len = $('#len').val();
+
+				for (var i = 0; i < len; i++) {
+					var x = "templateId[" + i + "]";
+					if (document.getElementById(x).value == sel.value) {
+						break;
+					}
+				}
+				if (i < len) {
+					var y = "dailyBudget[" + i + "]";
+					$("input[id=dailyBudget]").val(
+							document.getElementById(y).value);
+				} else {
+					$("input[id=dailyBudget]").val("");
+				}
+			}
+		</script>
+		<script type="text/javascript" src="../files/assets/js/script.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('input[name="check"]').change(function() {
+					var prop = $('#prop').prop('checked');
+					if (prop) {
+						$('#p1').show();
+					} else {
+						$('#p1').hide();
+					}
+				});
+			});
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+		    var nowTemplateId = $('#templateId').val();
+	        function refreshVal(){
+	        	var dspTemplateDtoList = /*[[${dspTemplateDtoList}]]*/;
+	        	var templateId = $('#templateId').val();
+	        	var dspTemplateDto = dspTemplateDtoList.find(
+	        		function(element) {
+	        		    return element.templateId == templateId;
+	        		}
+	        	);
+	        	
+	            if(window.confirm('テンプレート「' + dspTemplateDto.templateName + '」を使用してもよろしいですか？\r\nテンプレートが切り替わると、入力内容は変更されます。')) { 
+	            	// 確認時の処理
+	            	nowTemplateId = $('#templateId').val();
+	            	// multiple select refresh
+	            	$("#targetValue").val(dspTemplateDto.targetValue);
+	            	$("#accountingMethodFlag").val(dspTemplateDto.accountingMethodFlag);
+	            	$("#frequencyCap").val(dspTemplateDto.frequencyCap);
+	            	$("#bidCpcPrice").val(dspTemplateDto.bidCpcPrice);
+	            	changeAdBlcok();
+	            } else { 
+	            	// キャンセル時の処理
+		            $('#templateId').val(nowTemplateId); // 処理中止
+	            }
+	        }
+	        $(function(){
+	        	 var toDay = new Date();
+		            var year = toDay.getFullYear();
+		            var month = toDay.getMonth()+1 < 10 ? "0"+(toDay.getMonth()+1) : (toDay.getMonth()+1);
+		            var day = toDay.getDate() < 10 ? "0"+toDay.getDate() : toDay.getDate();
+		            $("#startDatetime").attr("min",year+"-"+month+"-"+day);
+		            $("#endDatetime").attr("min",year+"-"+month+"-"+day);
+	        });
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>

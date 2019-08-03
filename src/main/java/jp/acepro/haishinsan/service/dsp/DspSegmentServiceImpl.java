@@ -3,6 +3,7 @@ package jp.acepro.haishinsan.service.dsp;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,7 +73,7 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 
 	@Autowired
 	DspSegmentService dspSegmentService;
-	
+
 	@Autowired
 	ShopCustomDao shopCustomDao;
 
@@ -100,7 +101,6 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		dspCreateSegmentReq.getUrl_rules().get(0).setUrl_match_type(1);
 		dspCreateSegmentReq.setShare_type(0);
 		dspCreateSegmentReq.setIs_enabled(Flag.ON.getValue());
-		
 
 		// Dsp Segment作成して、Req 返す
 		DspCreateSegmentRes dspCreateSegmentRes = null;
@@ -173,19 +173,15 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		// セグメントDto編集する
 		List<DspSegmentListDto> dspSegmentListDtoList = new ArrayList<DspSegmentListDto>();
 		for (DspSegmentListResult dspSegmentListResult : dspSegmentListRes.getResult()) {
-			for (SegmentManage segmentManage : segmentManageList) {
-				if (segmentManage.getSegmentId().equals(dspSegmentListResult.getId())) {
-					DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
-					dspSegmentListDto.setSegmentManageId(segmentManage.getSegmentManageId());
-					dspSegmentListDto.setSegmentId(dspSegmentListResult.getId());
-					dspSegmentListDto.setSegmentName(dspSegmentListResult.getName());
-					if (Objects.nonNull(dspSegmentListResult.getUrl_rules()) && !dspSegmentListResult.getUrl_rules().isEmpty() && Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
-						dspSegmentListDto.setUrl(dspSegmentListResult.getUrl_rules().get(0).getUrl_match_rule());
-					}
-					
-					dspSegmentListDto.setIs_enabled(dspSegmentListResult.getIs_enabled());
-					dspSegmentListDtoList.add(dspSegmentListDto);
+			if (dspSegmentListResult.getIs_enabled() == 1) {
+				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
+				dspSegmentListDto.setSegmentId(dspSegmentListResult.getId());
+				dspSegmentListDto.setSegmentName(dspSegmentListResult.getName());
+				if (Objects.nonNull(dspSegmentListResult.getUrl_rules()) && !dspSegmentListResult.getUrl_rules().isEmpty() && Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
+					dspSegmentListDto.setUrl(dspSegmentListResult.getUrl_rules().get(0).getUrl_match_rule());
 				}
+				dspSegmentListDto.setIs_enabled(dspSegmentListResult.getIs_enabled());
+				dspSegmentListDtoList.add(dspSegmentListDto);
 			}
 		}
 
@@ -247,7 +243,7 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		}
 
 	}
-	
+
 	@Transactional
 	private void getDspSegmentReporting(Shop shop) {
 
@@ -276,7 +272,7 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		segmentRepBuilder = segmentRepBuilder.path(applicationProperties.getSegmentReporting());
 		segmentRepBuilder = segmentRepBuilder.queryParam("token", dspToken.getToken());
 		String segmentRepResource = segmentRepBuilder.build().toUri().toString();
-		
+
 		// Req SegmentReporting Body作成
 		DspSegmentRepReq dspSegmentRepReq = new DspSegmentRepReq();
 		dspSegmentRepReq.setUser_id(shop.getDspUserId());
@@ -445,6 +441,64 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		writer.close();
 
 		return out.toString();
+	}
+
+	@Override
+	@Transactional
+	public List<DspSegmentListDto> selectUrlByDateTime(LocalDateTime dateTime) {
+
+		// 検索条件：日付、店舗ID
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime, ContextUtil.getCurrentShop().getShopId());
+		// 検索結果がnullの場合、nullを返す
+		if (segmentManageList == null || segmentManageList.size() == 0) {
+			return null;
+		}
+		// 取得したセグメント情報のIDをリストに編集
+		List<Integer> ids = new ArrayList<Integer>();
+		segmentManageList.forEach(s -> ids.add(s.getSegmentId()));
+
+		// Token取得
+		DspToken dspToken = dspApiService.getToken();
+
+		// Req URL組み立てる
+		UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+		builder = builder.scheme(applicationProperties.getDspScheme());
+		builder = builder.host(applicationProperties.getDspHost());
+		builder = builder.path(applicationProperties.getSegmentList());
+		builder = builder.queryParam("token", dspToken.getToken());
+		String resource = builder.build().toUri().toString();
+
+		// Req Body作成
+		DspSegmentListReq dspSegmentListReq = new DspSegmentListReq();
+		dspSegmentListReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
+		dspSegmentListReq.setIds(ids);
+
+		// セグメントリストを取得して、Res 返す
+		DspSegmentListRes dspSegmentListRes = null;
+		try {
+			dspSegmentListRes = call(resource, HttpMethod.POST, dspSegmentListReq, null, DspSegmentListRes.class);
+		} catch (Exception e) {
+			log.debug("DSP:セグメントリスト取得エラー、リクエストボディー:{}", dspSegmentListReq);
+			e.printStackTrace();
+			throw new SystemException("システムエラー発生しました");
+		}
+
+		// セグメントDto編集する
+		List<DspSegmentListDto> dspSegmentListDtoList = new ArrayList<DspSegmentListDto>();
+		for (DspSegmentListResult dspSegmentListResult : dspSegmentListRes.getResult()) {
+			if (dspSegmentListResult.getIs_enabled() == 1) {
+				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
+				dspSegmentListDto.setSegmentId(dspSegmentListResult.getId());
+				dspSegmentListDto.setSegmentName(dspSegmentListResult.getName());
+				if (Objects.nonNull(dspSegmentListResult.getUrl_rules()) && !dspSegmentListResult.getUrl_rules().isEmpty() && Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
+					dspSegmentListDto.setUrl(dspSegmentListResult.getUrl_rules().get(0).getUrl_match_rule());
+				}
+				dspSegmentListDto.setIs_enabled(dspSegmentListResult.getIs_enabled());
+				dspSegmentListDtoList.add(dspSegmentListDto);
+			}
+		}
+
+		return dspSegmentListDtoList;
 	}
 
 }

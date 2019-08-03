@@ -33,5 +33,7 @@ public interface DspApiService {
     void createDefaultTemplate(long shopId);
 
     String download(DspAdReportDto dspAdReportDto);
+    
+    DspTemplateDto getDefaultTemplate();
 
 }

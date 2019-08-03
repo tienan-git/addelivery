@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.service.dsp;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
@@ -25,5 +26,12 @@ public interface DspSegmentService {
 	SegmentReportDisplayDto getSegmentReportSummary(DspSegmentSearchDto dspSegmentSearchDto);
 
 	String download(DspSegmentSearchDto dspSegmentSearchDto);
+
+	/**
+	 * URL検索
+	 * @param LocalDateTime today
+	 * @return
+	 */
+	List<DspSegmentListDto> selectUrlByDateTime(LocalDateTime dateTim);
 
 }

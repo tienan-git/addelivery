@@ -15,4 +15,11 @@ public interface DspCreativeService {
 	DspCreativeDto creativeDetail(Integer creativeId);
 
 	void creativeDelete(Integer creativeId);
+
+	/**
+	 * IDリストによるクリエイティブ情報取得
+	 * @param idList
+	 * @return
+	 */
+	List<DspCreativeDto> selectCreativeByIdList(List<Integer> idList);
 }
