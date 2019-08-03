@@ -282,9 +282,9 @@ ol, ul {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${googleTemplateForm}">
-			<!-- <div th:replace="common/errorMessages"></div> -->
+		<form th:action="@{/}" method="post" th:object="${twitterAdsInputForm}">
 			<div class="card">
+			<div th:replace="common/errorMessages"></div>
 				<div class="card-block1 pc" id="progressbar">
 	    			<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
@@ -320,10 +320,10 @@ ol, ul {
 								</tr>
 							</tfoot>
 							<tbody>
-								<tr>
-									<td><input type="checkbox" name="tweetIdList"></td>
-									<td>プレビュー</td>
-									<td>Tiger Nixon</td>
+								<tr th:each="tweet : *{tweetList}">
+									<td><input type="checkbox" name="tweetIdList" th:value="${tweet.tweetId}" autocomplete="off" tabindex="-1" data-row="0" data-col="2"></td>
+									<td><a th:href="${tweet.previewUrl}" target="_blank">プレビュー</a></td>
+									<td th:utext="${tweet.tweetTitle} + '&lt;br /&gt;' + ${tweet.tweetBody}">Tiger Nixon</td>
 								</tr>
 							</tbody>
 						</table>
@@ -331,8 +331,8 @@ ol, ul {
 					
 					</div>
 					<div class="col-sm-12 text-center" style="margin-bottom:20px">						
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/mediaDescription}">戻る</button>		       		
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createArea}">次へ</button>							
+						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/mediaDescription}">戻る</button>
+						<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/twitter/createArea}">次へ</button>
 					</div>
 				</div>
 			</div>

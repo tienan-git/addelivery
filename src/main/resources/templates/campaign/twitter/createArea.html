@@ -282,9 +282,9 @@ ol, ul {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${googleTemplateForm}">
-			<!-- <div th:replace="common/errorMessages"></div> -->
+		<form th:action="@{/}" th:method="post" th:object="${twitterAdsInputForm}">
 			<div class="card">
+			<div th:replace="common/errorMessages"></div>
 				<div class="card-block1 pc" id="progressbar">
 	    			<ul class="nav nav-pills nav-justified step step-arrow" >
 						<li><a>1.媒体</a></li>
@@ -302,26 +302,74 @@ ol, ul {
 				</div>
 				<div class="card-block3" align="center">
                     <div align="center">
+                    <div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">地域<span class="text-danger">※</span></label>
+							<th:block th:each="object,stat: ${T(jp.acepro.haishinsan.enums.TwitterLocationType).values()}">
+								<label class="col-sm-2 col-form-label text-right" th:if="${!stat.first}"></label>
+								<div class="radio col-sm-10 col-form-label">
+									<label><input type="radio" name="radio" th:value="${object.value}" th:field="*{location}" th:text="${object.label}" /><i class="helper"></i></label>
+								</div>
+							</th:block>
+						</div>
+					</div>
 					<div class="form-group row">
-						<!-- <label class="col-form-label text-right">地域</label> -->
-						<!-- <div class="col-sm-4" th:if="${#lists.isEmpty(googleTemplateForm.locationList)}"> -->
-						<div class="col-sm-4" style="margin:20px auto">
-							<!-- <select class="searchable" multiple="multiple" th:field="*{locationList}"> -->
-							<select class="searchable" multiple="multiple" >
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+						<label class="col-sm-2 col-form-label text-right"></label>
+						<div id="div_select" style="display: none">
+							<select class="searchable" multiple='multiple' th:field="*{regions}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">北海道</option>
 							</select>
 						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right"></label>
 					</div>
 					</div>
 					<div class="col-sm-12 text-center" style="margin-bottom:20px">						
 						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/selectTweetList}">戻る</button>		       		
-						<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createDate}">次へ</button>							
+						<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/twitter/createDate}">次へ</button>		
 					</div>
 				</div>
 			</div>
 		</form>
 	</div>
 	<!-- page body end -->
-	<div layout:fragment="custom_resource_body"></div>
+	<div id="styleSelector"></div>
+	<div layout:fragment="custom_resource_body">
+	<script>
+	window.onload =function(){
+	    
+		//地域ラジオボタンの初期状態を判断
+        $(document).ready(function() {
+        	var location = $("input[name='location']:checked").val();
+        	if(location == 2){
+        		$('#div_select').show();
+        	}
+        }); 
+		
+		//地域ラジオボタンのハンドラ
+        $(document).ready(function() {
+        $('[name="location"]:radio').change(function() {
+			if ($('[id=location1]').prop('checked')) {
+		        $('#div_select').hide(0,refreshData);
+			}
+			if ($('[id=location2]').prop('checked')) {
+			    $('#div_select').hide(0,refreshData);
+			}
+			if ($('[id=location3]').prop('checked')) {
+				$('#div_select').show();
+			}
+		});
+        
+        //Data refresh
+        function refreshData(){
+        	$('#regions').multiSelect('deselect_all');
+	        $('#regions').multiSelect('refresh');
+        }
+        
+        });
+	}
+	</script>
+	</div>
 </body>
 </html>

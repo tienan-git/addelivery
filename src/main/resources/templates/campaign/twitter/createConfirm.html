@@ -249,7 +249,7 @@ ol, ul {
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
 		<!-- <form id="defaultForm" class="form-horizontal" th:action="@{/creative/creativeComplete}" th:object="${creativeDto}" method="post"> -->
-		<form id="defaultForm" class="form-horizontal" th:object="${creativeDto}" method="post">
+		<form id="defaultForm" class="form-horizontal" th:object="${twitterAdsDto}" method="get">
 			<div class="card">
 					<div class="card-block1 pc" id="progressbar">
 	    			<ul class="nav nav-pills nav-justified step step-arrow" >
@@ -270,18 +270,10 @@ ol, ul {
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">広告名</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label">テスト</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
 							<label class="col-form-label">キャンペーン目的</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label">フォローワー</label>
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterObjective).of(__*{objective}__).label}">フォローワー</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -289,7 +281,7 @@ ol, ul {
 							<label class="col-form-label">配信開始日</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label">2018年09月15日</label>
+							<label class="col-form-label" th:text="*{startTime}">2018年09月15日</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -297,7 +289,7 @@ ol, ul {
 							<label class="col-form-label">配信終了日</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label">2018年09月16日</label>
+							<label class="col-form-label" th:text="*{endTime}">2018年09月16日</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -305,7 +297,7 @@ ol, ul {
 							<label class="col-form-label">日別予算</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label">10円</label>
+							<label class="col-form-label" th:text="*{dailyBudget}  + 円">10円</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -313,7 +305,22 @@ ol, ul {
 							<label class="col-form-label">総予算</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label">200円</label>
+							<label class="col-form-label" th:text="*{totalBudget} + 円">200円</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">地域</label>
+						</div>
+						<div th:if="*{location} == 2">
+							<div class="col-sm-4 col-form-label">
+								<select class="searchable" multiple disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterAdsDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">全ての都道府県</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4" th:unless="*{location} == 2">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterLocationType).of(__*{location}__).label}">日本</label>
 						</div>
 					</div>
 					<div id="twitterTweets" class="dt-responsive table-responsive">
@@ -333,10 +340,10 @@ ol, ul {
 								</tr>
 							</tfoot>
 							<tbody>
-								<tr>
-									<td><input type="checkbox" name="tweetIdList" autocomplete="off" tabindex="-1" data-row="0" data-col="2" disabled="disabled" checked="checked"></td>
-									<td>>プレビュー</td>
-									<td>Tiger Nixon</td>
+								<tr th:each="tweet : *{tweetList}">
+									<td><input type="checkbox" autocomplete="off" tabindex="-1" data-row="0" data-col="2" disabled="disabled" checked="checked"></td>
+									<td><a th:href="${tweet.previewUrl}" target="_blank">プレビュー</a></td>
+									<td th:utext="${tweet.tweetTitle} + '&lt;br /&gt;' + ${tweet.tweetBody}">Tiger Nixon</td>
 								</tr>
 							</tbody>
 					</table>
