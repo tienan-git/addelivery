@@ -11,10 +11,10 @@ public class GoogleCampaignDto {
 
 	// テンプレートID
 	Long templateId;
-	
+
 	// テンプレート名
 	String templateName;
-	
+
 	// キャンペインID
 	Long campaignId;
 
@@ -26,9 +26,9 @@ public class GoogleCampaignDto {
 
 	// 予算
 	Long budget;
-	
-    // 単価タイプ
-    String unitPriceType;
+
+	// 単価タイプ
+	String unitPriceType;
 
 	// 開始日
 	String startDate;
@@ -45,7 +45,8 @@ public class GoogleCampaignDto {
 	// -------- レスポンシブ広告関連 --------
 	// 画像ファイル
 	List<MultipartFile> resAdImageFileList;
-	List<byte[]> resAdImageDateList;
+	List<String> resAdImageFileNameList;
+	List<byte[]> resAdImageBytesList;
 
 	// 短い広告見出し
 	String resAdShortTitle;
@@ -59,8 +60,9 @@ public class GoogleCampaignDto {
 	// -------- イメージ広告関連 --------
 	// 画像ファイル
 	List<MultipartFile> imageAdImageFileList;
-	List<byte[]> imageAdImageDataList;
-	
+	List<String> imageAdImageFileNameList;
+	List<byte[]> imageAdImageBytesList;
+
 	// 最終ページURL
 	String imageAdFinalPageUrl;
 

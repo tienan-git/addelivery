@@ -113,8 +113,8 @@ public class GoogleCampaignController {
 		try {
 			// キャンプーン作成用パラメタ設定（画像以外）
 			googleCampaignDto = GoogleMapper.INSTANCE.map(googleCampaignForm);
-			googleCampaignDto.setResAdImageDateList(new ArrayList<byte[]>());
-			googleCampaignDto.setImageAdImageDataList(new ArrayList<byte[]>());
+			googleCampaignDto.setResAdImageBytesList(new ArrayList<byte[]>());
+			googleCampaignDto.setImageAdImageBytesList(new ArrayList<byte[]>());
 
 			// キャンプーン作成用パラメタ設定（画像）
 			switch (GoogleAdType.of(googleCampaignForm.getAdType())) {
@@ -132,7 +132,7 @@ public class GoogleCampaignController {
 					data.append("data:image/jpeg;base64,");
 					data.append(base64Str);
 					resAdImageList.add(data.toString());
-					googleCampaignDto.getResAdImageDateList().add(getByteArrayFromStream(imageFile.getInputStream()));
+					googleCampaignDto.getResAdImageBytesList().add(getByteArrayFromStream(imageFile.getInputStream()));
 					// ファイルの幅、高さチェック取得
 					InputStream is = imageFile.getInputStream();
 					Image image = ImageIO.read(is);
@@ -152,7 +152,7 @@ public class GoogleCampaignController {
 					data.append("data:image/jpeg;base64,");
 					data.append(base64Str);
 					imageAdImageList.add(data.toString());
-					googleCampaignDto.getImageAdImageDataList().add(getByteArrayFromStream(imageFile.getInputStream()));
+					googleCampaignDto.getImageAdImageBytesList().add(getByteArrayFromStream(imageFile.getInputStream()));
 				}
 				break;
 			case TEXT:
