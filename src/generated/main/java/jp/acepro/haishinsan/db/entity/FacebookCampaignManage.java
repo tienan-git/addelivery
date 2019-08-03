@@ -51,6 +51,14 @@ public class FacebookCampaignManage extends BaseEntity {
     @Column(name = "approval_flag")
     String approvalFlag;
 
+    /** イメージURL */
+    @Column(name = "image_url")
+    String imageUrl;
+
+    /** リンク先URL */
+    @Column(name = "link_url")
+    String linkUrl;
+
     /** バージョン番号 */
     @Version
     @Column(name = "version_no")
@@ -200,6 +208,42 @@ public class FacebookCampaignManage extends BaseEntity {
      */
     public void setApprovalFlag(String approvalFlag) {
         this.approvalFlag = approvalFlag;
+    }
+
+    /** 
+     * Returns the imageUrl.
+     * 
+     * @return the imageUrl
+     */
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    /** 
+     * Sets the imageUrl.
+     * 
+     * @param imageUrl the imageUrl
+     */
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    /** 
+     * Returns the linkUrl.
+     * 
+     * @return the linkUrl
+     */
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    /** 
+     * Sets the linkUrl.
+     * 
+     * @param linkUrl the linkUrl
+     */
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
     /** 

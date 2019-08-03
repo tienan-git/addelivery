@@ -1,4 +1,4 @@
-﻿# A5:ER FORMAT:12
+﻿# A5:ER FORMAT:13
 # A5:ER ENCODING:UTF8
 # A5:ER Mk-1 Copyright (C)2007 m.matsubara
 # A5:SQL Mk-2 Copyright (C)1997 m.matsubara
@@ -208,6 +208,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181025161455
 Position="MAIN",1150,1650
+ZOrder=77
 
 [Entity]
 PName=yahoo_area
@@ -225,6 +226,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181018182828
 Position="YAHOO",1650,1150,347,320
+ZOrder=76
 
 [Relation]
 Entity1=yahoo_campaign_manage
@@ -246,6 +248,7 @@ Bar2=845
 Bar3=289
 TermPos1=R
 TermPos2=R
+ZOrder=75
 
 [Entity]
 PName=NEW_ENTITY4
@@ -274,6 +277,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181018175418
 Position="YAHOO",300,100
+ZOrder=74
 
 [Relation]
 Entity1=facebook_campaign_manage
@@ -295,6 +299,7 @@ Bar2=792
 Bar3=272
 TermPos1=R
 TermPos2=R
+ZOrder=73
 
 [Relation]
 Entity1=NEW_ENTITY3
@@ -316,6 +321,7 @@ Bar2=418
 Bar3=581
 TermPos1=R
 TermPos2=R
+ZOrder=72
 
 [Relation]
 Entity1=NEW_ENTITY11
@@ -337,6 +343,7 @@ Bar2=699
 Bar3=264
 TermPos1=R
 TermPos2=R
+ZOrder=71
 
 [Entity]
 PName=NEW_ENTITY11
@@ -360,6 +367,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181017175341
 Position="YOUTUBE",200,300
+ZOrder=70
 
 [Entity]
 PName=NEW_ENTITY3
@@ -383,6 +391,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181017175341
 Position="TWITTER",1400,150
+ZOrder=69
 
 [Entity]
 PName=NEW_ENTITY2
@@ -406,6 +415,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181017175341
 Position="FACEBOOK",1950,200
+ZOrder=68
 
 [Relation]
 Entity1=NEW_ENTITY1
@@ -427,6 +437,7 @@ Bar2=784
 Bar3=151
 TermPos1=R
 TermPos2=R
+ZOrder=67
 
 [Entity]
 PName=NEW_ENTITY1
@@ -450,6 +461,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181017175341
 Position="GOOGLE",300,100
+ZOrder=66
 
 [Relation]
 Entity1=NEW_ENTITY9
@@ -471,6 +483,7 @@ Bar2=442
 Bar3=568
 TermPos1=R
 TermPos2=R
+ZOrder=65
 
 [Entity]
 PName=NEW_ENTITY9
@@ -494,6 +507,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181017175341
 Position="DSP",1350,50
+ZOrder=64
 
 [Relation]
 Entity1=segment_manage
@@ -515,6 +529,7 @@ Bar2=706
 Bar3=274
 TermPos1=R
 TermPos2=R
+ZOrder=63
 
 [Entity]
 PName=segment_report_manage
@@ -536,6 +551,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181017163622
 Position="DSP",600,500,442,302
+ZOrder=62
 
 [Relation]
 Entity1=google_campaign_manage
@@ -557,6 +573,7 @@ Bar2=272
 Bar3=436
 TermPos1=R
 TermPos2=R
+ZOrder=61
 
 [Relation]
 Entity1=google_campaign_manage
@@ -578,6 +595,7 @@ Bar2=567
 Bar3=227
 TermPos1=R
 TermPos2=R
+ZOrder=60
 
 [Relation]
 Entity1=youtube_campaign_manage
@@ -599,6 +617,7 @@ Bar2=307
 Bar3=313
 TermPos1=R
 TermPos2=R
+ZOrder=59
 
 [Relation]
 Entity1=youtube_campaign_manage
@@ -620,6 +639,7 @@ Bar2=728
 Bar3=313
 TermPos1=R
 TermPos2=R
+ZOrder=58
 
 [Entity]
 PName=youtube_campaign_manage
@@ -644,6 +664,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181022172821
 Position="YOUTUBE",1000,450,524,460
+ZOrder=57
 
 [Entity]
 PName=youtube_location_report
@@ -669,6 +690,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181017155026
 Position="YOUTUBE",1800,250
+ZOrder=56
 
 [Entity]
 PName=youtube_device_report
@@ -694,6 +716,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181017100045
 Position="YOUTUBE",1800,1000
+ZOrder=55
 
 [Relation]
 Entity1=yahoo_campaign_manage
@@ -715,6 +738,7 @@ Bar2=542
 Bar3=243
 TermPos1=R
 TermPos2=R
+ZOrder=54
 
 [Entity]
 PName=yahoo_campaign_manage
@@ -741,6 +765,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181220180552
 Position="YAHOO",1300,450
+ZOrder=53
 
 [Entity]
 PName=yahoo_report_manage
@@ -769,6 +794,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181016193248
 Position="YAHOO",350,750
+ZOrder=52
 
 [Entity]
 PName=google_location_report
@@ -791,6 +817,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181019181301
 Position="GOOGLE",2000,200
+ZOrder=51
 
 [Entity]
 PName=google_device_report
@@ -813,6 +840,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181016144151
 Position="GOOGLE",2000,850
+ZOrder=50
 
 [Entity]
 PName=twitter_device_report
@@ -839,6 +867,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181022160101
 Position="TWITTER",2200,1000,463,635
+ZOrder=49
 
 [Entity]
 PName=twitter_region_report
@@ -865,6 +894,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181022160020
 Position="TWITTER",2200,200,447,519
+ZOrder=48
 
 [Relation]
 Entity1=dsp_ad_group_manage
@@ -886,6 +916,7 @@ Bar2=294
 Bar3=713
 TermPos1=R
 TermPos2=R
+ZOrder=47
 
 [Relation]
 Entity1=dsp_campaign_manage
@@ -907,6 +938,7 @@ Bar2=576
 Bar3=549
 TermPos1=R
 TermPos2=R
+ZOrder=46
 
 [Entity]
 PName=dsp_ad_manage
@@ -927,6 +959,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181012181353
 Position="DSP",1050,1200,368,609
+ZOrder=45
 
 [Relation]
 Entity1=dsp_ad_group_manage
@@ -948,6 +981,7 @@ Bar2=227
 Bar3=649
 TermPos1=R
 TermPos2=R
+ZOrder=44
 
 [Relation]
 Entity1=dsp_campaign_manage
@@ -969,6 +1003,7 @@ Bar2=227
 Bar3=354
 TermPos1=R
 TermPos2=R
+ZOrder=43
 
 [Entity]
 PName=dsp_report_manage
@@ -995,6 +1030,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181012162743
 Position="DSP",2450,100,397,548
+ZOrder=42
 
 [Relation]
 Entity1=dsp_campaign_manage
@@ -1016,6 +1052,7 @@ Bar2=283
 Bar3=736
 TermPos1=R
 TermPos2=R
+ZOrder=41
 
 [Entity]
 PName=dsp_ad_group_manage
@@ -1034,6 +1071,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181011203530
 Position="DSP",1800,1300,407,336
+ZOrder=40
 
 [Entity]
 PName=facebook_device_report
@@ -1056,6 +1094,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181012162526
 Position="FACEBOOK",1950,1300,487,397
+ZOrder=39
 
 [Entity]
 PName=facebook_region_report
@@ -1078,6 +1117,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181012162459
 Position="FACEBOOK",1950,800,455,376
+ZOrder=38
 
 [Relation]
 Entity1=segment_manage
@@ -1099,6 +1139,7 @@ Bar2=507
 Bar3=419
 TermPos1=R
 TermPos2=R
+ZOrder=37
 
 [Entity]
 PName=twitter_tweet_list
@@ -1119,6 +1160,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181009115957
 Position="TWITTER",650,1350,482,614
+ZOrder=36
 
 [Entity]
 PName=facebook_area_price
@@ -1139,6 +1181,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181011124128
 Position="FACEBOOK",1250,1700
+ZOrder=35
 
 [Entity]
 PName=regions
@@ -1158,6 +1201,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181025155625
 Position="TWITTER",100,1650,423,220
+ZOrder=34
 
 [Relation]
 Entity1=NEW_ENTITY6
@@ -1179,6 +1223,7 @@ Bar2=646
 Bar3=829
 TermPos1=R
 TermPos2=R
+ZOrder=33
 
 [Relation]
 Entity1=NEW_ENTITY6
@@ -1200,6 +1245,7 @@ Bar2=318
 Bar3=166
 TermPos1=R
 TermPos2=R
+ZOrder=32
 
 [Relation]
 Entity1=NEW_ENTITY6
@@ -1221,6 +1267,7 @@ Bar2=93
 Bar3=772
 TermPos1=R
 TermPos2=R
+ZOrder=31
 
 [Entity]
 PName=NEW_ENTITY6
@@ -1253,6 +1300,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181005103608
 Position="DSP",0,650,437,733
+ZOrder=30
 
 [Entity]
 PName=dsp_token
@@ -1270,6 +1318,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181105112927
 Position="MAIN",1250,50
+ZOrder=29
 
 [Relation]
 Entity1=shop
@@ -1291,6 +1340,7 @@ Bar2=238
 Bar3=479
 TermPos1=R
 TermPos2=R
+ZOrder=28
 
 [Entity]
 PName=issue
@@ -1317,6 +1367,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181018112357
 Position="MAIN",2050,1050,669,556
+ZOrder=27
 
 [Relation]
 Entity1=agency
@@ -1338,6 +1389,7 @@ Bar2=609
 Bar3=380
 TermPos1=R
 TermPos2=R
+ZOrder=26
 
 [Entity]
 PName=agency
@@ -1354,6 +1406,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181001142254
 Position="MAIN",200,600,215,152
+ZOrder=25
 
 [Relation]
 Entity1=shop4
@@ -1374,6 +1427,7 @@ Bar2=209
 Bar3=541
 TermPos1=R
 TermPos2=R
+ZOrder=24
 
 [Entity]
 PName=facebook_template
@@ -1399,6 +1453,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181012182735
 Position="FACEBOOK",1250,850,471,712
+ZOrder=23
 
 [Entity]
 PName=facebook_campaign_manage
@@ -1407,7 +1462,7 @@ Comment=
 TableOption=
 Page=FACEBOOK
 Left=1250
-Top=400
+Top=250
 Field="Facebookキャンペーン管理ID","Facebook_campaign_manage_id","*ID採番あり","NOT NULL",0,"","",$00FF0000,""
 Field="キャンペーンID","campaign_id","*ID","NOT NULL",,"","",$FFFFFFFF,""
 Field="キャンペーン名","campaign_name","*キャンペーン名",,,"","",$FFFFFFFF,""
@@ -1415,11 +1470,14 @@ Field="予算","budget","*予算",,,"","",$FFFFFFFF,""
 Field="セグメントID","segment_id","*整数",,,"","",$FFFFFFFF,""
 Field="地域コード","regions","*地域",,,"","",$FFFFFFFF,""
 Field="審査フラグ","approval_flag","*フラグ","NOT NULL",,"","",$FFFFFFFF,""
+Field="イメージURL","image_url","*URL",,,"","",$FFFFFFFF,""
+Field="リンク先URL","link_url","*URL",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20181102125751
-Position="FACEBOOK",1250,400,468,296
+ModifiedDateTime=20190803155740
+Position="FACEBOOK",1250,250,468,447
+ZOrder=22
 
 [Relation]
 Entity1=shop3
@@ -1441,6 +1499,7 @@ Bar2=725
 Bar3=674
 TermPos1=R
 TermPos2=R
+ZOrder=21
 
 [Relation]
 Entity1=shop5
@@ -1462,6 +1521,7 @@ Bar2=236
 Bar3=477
 TermPos1=R
 TermPos2=R
+ZOrder=20
 
 [Entity]
 PName=twitter_template
@@ -1487,6 +1547,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181024203253
 Position="TWITTER",700,700,500,511
+ZOrder=19
 
 [Entity]
 PName=twitter_campaign_manage
@@ -1509,6 +1570,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181023182235
 Position="TWITTER",1400,900,524,378
+ZOrder=18
 
 [Entity]
 PName=shop5
@@ -1541,6 +1603,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181004103609
 Position="TWITTER",100,550,447,791
+ZOrder=17
 
 [Entity]
 PName=shop4
@@ -1573,6 +1636,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181004103557
 Position="FACEBOOK",300,750,458,812
+ZOrder=16
 
 [Entity]
 PName=segment_manage
@@ -1592,6 +1656,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181009191447
 Position="DSP",600,50,331,212
+ZOrder=15
 
 [Entity]
 PName=dsp_template
@@ -1612,6 +1677,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181102130603
 Position="DSP",550,1450,333,524
+ZOrder=14
 
 [Entity]
 PName=dsp_campaign_manage
@@ -1632,6 +1698,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181030103730
 Position="DSP",1350,650,460,347
+ZOrder=13
 
 [Entity]
 PName=creative_manage
@@ -1651,6 +1718,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181010190800
 Position="DSP",550,1000,333,280
+ZOrder=12
 
 [Entity]
 PName=operation_log
@@ -1671,6 +1739,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20180925162609
 Position="MAIN",200,1400
+ZOrder=11
 
 [Entity]
 PName=google_area_price
@@ -1690,6 +1759,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181001182109
 Position="GOOGLE",1000,1600
+ZOrder=10
 
 [Entity]
 PName=google_template
@@ -1722,6 +1792,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181018152258
 Position="GOOGLE",1000,600
+ZOrder=9
 
 [Entity]
 PName=shop3
@@ -1754,6 +1825,7 @@ Color=$000000
 BkColor=$A4A0A0
 ModifiedDateTime=20181004103545
 Position="GOOGLE",300,600,437,796
+ZOrder=8
 
 [Entity]
 PName=google_campaign_manage
@@ -1775,6 +1847,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181102125837
 Position="GOOGLE",1000,100,511,286
+ZOrder=7
 
 [Relation]
 Entity1=corporation
@@ -1796,6 +1869,7 @@ Bar2=776
 Bar3=193
 TermPos1=R
 TermPos2=R
+ZOrder=6
 
 [Relation]
 Entity1=user
@@ -1817,6 +1891,7 @@ Bar2=578
 Bar3=478
 TermPos1=R
 TermPos2=R
+ZOrder=5
 
 [Entity]
 PName=shop
@@ -1846,6 +1921,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181105113022
 Position="MAIN",1150,450,587,942
+ZOrder=4
 
 [Entity]
 PName=corporation
@@ -1863,6 +1939,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181001144654
 Position="MAIN",600,600,266,192
+ZOrder=3
 
 [Entity]
 PName=user
@@ -1884,6 +1961,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20181225140612
 Position="MAIN",2100,650
+ZOrder=2
 
 [Entity]
 PName=authority
@@ -1901,6 +1979,7 @@ Color=$000000
 BkColor=$FFFFFF
 ModifiedDateTime=20180921153354
 Position="MAIN",2100,250
+ZOrder=1
 
 [Relation]
 Entity1=authority
@@ -1922,3 +2001,4 @@ Bar2=661
 Bar3=134
 TermPos1=R
 TermPos2=R
+ZOrder=0

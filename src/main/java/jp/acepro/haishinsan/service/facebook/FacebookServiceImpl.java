@@ -446,7 +446,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			//fbCampaignDto.setLinkUrl(linkUrl);
 			AdImage adImage = account.createAdImage().addUploadFile("filename", fbCreativeDto.getImageFile()).execute();
 			AdCreativeLinkData link = (new AdCreativeLinkData()).setFieldLink(linkUrl).setFieldImageHash(adImage.getFieldHash());
-
+			
 			// Page AccessToken 取得
 //			UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
 //			builder = builder.scheme(applicationProperties.getDspScheme());
@@ -490,13 +490,15 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").setObjectStorySpec(spec).execute();
 			//AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").execute();
 			account.createAd().setName(fbCreativeDto.getCreativeName() + "Ad").setAdsetId(Long.parseLong(adSetId)).setCreative(creative).setStatus(enumAdStatus).execute();
-
+            
 			FacebookCampaignManage facebookCampaignManage = new FacebookCampaignManage();
 			facebookCampaignManage.setCampaignId(campaignId);
 			facebookCampaignManage.setCampaignName(campaignName);
 			facebookCampaignManage.setSegmentId(null);
 			facebookCampaignManage.setBudget(totalBudget);
 			facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
+			facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
+			facebookCampaignManage.setLinkUrl(linkUrl);
 			facebookCampaignManageDao.insert(facebookCampaignManage);
 
 			Issue issue = new Issue();
@@ -749,6 +751,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 	public List<FbCampaignDto> campaignList(List<FacebookCampaignManage> facebookCampaignManageList) {
 
 		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
+        String accountID = "act_" + applicationProperties.getFacebookAccountId();
 
 		List<String> campaignIdList = new ArrayList<String>();
 
@@ -766,6 +769,11 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		try {
 			// Campaign aaa = Campaign.fetchById(campaignIdList.get(0), context);
 			// System.out.println(aaa);
+			
+			APINodeList<AdImage> adImages = new AdAccount(accountID, context).getAdImages()
+					  .setHashes("[\"" + "9e7ccbe6de2f133d14e822da29a525cf" +  "\"]")
+					  .execute();
+
 			List<String> fields = new ArrayList<String>();
 			fields.add("account_id");
 			fields.add("created_time");

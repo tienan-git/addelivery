@@ -1,6 +1,6 @@
 -- Project Name : reporting
--- Date/Time    : 2018/12/25 14:06:32
--- Author       : johnny
+-- Date/Time    : 2019/08/03 16:04:21
+-- Author       : luoq1
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
 
@@ -501,6 +501,8 @@ create table facebook_campaign_manage (
   , segment_id INT comment 'セグメントID'
   , regions text comment '地域コード'
   , approval_flag CHAR(1) not null comment '審査フラグ'
+  , image_url VARCHAR(2083) comment 'イメージURL'
+  , link_url VARCHAR(2083) comment 'リンク先URL'
   , version_no bigint not null comment 'バージョン番号'
   , created_at DATETIME(6) not null comment '登録日時'
   , created_by VARCHAR(15) not null comment '登録者'
