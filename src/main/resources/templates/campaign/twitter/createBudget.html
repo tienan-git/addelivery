@@ -306,11 +306,9 @@ ol, ul {
 		 <div class="card-block" align="center">
 			<h2>3.どこへ誘導しますか？</h2>
 		</div> -->
-		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data">
-<!-- 		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
-
-			<!-- <div th:replace="common/errorMessages"></div> -->
+		<form th:action="@{/}" method="post" th:object="${twitterAdsInputForm}" enctype="multipart/form-data">
 			<div class="card">
+			<div th:replace="common/errorMessages"></div>
 				<div class="card-block1 pc" id="progressbar">
 						<ul class="nav nav-pills nav-justified step step-arrow">
 							<li><a>1.媒体</a></li>
@@ -332,23 +330,23 @@ ol, ul {
 							<label class="col-form-label">日別予算<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="number" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" max="9999999999" required="required" />
+							<input type="number" class="form-control" th:field="*{dailyBudget}" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" max="9999999999" required="required" />
 						</div>
 						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-4 text-right">
-							<label class="col-form-label">総予算</label>
+							<label class="col-form-label">総予算<span class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-4">
-							<input type="number" class="form-control" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" />
+							<input type="number" class="form-control" th:field="*{totalBudget}" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" />
 						</div>
 						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center" style="margin-bottom:20px">						
 							<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createDate}">戻る</button>		       		
-							<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/twitter/createConfirm}">次へ</button>							
+							<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/twitter/createConfirm}">次へ</button>							
 						</div>
 					</div>	
 				</div>

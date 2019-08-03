@@ -310,8 +310,9 @@ ol, ul {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" th:object="${createIssueForm}">
+		<form th:action="@{/}" method="post" th:object="${twitterAdsInputForm}">
 			<div class="card">
+			<div th:replace="common/errorMessages"></div>
 					<div class="card-block1 pc" id="progressbar">
 						<ul class="nav nav-pills nav-justified step step-arrow">
 							<li><a>1.媒体</a></li>
@@ -330,18 +331,18 @@ ol, ul {
 					<div class="card-block" style="margin-bottom:50px">
 						<div class="grid-child">
 							<label class="col-form-label">配信開始日</label>
-							<input type="date" class="form-control">
+							<input type="date" class="form-control" th:field="*{startTime}" required="required">
 						</div>
 						<div class="grid-child">
 							<label class="col-form-label">配信終了日</label>
-							<input type="date" class="form-control">
+							<input type="date" class="form-control" th:field="*{endTime}" required="required">
 						</div>
 					</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
 						<button class="btn btn-success" type="submit" th:formmethod="get"
 							th:formaction="@{/twitter/createArea}">戻る</button>
-						<button class="btn btn-success" type="submit" th:formmethod="get"
+						<button class="btn btn-success" type="submit" th:formmethod="post"
 							th:formaction="@{/twitter/createBudget}">次へ</button>
 					</div>
 				</div>
