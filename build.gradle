@@ -152,7 +152,7 @@ dependencies {
     compile 'commons-logging:commons-logging:1.1.1'
     
     // Facebook
-	compile "com.facebook.business.sdk:facebook-java-business-sdk:3.1.0"
+	compile "com.facebook.business.sdk:facebook-java-business-sdk:3.3.0"
 	
 	// AWS SDK
 	compile 'com.amazonaws:aws-java-sdk-s3'

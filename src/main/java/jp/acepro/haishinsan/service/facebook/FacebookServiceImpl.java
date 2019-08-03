@@ -39,6 +39,7 @@ import com.facebook.ads.sdk.AdsInsights.EnumDatePreset;
 import com.facebook.ads.sdk.Campaign;
 import com.facebook.ads.sdk.Campaign.EnumObjective;
 import com.facebook.ads.sdk.Campaign.EnumStatus;
+import com.facebook.ads.sdk.FlexibleTargeting;
 import com.facebook.ads.sdk.IDName;
 import com.facebook.ads.sdk.Targeting;
 import com.facebook.ads.sdk.TargetingGeoLocation;
@@ -396,6 +397,11 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 			// 地域設定
 			// location_typesが指定されていない場合、デフォルトはこの地域に住んでる人です。
+			List<TargetingGeoLocationCity> TargetingGeoLocationCityList = new ArrayList<TargetingGeoLocationCity>();
+			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("2686399"));
+			//for (Long location : fbCampaignDto.getLocationList()) {
+			//	TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey(location.toString()));
+			//}
 
 			// 趣味設定
 			List<IDName> idNameList = new ArrayList<IDName>();
@@ -406,8 +412,11 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			// 性別のデフォルトはすべてです。
 			// デフォルトはこの地域に住んでる人
 			Targeting targeting = new Targeting().setFieldAgeMin(18L) // 最小年齢
-					.setFieldInterests(idNameList);// 趣味
-					//.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList));
+		            //.setFieldFlexibleSpec(Arrays.asList(
+		            //        new FlexibleTargeting()
+		            //          .setFieldInterests(idNameList)));
+					.setFieldInterests(idNameList)// 趣味
+					.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList));
 			targeting.setFieldPublisherPlatforms(Arrays.asList("facebook")).setFieldFacebookPositions(Arrays.asList("feed"));
 
 			// 広告セットを作成
@@ -423,8 +432,8 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 					.setOptimizationGoal(EnumOptimizationGoal.VALUE_IMPRESSIONS).setTargeting(targeting).execute();
 			//fbCampaignDto.setStartDate(DateUtil.toDateTime(startDateTime));
 			//fbCampaignDto.setEndDate(DateUtil.toDateTime(nextEndDateTime));
-
-			String adSetId = adset.fetch().getFieldId();
+			String adSetId = adset.getFieldId();
+			//String adSetId = adset.fetch().getFieldId();
 
 			// SegmentIdでDBからセグメント情報取得
 //			SegmentManage segmentManage = dspSegmentCustomDao.selectBySegmentId(fbCampaignDto.getSegmentId());
@@ -439,27 +448,28 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			AdCreativeLinkData link = (new AdCreativeLinkData()).setFieldLink(linkUrl).setFieldImageHash(adImage.getFieldHash());
 
 			// Page AccessToken 取得
-			UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
-			builder = builder.scheme(applicationProperties.getDspScheme());
-			builder = builder.host("graph.facebook.com");
-			builder = builder.path(ContextUtil.getCurrentShop().getFacebookPageId());
-			builder = builder.queryParam("fields", "access_token");
-			builder = builder.queryParam("access_token", applicationProperties.getPageToken());
-			String resource = builder.build().toUri().toString();
-			
-			HashMap<String, String> res = null;
-			
-			try {
-				res = call(resource, HttpMethod.GET, null, null, HashMap.class);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			if (Objects.isNull(res) || !res.containsKey("access_token")) {
-				throw new BusinessException(ErrorCodeConstant.E40003);
-			}
-
-			String pageToken = res.get("access_token");
+//			UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
+//			builder = builder.scheme(applicationProperties.getDspScheme());
+//			builder = builder.host("graph.facebook.com");
+//			builder = builder.path(ContextUtil.getCurrentShop().getFacebookPageId());
+//			builder = builder.queryParam("fields", "access_token");
+//			//builder = builder.queryParam("access_token", applicationProperties.getPageToken());
+//			builder = builder.queryParam("access_token", applicationProperties.getFacebookAccessToken());
+//			String resource = builder.build().toUri().toString();
+//			
+//			HashMap<String, String> res = null;
+//			
+//			try {
+//				res = call(resource, HttpMethod.GET, null, null, HashMap.class);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			
+//			if (Objects.isNull(res) || !res.containsKey("access_token")) {
+//				throw new BusinessException(ErrorCodeConstant.E40003);
+//			}
+//
+//			String pageToken = res.get("access_token");
 			
 			// Insアカウントを取得 TODO
 //			UriComponentsBuilder insAccountBuilder = UriComponentsBuilder.newInstance();
@@ -476,8 +486,9 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 //			}
 
 			//AdCreativeObjectStorySpec spec = (new AdCreativeObjectStorySpec()).setFieldInstagramActorId(insAccount.getData().get(0).getId()).setFieldPageId(ContextUtil.getCurrentShop().getFacebookPageId()).setFieldLinkData(link);
-			//AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").setObjectStorySpec(spec).execute();
-			AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").execute();
+			AdCreativeObjectStorySpec spec = (new AdCreativeObjectStorySpec()).setFieldPageId(ContextUtil.getCurrentShop().getFacebookPageId()).setFieldLinkData(link);
+			AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").setObjectStorySpec(spec).execute();
+			//AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").execute();
 			account.createAd().setName(fbCreativeDto.getCreativeName() + "Ad").setAdsetId(Long.parseLong(adSetId)).setCreative(creative).setStatus(enumAdStatus).execute();
 
 			FacebookCampaignManage facebookCampaignManage = new FacebookCampaignManage();

@@ -301,26 +301,6 @@ public class FacebookController {
 
 	}
 
-	@GetMapping("/campaignList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_VIEW + "')")
-	public ModelAndView campaignList() {
-
-		List<FacebookCampaignManage> facebookCampaignManageList = facebookService.searchFacebookCampaignManageList();
-
-		List<FbCampaignDto> fbCampaignDtoList = facebookService.campaignList(facebookCampaignManageList);
-		// ログインユーザーのロールIDを取得
-		Integer roleId = ContextUtil.getRoleId();
-
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/campaignList");
-		mv.addObject("fbCampaignDtoList", fbCampaignDtoList);
-		mv.addObject("roleId", roleId);
-
-		// オペレーションログ記録
-		operationService.create(Operation.FACEBOOK_CAMPAIGN_LIST.getValue(), String.valueOf(""));
-		return mv;
-	}
-
 	@GetMapping("/campaignDetail")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_VIEW + "')")
 	public ModelAndView campaignDetail(@RequestParam String campaignId) {
