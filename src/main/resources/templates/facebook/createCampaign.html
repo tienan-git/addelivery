@@ -9,8 +9,8 @@
 					<div class="page-header-title">
 						<i class="fa fa-facebook bg-facebook"></i>
 						<div class="d-inline">
-							<h4>Facebook蠎�蜻� 譯井ｻｶ譁ｰ隕丈ｽ懈��</h4>
-							<strong class="text-danger">窶ｻ縺ｮ鬆�逶ｮ縺ｯ縲∝ｿ�鬆磯��逶ｮ縺ｧ縺吶��</strong>
+							<h4>Facebook広告 案件新規作成</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
 						</div>
 					</div>
 				</div>
@@ -25,14 +25,14 @@
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">繝�繝ｳ繝励Ξ繝ｼ繝磯∈謚�</h4>
+					<h4 class="sub-title">テンプレート選択</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">繝�繝ｳ繝励Ξ繝ｼ繝�</label>
+							<label class="col-form-label">テンプレート</label>
 						</div>
 						<div class="col-sm-8">
 							<select class="form-control select" th:field="*{templateId}" onchange="refreshVal();">
-								<option th:each="object : ${fbTemplateDtoList}" th:selected="${fbCampaignInputForm.templateId == object.getTemplateId()}" th:value="${object.getTemplateId()}" th:text="${object.getTemplateName()}">繧ｯ繝ｪ繝�繧ｯ驥崎ｦ�</option>
+								<option th:each="object : ${fbTemplateDtoList}" th:selected="${fbCampaignInputForm.templateId == object.getTemplateId()}" th:value="${object.getTemplateId()}" th:text="${object.getTemplateName()}">クリック重視</option>
 							</select>
 						</div>
 					</div>
@@ -40,64 +40,64 @@
 			</div>
 			<div class="card">
 				<div class="card-block">
-					<h4 class="sub-title">譯井ｻｶ蜈･蜉帛��螳ｹ</h4>
+					<h4 class="sub-title">案件入力内容</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">譯井ｻｶ蜷�<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">案件名<span class="text-danger">※</span></label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡髢句ｧ区律<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">配信開始日<span class="text-danger">※</span></label>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="*{startDate}" required="required">
 						</div>
 
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟堺ｿ｡邨ゆｺ�譌･<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">配信終了日<span class="text-danger">※</span></label>
 						<div class="col-sm-2">
 							<input type="date" class="form-control" th:field="*{endDate}" required="required">
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">荳�譌･縺ｮ莠育ｮ�<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">一日の予算<span class="text-danger">※</span></label>
 						<div class="col-sm-2">
 							<input type="number" class="form-control" th:field="*{dailyBudget}" required="required" min="1" max="9999999999">
 						</div>
-						<span class="col-form-label">蜀�</span>
+						<span class="col-form-label">円</span>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蜈･譛ｭ謌ｦ逡･<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">入札戦略<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{unitPriceType}" required="required">
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.UnitPriceType).values()}" th:selected="${fbCampaignInputForm.unitPriceType == object.getValue()}" th:value="${object.value}" th:text="${object.label}"></option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.UnitPriceType).values()}" th:selected="${fbCampaignInputForm.unitPriceType == object.getValue()}" th:value="${object.value}" th:text="${object.label}"></option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">驟咲ｽｮ蝣ｴ謇�<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">配置場所<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
 							<select class="form-control" th:field="*{arrangePlace}" required="required">
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.FacebookArrangePlace).values()}" th:selected="${arrangePlace == object.value}" th:value="${object.value}" th:text="${object.label}"></option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.enums.FacebookArrangePlace).values()}" th:selected="${arrangePlace == object.value}" th:value="${object.value}" th:text="${object.label}"></option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">蝨ｰ蝓�<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">地域<span class="text-danger">※</span></label>
 						<div class="col-sm-4" th:if="${#lists.isEmpty(fbCampaignInputForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).facebookAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 						<div class="col-sm-4" th:unless="${#lists.isEmpty(fbCampaignInputForm.locationList)}">
 							<select class="searchable" multiple="multiple" th:field="*{locationList}">
-								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:selected="${#lists.contains(fbCampaignInputForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								<option th:each="object : ${T(jp.acepro.reporting.backoffice.service.CodeMasterServiceImpl).facebookAreaNameList}" th:selected="${#lists.contains(fbCampaignInputForm.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">繧ｦ繧ｧ繝悶し繧､繝医�ｮURL<span class="text-danger">窶ｻ</span></label>
+						<label class="col-sm-2 col-form-label text-right">ウェブサイトのURL<span class="text-danger">※</span></label>
 						<div class="col-sm-6">
 							<select class="form-control" th:field="*{segmentId}" required="required">
 								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${fbCampaignInputForm.segmentId} == ${dspSegmentDto.getSegmentId()}" th:value="${dspSegmentDto.getSegmentId()}" th:text="${dspSegmentDto.getUrl()}"></option>
@@ -105,7 +105,7 @@
 						</div>
 					</div>
 					<h4 class="sub-title">
-						逕ｻ蜒上い繝�繝励Ο繝ｼ繝�<span class="text-danger">窶ｻ</span>
+						画像アップロード<span class="text-danger">※</span>
 					</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right"></label>
@@ -115,7 +115,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" class="btn btn-success" th:formaction="@{/facebook/completeCampaign}" th:formmethod="post">菴懈��</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')" class="btn btn-success" th:formaction="@{/facebook/completeCampaign}" th:formmethod="post">作成</button>
 						</div>
 					</div>
 				</div>
@@ -137,21 +137,21 @@
 	        		}
 	        	);
 	        	
-	            if(window.confirm('繝�繝ｳ繝励Ξ繝ｼ繝医��' + fbTemplateDto.templateName + '縲阪ｒ菴ｿ逕ｨ縺励※繧ゅｈ繧阪＠縺�縺ｧ縺吶°�ｼ歃r\n繝�繝ｳ繝励Ξ繝ｼ繝医′蛻�繧頑崛繧上ｋ縺ｨ縲∝�･蜉帛��螳ｹ縺ｯ螟画峩縺輔ｌ縺ｾ縺吶��')) { 
-	            	// 遒ｺ隱肴凾縺ｮ蜃ｦ逅�
+	            if(window.confirm('テンプレート「' + fbTemplateDto.templateName + '」を使用してもよろしいですか？\r\nテンプレートが切り替わると、入力内容は変更されます。')) { 
+	            	// 確認時の処理
 	            	nowTemplateId = $('#templateId').val();
 	            	$("#unitPriceType").val(fbTemplateDto.unitPriceType);
 	            	$("#locationList").val(fbTemplateDto.locationList);
 	            	$('#locationList').multiSelect('refresh');
 	            } else {
-	            	// 繧ｭ繝｣繝ｳ繧ｻ繝ｫ譎ゅ�ｮ蜃ｦ逅�
-		            $('#templateId').val(nowTemplateId); // 蜃ｦ逅�荳ｭ豁｢
+	            	// キャンセル時の処理
+		            $('#templateId').val(nowTemplateId); // 処理中止
 	            }
 	        }
 			/*]]>*/
 		</script>
 		<script type="text/javascript"> 
-	        //驟堺ｿ｡髢句ｧ区律縲∫ｵゆｺ�譌･縺ｮ繧帝℃蜴ｻ縺ｫ驕ｸ謚槭〒縺阪↑縺�
+	        //配信開始日、終了日のを過去に選択できない
 	        $(function(){
 	        	 var toDay = new Date();
 		            var year = toDay.getFullYear();

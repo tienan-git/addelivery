@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
 <head>
 <style type="text/css">
 .step-arrow li.active a:after, .step-arrow li.active a:hover:after {
@@ -73,11 +70,51 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -134,7 +171,37 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -142,7 +209,37 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	table-cell
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -157,11 +254,51 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -206,42 +343,41 @@ li {
 	display: flex;
 }
 
+ol, ul {
+	margin-top: 0;
+	margin-bottom: 10px;
+}
+
+* {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
 .step-arrow li:nth-child(n+2) a {
 	border-radius: 0;
 }
 
-.card-block .top {
+.card-block {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 }
 
-.card-block .banner-left, .banner-right {
-	margin: 0 auto;
+.card-block .left {
+	padding: 0px 50px;
 }
 
-.card-block .bottom {
+.card-block .right {
 	margin: 10px 150px;
 	border: 2px solid #b3aeae;
 	border-radius: 28px;
 	position: relative;
-	display: flex;
-	justify-content: space-around;
-}
-
-.card-block .bottom2 {
-	margin: 10px 150px;
-	border: 2px solid #b3aeae;
-	position: relative;
-	display: flex;
-	border-radius: 28px;
-	justify-content: space-around;
 }
 
 .card-block .img {
-	margin: 30px 0;
+	margin-top: 36px;
 	width: 200px;
-	display: flex;
-	align-items: center;
+	margin-left: 120px;
 }
 
 .card-block .preview {
@@ -298,15 +434,14 @@ li {
 	.pc {
 		display: none !important;
 	}
+	.card .card-block .left {
+		padding: 0px 1rem;
+	}
 	.card-block .form-control {
 		width: auto;
 	}
 	.card-block {
 		padding: 1rem;
-	}
-	.card-block .bottom {
-		display: grid;
-		grid-template-columns: 1fr 1fr 1fr 1fr;
 	}
 }
 </style>
@@ -316,7 +451,7 @@ li {
 		if (myInput.value !== "") {
 			document.getElementById("textField1").innerHTML = myInput.value
 		} else {
-			document.getElementById("textField1").innerHTML = "見出し1"
+			document.getElementById("textField1").innerHTML = "短い広告見出し1"
 		}
 	}
 	function myFunc2() {
@@ -324,15 +459,7 @@ li {
 		if (myInput.value !== "") {
 			document.getElementById("textField2").innerHTML = myInput.value
 		} else {
-			document.getElementById("textField2").innerHTML = "見出し2"
-		}
-	}
-	function myFunc() {
-		var myInput = document.getElementById("inputfield_3");
-		if (myInput.value !== "") {
-			document.getElementById("textField3").innerHTML = myInput.value
-		} else {
-			document.getElementById("textField3").innerHTML = "説明文 "
+			document.getElementById("textField2").innerHTML = "説明文"
 		}
 	}
 
@@ -356,7 +483,33 @@ li {
 		reader.onload = function(e) {
 			console.log("画像の読み込みは成功....");
 
-			var img = document.getElementById("xmTanImg");
+			var img = document.getElementById("previewImg01");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+
+	function myFile_upload2(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+
+			var img = document.getElementById("previewImg02");
 			img.src = e.target.result;
 		}
 		reader.readAsDataURL(file);
@@ -371,8 +524,7 @@ li {
 			<div class="row align-items-end">
 				<div class="col-lg-8">
 					<div class="page-header-title">
-						<!-- <i class="ti-palette bg-c-green"></i> -->
-						<i class="ti-crown bg-c-pink"></i>
+						<i class="ti-palette bg-c-green"></i>
 						<div class="d-inline">
 							<!-- <h4>広告アップロード（STEP1：基本情報入力）</h4> -->
 							<h4>広告物アップロード</h4>
@@ -396,21 +548,25 @@ li {
 					<li><a>4.配信確認</a></li>
 				</ul>
 			</div>
+			<!-- <div align="center" class="pheader">
+				<h3>2.どれを配信しますか？</h3>
+				<br />
+				<p>
+					<strong>Googleバナー広告(文字+バナー)</strong>
+				</p>
+			</div> -->
 			<div align="center" class="pheader pc">
 				<h3>
-					<img th:src="@{/images/google.png}" style="width: 80px;" /><span
-						style="margin-left: 40px;">2.どれを配信しますか？</span>
+					<img th:src="@{/images/google.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
 				</h3>
 				<br />
 				<p style="margin-left: 100px;">
-					<strong>Googleバナー広告(バナーのみ)</strong>
+					<strong>Googleバナー広告(バナー+文字)</strong>
 				</p>
 			</div>
 			<div class="pheader sp">
 				<h4>
-					<img th:src="@{/images/google.png}"
-						style="width: 60px; margin-left: 20px;" /><strong
-						style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
+					<img th:src="@{/images/google.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
 				</h4>
 				<h2 style="margin-top: 30px; margin-left: 80px;">
 					<strong>2.どれを配信しますか？</strong>
@@ -418,77 +574,49 @@ li {
 				<br />
 			</div>
 			<div class="card-block">
-				<div class="top">
-					<div class="banner-left">
-						<div>バナー 300ｘ250</div>
-						<!-- <div class="jFiler jFiler-theme-default"> -->
-						<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<div>バナー 320ｘ50</div>
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
-					</div>
-					<div class="banner-right">
-						<div>バナー 728ｘ90</div>
-						<!-- <div class="jFiler jFiler-theme-default"> -->
-						<!-- <input type="file" name="files[]" id="file_upload1" multiple="multiple" onchange="myFile_upload1(this)" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"> -->
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<div>バナー 320ｘ100</div>
-						<input type="file" id="xmTanImg1" onchange="myFile_upload1(this)" />
-						<!-- <div class="jFiler jFiler-theme-default"><input type="file" name="files[]" id="file_upload2" multiple="multiple" style="position: absolute; left: -9999px; top: -9999px; z-index: -9999;"><div class="jFiler-input"><div class="jFiler-input-caption"><span></span></div><div class="jFiler-input-button">参照</div></div></div> -->
-					</div>
-				</div>
-				<div class="bottom">
-					<p class="preview">プレビュー</p>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 200px">
-					</div>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 100px; height: 40px">
-					</div>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 200px; height: 40px">
-					</div>
-					<div class="img">
-						<img id="xmTanImg" alt=""
-							src="http://placehold.jp/3c5c7d/ffffff/1200x628.png"
-							style="width: 150px; height: 40px">
-					</div>
-				</div>
-				<div class="bottom2">
-					<div>
-						<span>リターゲット配信</span>
-					</div>
-					<div>
-						<input type="radio" id="huey" name="drone" value="huey" checked>
-						<label for="do">する</label> <input type="radio" id="huey"
-							name="drone" value="huey" checked> <label for="dont">しない</label>
-					</div>
-					<div>
-						<a href="">リターゲット配信とは？</a>
-					</div>
-				</div>
-				<form method="">
-					<div class="">
-						<div class="form-group row" style="margin: 20px 0 20px 0">
-							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" type="submit"
-									th:formmethod="get"
-									th:formaction="@{/creative/mediaDescription}">戻る</button>
-								<button class="btn btn-success" type="submit"
-									th:formmethod="get" 	th:formaction="@{/creative/uploadCreateConfirm}">次へ</button>
-						 
+				<div class="left">
+					<form th:action="@{/}" th:method="post" enctype="multipart/form-data" th:object=${form}>
+						<div>
+							<div class="" align="left">
+								<span>広告</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+								<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onkeyup="myFunc1()" placeholder="見出し1"> -->
+								<input type="text" class="form-control" maxlength="15" placeholder="広告名" th:field=*{resAdName}>
+							</div>
+							<div class="" align="left">
+								<span>短い広告見出し</span> <span class="text-danger">(〇〇/〇〇文字)</span> <input type="text" class="form-control" maxlength="15" id="inputfield_1" onkeyup="myFunc1()" placeholder="短い広告見出し" th:field=*{resAdShortTitle}>
+							</div>
+							<div class="" align="left">
+								<span>説明文</span> <span class="text-danger" style="text-align: right;">(〇〇/〇〇文字)</span> <input type="text" class="form-control" maxlength="45" id="inputfield_2" onkeyup="myFunc2()" placeholder="説明文" th:field=*{resAdDescription}>
 							</div>
 						</div>
+						<div class="">
+							<div>バナー 1200ｘ628</div>
+							<input type="file" id="uploadImg01" onchange="myFile_upload1(this)" th:field=*{imageFile01} />
+						</div>
+						<div class="">
+							<div>バナー 300ｘ300</div>
+							<input type="file" id="uploadImg02" onchange="myFile_upload2(this)" th:field=*{imageFile02} />
+						</div>
+						<div class="form-group row" style="margin: 20px 0 20px 0">
+							<div class="col-sm-12 text-center">
+								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
+								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/bannerTextAd/confirm}">次へ</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="right">
+					<div class="right-container">
+						<p class="preview">プレビュー</p>
+						<div class="img">
+							<img id="previewImg01" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px"><img id="previewImg02" alt="" src="http://placehold.jp/3c5c7d/ffffff/300x300.png" style="width: 100px">
+							<div id="textField1" class="midashi">短い広告見出し</div>
+							<p id="textField2">説明文</p>
+						</div>
 					</div>
-				</form>
+				</div>
 			</div>
+
 		</div>
 	</div>
 	<!-- page body end -->
