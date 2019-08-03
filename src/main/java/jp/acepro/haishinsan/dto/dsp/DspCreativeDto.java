@@ -11,7 +11,7 @@ public class DspCreativeDto {
 	String creativeName;
 	byte[] bytes;
 	
-	String src;
+	String url;
 	String Base64Str;
 	Integer screening;
 	LocalDateTime createdAt;

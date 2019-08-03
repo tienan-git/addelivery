@@ -16,10 +16,12 @@ public class DspCampaignDto {
 	String endDatetime;
 	Integer budget;
 	Integer deviceType;
-	List<DspCampaignCreInputForm> dspCampaignCreInputFormList  = new ArrayList<DspCampaignCreInputForm>();
 	List<Integer> idList = new ArrayList<Integer>();
+	List<DspCreativeDto> dspCreativeDtoList = new ArrayList<DspCreativeDto>();
 	String url;
 	Long templateId;
 	String approvalFlag;
 	Integer status;
+	Integer dailyBudget;
+	Integer monthBudget;
 }

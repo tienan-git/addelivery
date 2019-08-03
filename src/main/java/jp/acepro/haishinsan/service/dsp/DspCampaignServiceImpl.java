@@ -61,7 +61,6 @@ import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.exception.SystemException;
-import jp.acepro.haishinsan.form.DspCampaignCreInputForm;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.service.EmailService;
 import jp.acepro.haishinsan.util.ContextUtil;
@@ -116,45 +115,6 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	@Transactional
 	public DspCampaignDto createCampaign(DspCampaignDto dspCampaignDto, IssueDto issueDto) {
 
-		/**********************************************
-		 * 
-		 * *****************入力チェック****************** *
-		 * 
-		 **********************************************/
-		// クリエイティブ必須チェック
-		if (dspCampaignDto.getDspCampaignCreInputFormList() == null || dspCampaignDto.getDspCampaignCreInputFormList().size() == 0) {
-			throw new BusinessException(ErrorCodeConstant.E30005);
-		}
-
-		// 入力配信期間チェック
-		LocalDate startDate = LocalDate.parse(dspCampaignDto.getStartDatetime());
-		LocalDate endDate = LocalDate.parse(dspCampaignDto.getEndDatetime());
-		if (endDate.isBefore(startDate)) {
-			throw new BusinessException(ErrorCodeConstant.E30003);
-		}
-
-		// 配信期間日数
-		BigDecimal periodBigDecimal = BigDecimal.valueOf(DateUtil.distance_hyphen(dspCampaignDto.getStartDatetime(), dspCampaignDto.getEndDatetime()));
-
-		// 最低予算金額 金額を切り上げにする
-		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 0, BigDecimal.ROUND_UP);
-		// 最低日次予算金額
-		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 0, BigDecimal.ROUND_UP);
-		// 実際総予算金額
-		BigDecimal daileBudget = BigDecimal.valueOf(dspCampaignDto.getBudget());
-		// 実際日次予算
-		BigDecimal dailyBudgetBigDecimal = daileBudget.divide(periodBigDecimal, 0, BigDecimal.ROUND_UP);
-
-		Integer dailyBudget = dailyBudgetBigDecimal.intValue();
-		Integer monthBudget = dailyBudgetBigDecimal.multiply(BigDecimal.valueOf(30)).intValue();
-		// 入力金額チェック
-		if (monthBudget < monthBudgetFlag.intValue() || dailyBudget < dailyBudgetFlag.intValue()) {
-			throw new BusinessException(ErrorCodeConstant.E30004);
-		}
-
-		if (periodBigDecimal.intValue() > 30) {
-			monthBudget = dspCampaignDto.getBudget();
-		}
 		// Token取得
 		DspToken dspToken = dspApiService.getToken();
 		/**********************************************
@@ -195,8 +155,8 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		DspCampaignCreateReq dspCampaignCreateReq = new DspCampaignCreateReq();
 		dspCampaignCreateReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
 		dspCampaignCreateReq.setName(dspCampaignDto.getCampaignName());
-		dspCampaignCreateReq.setDaily_budget(dailyBudget);
-		dspCampaignCreateReq.setMonthly_budget(monthBudget);
+		dspCampaignCreateReq.setDaily_budget(dspCampaignDto.getDailyBudget());
+		dspCampaignCreateReq.setMonthly_budget(dspCampaignDto.getMonthBudget());
 		dspCampaignCreateReq.setIs_scheduled(DspScheduleFlag.SET.getValue());
 		dspCampaignCreateReq.setBilling_type(dspTemplate.getBillingType());
 		dspCampaignCreateReq.setStart_datetime(startDateTime);
@@ -267,36 +227,32 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		 **********************************************/
 		// PC広告グループのみ、広告作成
 		if (dspAdGroupCreatePcRes != null) {
-			for (DspCampaignCreInputForm dspCampaignCreInputForm : dspCampaignDto.getDspCampaignCreInputFormList()) {
-				DspAdCreateRes dspAdCreateRes = createAd(dspToken, dspAdGroupCreatePcRes, dspCampaignCreInputForm, dspCampaignDto);
+			for (Integer creativeId : dspCampaignDto.getIdList()) {
+				DspAdCreateRes dspAdCreateRes = createAd(dspToken, dspAdGroupCreatePcRes, creativeId, dspCampaignDto);
 				// 作成した広告をシステムDB保存する PC向
 				DspAdDto dspAdDto = new DspAdDto();
 				dspAdDto.setCampaignId(dspCampaignCreateRes.getId());
 				dspAdDto.setAdGroupId(dspAdGroupCreatePcRes.getId());
 				dspAdDto.setAdId(dspAdCreateRes.getId());
-				dspAdDto.setCreativeId(dspCampaignCreInputForm.getCreativeId());
+				dspAdDto.setCreativeId(creativeId);
 				dspAdDto.setDeviceType(DspDeviceType.PC.getValue());
 				insertAdToDb(dspAdDto);
 			}
 		}
 		// Mobile広告グループのみ、広告作成
 		if (dspAdGroupCreateMbRes != null) {
-			for (DspCampaignCreInputForm dspCampaignCreInputForm : dspCampaignDto.getDspCampaignCreInputFormList()) {
-				DspAdCreateRes dspAdCreateRes = createAd(dspToken, dspAdGroupCreateMbRes, dspCampaignCreInputForm, dspCampaignDto);
+			for (Integer creativeId : dspCampaignDto.getIdList()) {
+				DspAdCreateRes dspAdCreateRes = createAd(dspToken, dspAdGroupCreateMbRes, creativeId, dspCampaignDto);
 				// 作成した広告をシステムDB保存する Mobile向
 				DspAdDto dspAdDto = new DspAdDto();
 				dspAdDto.setCampaignId(dspCampaignCreateRes.getId());
 				dspAdDto.setAdGroupId(dspAdGroupCreateMbRes.getId());
 				dspAdDto.setAdId(dspAdCreateRes.getId());
-				dspAdDto.setCreativeId(dspCampaignCreInputForm.getCreativeId());
+				dspAdDto.setCreativeId(creativeId);
 				dspAdDto.setDeviceType(DspDeviceType.MOBILE.getValue());
 				insertAdToDb(dspAdDto);
 			}
 		}
-
-		// 選択したクリエイティブIDをListに集まる
-		List<Integer> creativeIds = new ArrayList<Integer>();
-		dspCampaignDto.getDspCampaignCreInputFormList().forEach(s -> creativeIds.add(s.getCreativeId()));
 
 		/**********************************************
 		 * 
@@ -313,7 +269,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		DspCampaignManage dspCampaignManage = new DspCampaignManage();
 		dspCampaignManage.setCampaignId(dspCampaignCreateRes.getId());
-		dspCampaignManage.setCreativeId(creativeIds.toString().replace("[", "").replace("]", ""));
+		dspCampaignManage.setCreativeId(dspCampaignDto.getIdList().toString().replace("[", "").replace("]", ""));
 		dspCampaignManage.setSegmentId(newSegmentManage.getSegmentId());
 		dspCampaignManage.setBudget(dspCampaignDto.getBudget());
 		dspCampaignManage.setApprovalFlag(approvalFlag.getValue());
@@ -332,20 +288,6 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 			issueDao.insert(issue);
 		} else {
 			issueDto.setDspCampaignManageId(dspCampaignManage.getDspCampaignManageId());
-		}
-
-		// 選択したクリエイティブをDBに検索して、キャンペーン作成完了画面に表示する
-		List<Integer> creativeIdList = new ArrayList<Integer>();
-		for (DspCampaignCreInputForm dspCampaignCreInputForm : dspCampaignDto.getDspCampaignCreInputFormList()) {
-			creativeIdList.add(dspCampaignCreInputForm.getCreativeId());
-		}
-		List<CreativeManage> creativeManageList = dspCreativeCustomDao.selectByCreativeIds(creativeIdList);
-		for (DspCampaignCreInputForm dspCampaignCreInputForm : dspCampaignDto.getDspCampaignCreInputFormList()) {
-			for (CreativeManage dreativeManage : creativeManageList) {
-				if (dspCampaignCreInputForm.getCreativeId().equals(Integer.valueOf(dreativeManage.getCreativeId()))) {
-					dspCampaignCreInputForm.setCreativeName(dreativeManage.getCreativeName());
-				}
-			}
 		}
 
 		// メール送信
@@ -506,7 +448,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 			DspCreativeDto dspCreativeDto = new DspCreativeDto();
 			dspCreativeDto.setCreativeId(creativeManage.getCreativeId());
 			dspCreativeDto.setCreativeName(creativeManage.getCreativeName());
-			dspCreativeDto.setSrc(creativeManage.getUrl());
+			dspCreativeDto.setUrl(creativeManage.getUrl());
 			dspCreativeDtoList.add(dspCreativeDto);
 		}
 
@@ -702,7 +644,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	 * 
 	 * @param dspCampaignDto
 	 **********************************************/
-	private DspAdCreateRes createAd(DspToken dspToken, DspAdGroupCreateRes dspAdGroupCreatePRes, DspCampaignCreInputForm dspCampaignCreInputForm, DspCampaignDto dspCampaignDto) {
+	private DspAdCreateRes createAd(DspToken dspToken, DspAdGroupCreateRes dspAdGroupCreatePRes, Integer creativeId, DspCampaignDto dspCampaignDto) {
 
 		// Req Ad URL組み立てる
 		UriComponentsBuilder adBuilder = UriComponentsBuilder.newInstance();
@@ -720,7 +662,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		DspAdCreateReq dspAdCreateReq = new DspAdCreateReq();
 		dspAdCreateReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
 		dspAdCreateReq.setAdgroup_id(dspAdGroupCreatePRes.getId());
-		dspAdCreateReq.setCreative_id(dspCampaignCreInputForm.getCreativeId());
+		dspAdCreateReq.setCreative_id(creativeId);
 		dspAdCreateReq.setStatus(Flag.ON.getValue());
 		dspAdCreateReq.setUrl(dspCampaignDto.getUrl());
 		dspAdCreateReq.setReview_landing_url(dspCampaignDto.getUrl());
@@ -751,6 +693,48 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		dspAdManage.setCreativeId(dspAdDto.getCreativeId());
 		dspAdManage.setDeviceType(dspAdDto.getDeviceType());
 		dspAdManageDao.insert(dspAdManage);
+	}
+
+	@Override
+	@Transactional
+	public DspCampaignDto validate(DspCampaignDto dspCampaignDto) {
+		// クリエイティブ必須チェック
+		if (dspCampaignDto.getDspCreativeDtoList() == null || dspCampaignDto.getDspCreativeDtoList().size() == 0) {
+			throw new BusinessException(ErrorCodeConstant.E30005);
+		}
+
+		// 入力配信期間チェック
+		LocalDate startDate = LocalDate.parse(dspCampaignDto.getStartDatetime());
+		LocalDate endDate = LocalDate.parse(dspCampaignDto.getEndDatetime());
+		if (endDate.isBefore(startDate)) {
+			throw new BusinessException(ErrorCodeConstant.E30003);
+		}
+
+		// 配信期間日数
+		BigDecimal periodBigDecimal = BigDecimal.valueOf(DateUtil.distance_hyphen(dspCampaignDto.getStartDatetime(), dspCampaignDto.getEndDatetime()));
+
+		// 最低予算金額 金額を切り上げにする
+		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 0, BigDecimal.ROUND_UP);
+		// 最低日次予算金額
+		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 0, BigDecimal.ROUND_UP);
+		// 実際総予算金額
+		BigDecimal daileBudget = BigDecimal.valueOf(dspCampaignDto.getBudget());
+		// 実際日次予算
+		BigDecimal dailyBudgetBigDecimal = daileBudget.divide(periodBigDecimal, 0, BigDecimal.ROUND_UP);
+
+		Integer dailyBudget = dailyBudgetBigDecimal.intValue();
+		dspCampaignDto.setDailyBudget(dailyBudget);
+		Integer monthBudget = dailyBudgetBigDecimal.multiply(BigDecimal.valueOf(30)).intValue();
+		dspCampaignDto.setMonthBudget(monthBudget);
+		// 入力金額チェック
+		if (monthBudget < monthBudgetFlag.intValue() || dailyBudget < dailyBudgetFlag.intValue()) {
+			throw new BusinessException(ErrorCodeConstant.E30004);
+		}
+
+		if (periodBigDecimal.intValue() > 30) {
+			dspCampaignDto.setMonthBudget(dspCampaignDto.getBudget());
+		}	
+		return dspCampaignDto;
 	}
 
 }

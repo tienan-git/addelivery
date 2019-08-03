@@ -3,7 +3,8 @@ select
     s.segment_id,
     s.shop_id,
     s.segment_name,
-    s.url
+    s.url,
+    s.created_at
 from
 	segment_manage s
 where

@@ -26,9 +26,7 @@ import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.dsp.DspTemplateDto;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
-import jp.acepro.haishinsan.form.DspCampaignCreInputForm;
 import jp.acepro.haishinsan.form.DspCampaignInputForm;
-import jp.acepro.haishinsan.mapper.DspMapper;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
@@ -60,48 +58,46 @@ public class DspCampaignController {
 
 	@GetMapping("/selectCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView selectCreative() {
+	public ModelAndView selectCreative(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
 
 		// 作成したCreativeを取得
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
 
-		DspCampaignInputForm dspCampaignInputForm = new DspCampaignInputForm();
-
-		// dspCampaignCreInputFormList作成して、UIに添付
-		List<DspCampaignCreInputForm> dspCampaignCreInputFormList = new ArrayList<DspCampaignCreInputForm>();
-		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
-			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
-			dspCampaignCreInputForm.setCreativeId(dspCreativeDto.getCreativeId());
-			dspCampaignCreInputForm.setCreativeName(dspCreativeDto.getCreativeName());
-			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
-		}
-		dspCampaignInputForm.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
-
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("campaign/dsp/selectCreative");
-		modelAndView.addObject("dspCampaignInputForm", dspCampaignInputForm);
+		modelAndView.setViewName("campaign/dsp/creativeList");
+		modelAndView.addObject("dspCreativeDtoList", dspCreativeDtoList);
 
+		// 全てクリエイティブをsessionに格納する
 		session.setAttribute("dspCreativeDtoList", dspCreativeDtoList);
+
 		return modelAndView;
 	}
 
 	@PostMapping("/createCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView createCampaign(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
+	public ModelAndView createCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
+
+		if (dspCampaignInputForm.getIdList().isEmpty()) {
+			result.reject("E30005");
+			return selectCreative(dspCampaignInputForm);
+		}
 
 		// 最低予算金額
 		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
 		// 最低日次予算金額
 		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
 
-		// 選択したクリエイティブ情報を取得
+		// 全てクリエイティブをsessionから取得
 		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("dspCreativeDtoList");
+
+		List<DspCreativeDto> selectedDspCreativeDtoList = new ArrayList<DspCreativeDto>();
 
 		// 選択したクリエイティブ情報の上、最も早い日付を取得
 		LocalDateTime dateTime = null;
 		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
 			for (Integer id : dspCampaignInputForm.getIdList()) {
 				if (dspCreativeDto.getCreativeId().equals(id)) {
+					selectedDspCreativeDtoList.add(dspCreativeDto);
 					if (dateTime != null) {
 						dateTime = dspCreativeDto.getCreatedAt().isAfter(dateTime) ? dateTime : dspCreativeDto.getCreatedAt();
 					} else {
@@ -125,72 +121,67 @@ public class DspCampaignController {
 		modelAndView.addObject("dailyBudgetFlag", dailyBudgetFlag.longValue());
 
 		session.setAttribute("idList", dspCampaignInputForm.getIdList());
+		session.setAttribute("selectedDspCreativeDtoList", selectedDspCreativeDtoList);
 
 		return modelAndView;
 	}
 
 	@PostMapping("/confirmCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView confirmCampaign(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
+	public ModelAndView confirmCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
 
 		// テンプレート情報を取って、優先度一番高いの方で使う
 		DspTemplateDto dspTemplateDto = dspApiService.getDefaultTemplate();
 
 		// FormをDtoにして、キャンペーンを作成する
-		DspCampaignDto dspCampaignDto = DspMapper.INSTANCE.campFormToDto(dspCampaignInputForm);
+		DspCampaignDto dspCampaignDto = new DspCampaignDto();
+		dspCampaignDto.setCampaignName(dspCampaignInputForm.getCampaignName());
+		dspCampaignDto.setStartDatetime(dspCampaignInputForm.getStartDatetime());
+		dspCampaignDto.setEndDatetime(dspCampaignInputForm.getEndDatetime());
+		dspCampaignDto.setBudget(dspCampaignInputForm.getBudget());
+		dspCampaignDto.setDeviceType(dspCampaignInputForm.getDeviceType());
 		dspCampaignDto.setTemplateId(dspTemplateDto.getTemplateId());
-		List<Integer> ids = (List<Integer>) session.getAttribute("idList");
-		for (Integer i : ids) {
-			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
-			dspCampaignCreInputForm.setCreativeId(i);
-			dspCampaignDto.getDspCampaignCreInputFormList().add(dspCampaignCreInputForm);
-			dspCampaignDto.getIdList().add(i);
+		// 選択したクリエイティブをsessionから取得
+		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("selectedDspCreativeDtoList");
+		// 選択したクリエイティブIDをsessionから取得
+		List<Integer> ids = (ArrayList<Integer>) session.getAttribute("idList");
+		dspCampaignDto.setDspCreativeDtoList(dspCreativeDtoList);
+		dspCampaignDto.setIdList(ids);
+		dspCampaignInputForm.setIdList(ids);
+		try {
+			dspCampaignDto = dspCampaignService.validate(dspCampaignDto);
+		} catch (BusinessException e) {
+			result.reject(e.getMessage());
+			return createCampaign(dspCampaignInputForm, result);
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("campaign/dsp/confirmCampaign");
 		modelAndView.addObject("dspCampaignDto", dspCampaignDto);
 		modelAndView.addObject("dspTemplateDto", dspTemplateDto);
+
 		session.setAttribute("dspCampaignDto", dspCampaignDto);
 
 		return modelAndView;
 	}
 
-	@PostMapping("/completeCampaign")
+	@GetMapping("/completeCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView completeCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
+	public ModelAndView completeCampaign() {
 
-		// 作成したCreativeを取得
-		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
+		DspCampaignDto dspCampaignDto = (DspCampaignDto) session.getAttribute("dspCampaignDto");
 
-		// FormをDtoにして、キャンペーンを作成する
-		DspCampaignDto dspCampaignDto = DspMapper.INSTANCE.campFormToDto(dspCampaignInputForm);
-		for (Integer i : dspCampaignInputForm.getIdList()) {
-			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
-			dspCampaignCreInputForm.setCreativeId(i);
-			dspCampaignDto.getDspCampaignCreInputFormList().add(dspCampaignCreInputForm);
-			dspCampaignDto.getIdList().add(i);
-		}
-		DspCampaignDto newDspCampaignDto = null;
-		try {
-			newDspCampaignDto = dspCampaignService.createCampaign(dspCampaignDto, null);
-		} catch (BusinessException e) {
-			result.reject(e.getMessage());
-			return createCampaign(dspCampaignInputForm);
-		}
-		// dspCampaignCreInputFormList作成して、UIに添付
-		List<DspCampaignCreInputForm> dspCampaignCreInputFormList = new ArrayList<DspCampaignCreInputForm>();
-		for (DspCreativeDto dspCreativeDto : dspCreativeDtoList) {
-			DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
-			dspCampaignCreInputForm.setCreativeId(dspCreativeDto.getCreativeId());
-			dspCampaignCreInputForm.setCreativeName(dspCreativeDto.getCreativeName());
-			dspCampaignCreInputFormList.add(dspCampaignCreInputForm);
-		}
-		dspCampaignDto.setDspCampaignCreInputFormList(dspCampaignCreInputFormList);
+		DspCampaignDto newDspCampaignDto = dspCampaignService.createCampaign(dspCampaignDto, null);
 		dspCampaignDto.setCampaignId(newDspCampaignDto.getCampaignId());
+
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("dsp/completeCampaign");
 		modelAndView.addObject("newDspCampaignDto", dspCampaignDto);
+		
+		session.removeAttribute("dspCampaignDto");
+		session.removeAttribute("idList");
+		session.removeAttribute("selectedDspCreativeDtoList");
+		session.removeAttribute("dspCreativeDtoList");
 
 		// オペレーションログ記録
 		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(newDspCampaignDto.getCampaignId()));

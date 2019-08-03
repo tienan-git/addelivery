@@ -27,6 +27,19 @@
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
+					<h4 class="sub-title">配信名</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">配信名<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control"
+								th:field="*{campaignName}" required="required">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
 					<h4 class="sub-title">配信期間</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">配信開始日<span
