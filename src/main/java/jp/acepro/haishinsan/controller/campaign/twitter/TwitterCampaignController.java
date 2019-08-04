@@ -69,16 +69,12 @@ public class TwitterCampaignController {
         // websiteの場合
         case WEBSITE:
             List<TwitterTweet> websiteTweetList = twitterCampaignApiService.searchWebsiteTweets();
-            // APIから取得したtweetListをDBに保存
-            twitterCampaignApiService.saveTweetList(websiteTweetList, null);
             session.setAttribute("tweetList", websiteTweetList);
             twitterAdsInputForm.setTweetList(websiteTweetList);
             break;
         // followersの場合
         case FOLLOWER:
             List<TwitterTweet> followersTweetList = twitterCampaignApiService.searchFollowersTweets();
-            // APIから取得したtweetListをDBに保存
-            twitterCampaignApiService.saveTweetList(null, followersTweetList);
             session.setAttribute("tweetList", followersTweetList);
             twitterAdsInputForm.setTweetList(followersTweetList);
             break;
@@ -214,6 +210,8 @@ public class TwitterCampaignController {
         twitterAdsDto.setObjective((Integer) session.getAttribute("objective"));
         // ツイートIdリストをsessionから取得する
         twitterAdsDto.setTweetIdList((List<String>) session.getAttribute("tweetIdList"));
+        // ツイートJリストをsessionから取得する
+        twitterAdsDto.setTweetList((List<TwitterTweet>) session.getAttribute("tweetList"));
         // 日程をsessionから取得する
         twitterAdsDto.setStartTime(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartTime());
         twitterAdsDto.setEndTime(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndTime());
@@ -222,7 +220,7 @@ public class TwitterCampaignController {
         twitterAdsDto.setTotalBudget(((TwitterAdsDto) session.getAttribute("budget")).getTotalBudget());
 
         // tweetList取得
-        List<TwitterTweet> tweetList = twitterCampaignApiService.searchTweetList(twitterAdsDto.getTweetIdList());
+        List<TwitterTweet> tweetList = twitterCampaignApiService.getTweetList(twitterAdsDto);
         twitterAdsDto.setTweetList(tweetList);
 
         mv.addObject("twitterAdsDto", twitterAdsDto);
@@ -243,6 +241,8 @@ public class TwitterCampaignController {
         twitterAdsDto.setObjective((Integer) session.getAttribute("objective"));
         // ツイートIdリストをsessionから取得する
         twitterAdsDto.setTweetIdList((List<String>) session.getAttribute("tweetIdList"));
+        // ツイートJリストをsessionから取得する
+        twitterAdsDto.setTweetList((List<TwitterTweet>) session.getAttribute("tweetList"));
         // 地域をsessionから取得する
         twitterAdsDto.setLocation(((TwitterAdsDto) session.getAttribute("area")).getLocation());
         twitterAdsDto.setRegions(((TwitterAdsDto) session.getAttribute("area")).getRegions());

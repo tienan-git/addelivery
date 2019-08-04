@@ -70,7 +70,9 @@ import jp.acepro.haishinsan.service.EmailService;
 import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.TwitterUtil;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class TwitterCampaignApiServiceImpl extends BaseService implements TwitterCampaignApiService {
 
@@ -200,66 +202,36 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
     // ---------------------------------------------------------------------------
     // ---------------------------------------------------------------------------
-    // API:ツイートリストをDBに保存
+    // tweetListをsessionから洗い出
     @Override
     @Transactional
-    public void saveTweetList(List<TwitterTweet> websiteTweetList, List<TwitterTweet> followersTweetList) {
+    public List<TwitterTweet> getTweetList(TwitterAdsDto twitterAdsDto) {
 
-        // ツイートリストをaccountIDで検索する
-        List<TwitterTweetList> twitterList = twitterTweetListCustomDao
-                .selectByAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
-        // DBにaccountIDに当たるツイートリストがなければそのままInsertする
-        if (twitterList.size() == 0 || twitterList.isEmpty() == true) {
-            if (websiteTweetList != null && followersTweetList == null) {
-                for (TwitterTweet twitterTweet : websiteTweetList) {
-                    TwitterTweetList tweet = new TwitterTweetList();
-                    tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
-                    tweet.setTweetId(twitterTweet.getTweetId());
+        List<TwitterTweet> tweetList = new ArrayList<TwitterTweet>();
+        List<TwitterTweet> tweetListFromSession = twitterAdsDto.getTweetList();
+        List<String> tweetIdList = twitterAdsDto.getTweetIdList();
+        log.debug("-------------------------------------------------");
+        log.debug("-------------------------------------------------");
+        log.debug("tweetListFromSession : " + tweetListFromSession.toString());
+        log.debug("-------------------------------------------------");
+        log.debug("-------------------------------------------------");
+        log.debug("tweetIdList : " + tweetIdList.toString());
+        log.debug("-------------------------------------------------");
+        log.debug("-------------------------------------------------");
+
+        for (TwitterTweet twitterTweet : tweetListFromSession) {
+            for (String tweetId : tweetIdList) {
+                if (tweetId.equals(twitterTweet.getTweetId())) {
+                    TwitterTweet tweet = new TwitterTweet();
+                    tweet.setTweetId(tweetId);
                     tweet.setTweetTitle(twitterTweet.getTweetTitle());
                     tweet.setTweetBody(twitterTweet.getTweetBody());
                     tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
-                    twitterTweetListDao.insert(tweet);
-                }
-            } else if (websiteTweetList == null && followersTweetList != null) {
-                for (TwitterTweet twitterTweet : followersTweetList) {
-                    TwitterTweetList tweet = new TwitterTweetList();
-                    tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
-                    tweet.setTweetId(twitterTweet.getTweetId());
-                    tweet.setTweetTitle(twitterTweet.getTweetTitle());
-                    tweet.setTweetBody(twitterTweet.getTweetBody());
-                    tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
-                    twitterTweetListDao.insert(tweet);
-                }
-            }
-            // DBにaccountIDに当たるツイートリストが存在すれば削除した後再Insertする
-        } else {
-            // delete
-            for (TwitterTweetList twitterTweet : twitterList) {
-                twitterTweetListDao.delete(twitterTweet);
-            }
-            // insert
-            if (websiteTweetList != null && followersTweetList == null) {
-                for (TwitterTweet twitterTweet : websiteTweetList) {
-                    TwitterTweetList tweet = new TwitterTweetList();
-                    tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
-                    tweet.setTweetId(twitterTweet.getTweetId());
-                    tweet.setTweetTitle(twitterTweet.getTweetTitle());
-                    tweet.setTweetBody(twitterTweet.getTweetBody());
-                    tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
-                    twitterTweetListDao.insert(tweet);
-                }
-            } else if (websiteTweetList == null && followersTweetList != null) {
-                for (TwitterTweet twitterTweet : followersTweetList) {
-                    TwitterTweetList tweet = new TwitterTweetList();
-                    tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
-                    tweet.setTweetId(twitterTweet.getTweetId());
-                    tweet.setTweetTitle(twitterTweet.getTweetTitle());
-                    tweet.setTweetBody(twitterTweet.getTweetBody());
-                    tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
-                    twitterTweetListDao.insert(tweet);
+                    tweetList.add(tweet);
                 }
             }
         }
+        return tweetList;
     }
 
     // ---------------------------------------------------------------------------
@@ -341,6 +313,23 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
         twitterCampaignManage
                 .setTotalBudget(twitterAdsDto.getTotalBudget() == 0 ? null : twitterAdsDto.getTotalBudget());
         twitterCampaignManageDao.insert(twitterCampaignManage);
+
+        // DBにtweetListを保存
+        for (TwitterTweet twitterTweet : twitterAdsDto.getTweetList()) {
+            for (String tweetId : twitterAdsDto.getTweetIdList()) {
+                if (tweetId.equals(twitterTweet.getTweetId())) {
+                    // Entity
+                    TwitterTweetList tweet = new TwitterTweetList();
+                    tweet.setAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
+                    tweet.setCampaignId(campaignId);
+                    tweet.setTweetId(tweetId);
+                    tweet.setTweetTitle(twitterTweet.getTweetTitle());
+                    tweet.setTweetBody(twitterTweet.getTweetBody());
+                    tweet.setPreviewUrl(twitterTweet.getPreviewUrl());
+                    twitterTweetListDao.insert(tweet);
+                }
+            }
+        }
 
         // 案件追加
         Issue issue = new Issue();
@@ -845,44 +834,6 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
         return tweetList;
     }
 
-    // IdでWEBSITEツイートリストを検索
-    @Override
-    @Transactional
-    public List<TwitterTweet> searchWebsiteTweetsById(TwitterAdsDto twitterAdsDto) {
-
-        List<TwitterTweet> selectedWebsiteTweetList = new ArrayList<>();
-        // 選択したwebsiteTweetList
-        for (String tweetId : twitterAdsDto.getTweetIdList()) {
-            TwitterTweetList tweet = twitterTweetListCustomDao
-                    .selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
-            TwitterTweet twitterTweet = new TwitterTweet();
-            twitterTweet.setTweetTitle(tweet.getTweetTitle());
-            twitterTweet.setTweetBody(tweet.getTweetBody());
-            twitterTweet.setPreviewUrl(tweet.getPreviewUrl());
-            selectedWebsiteTweetList.add(twitterTweet);
-        }
-        return selectedWebsiteTweetList;
-    }
-
-    // IdでFOLLOWERSツイートリストを検索
-    @Override
-    @Transactional
-    public List<TwitterTweet> searchFollowersTweetsById(TwitterAdsDto twitterAdsDto) {
-
-        List<TwitterTweet> selectedfollowersTweetList = new ArrayList<>();
-        // 選択したfollowersTweetList
-        for (String tweetId : twitterAdsDto.getTweetIdList()) {
-            TwitterTweetList tweet = twitterTweetListCustomDao
-                    .selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
-            TwitterTweet twitterTweet = new TwitterTweet();
-            twitterTweet.setTweetTitle(tweet.getTweetTitle());
-            twitterTweet.setTweetBody(tweet.getTweetBody());
-            twitterTweet.setPreviewUrl(tweet.getPreviewUrl());
-            selectedfollowersTweetList.add(twitterTweet);
-        }
-        return selectedfollowersTweetList;
-    }
-
     /**
      * Authentication：Headerの取得
      * 
@@ -1001,4 +952,5 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
         return result;
     }
+
 }

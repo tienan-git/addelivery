@@ -24,8 +24,11 @@ public interface TwitterCampaignApiService {
     // 広告作成
     void createAds(TwitterAdsDto twitterAdsDto, IssueDto issueDto);
 
-    // TweetIdListでTweetListを抽出
+    // DB検索：TweetIdListでTweetListを抽出 いらないかも。。。。
     List<TwitterTweet> searchTweetList(List<String> tweetIdList);
+
+    // tweetListをsessionから洗い出す
+    List<TwitterTweet> getTweetList(TwitterAdsDto twitterAdsDt);
 
     /**
      * すべてのWEBSITEツイートリストを検索
@@ -33,24 +36,9 @@ public interface TwitterCampaignApiService {
     List<TwitterTweet> searchWebsiteTweets();
 
     /**
-     * IdでWEBSITEツイートリストを検索
-     **/
-    List<TwitterTweet> searchWebsiteTweetsById(TwitterAdsDto twitterAdsDto);
-
-    /**
      * すべてのFOLLOWERSツイートリストを検索
      **/
     List<TwitterTweet> searchFollowersTweets();
-
-    /**
-     * IdでFOLLOWERSツイートリストを検索
-     **/
-    List<TwitterTweet> searchFollowersTweetsById(TwitterAdsDto twitterAdsDto);
-
-    /**
-     * ツイートリストを保存
-     **/
-    void saveTweetList(List<TwitterTweet> websiteTweetList, List<TwitterTweet> followersTweetList);
 
     void createTwitterCampaign(TwitterAdsDto twitterAdsDto, IssueDto issueDto);
 
