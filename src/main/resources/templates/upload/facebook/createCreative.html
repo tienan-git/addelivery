@@ -72,12 +72,20 @@
 	
 	
 	
+	
+	
+	
+	
 	:
 	
 	
 	
 	
+	
+	
 	 
+	
+	
 	
 	
 	
@@ -137,7 +145,13 @@
 	
 	
 	
+	
+	
+	
+	
 	:
+	
+	
 	
 	
 	
@@ -147,7 +161,13 @@
 	
 	
 	
+	
+	
 	table-cell
+	
+	
+	
+	
 	
 	
 	
@@ -166,12 +186,20 @@
 	
 	
 	
+	
+	
+	
+	
 	:
 	
 	
 	
 	
+	
+	
 	 
+	
+	
 	
 	
 	
@@ -375,56 +403,52 @@ ol, ul {
 				<div class="card pc" id="progressbar">
 					<ul class="nav nav-pills nav-justified step step-arrow">
 						<li><a>1.媒体</a></li>
-						<li class="active"><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
+						<li class="active"><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告</a></li>
 						<li><a>3.確認</a></li>
 						<li><a>4.配信確認</a></li>
 					</ul>
 				</div>
 				<div align="center" class="pheader pc">
 					<h3>
-						<img th:src="@{/images/facebook.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
+						<img th:src="@{/images/facebook.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.何を配信しますか？</span>
 					</h3>
 					<br />
 					<p style="margin-left: 100px;">
-						<strong>Facebookバナー広告</strong>
+						<strong>Facebook広告</strong>
 					</p>
 				</div>
 				<div class="pheader sp">
 					<h4>
-						<img th:src="@{/images/facebook.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Facebookバナー広告</strong>
+						<img th:src="@{/images/facebook.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Facebook広告</strong>
 					</h4>
 					<h2 style="margin-top: 30px; margin-left: 80px;">
-						<strong>2.どれを配信しますか？</strong>
+						<strong>2.何を配信しますか？</strong>
 					</h2>
 					<br />
 				</div>
 				<div class="card-block">
-					<div class="" align="left">
-						<span>広告物名</span> <span class="text-danger">※</span> <input type="text" class="form-control" maxlength="25" th:field="*{creativeName}" placeholder="広告物名">
+					<div>
+						<span>広告物名</span> <span class="text-danger">(〇〇/〇〇文字)</span>
+						<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
+						<input type="text" class="form-control" maxlength="15" placeholder="広告物名" th:field=*{creativeName}>
 					</div>
-					<div class="left">
-						<div class="">
-							<div>バナー 300ｘ300</div>
+					<div class="top">
+						<div class="banner-left">
+							<div>バナー 500ｘ500</div>
 							<input type="file" th:field="*{image}" onchange="myFile_upload1(this)" required />
 						</div>
+					</div>
+					<div class="bottom">
+						<p class="preview">プレビュー</p>
+						<div class="img">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px">
+						</div>
+					</div>
+					<div class="">
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
 								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/upload/mediaSelection}">戻る</button>
 								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/confirmFacebookCreative}">次へ</button>
-							</div>
-						</div>
-					</div>
-					<div class="right">
-						<div class="right-container">
-							<p class="preview">プレビュー</p>
-							<div class="img">
-								<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px">
-								<div>
-									<span>店舗名</span> <span><a href="http://www.facebook.com" style="float: right"><font color='blue'>サイトへ</font></a></span>
-								</div>
-								<p class="native">
-									<strong>ネイティブ</strong>
-								</p>
 							</div>
 						</div>
 					</div>

@@ -7,8 +7,10 @@ import org.mapstruct.factory.Mappers;
 
 import jp.acepro.haishinsan.db.entity.FacebookTemplate;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.form.FbCampaignInputForm;
+import jp.acepro.haishinsan.form.FbIssueInputForm;
 import jp.acepro.haishinsan.form.FbTemplateInputForm;
 
 
@@ -29,6 +31,7 @@ public interface FacebookMapper {
 	
 	FbCampaignDto map(FbCampaignInputForm fbCampaignInputForm);
 
+	FbIssueDto map(FbIssueInputForm fbIssueInputForm);
 	
 	//FacebookTemplate map(FbTemplateDto fbTemplateDto);
 

@@ -7,7 +7,7 @@ import jp.acepro.haishinsan.enums.Flag;
 import lombok.Data;
 
 @Data
-public class FbCampaignDto {
+public class FbIssueDto {
 
 	Long templateId;
 	String unitPriceType;
