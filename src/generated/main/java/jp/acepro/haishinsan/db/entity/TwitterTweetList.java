@@ -31,6 +31,10 @@ public class TwitterTweetList extends BaseEntity {
     @Column(name = "account_id")
     String accountId;
 
+    /** キャンペーンID */
+    @Column(name = "campaign_id")
+    String campaignId;
+
     /** ツイートID */
     @Column(name = "tweet_id")
     String tweetId;
@@ -106,6 +110,24 @@ public class TwitterTweetList extends BaseEntity {
      */
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    /** 
+     * Returns the campaignId.
+     * 
+     * @return the campaignId
+     */
+    public String getCampaignId() {
+        return campaignId;
+    }
+
+    /** 
+     * Sets the campaignId.
+     * 
+     * @param campaignId the campaignId
+     */
+    public void setCampaignId(String campaignId) {
+        this.campaignId = campaignId;
     }
 
     /** 
