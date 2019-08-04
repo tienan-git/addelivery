@@ -117,63 +117,69 @@
 			</h5>
 		</div>
 		<br />
-		<div>
-			<form th:action="@{/}" method="get">
-				<!--<div th:replace="common/errorMessages"></div>-->
-				<div class="card">
-					<div class="card-block">
-						<!-- <h4 class="sub-title text-capitalize">広告物（ファンへの配信、Google、Facebook）</h4> -->
-						<div class="header">
-							<div class="pc">広告物</div>
-							<div>
-								<a href="/creative/mediaDescription"><button class="btn btn-danger button-upload pc" type="button">新規広告物アップロード</button></a>
-							</div>
-						</div>
-						<div class="right-container">
-							<div class="img">
-								<img id="xmTanImg" alt="" th:src="@{/images/画像グループ3_300x250.png}">
-								<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
-								<!-- <div id="textField1" class="midashi">見出し</div> -->
-								<!-- 							<div id="textField2" class="midashi">見出し</div> -->
-								<!-- <p id="textField3" style="color:#d2d2d2">説明文 </p> -->
-								<p id="textField3"></p>
-								<!-- <div>
-								<span>店舗名</span> <span><a href="http://www.google.co.jp"
-									style="float: right"><font color='blue'>サイトへ</font></a></span>
-							</div> -->
-							</div>
-						</div>
-						<div class="right-container-2">
-							<div class="img">
-								<!-- <img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/320x100.png" style="width: 100%"> -->
-								<img id="xmTanImg" alt="" th:src="@{/images/画像グループ3_320x100.png}">
-								<!-- <div class="img"><img id="xmTanImg" alt="" style="width: 200px"> -->
-								<!-- <div>
-								<div id="textField1" class="midashi">見出し</div>
-															<div id="textField2" class="midashi">見出し</div>
-								<p id="textField3" style="color:#d2d2d2">説明文 </p>
-								<p id="textField3"></p>
-								<div>
-									<span>店舗名</span> <span><a href="http://www.google.co.jp"
-										style="float: right"><font color='blue'>サイトへ</font></a></span>
-								</div>
-							</div> -->
-							</div>
-						</div>
+				<form th:action="@{/facebook/createIssue}" method="post" th:object="${fbIssueInputForm}">
+					<div th:replace="common/errorMessages"></div>
+					<div class="dt-responsive table-responsive">
+						<table id="basicTable"
+							class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>選択</th>
+									<th>クリエイティブID</th>
+									<th>クリエイティブ名</th>
+									<th>リンク先</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>選択</th>
+									<th>クリエイティブID</th>
+									<th>クリエイティブ名</th>
+									<th>リンク先</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="fbCampaignDto,stat : ${fbCampaignDtoList}">
+									<td><input type="checkbox" th:field="${fbIssueInputForm.idList}"
+										th:value="${fbCampaignDto.campaignId}"/></td>
+									<td><a sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" 
+										th:text="${fbCampaignDto.campaignId}">0001</a></td>
+									<td><a href="#" th:onclick="|show((${stat.index}))|"
+										th:text="${fbCampaignDto.campaignName}">0001</a><img
+										th:src="${fbCampaignDto.imageUrl}" style='display: none'
+										th:id="${stat.index}"></td>
+									<td><a sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" 
+										th:text="${fbCampaignDto.linkUrl}">0001</a></td>
+								</tr>
+							</tbody>
+						</table>
 					</div>
 					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
 						<div class="col-sm-12 text-center">
-							<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
-							<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/uploadMediaDescription}">戻る</button>
-							<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formaction="@{/creative/createLink}">選択</button>
+							<button class="btn btn-success" type="submit"
+								sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')"
+								th:formaction="@{/facebook/createIssue}" th:formmethod="post">次へ</button>
 						</div>
 					</div>
-				</div>
-			</form>
-		</div>
+				</form>
 	</div>
 	<!-- page body end -->
 
-	<div layout:fragment="custom_resource_body"></div>
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript">
+			function show(id) {
+				//alert(id);
+				var img = document.getElementById(id);
+				if (img.style.display == "block") {
+					document.getElementById(id).style.display = "none";
+				} else if (document.getElementById(id).style.display == "none") {
+					document.getElementById(id).style.display = "block";
+					document.getElementById(id).style.width = "50px";
+				}
+			}
+		</script>
+	</div>
 </body>
 </html>

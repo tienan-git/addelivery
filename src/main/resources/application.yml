@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: develop #develop #honban #staging
+    active: staging #develop #honban #staging
   thymeleaf:
     cache: false
     prefix: classpath:templates/

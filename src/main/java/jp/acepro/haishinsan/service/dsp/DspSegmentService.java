@@ -33,5 +33,12 @@ public interface DspSegmentService {
 	 * @return
 	 */
 	List<DspSegmentListDto> selectUrlByDateTime(LocalDateTime dateTim);
+	
+	/**
+	 * URL検索
+	 * @param LocalDateTime today
+	 * @return
+	 */
+	List<DspSegmentListDto> selectUrlByDateTimeWithNoCheck(LocalDateTime dateTim);
 
 }

@@ -501,4 +501,28 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		return dspSegmentListDtoList;
 	}
 
+	@Override
+	@Transactional
+	public List<DspSegmentListDto> selectUrlByDateTimeWithNoCheck(LocalDateTime dateTime) {
+
+		// 検索条件：日付、店舗ID
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime, ContextUtil.getCurrentShop().getShopId());
+		// 検索結果がnullの場合、nullを返す
+		if (segmentManageList == null || segmentManageList.size() == 0) {
+			return null;
+		}
+
+		// セグメントDto編集する
+		List<DspSegmentListDto> dspSegmentListDtoList = new ArrayList<DspSegmentListDto>();
+		for (SegmentManage segmentManage : segmentManageList) {
+				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
+				dspSegmentListDto.setSegmentId(segmentManage.getSegmentId());
+				dspSegmentListDto.setSegmentName(segmentManage.getSegmentName());
+				dspSegmentListDto.setUrl(segmentManage.getUrl());
+				dspSegmentListDtoList.add(dspSegmentListDto);
+		}
+
+		return dspSegmentListDtoList;
+	}
+
 }
