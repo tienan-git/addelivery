@@ -199,14 +199,7 @@ public class IssueServiceImpl implements IssueService {
 				dspCampaignDto.setEndDatetime(issueDto.getEndDate());
 				dspCampaignDto.setBudget(budgetAllocationDto.getDspBudget());
 				dspCampaignDto.setDeviceType(Integer.valueOf(DeviceType.ALL.getValue()));
-				for(Integer i : issueDto.getIdList()) {
-					DspCampaignCreInputForm dspCampaignCreInputForm = new DspCampaignCreInputForm();
-					
-					dspCampaignCreInputForm.setCreativeId(i);
-					dspCampaignDto.getDspCampaignCreInputFormList().add(dspCampaignCreInputForm);
-					dspCampaignDto.getIdList().add(i);
-					
-				}
+				dspCampaignDto.setIdList(issueDto.getIdList());
 				dspCampaignDto.setUrl(issueDto.getUrl());
 				dspCampaignDto.setTemplateId(dspTemplateList.get(0).getTemplateId());
 				dspCampaignService.createDspCampaign(dspCampaignDto, issueDto);
