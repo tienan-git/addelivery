@@ -39,6 +39,8 @@ import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.exception.BusinessException;
+import jp.acepro.haishinsan.service.CodeMasterService;
+import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.EmailService;
 import jp.acepro.haishinsan.service.google.api.AddAdGroups;
 import jp.acepro.haishinsan.service.google.api.AddCampaign;
@@ -77,17 +79,30 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	@Autowired
 	EmailService emailService;
 
+	@Autowired
+	CodeMasterService codeMasterService;
+
 	// 案件簡単作成のため、新しいトランザクションで実行する
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void createGoogleCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto) {
 		createCampaign(googleCampaignDto, issueDto);
 	}
-	
+
 	// キャンペーン新規作成（API経由）
 	@Override
 	@Transactional
 	public void createCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto) {
+
+		// Get Keyword List
+		if (CodeMasterServiceImpl.keywordNameList == null) {
+			codeMasterService.getKeywordNameList();
+		}
+		
+		// Get Area List
+		if (CodeMasterServiceImpl.googleAreaNameList == null) {
+			codeMasterService.getGoogleAreaList();
+		}
 
 		// 例外処理
 		// 配信期間チェック
@@ -230,7 +245,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		List<Long> campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId()).collect(Collectors.toList());
 
 		if (campaignIdList.size() > 0) {
-			
+
 			// キャンペーン情報取得（API経由）
 			GetCampaigns getCampaigns = new GetCampaigns();
 			getCampaigns.propFileName = "ads-" + applicationProperties.getActive() + ".properties";

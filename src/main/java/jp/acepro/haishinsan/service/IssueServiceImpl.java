@@ -241,13 +241,13 @@ public class IssueServiceImpl implements IssueService {
 
 				googleCampaignDto.setAdType(issueDto.getAdType());
 
-				googleCampaignDto.setResAdImageDateList(new ArrayList<byte[]>());
+				googleCampaignDto.setResAdImageBytesList(new ArrayList<byte[]>());
 				googleCampaignDto.setResAdImageFileList(issueDto.getImageAdImageFileList());
 				googleCampaignDto.setResAdDescription(issueDto.getResAdDescription());
 				googleCampaignDto.setResAdFinalPageUrl(issueDto.getUrl());
 				googleCampaignDto.setResAdShortTitle(issueDto.getResAdShortTitle());
 
-				googleCampaignDto.setImageAdImageDataList(new ArrayList<byte[]>());
+				googleCampaignDto.setImageAdImageBytesList(new ArrayList<byte[]>());
 				googleCampaignDto.setImageAdImageFileList(issueDto.getImageAdImageFileList());
 				googleCampaignDto.setImageAdFinalPageUrl(issueDto.getUrl());
 
@@ -260,12 +260,12 @@ public class IssueServiceImpl implements IssueService {
 				switch (GoogleAdType.of(issueDto.getAdType())) {
 				case RESPONSIVE:
 					for (MultipartFile imageFile : issueDto.getResAdImageFileList()) {
-						googleCampaignDto.getResAdImageDateList().add(getByteArrayFromStream(imageFile.getInputStream()));
+						googleCampaignDto.getResAdImageBytesList().add(getByteArrayFromStream(imageFile.getInputStream()));
 					}
 					break;
 				case IMAGE:
 					for (MultipartFile imageFile : issueDto.getImageAdImageFileList()) {
-						googleCampaignDto.getImageAdImageDataList().add(getByteArrayFromStream(imageFile.getInputStream()));
+						googleCampaignDto.getImageAdImageBytesList().add(getByteArrayFromStream(imageFile.getInputStream()));
 					}
 					break;
 				case TEXT:
@@ -304,7 +304,7 @@ public class IssueServiceImpl implements IssueService {
 				FileOutputStream fo = new FileOutputStream(imageFile);
 				fo.write(issueDto.getFacebookImage().getBytes());
 				fo.close();
-				
+
 				FbCampaignDto fbCampaignDto = new FbCampaignDto();
 				fbCampaignDto.setCampaignName(issueDto.getCampaignName());
 				fbCampaignDto.setStartDate(issueDto.getStartDate());

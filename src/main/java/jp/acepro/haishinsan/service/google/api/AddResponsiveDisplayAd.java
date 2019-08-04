@@ -130,18 +130,13 @@ public class AddResponsiveDisplayAd {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param adGroupId
-	 *            the ID of the ad group where the ad will be created.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
-	 * @throws IOException
-	 *             if uploading an image failed.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param adGroupId       the ID of the ad group where the ad will be created.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
+	 * @throws IOException     if uploading an image failed.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws IOException {
 		// Get the MediaService.
@@ -157,7 +152,7 @@ public class AddResponsiveDisplayAd {
 		// Image.data field. An image must first be created using the MediaService,
 		// and Image.mediaId must be populated when creating the ad.
 		// 画像設定
-		for (byte[] data : googleCampaignDto.getResAdImageDateList()) {
+		for (byte[] data : googleCampaignDto.getResAdImageBytesList()) {
 			BufferedImage image = ImageIO.read(new ByteArrayInputStream(data));
 			int width = image.getWidth();
 			int height = image.getHeight();
@@ -204,7 +199,10 @@ public class AddResponsiveDisplayAd {
 		AdGroupAdReturnValue result = adGroupAdService.mutate(new AdGroupAdOperation[] { adGroupAdOperation });
 
 		// Display ads.
-		//Arrays.stream(result.getValue()).map(adGroupAdResult -> (ResponsiveDisplayAd) adGroupAdResult.getAd()).forEach(newAd -> System.out.printf("Responsive display ad with ID %d and short headline '%s' was added.%n", newAd.getId(), newAd.getShortHeadline()));
+		// Arrays.stream(result.getValue()).map(adGroupAdResult -> (ResponsiveDisplayAd)
+		// adGroupAdResult.getAd()).forEach(newAd -> System.out.printf("Responsive
+		// display ad with ID %d and short headline '%s' was added.%n", newAd.getId(),
+		// newAd.getShortHeadline()));
 	}
 
 	/**

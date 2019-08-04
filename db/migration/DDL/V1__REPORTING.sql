@@ -367,6 +367,7 @@ create table facebook_region_report (
 create table twitter_tweet_list (
   twitter_tweet_list_id bigint auto_increment not null comment 'ツイートリストID'
   , account_id VARCHAR(80) not null comment 'アカウントID'
+  , campaign_id VARCHAR(80) not null comment 'キャンペーンID'
   , tweet_id VARCHAR(80) not null comment 'ツイートID'
   , tweet_title VARCHAR(100) not null comment 'ツイートタイトル'
   , tweet_body VARCHAR(1024) not null comment 'ツイートボディー'

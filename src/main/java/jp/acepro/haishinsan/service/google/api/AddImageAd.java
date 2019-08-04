@@ -126,18 +126,13 @@ public class AddImageAd {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param adGroupId
-	 *            the ID of the ad group where the ad will be created.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
-	 * @throws IOException
-	 *             if uploading an image failed.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param adGroupId       the ID of the ad group where the ad will be created.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
+	 * @throws IOException     if uploading an image failed.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws IOException {
 		// Get the MediaService.
@@ -147,11 +142,11 @@ public class AddImageAd {
 		AdGroupAdServiceInterface adGroupAdService = adWordsServices.get(session, AdGroupAdServiceInterface.class);
 
 		List<AdGroupAdOperation> adGroupAdOperations = new ArrayList<AdGroupAdOperation>();
-		
-		for (int i = 0; i < googleCampaignDto.getImageAdImageDataList().size(); i++) {
-			
-			byte[] data = googleCampaignDto.getImageAdImageDataList().get(i);
-			
+
+		for (int i = 0; i < googleCampaignDto.getImageAdImageBytesList().size(); i++) {
+
+			byte[] data = googleCampaignDto.getImageAdImageBytesList().get(i);
+
 			// Create a responsive display ad.
 			ImageAd imageAd = new ImageAd();
 
@@ -165,8 +160,8 @@ public class AddImageAd {
 			imageAd.setImage(image);
 
 			// 広告名設定
-			imageAd.setName(googleCampaignDto.getImageAdImageFileList().get(i).getOriginalFilename());
-			
+			imageAd.setName(googleCampaignDto.getImageAdImageFileNameList().get(i));
+
 			// 広告表示URL設定
 			imageAd.setDisplayUrl(googleCampaignDto.getImageAdFinalPageUrl());
 
@@ -182,7 +177,7 @@ public class AddImageAd {
 			AdGroupAdOperation adGroupAdOperation = new AdGroupAdOperation();
 			adGroupAdOperation.setOperand(adGroupAd);
 			adGroupAdOperation.setOperator(Operator.ADD);
-			
+
 			adGroupAdOperations.add(adGroupAdOperation);
 		}
 
@@ -190,7 +185,10 @@ public class AddImageAd {
 		AdGroupAdReturnValue result = adGroupAdService.mutate(adGroupAdOperations.toArray(new AdGroupAdOperation[adGroupAdOperations.size()]));
 
 		// Display ads.
-		//Arrays.stream(result.getValue()).map(adGroupAdResult -> (ImageAd) adGroupAdResult.getAd()).forEach(newAd -> System.out.printf("Image ad with ID %d and final url '%s' was added.%n", newAd.getId(), newAd.getFinalUrls()[0]));
+		// Arrays.stream(result.getValue()).map(adGroupAdResult -> (ImageAd)
+		// adGroupAdResult.getAd()).forEach(newAd -> System.out.printf("Image ad with ID
+		// %d and final url '%s' was added.%n", newAd.getId(),
+		// newAd.getFinalUrls()[0]));
 
 	}
 
