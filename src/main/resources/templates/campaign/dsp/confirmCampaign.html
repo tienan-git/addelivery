@@ -25,10 +25,12 @@
 		<div class="card" th:object="${dspCampaignDto}">
 			<div class="card-block">
 				<h4 class="sub-title">広告イメージ</h4>
-				<div class="form-group row" th:each="dspCreativeDto,stat : ${dspCampaignDto.dspCreativeDtoList}">
-					<label class="col-sm-2 col-form-label text-right" th:text="${dspCreativeDto.creativeName}">URL</label>
+				<div class="form-group row"
+					th:each="dspCreativeDto,stat : ${dspCampaignDto.dspCreativeDtoList}">
+					<label class="col-sm-2 col-form-label text-right"
+						th:text="${dspCreativeDto.creativeName}">URL</label>
 					<div class="col-sm-8">
-						<img th:src="${dspCreativeDto.url}" th:id="${stat.index}"/>
+						<img th:src="${dspCreativeDto.url}" th:id="${stat.index}" />
 					</div>
 				</div>
 			</div>
@@ -68,6 +70,13 @@
 							th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__*{deviceType}__).label}">http://ace-pro.com/</label>
 					</div>
 				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">誘導URL</label>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="*{url}">http://ace-pro.com/</label>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="card" th:object="${dspTemplateDto}">
@@ -89,13 +98,15 @@
 				</div>
 			</div>
 		</div>
-		<div class="form-group row">
-			<div class="col-sm-12 text-center">
-				<button class="btn btn-success" type="submit"
-					sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')"
-					th:formaction="@{/dsp/completeCampaign}" th:formmethod="get">確認</button>
+		<form>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-success" type="submit"
+						sec:authorize="hasAuthority('DSP_CAMPAIGN_VIEW')"
+						th:formaction="@{/dsp/completeCampaign}" th:formmethod="get">確認</button>
+				</div>
 			</div>
-		</div>
+		</form>
 	</div>
 	<!-- Page body end -->
 

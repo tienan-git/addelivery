@@ -12,4 +12,5 @@ public class DspAdGroupCreateReq {
 	Integer daily_freq_cap;
 	Integer rotation_method;
 	Integer status;
+	Integer creative_format;
 }

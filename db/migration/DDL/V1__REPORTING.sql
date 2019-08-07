@@ -595,11 +595,12 @@ create table dsp_template (
 --* RestoreFromTempTable
 create table dsp_campaign_manage (
   dsp_campaign_manage_id bigint auto_increment not null comment 'DSPキャンペーン管理ID'
-  , campaign_id INT not null comment 'キャンペーンID'
+  , campaign_id INT comment 'キャンペーンID'
   , creative_id VARCHAR(200) not null comment 'クリエイティブID'
   , segment_id INT not null comment 'セグメントID'
   , budget INT not null comment '予算'
-  , approval_flag CHAR(1) not null comment '審査フラグ'
+  , device_type INT not null comment 'デバイスタイプ'
+  , approval_flag CHAR(1) comment '審査フラグ'
   , version_no bigint not null comment 'バージョン番号'
   , created_at DATETIME(6) not null comment '登録日時'
   , created_by VARCHAR(15) not null comment '登録者'

@@ -54,6 +54,7 @@ import jp.acepro.haishinsan.dto.dsp.DspCampaignUpdateRes;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.Segment;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
+import jp.acepro.haishinsan.enums.CreativeFormat;
 import jp.acepro.haishinsan.enums.DspDeviceType;
 import jp.acepro.haishinsan.enums.DspScheduleFlag;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
@@ -122,16 +123,6 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		 * ***************キャンペーン作成**************** *
 		 * 
 		 **********************************************/
-		// キャンペーン配信ステータス設定
-		Integer campaignStatus = Flag.ON.getValue();
-		// 審査状態を設定
-		ApprovalFlag approvalFlag = ApprovalFlag.COMPLETED;
-		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
-			// 営業チェックが必要な場合、停止状態で作られる
-			campaignStatus = Flag.OFF.getValue();
-			// 営業チェックが必要な場合、審査状態を承認待ちにする
-			approvalFlag = ApprovalFlag.WAITING;
-		}
 
 		// Req Campaign URL組み立てる
 		UriComponentsBuilder campaignBuilder = UriComponentsBuilder.newInstance();
@@ -161,7 +152,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		dspCampaignCreateReq.setBilling_type(dspTemplate.getBillingType());
 		dspCampaignCreateReq.setStart_datetime(startDateTime);
 		dspCampaignCreateReq.setEnd_datetime(endDateTime);
-		dspCampaignCreateReq.setStatus(campaignStatus);
+		dspCampaignCreateReq.setStatus(Flag.ON.getValue());
 		dspCampaignCreateReq.setReset_time(resetTime);
 		dspCampaignCreateReq.getPerformance_indicator().setType(applicationProperties.getTargetType());
 		dspCampaignCreateReq.getPerformance_indicator().setValue(applicationProperties.getTargetValue());
@@ -253,56 +244,6 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 				insertAdToDb(dspAdDto);
 			}
 		}
-
-		/**********************************************
-		 * 
-		 * *************DBにキャンペーン情報登録*********** *
-		 * 
-		 **********************************************/
-		// 選択したURLに対してセグメントを取得
-		SegmentManage newSegmentManage = new SegmentManage();
-		for (SegmentManage segmentManage : segmentManageList) {
-			if (segmentManage.getUrl().equals(dspCampaignDto.getUrl())) {
-				newSegmentManage = segmentManage;
-			}
-		}
-
-		DspCampaignManage dspCampaignManage = new DspCampaignManage();
-		dspCampaignManage.setCampaignId(dspCampaignCreateRes.getId());
-		dspCampaignManage.setCreativeId(dspCampaignDto.getIdList().toString().replace("[", "").replace("]", ""));
-		dspCampaignManage.setSegmentId(newSegmentManage.getSegmentId());
-		dspCampaignManage.setBudget(dspCampaignDto.getBudget());
-		dspCampaignManage.setApprovalFlag(approvalFlag.getValue());
-		dspCampaignManageDao.insert(dspCampaignManage);
-
-		// DBに案件情報登録
-		Issue issue = new Issue();
-		if (issueDto == null) {
-			issue = new Issue();
-			issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-			issue.setDspCampaignManageId(dspCampaignManage.getDspCampaignManageId());
-			issue.setCampaignName(dspCampaignDto.getCampaignName());
-			issue.setBudget(dspCampaignDto.getBudget().longValue());
-			issue.setStartDate(dspCampaignDto.getStartDatetime());
-			issue.setEndDate(dspCampaignDto.getEndDatetime());
-			issueDao.insert(issue);
-		} else {
-			issueDto.setDspCampaignManageId(dspCampaignManage.getDspCampaignManageId());
-		}
-
-		// メール送信
-		EmailDto emailDto = new EmailDto();
-		emailDto.setIssueId(issue.getIssueId());
-		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
-		emailCampDetailDto.setMediaType(MediaCollection.DSP.getValue());
-		emailCampDetailDto.setCampaignId(String.valueOf(dspCampaignCreateRes.getId()));
-		emailCampDetailDto.setCampaignName(dspCampaignDto.getCampaignName());
-		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
-		emailCampDetailDtoList.add(emailCampDetailDto);
-		emailDto.setCampaignList(emailCampDetailDtoList);
-		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
-		emailService.sendEmail(emailDto);
-
 		return dspCampaignDto;
 	}
 
@@ -357,8 +298,6 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 					dspCampaignDto.setCampaignName(dspCampaignListDto.getName());
 					dspCampaignDto.setStartDatetime(dspCampaignListDto.getStart_datetime());
 					dspCampaignDto.setEndDatetime(dspCampaignListDto.getEnd_datetime());
-					dspCampaignDto.setApprovalFlag(dspCampaignManage.getApprovalFlag());
-					dspCampaignDto.setStatus(dspCampaignListDto.getStatus());
 					dspCampaignDtoList.add(dspCampaignDto);
 				}
 			}
@@ -583,6 +522,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		dspAdGroupCreateReq.setDaily_freq_cap(applicationProperties.getFrequencyCap());
 		dspAdGroupCreateReq.setRotation_method(3);
 		dspAdGroupCreateReq.setStatus(Flag.ON.getValue());
+		dspAdGroupCreateReq.setCreative_format(CreativeFormat.PICTURE.getValue());
 
 		DspAdGroupCreateRes dspAdGroupCreateRes = null;
 		try {
@@ -733,8 +673,50 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		if (periodBigDecimal.intValue() > 30) {
 			dspCampaignDto.setMonthBudget(dspCampaignDto.getBudget());
-		}	
+		}
 		return dspCampaignDto;
+	}
+
+	@Override
+	@Transactional
+	public Long saveCampaign(DspCampaignDto dspCampaignDto) {
+
+		/**********************************************
+		 * 
+		 * *************DBにキャンペーン情報登録*********** *
+		 * 
+		 **********************************************/
+
+		DspCampaignManage dspCampaignManage = new DspCampaignManage();
+		dspCampaignManage.setCreativeId(dspCampaignDto.getIdList().toString().replace("[", "").replace("]", ""));
+		dspCampaignManage.setSegmentId(dspCampaignDto.getSegmentId());
+		dspCampaignManage.setBudget(dspCampaignDto.getBudget());
+		dspCampaignManage.setDeviceType(dspCampaignDto.getDeviceType());
+		dspCampaignManageDao.insert(dspCampaignManage);
+
+		// DBに案件情報登録
+		Issue issue = new Issue();
+		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
+		issue.setDspCampaignManageId(dspCampaignManage.getDspCampaignManageId());
+		issue.setCampaignName(dspCampaignDto.getCampaignName());
+		issue.setBudget(dspCampaignDto.getBudget().longValue());
+		issue.setStartDate(dspCampaignDto.getStartDatetime());
+		issue.setEndDate(dspCampaignDto.getEndDatetime());
+		issueDao.insert(issue);
+
+		// メール送信
+		EmailDto emailDto = new EmailDto();
+		emailDto.setIssueId(issue.getIssueId());
+		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
+		emailCampDetailDto.setMediaType(MediaCollection.DSP.getValue());
+		emailCampDetailDto.setCampaignName(dspCampaignDto.getCampaignName());
+		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
+		emailCampDetailDtoList.add(emailCampDetailDto);
+		emailDto.setCampaignList(emailCampDetailDtoList);
+		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
+		emailService.sendEmail(emailDto);
+		
+		return issue.getIssueId();
 	}
 
 }

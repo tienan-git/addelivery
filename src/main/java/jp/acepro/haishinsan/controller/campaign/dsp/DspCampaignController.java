@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -72,6 +74,15 @@ public class DspCampaignController {
 
 		return modelAndView;
 	}
+	
+	@PostMapping("/returnToCreativeList")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	public ModelAndView returnToCreativeList(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
+
+		
+
+		return null;
+	}
 
 	@PostMapping("/createCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
@@ -122,6 +133,7 @@ public class DspCampaignController {
 
 		session.setAttribute("idList", dspCampaignInputForm.getIdList());
 		session.setAttribute("selectedDspCreativeDtoList", selectedDspCreativeDtoList);
+		session.setAttribute("dspSegmentDtoList", dspSegmentDtoList);
 
 		return modelAndView;
 	}
@@ -132,7 +144,9 @@ public class DspCampaignController {
 
 		// テンプレート情報を取って、優先度一番高いの方で使う
 		DspTemplateDto dspTemplateDto = dspApiService.getDefaultTemplate();
-
+		
+		List<DspSegmentListDto> dspSegmentDtoList = (ArrayList<DspSegmentListDto>)session.getAttribute("dspSegmentDtoList");
+		
 		// FormをDtoにして、キャンペーンを作成する
 		DspCampaignDto dspCampaignDto = new DspCampaignDto();
 		dspCampaignDto.setCampaignName(dspCampaignInputForm.getCampaignName());
@@ -141,6 +155,13 @@ public class DspCampaignController {
 		dspCampaignDto.setBudget(dspCampaignInputForm.getBudget());
 		dspCampaignDto.setDeviceType(dspCampaignInputForm.getDeviceType());
 		dspCampaignDto.setTemplateId(dspTemplateDto.getTemplateId());
+		dspCampaignDto.setSegmentId(dspCampaignInputForm.getSegmentId());
+		for(DspSegmentListDto dspSegmentListDto : dspSegmentDtoList) {
+			if(dspSegmentListDto.getSegmentId().equals(dspCampaignInputForm.getSegmentId())) {
+				dspCampaignDto.setUrl(dspSegmentListDto.getUrl());
+				break;
+			}
+		}
 		// 選択したクリエイティブをsessionから取得
 		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("selectedDspCreativeDtoList");
 		// 選択したクリエイティブIDをsessionから取得
@@ -171,12 +192,10 @@ public class DspCampaignController {
 
 		DspCampaignDto dspCampaignDto = (DspCampaignDto) session.getAttribute("dspCampaignDto");
 
-		DspCampaignDto newDspCampaignDto = dspCampaignService.createCampaign(dspCampaignDto, null);
-		dspCampaignDto.setCampaignId(newDspCampaignDto.getCampaignId());
+		Long issueId = dspCampaignService.saveCampaign(dspCampaignDto);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/completeCampaign");
-		modelAndView.addObject("newDspCampaignDto", dspCampaignDto);
+		modelAndView.setViewName("campaign/dsp/createSuccess");
 		
 		session.removeAttribute("dspCampaignDto");
 		session.removeAttribute("idList");
@@ -184,7 +203,7 @@ public class DspCampaignController {
 		session.removeAttribute("dspCreativeDtoList");
 
 		// オペレーションログ記録
-		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(newDspCampaignDto.getCampaignId()));
+		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(issueId));
 
 		return modelAndView;
 	}
