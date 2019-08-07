@@ -102,11 +102,11 @@
 						<label class="col-sm-2 col-form-label text-right">URL<span
 							class="text-danger">※</span></label>
 						<div class="col-sm-8">
-							<select name="select" class="form-control" th:field="*{url}"
-								required="required">
+							<select name="select" class="form-control"
+								th:field="*{segmentId}" required="required">
 								<option th:each="dspSegmentDto : ${dspSegmentDtoList}"
 									th:selected="${url==dspSegmentDto.getUrl()}"
-									th:value="${dspSegmentDto.getUrl()}"
+									th:value="${dspSegmentDto.getSegmentId()}"
 									th:text="${dspSegmentDto.getUrl()}"></option>
 							</select>
 						</div>
@@ -116,6 +116,9 @@
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label"></label>
 				<div class="col-sm-12 text-center">
+					<button class="btn btn-warning" type="submit"
+						sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
+						th:formaction="@{/dsp/selectCampaign}" th:formmethod="get">戻る</button>
 					<button class="btn btn-success" type="submit"
 						sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
 						th:formaction="@{/dsp/confirmCampaign}" th:formmethod="post">次へ</button>

@@ -27,4 +27,6 @@ public interface DspCampaignService {
 	 */
 	DspCampaignDto validate(DspCampaignDto dspCampaignDto);
 
+	Long saveCampaign(DspCampaignDto dspCampaignDto);
+
 }

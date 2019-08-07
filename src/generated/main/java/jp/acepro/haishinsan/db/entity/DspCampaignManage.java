@@ -43,6 +43,10 @@ public class DspCampaignManage extends BaseEntity {
     @Column(name = "budget")
     Integer budget;
 
+    /** デバイスタイプ */
+    @Column(name = "device_type")
+    Integer deviceType;
+
     /** 審査フラグ */
     @Column(name = "approval_flag")
     String approvalFlag;
@@ -160,6 +164,24 @@ public class DspCampaignManage extends BaseEntity {
      */
     public void setBudget(Integer budget) {
         this.budget = budget;
+    }
+
+    /** 
+     * Returns the deviceType.
+     * 
+     * @return the deviceType
+     */
+    public Integer getDeviceType() {
+        return deviceType;
+    }
+
+    /** 
+     * Sets the deviceType.
+     * 
+     * @param deviceType the deviceType
+     */
+    public void setDeviceType(Integer deviceType) {
+        this.deviceType = deviceType;
     }
 
     /** 

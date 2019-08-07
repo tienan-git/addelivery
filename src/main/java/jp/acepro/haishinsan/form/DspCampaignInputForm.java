@@ -2,6 +2,7 @@ package jp.acepro.haishinsan.form;
 
 import java.util.List;
 
+import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import lombok.Data;
 
 @Data
@@ -12,11 +13,7 @@ public class DspCampaignInputForm {
 	String endDatetime;
 	Integer budget;
 	Integer deviceType;
-	List<DspCampaignCreInputForm> dspCampaignCreInputFormList;
 	List<Integer> idList;
-	String url;
-
+	Integer segmentId;
 	Long templateId;
-
-	Integer status;
 }
