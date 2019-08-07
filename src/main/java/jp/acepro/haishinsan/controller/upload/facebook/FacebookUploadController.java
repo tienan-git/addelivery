@@ -3,6 +3,7 @@ package jp.acepro.haishinsan.controller.upload.facebook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
@@ -105,12 +106,20 @@ public class FacebookUploadController {
 
 		String imaBase64 = null;
 		byte[] bytes = null;
+		List<DspSegmentListDto> dspSegmentDtoList = null;
 		try {
+			LocalDateTime dateTime = LocalDateTime.now();
+			// 日付によるセグメント情報を取得
+			dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(dateTime);
+			if (dspSegmentDtoList == null || dspSegmentDtoList.size() == 0) {
+				// セグメントのURLが存在しない。
+				throw new BusinessException(ErrorCodeConstant.E00012);
+			}
 			imaBase64 = imageUtil.getImageBytes(fbCreativeInputForm.getImage(), MediaType.FACEBOOK.getValue());
 			bytes = fbCreativeInputForm.getImage().getBytes();
 		} catch (BusinessException e) {
 			result.reject(e.getMessage(), e.getParams(), null);
-			ModelAndView mv = new ModelAndView("upload/createFacebookCreative");
+			ModelAndView mv = new ModelAndView("upload/facebook/createCreative");
 			mv.addObject("fbCreativeInputForm", fbCreativeInputForm);
 			return mv;
 		}
@@ -126,6 +135,7 @@ public class FacebookUploadController {
 		session.setAttribute("imaBase64", fbCreativeDto.getBase64Str());
 		session.setAttribute("bytes", bytes);
 		session.setAttribute("image", fbCreativeDto.getImage());
+		session.setAttribute("dspSegmentDtoList", dspSegmentDtoList);
 
 		StringBuffer data = new StringBuffer();
 		data.append("data:image/jpeg;base64,");
@@ -146,6 +156,7 @@ public class FacebookUploadController {
 		byte[] bytes = (byte[]) session.getAttribute("bytes");
 		String creativeName = (String) session.getAttribute("creativeName");
 		MultipartFile image = (MultipartFile) session.getAttribute("image");
+		List<DspSegmentListDto> dspSegmentDtoList = (List<DspSegmentListDto>) session.getAttribute("dspSegmentDtoList");
 
 		FbCreativeDto fbCreativeDto = new FbCreativeDto();
 		fbCreativeDto.setCreativeName(creativeName);
@@ -158,10 +169,15 @@ public class FacebookUploadController {
 		fo.close();
 		fbCreativeDto.setImageFile(imageFile);
 
-		facebookService.createCreative(fbCreativeDto, null);
+		facebookService.createCreative(fbCreativeDto, dspSegmentDtoList);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("creative/uploadCreateSuccess");
+
+		session.removeAttribute("creativeName");
+		session.removeAttribute("imaBase64");
+		session.removeAttribute("bytes");
+		session.removeAttribute("image");
 
 		// オペレーションログ記録
 		//operationService.create(Operation.FACEBOOK_CAMPAIGN_CREATE.getValue(), String.valueOf(fbCampaignDto.getCampaignId()));

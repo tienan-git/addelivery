@@ -73,6 +73,7 @@ import jp.acepro.haishinsan.db.entity.SegmentManage;
 import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
+import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
 import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
 import jp.acepro.haishinsan.dto.facebook.FbDeviceReportDto;
@@ -353,7 +354,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 	@Override
 	@Transactional
-	public void createCreative(FbCreativeDto fbCreativeDto, IssueDto issueDto) {
+	public void createCreative(FbCreativeDto fbCreativeDto, List<DspSegmentListDto> dspSegmentDtoList) {
 
 		LocalDate today = LocalDate.now();
 
@@ -366,42 +367,29 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 		// キャンペーンの目的はブランドのリーチ
 		EnumObjective enumObjective = Campaign.EnumObjective.VALUE_REACH;
-
 		// キャンペーン配信ステータス設定
 		EnumStatus enumCpStatus = Campaign.EnumStatus.VALUE_PAUSED;
 		// 審査状態を設定
 		ApprovalFlag approvalFlag = ApprovalFlag.WAITING;
 
-		//fbCampaignDto.setCampaignDisplayStatus(FacebookCampaignStatus.of(enumCpStatus.toString()).getLabel());
-		//fbCampaignDto.setCheckStatus(approvalFlag.getValue());
+		// fbCampaignDto.setCampaignDisplayStatus(FacebookCampaignStatus.of(enumCpStatus.toString()).getLabel());
+		// fbCampaignDto.setCheckStatus(approvalFlag.getValue());
 		// AdSet配信ステータス設定
 		com.facebook.ads.sdk.AdSet.EnumStatus enumSetStatus = AdSet.EnumStatus.VALUE_ACTIVE;
 		// Ad配信ステータス設定
 		com.facebook.ads.sdk.Ad.EnumStatus enumAdStatus = Ad.EnumStatus.VALUE_ACTIVE;
 
 		try {
-			String campaignName = fbCreativeDto.getCreativeName() + "キャンペーン";
+			int cnt = 0;
 			AdAccount account = new AdAccount(applicationProperties.getFacebookAccountId(), context);
-			Campaign campaign = account.createCampaign().setName(campaignName).setObjective(enumObjective).setStatus(enumCpStatus).execute();
-			String campaignId = campaign.fetch().getId();
-			//fbCampaignDto.setCampaignId(campaignId);
-			// String campaignId = "23843046668180277";
-			//System.out.println(campaignId);
-
-			// 広告セット名
-			String adSetName = fbCreativeDto.getCreativeName() + "広告セット";
 			// 請求タイミング
 			EnumBillingEvent enumBillingEvent = AdSet.EnumBillingEvent.VALUE_IMPRESSIONS;
 			// 最大入札価格を設定
 			Long bidAmount = 200l;
-
-			// 地域設定
+			// 地域設定 とりあえず固定
 			// location_typesが指定されていない場合、デフォルトはこの地域に住んでる人です。
 			List<TargetingGeoLocationCity> TargetingGeoLocationCityList = new ArrayList<TargetingGeoLocationCity>();
 			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("2686399"));
-			//for (Long location : fbCampaignDto.getLocationList()) {
-			//	TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey(location.toString()));
-			//}
 
 			// 趣味設定
 			List<IDName> idNameList = new ArrayList<IDName>();
@@ -412,121 +400,63 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			// 性別のデフォルトはすべてです。
 			// デフォルトはこの地域に住んでる人
 			Targeting targeting = new Targeting().setFieldAgeMin(18L) // 最小年齢
-		            //.setFieldFlexibleSpec(Arrays.asList(
-		            //        new FlexibleTargeting()
-		            //          .setFieldInterests(idNameList)));
 					.setFieldInterests(idNameList)// 趣味
 					.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList));
 			targeting.setFieldPublisherPlatforms(Arrays.asList("facebook")).setFieldFacebookPositions(Arrays.asList("feed"));
-
 			// 広告セットを作成
-			String startDateTime = DateFormatter.yyyyMMdd_HYPHEN.format(today.plusDays(179L)) + "T00:00:00+0900";
+			String startDateTime = DateFormatter.yyyyMMdd_HYPHEN.format(today.plusDays(1L)) + "T00:00:00+0900";
 			String nextEndDateTime = DateFormatter.yyyyMMdd_HYPHEN.format(today.plusDays(180L)) + "T00:00:00+0900";
-
-			AdSet adset = account.createAdSet().setName(adSetName).setCampaignId(campaignId)
-					// 配信ステータス
-					.setStatus(enumSetStatus)
-					// 入札戦略（最小コスト）
-					.setDailyBudget(realDailyBudget).setStartTime(startDateTime).setEndTime(nextEndDateTime).setBillingEvent(enumBillingEvent).setBidStrategy(EnumBidStrategy.VALUE_LOWEST_COST_WITH_BID_CAP).setBidAmount(bidAmount)
-					// 広告配信の最適化対象
-					.setOptimizationGoal(EnumOptimizationGoal.VALUE_IMPRESSIONS).setTargeting(targeting).execute();
-			//fbCampaignDto.setStartDate(DateUtil.toDateTime(startDateTime));
-			//fbCampaignDto.setEndDate(DateUtil.toDateTime(nextEndDateTime));
-			String adSetId = adset.getFieldId();
-			//String adSetId = adset.fetch().getFieldId();
-
-			// SegmentIdでDBからセグメント情報取得
-//			SegmentManage segmentManage = dspSegmentCustomDao.selectBySegmentId(fbCampaignDto.getSegmentId());
-//			if (segmentManage == null) {
-//				// セグメントのURLが存在しない。
-//				throw new BusinessException(ErrorCodeConstant.E00012);
-//			}
-//			fbCampaignDto.setLinkUrl(segmentManage.getUrl());
-			String linkUrl = "http://sparkworks.co.jp/";
-			//fbCampaignDto.setLinkUrl(linkUrl);
 			AdImage adImage = account.createAdImage().addUploadFile("filename", fbCreativeDto.getImageFile()).execute();
-			AdCreativeLinkData link = (new AdCreativeLinkData()).setFieldLink(linkUrl).setFieldImageHash(adImage.getFieldHash());
-			
-			// Page AccessToken 取得
-//			UriComponentsBuilder builder = UriComponentsBuilder.newInstance();
-//			builder = builder.scheme(applicationProperties.getDspScheme());
-//			builder = builder.host("graph.facebook.com");
-//			builder = builder.path(ContextUtil.getCurrentShop().getFacebookPageId());
-//			builder = builder.queryParam("fields", "access_token");
-//			//builder = builder.queryParam("access_token", applicationProperties.getPageToken());
-//			builder = builder.queryParam("access_token", applicationProperties.getFacebookAccessToken());
-//			String resource = builder.build().toUri().toString();
-//			
-//			HashMap<String, String> res = null;
-//			
-//			try {
-//				res = call(resource, HttpMethod.GET, null, null, HashMap.class);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//			if (Objects.isNull(res) || !res.containsKey("access_token")) {
-//				throw new BusinessException(ErrorCodeConstant.E40003);
-//			}
-//
-//			String pageToken = res.get("access_token");
-			
-			// Insアカウントを取得 TODO
-//			UriComponentsBuilder insAccountBuilder = UriComponentsBuilder.newInstance();
-//			insAccountBuilder = insAccountBuilder.scheme(applicationProperties.getDspScheme());
-//			insAccountBuilder = insAccountBuilder.host("graph.facebook.com");
-//			insAccountBuilder = insAccountBuilder.path("/v3.2/" + ContextUtil.getCurrentShop().getFacebookPageId() + "/instagram_accounts");
-//			insAccountBuilder = insAccountBuilder.queryParam("access_token", pageToken);
-//			String insAccountResource = insAccountBuilder.build().toUri().toString();
-//			InstagramAccountRes insAccount = null;
-//			try {
-//				insAccount = call(insAccountResource, HttpMethod.GET, null, null, InstagramAccountRes.class);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
+			for (DspSegmentListDto dspSegmentListDto : dspSegmentDtoList) {
+				cnt++;
+				String campaignName = fbCreativeDto.getCreativeName() + "Campaign" + cnt;
+				Campaign campaign = account.createCampaign().setName(campaignName).setObjective(enumObjective).setStatus(enumCpStatus).execute();
+				String campaignId = campaign.fetch().getId();
 
-			//AdCreativeObjectStorySpec spec = (new AdCreativeObjectStorySpec()).setFieldInstagramActorId(insAccount.getData().get(0).getId()).setFieldPageId(ContextUtil.getCurrentShop().getFacebookPageId()).setFieldLinkData(link);
-			AdCreativeObjectStorySpec spec = (new AdCreativeObjectStorySpec()).setFieldPageId(ContextUtil.getCurrentShop().getFacebookPageId()).setFieldLinkData(link);
-			AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").setObjectStorySpec(spec).execute();
-			//AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative").execute();
-			account.createAd().setName(fbCreativeDto.getCreativeName() + "Ad").setAdsetId(Long.parseLong(adSetId)).setCreative(creative).setStatus(enumAdStatus).execute();
-            
-			FacebookCampaignManage facebookCampaignManage = new FacebookCampaignManage();
-			facebookCampaignManage.setCampaignId(campaignId);
-			facebookCampaignManage.setCampaignName(campaignName);
-			facebookCampaignManage.setSegmentId(null);
-			facebookCampaignManage.setBudget(totalBudget);
-			facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
-			facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
-			facebookCampaignManage.setLinkUrl(linkUrl);
-			facebookCampaignManageDao.insert(facebookCampaignManage);
+				// 広告セット名
+				String adSetName = fbCreativeDto.getCreativeName() + "AdSet" + cnt;
+				AdSet adset = account.createAdSet().setName(adSetName).setCampaignId(campaignId)
+						// 配信ステータス
+						.setStatus(enumSetStatus)
+						// 入札戦略（最小コスト）
+						.setDailyBudget(realDailyBudget).setStartTime(startDateTime).setEndTime(nextEndDateTime).setBillingEvent(enumBillingEvent).setBidStrategy(EnumBidStrategy.VALUE_LOWEST_COST_WITH_BID_CAP).setBidAmount(bidAmount)
+						// 広告配信の最適化対象
+						.setOptimizationGoal(EnumOptimizationGoal.VALUE_IMPRESSIONS).setTargeting(targeting).execute();
+				String adSetId = adset.getFieldId();
 
-			Issue issue = new Issue();
-			if (issueDto == null) {
+				String linkUrl = dspSegmentListDto.getUrl();
+				AdCreativeLinkData link = (new AdCreativeLinkData()).setFieldLink(linkUrl).setFieldImageHash(adImage.getFieldHash());
+				AdCreativeObjectStorySpec spec = (new AdCreativeObjectStorySpec()).setFieldPageId(ContextUtil.getCurrentShop().getFacebookPageId()).setFieldLinkData(link);
+				AdCreative creative = account.createAdCreative().setName(fbCreativeDto.getCreativeName() + "Creative" + cnt).setObjectStorySpec(spec).execute();
+				account.createAd().setName(fbCreativeDto.getCreativeName() + "Ad" + cnt).setAdsetId(Long.parseLong(adSetId)).setCreative(creative).setStatus(enumAdStatus).execute();
+
+				FacebookCampaignManage facebookCampaignManage = new FacebookCampaignManage();
+				facebookCampaignManage.setCampaignId(campaignId);
+				facebookCampaignManage.setCampaignName(campaignName);
+				// facebookCampaignManage.setSegmentId(null);
+				facebookCampaignManage.setBudget(totalBudget);
+				facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
+				facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
+				facebookCampaignManage.setLinkUrl(linkUrl);
+				facebookCampaignManageDao.insert(facebookCampaignManage);
+
+				Issue issue = new Issue();
 				issue = new Issue();
 				issue.setShopId(ContextUtil.getCurrentShop().getShopId());
 				issue.setFacebookCampaignManageId(facebookCampaignManage.getFacebookCampaignManageId());
 				issue.setCampaignName(campaignName);
 				issue.setBudget(totalBudget);
-				issue.setStartDate(null);
-				issue.setEndDate(null);
+				//issue.setStartDate(startDateString);
+				//issue.setEndDate(endDateString);
 				issueDao.insert(issue);
-			} else {
-				issueDto.setFacebookCampaignManageId(facebookCampaignManage.getFacebookCampaignManageId());
+
 			}
 
-
-
-			// アップロードしたイメージを削除する
-			//fbCampaignDto.getImageFile().delete();
-
-			//return fbCampaignDto;
 		} catch (APIException e) {
 			e.printStackTrace();
 			throw new SystemException("システムエラー発生しました");
 		}
 	}
-
 
 	@Override
 	@Transactional
@@ -549,7 +479,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		// 配信時間まで設定
 		String startDateTime = fbCampaignDto.getStartDate() + "T00:00:00+0900";
 		String endDateTime = fbCampaignDto.getEndDate() + "T23:59:59+0900";
-		
+
 		String startDateString = startDateTime.substring(0, 10);
 		String endDateString = endDateTime.substring(0, 10);
 		// 1日の予算
@@ -588,7 +518,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			String campaignId = campaign.fetch().getId();
 			fbCampaignDto.setCampaignId(campaignId);
 			// String campaignId = "23843046668180277";
-			//System.out.println(campaignId);
+			// System.out.println(campaignId);
 
 			// 広告セット名
 			String adSetName = campaignName + "広告セット";
@@ -668,21 +598,21 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			builder = builder.queryParam("fields", "access_token");
 			builder = builder.queryParam("access_token", applicationProperties.getPageToken());
 			String resource = builder.build().toUri().toString();
-			
+
 			HashMap<String, String> res = null;
-			
+
 			try {
 				res = call(resource, HttpMethod.GET, null, null, HashMap.class);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			if (Objects.isNull(res) || !res.containsKey("access_token")) {
 				throw new BusinessException(ErrorCodeConstant.E40003);
 			}
-	
+
 			String pageToken = res.get("access_token");
-			
+
 			// Insアカウントを取得 TODO
 			UriComponentsBuilder insAccountBuilder = UriComponentsBuilder.newInstance();
 			insAccountBuilder = insAccountBuilder.scheme(applicationProperties.getDspScheme());
@@ -751,73 +681,23 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 	public List<FbCampaignDto> campaignList(List<FacebookCampaignManage> facebookCampaignManageList) {
 
 		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
-        String accountID = "act_" + applicationProperties.getFacebookAccountId();
-
-		List<String> campaignIdList = new ArrayList<String>();
-
-		for (FacebookCampaignManage facebookCampaignManage : facebookCampaignManageList) {
-			campaignIdList.add(facebookCampaignManage.getCampaignId().toString());
-		}
-		// 23843032433030277
-		// campaignIdList.add("23843032433030277");
 
 		List<FbCampaignDto> fbCampaignDtoList = new ArrayList<FbCampaignDto>();
 
-		if (campaignIdList.size() == 0) {
+		if (facebookCampaignManageList.size() == 0) {
 			return fbCampaignDtoList;
 		}
-		try {
-			// Campaign aaa = Campaign.fetchById(campaignIdList.get(0), context);
-			// System.out.println(aaa);
-			
-			APINodeList<AdImage> adImages = new AdAccount(accountID, context).getAdImages()
-					  .setHashes("[\"" + "9e7ccbe6de2f133d14e822da29a525cf" +  "\"]")
-					  .execute();
 
-			List<String> fields = new ArrayList<String>();
-			fields.add("account_id");
-			fields.add("created_time");
-			fields.add("id");
-			fields.add("name");
-			fields.add("start_time");
-			fields.add("stop_time");
-			fields.add("updated_time");
-			fields.add("effective_status");
-			fields.add("status");
-			fields.add("configured_status");
-			// fields.add("daily_budget");
+		for (FacebookCampaignManage facebookCampaignManage : facebookCampaignManageList) {
+			FbCampaignDto fbCampaignDto = new FbCampaignDto();
+			fbCampaignDto.setCampaignId(facebookCampaignManage.getCampaignId());
+			fbCampaignDto.setCampaignName(facebookCampaignManage.getCampaignName());
+			fbCampaignDto.setLinkUrl(facebookCampaignManage.getLinkUrl());
+			fbCampaignDto.setImageUrl(facebookCampaignManage.getImageUrl());
 
-			APINodeList<Campaign> CampaignList = Campaign.fetchByIds(campaignIdList, fields, context);
-
-			for (Campaign campaign : CampaignList) {
-				FbCampaignDto fbCampaignDto = new FbCampaignDto();
-				fbCampaignDto.setCampaignId(campaign.getFieldId());
-				fbCampaignDto.setCampaignName(campaign.getFieldName());
-				if (EnumStatus.VALUE_ACTIVE.equals(campaign.getFieldStatus())) {
-					fbCampaignDto.setCampaignStatus(Flag.ON.getValue());
-				} else {
-					fbCampaignDto.setCampaignStatus(Flag.OFF.getValue());
-				}
-				fbCampaignDto.setStartDate(DateUtil.toDateTime(campaign.getFieldStartTime()));
-				fbCampaignDto.setEndDate(DateUtil.toDateTime(campaign.getFieldStopTime()));
-				fbCampaignDto.setUpdatedDate(DateUtil.toDateTime(campaign.getFieldUpdatedTime()));
-				fbCampaignDto.setCreatedDate(DateUtil.toDateTime(campaign.getFieldCreatedTime()));
-				// fbCampaignDto.setDailyBudget(Long.valueOf(campaign.getFieldDailyBudget()));
-				// 審査フラグを設定
-				facebookCampaignManageList.stream().forEach(facebookCampaignManage -> {
-					if (facebookCampaignManage.getCampaignId().equals(campaign.getFieldId())) {
-						fbCampaignDto.setCheckStatus(facebookCampaignManage.getApprovalFlag());
-					}
-				});
-				fbCampaignDtoList.add(fbCampaignDto);
-			}
-
-			//System.out.println(CampaignList.getRawResponse());
-
-		} catch (APIException e) {
-			e.printStackTrace();
-			throw new SystemException("システムエラー発生しました");
+			fbCampaignDtoList.add(fbCampaignDto);
 		}
+
 		return fbCampaignDtoList;
 
 	}
@@ -866,7 +746,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 					ad.getFieldSourceAd();
 				}
 			}
-			//System.out.println(fbCampaignDto);
+			// System.out.println(fbCampaignDto);
 
 		} catch (APIException e) {
 			e.printStackTrace();

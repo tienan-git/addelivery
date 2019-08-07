@@ -34,6 +34,7 @@ import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
 import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterAdsDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
@@ -45,8 +46,10 @@ import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.CreativeInputForm;
 import jp.acepro.haishinsan.form.DspCampaignCreInputForm;
+import jp.acepro.haishinsan.form.DspCampaignInputForm;
 import jp.acepro.haishinsan.form.FbCampaignInputForm;
 import jp.acepro.haishinsan.form.FbCreativeInputForm;
+import jp.acepro.haishinsan.form.FbIssueInputForm;
 import jp.acepro.haishinsan.mapper.CreativeMapper;
 import jp.acepro.haishinsan.mapper.FacebookMapper;
 import jp.acepro.haishinsan.mapper.CreativeMapper;
@@ -90,9 +93,16 @@ public class FacebookIssueController {
 	@Autowired
 	MessageSource msg;
 
+	private void getFacebookAreaList() {
+		if (CodeMasterServiceImpl.facebookAreaNameList == null) {
+			codeMasterService.getFacebookAreaList();
+		}
+	}
+
+
 	@GetMapping("/campaignList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_VIEW + "')")
-	public ModelAndView campaignList() {
+	public ModelAndView campaignList(@ModelAttribute FbIssueInputForm fbIssueInputForm) {
 
 		List<FacebookCampaignManage> facebookCampaignManageList = facebookService.searchFacebookCampaignManageList();
 
@@ -109,4 +119,90 @@ public class FacebookIssueController {
 		operationService.create(Operation.FACEBOOK_CAMPAIGN_LIST.getValue(), String.valueOf(""));
 		return mv;
 	}
+	
+	@PostMapping("/createIssue")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	public ModelAndView createIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) {
+
+		// テンプレート一覧を取得
+		List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
+		// コードマスタをメモリへロード
+		getFacebookAreaList();
+
+		// -------- 優先度一番高いテンプレートで初期値を設定 --------
+		if (fbTemplateDtoList != null && fbTemplateDtoList.size() > 0) {
+			fbIssueInputForm.setLocationList(fbTemplateDtoList.get(0).getLocationList());
+			fbIssueInputForm.setTemplateId(fbTemplateDtoList.get(0).getTemplateId());
+			fbIssueInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
+		}
+
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("campaign/facebook/createIssue");
+		mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
+		return mv;
+
+	}
+
+//	@PostMapping("/confirmIssue")
+//	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+//	public ModelAndView confirmIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) throws IOException {
+//
+//		FbIssueDto fbIssueDto = FacebookMapper.INSTANCE.map(fbIssueInputForm);
+//		try {
+//			imageUtil.getImageBytes(fbCampaignInputForm.getImage(), MediaType.FACEBOOK.getValue());
+//		} catch (BusinessException e) {
+//			result.reject(e.getMessage(), e.getParams(), null);
+//			ModelAndView mv = new ModelAndView("facebook/createCampaign");
+//			// テンプレート一覧を取得
+//			List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
+//			// コードマスタをメモリへロード
+//			getFacebookAreaList();
+//			// ＤＳＰＵＲＬを読込
+//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
+//			mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
+//			mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
+//			mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
+//			return mv;
+//		}
+//		
+//		File imageFile = new File(fbCampaignInputForm.getImage().getOriginalFilename());
+//		FileOutputStream fo = new FileOutputStream(imageFile);
+//		fo.write(fbCampaignInputForm.getImage().getBytes());
+//		fo.close();
+//		fbCampaignDto.setImageFile(imageFile);
+//		try {
+//			facebookService.createCampaign(fbCampaignDto, null);
+//		} catch (BusinessException e) {
+//			// 異常時レスポンスを作成
+//			result.reject(e.getMessage());
+//			ModelAndView mv = new ModelAndView("facebook/createCampaign");
+//			// テンプレート一覧を取得
+//			List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
+//			// コードマスタをメモリへロード
+//			getFacebookAreaList();
+//			// ＤＳＰＵＲＬを読込
+//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
+//			mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
+//			mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
+//			mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
+//			return mv;
+//		}finally {
+//			try {
+//				imageFile.delete();
+//			}catch(Exception ex) {
+//				
+//			}
+//		}
+//
+//		ModelAndView mv = new ModelAndView("facebook/completeCampaign");
+//		mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
+//		mv.addObject("fbCampaignDto", fbCampaignDto);
+//
+//		// オペレーションログ記録
+//		operationService.create(Operation.FACEBOOK_CAMPAIGN_CREATE.getValue(), String.valueOf(fbCampaignDto.getCampaignId()));
+//		return mv;
+//
+//	}
+
 }

@@ -212,33 +212,7 @@ public class FacebookController {
 
 	}
 
-	@GetMapping("/createCampaign")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
-	public ModelAndView createCampaign(@ModelAttribute FbCampaignInputForm fbCampaignInputForm) {
 
-		// テンプレート一覧を取得
-		List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
-		// コードマスタをメモリへロード
-		getFacebookAreaList();
-		// ＤＳＰＵＲＬを読込
-		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
-
-		// -------- 優先度一番高いテンプレートで初期値を設定 --------
-		if (fbTemplateDtoList != null && fbTemplateDtoList.size() > 0) {
-			fbCampaignInputForm.setLocationList(fbTemplateDtoList.get(0).getLocationList());
-			fbCampaignInputForm.setTemplateId(fbTemplateDtoList.get(0).getTemplateId());
-			fbCampaignInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
-		}
-		// 配置場所の初期値を両方に設定
-		fbCampaignInputForm.setArrangePlace(FacebookArrangePlace.BOTH.getValue());
-
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/createCampaign");
-		mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
-		mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
-		return mv;
-
-	}
 
 	@PostMapping("/completeCampaign")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")

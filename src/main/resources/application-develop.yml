@@ -11,11 +11,18 @@ spring:
     properties.mail.smtp.auth: true
     properties.mail.smtp.starttls.enable: false
     
+#facebook:
+#  accountId: 522350164903035
+#  accessToken: EAAH74VYg8ewBALkYLC3tPwGxGKQCIAYznbi92qftpCd1LiXrOPWXD6lPFunGW6TnmKZB3gtWhzxds0oRXDllLt4vRfcpixKmcOJAYF3OonA5I7wDCHBxZAZAKCm7P3AFqmXTeq4GgzDiCb3ts8fIhuqvqLHeDIf4F82IQWl3gZDZD
+#  appSecret: 994f11129170e314d82b336625bcbbf6
+#  pageToken: 
+
 facebook:
-  accountId: 522350164903035
-  accessToken: EAAH74VYg8ewBALkYLC3tPwGxGKQCIAYznbi92qftpCd1LiXrOPWXD6lPFunGW6TnmKZB3gtWhzxds0oRXDllLt4vRfcpixKmcOJAYF3OonA5I7wDCHBxZAZAKCm7P3AFqmXTeq4GgzDiCb3ts8fIhuqvqLHeDIf4F82IQWl3gZDZD
-  appSecret: 994f11129170e314d82b336625bcbbf6
+  accountId: 115733658552112
+  accessToken: EAADkPuvV5ZBIBAB0ZBXPtLxq8ZBeqVyFpf2JPlez8MXnalmEdTGRyYeqZAdZBSKNNfnIJn1mhaWm1ZAss87lbh8hp4e6LIIQaUk0NrZC2PLeD49aefHpEOTHI6py1iYK6D2lGFxf6InwDVKDgva653WRjzANC9JzJ4ZD
+  appSecret: bdcce5d9f35312ade2a840ab557e1043
   pageToken: 
+
 
 twitter:
   twitterApiKey: UycDTBdZBzEHys5vsUDNnltsS
