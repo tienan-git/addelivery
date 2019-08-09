@@ -83,8 +83,4 @@ public class IssueWithShopWithCorporation extends BaseEntity {
     @Column(name = "end_date")
     String endDate;
 
-    /** アクティブフラグ:0：無効、1：有効 */
-    @Column(name = "is_actived")
-    Integer isActived;
-
 }
