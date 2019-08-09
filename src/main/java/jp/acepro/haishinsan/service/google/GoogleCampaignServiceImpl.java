@@ -46,7 +46,7 @@ import jp.acepro.haishinsan.service.google.api.AddAdGroups;
 import jp.acepro.haishinsan.service.google.api.AddCampaign;
 import jp.acepro.haishinsan.service.google.api.AddExpandedTextAds;
 import jp.acepro.haishinsan.service.google.api.AddImageAd;
-import jp.acepro.haishinsan.service.google.api.AddResponsiveDisplayAd;
+import jp.acepro.haishinsan.service.google.api.AddMultiAssetResponsiveDisplayAd;
 import jp.acepro.haishinsan.service.google.api.GetAdGroups;
 import jp.acepro.haishinsan.service.google.api.GetCampaigns;
 import jp.acepro.haishinsan.service.google.api.GetExpandedTextAds;
@@ -98,7 +98,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		if (CodeMasterServiceImpl.keywordNameList == null) {
 			codeMasterService.getKeywordNameList();
 		}
-		
+
 		// Get Area List
 		if (CodeMasterServiceImpl.googleAreaNameList == null) {
 			codeMasterService.getGoogleAreaList();
@@ -137,12 +137,12 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		// 広告作成（２つの広告グループに同じ広告を作成）
 		switch (GoogleAdType.of(googleCampaignDto.getAdType())) {
 		case RESPONSIVE:
-			AddResponsiveDisplayAd addResponsiveDisplayAd = new AddResponsiveDisplayAd();
-			addResponsiveDisplayAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
-			addResponsiveDisplayAd.googleCampaignDto = googleCampaignDto;
-			addResponsiveDisplayAd.newAdGroupUser = addAdGroups.newAdGroupUser;
-			addResponsiveDisplayAd.newAdGroupKeyword = addAdGroups.newAdGroupKeyword;
-			addResponsiveDisplayAd.run();
+			AddMultiAssetResponsiveDisplayAd addMultiAssetResponsiveDisplayAd = new AddMultiAssetResponsiveDisplayAd();
+			addMultiAssetResponsiveDisplayAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+			addMultiAssetResponsiveDisplayAd.googleCampaignDto = googleCampaignDto;
+			addMultiAssetResponsiveDisplayAd.newAdGroupUser = addAdGroups.newAdGroupUser;
+			addMultiAssetResponsiveDisplayAd.newAdGroupKeyword = addAdGroups.newAdGroupKeyword;
+			addMultiAssetResponsiveDisplayAd.run();
 			break;
 		case IMAGE:
 			AddImageAd addImageAd = new AddImageAd();
