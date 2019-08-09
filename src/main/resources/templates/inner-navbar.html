@@ -66,7 +66,7 @@ btn1.onclick=function(){
 </ul>
 		<div class="pcoded-navigatio-lavel">案件管理</div>
 		<ul class="pcoded-item pcoded-left-item">
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/newIssueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issues/issueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
 			<!-- <li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span></a> -->
 			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">分析レポート</span></a></li>
 				<ul class="pcoded-submenu">
