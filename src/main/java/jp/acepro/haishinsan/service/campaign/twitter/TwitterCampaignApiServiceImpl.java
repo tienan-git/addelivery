@@ -299,7 +299,7 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
         // DBにキャンペーンを保存
         TwitterCampaignManage twitterCampaignManage = new TwitterCampaignManage();
         twitterCampaignManage.setCampaignId(campaignId);
-        twitterCampaignManage.setCampaignName("Twitterキャンペーン" + LocalDate.now());
+        twitterCampaignManage.setCampaignName(twitterAdsDto.getCampaignName());
         if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
             // 営業チェックが必要有りの場合
             twitterCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
@@ -411,14 +411,14 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             // Request Body
             TwitterCampaignReq body = new TwitterCampaignReq();
             body.setFunding_instrument_id(fundingInstrumentId);
-            body.setName("Twitterキャンペーン" + LocalDate.now());
+            body.setName(twitterAdsDto.getCampaignName());
             body.setStart_time(twitterAdsDto.getStartTime());
             body.setDaily_budget_amount_local_micro(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000));
             body.setEntity_status(campaignStatus);
             // パラメーターの設定
             SortedMap<String, String> parameters = new TreeMap<String, String>();
             parameters.put("funding_instrument_id", TwitterUtil.urlEncode(fundingInstrumentId));
-            parameters.put("name", TwitterUtil.urlEncode("Twitterキャンペーン" + LocalDate.now()));
+            parameters.put("name", TwitterUtil.urlEncode(twitterAdsDto.getCampaignName()));
             parameters.put("start_time", TwitterUtil.urlEncode(twitterAdsDto.getStartTime()));
             if (twitterAdsDto.getEndTime() != null) {
                 parameters.put("end_time", TwitterUtil.urlEncode(twitterAdsDto.getEndTime()));
@@ -437,7 +437,7 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
                     + applicationProperties.getTwitterCreatCampaign() + "?funding_instrument_id="
                     + TwitterUtil.urlEncode(fundingInstrumentId) + "&name="
-                    + TwitterUtil.urlEncode("Twitterキャンペーン" + LocalDate.now()) + "&start_time="
+                    + TwitterUtil.urlEncode(twitterAdsDto.getCampaignName()) + "&start_time="
                     + TwitterUtil.urlEncode(twitterAdsDto.getStartTime()) + "&daily_budget_amount_local_micro="
                     + TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000))
                     + "&entity_status=" + TwitterUtil.urlEncode(campaignStatus);
@@ -722,7 +722,7 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
     }
 
-    // すべてのWEBSITEツイートリストを検索
+    // API: すべてのWEBSITEツイートリストを検索
     @Transactional
     @Override
     public List<TwitterTweet> searchWebsiteTweets() {
@@ -777,7 +777,7 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
     }
 
-    // すべてのFOLLOWERSツイートリストを検索
+    // API: すべてのFOLLOWERSツイートリストを検索
     @Transactional
     @Override
     public List<TwitterTweet> searchFollowersTweets() {
