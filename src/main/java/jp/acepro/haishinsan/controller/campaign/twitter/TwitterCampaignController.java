@@ -185,6 +185,7 @@ public class TwitterCampaignController {
         TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
         twitterAdsDto.setDailyBudget(twitterAdsInputForm.getDailyBudget());
         twitterAdsDto.setTotalBudget(twitterAdsInputForm.getTotalBudget());
+        twitterAdsDto.setCampaignName(twitterAdsInputForm.getCampaignName());
         // 地域をsessionから取得する
         twitterAdsDto.setLocation(((TwitterAdsDto) session.getAttribute("area")).getLocation());
         twitterAdsDto.setRegions(((TwitterAdsDto) session.getAttribute("area")).getRegions());
@@ -203,7 +204,7 @@ public class TwitterCampaignController {
             return mv;
         }
 
-        // 予算をsessionに保存する
+        // 予算とキャンペーン名をsessionに保存する
         session.setAttribute("budget", twitterAdsDto);
 
         // 広告タイプをsessionから取得
@@ -252,6 +253,8 @@ public class TwitterCampaignController {
         // 予算をsessionから取得する
         twitterAdsDto.setDailyBudget(((TwitterAdsDto) session.getAttribute("budget")).getDailyBudget());
         twitterAdsDto.setTotalBudget(((TwitterAdsDto) session.getAttribute("budget")).getTotalBudget());
+        // キャンペーン名をsessionから取得する
+        twitterAdsDto.setCampaignName(((TwitterAdsDto) session.getAttribute("budget")).getCampaignName());
 
         log.debug("-----------------------------------------------------");
         log.debug("Success：広告Params：" + twitterAdsDto.toString());
