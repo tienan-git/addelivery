@@ -140,16 +140,13 @@ public class AddAdGroups {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param campaignId
-	 *            the ID of the campaign where the ad groups will be created.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param campaignId      the ID of the campaign where the ad groups will be
+	 *                        created.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long campaignId) throws RemoteException {
 		// Get the AdGroupService.
@@ -209,7 +206,8 @@ public class AddAdGroups {
 
 		// Display new ad groups.
 		for (AdGroup adGroupResult : result1.getValue()) {
-			//System.out.printf("Ad group with name '%s' and ID %d was added.%n", adGroupResult.getName(), adGroupResult.getId());
+			// System.out.printf("Ad group with name '%s' and ID %d was added.%n",
+			// adGroupResult.getName(), adGroupResult.getId());
 			newAdGroupUser = adGroupResult;
 		}
 
@@ -220,7 +218,7 @@ public class AddAdGroups {
 		// 広告グループ名設定
 		adGroup2.setName(googleCampaignDto.getCampaignName() + "（キーワード）");
 		// ステータス設定
-		adGroup2.setStatus(AdGroupStatus.PAUSED);
+		adGroup2.setStatus(AdGroupStatus.ENABLED);
 
 		// Create operations.
 		AdGroupOperation operation2 = new AdGroupOperation();
@@ -233,7 +231,8 @@ public class AddAdGroups {
 
 		// Display new ad groups.
 		for (AdGroup adGroupResult : result2.getValue()) {
-			//System.out.printf("Ad group with name '%s' and ID %d was added.%n", adGroupResult.getName(), adGroupResult.getId());
+			// System.out.printf("Ad group with name '%s' and ID %d was added.%n",
+			// adGroupResult.getName(), adGroupResult.getId());
 			newAdGroupKeyword = adGroupResult;
 			// キーワード設定
 			setAdGroupCriteria(adWordsServices, session, adGroupResult.getId());
@@ -271,9 +270,13 @@ public class AddAdGroups {
 		AdGroupCriterionReturnValue result = adGroupCriterionService.mutate(operations);
 
 		// Display results.
-		//for (AdGroupCriterion adGroupCriterionResult : result.getValue()) {
-			//System.out.printf("Keyword ad group criterion with ad group ID %d, criterion ID %d, " + "text '%s', and match type '%s' was added.%n", adGroupCriterionResult.getAdGroupId(), adGroupCriterionResult.getCriterion().getId(), ((Keyword) adGroupCriterionResult.getCriterion()).getText(),
-			//		((Keyword) adGroupCriterionResult.getCriterion()).getMatchType());
-		//}
+		// for (AdGroupCriterion adGroupCriterionResult : result.getValue()) {
+		// System.out.printf("Keyword ad group criterion with ad group ID %d, criterion
+		// ID %d, " + "text '%s', and match type '%s' was added.%n",
+		// adGroupCriterionResult.getAdGroupId(),
+		// adGroupCriterionResult.getCriterion().getId(), ((Keyword)
+		// adGroupCriterionResult.getCriterion()).getText(),
+		// ((Keyword) adGroupCriterionResult.getCriterion()).getMatchType());
+		// }
 	}
 }
