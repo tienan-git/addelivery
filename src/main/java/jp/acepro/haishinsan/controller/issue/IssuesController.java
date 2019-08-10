@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.form.IssueSearchForm;
+import jp.acepro.haishinsan.service.campaign.twitter.TwitterCampaignApiService;
 import jp.acepro.haishinsan.service.issue.IssuesService;
 
 @lombok.extern.slf4j.Slf4j
@@ -23,6 +24,9 @@ public class IssuesController {
 
     @Autowired
     IssuesService issuesService;
+
+    @Autowired
+    TwitterCampaignApiService twitterCampaignApiService;
 
     @GetMapping("/issueList")
     @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
@@ -63,10 +67,16 @@ public class IssuesController {
 
     @PostMapping("/deleteIssue")
     @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
-    public ModelAndView deleteIssue(@RequestParam Long issueId) {
+    public ModelAndView deleteIssue(@RequestParam Long issueId, @RequestParam String media) {
 
-        // 案件Idで案件を論理削除
-        issuesService.deleteIssueById(issueId);
+        if ("Twitter".equals(media)) {
+            String campaignId = issuesService.selectCampaignIdByIssueId(issueId);
+            // Call Api: Twitter広告状態を停止にする
+            twitterCampaignApiService.deleteAds(campaignId, issueId);
+        } else {
+            // 案件Idで案件を論理削除
+            issuesService.deleteIssueById(issueId);
+        }
 
         log.debug("----------------------------------------------------------");
         log.debug("削除した issueId: " + issueId);

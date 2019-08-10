@@ -163,7 +163,7 @@
 										<button class="label detail" type="button" onclick="move('1')">
 											<i class="ti-bar-chart"></i>詳細
 										</button>
-										<button class="label delete" type="submit" th:formmethod="post" th:formaction="@{/issues/deleteIssue(issueId=${issue.issueId})}"><i class="ti-trash"></i>削除</button>
+										<button class="label delete" type="submit" th:formmethod="post" th:formaction="@{/issues/deleteIssue(issueId=${issue.issueId}, media=${issue.media})}"><i class="ti-trash"></i>削除</button>
 									</td>
 								</tr>
 							</tbody>
