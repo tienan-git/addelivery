@@ -166,7 +166,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 			e.printStackTrace();
 			throw new SystemException("システムエラー発生しました");
 		}
-
+		dspCampaignDto.setCampaignId(dspCampaignCreateRes.getId());
 		/**********************************************
 		 * 
 		 * ***************広告グループ作成*************** *
@@ -244,6 +244,9 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 				insertAdToDb(dspAdDto);
 			}
 		}
+		
+		// DBにキャンペーン情報登録
+		saveCampaign(dspCampaignDto);
 		return dspCampaignDto;
 	}
 
@@ -688,6 +691,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		 **********************************************/
 
 		DspCampaignManage dspCampaignManage = new DspCampaignManage();
+		dspCampaignManage.setCampaignId(dspCampaignDto.getCampaignId());
 		dspCampaignManage.setCreativeId(dspCampaignDto.getIdList().toString().replace("[", "").replace("]", ""));
 		dspCampaignManage.setSegmentId(dspCampaignDto.getSegmentId());
 		dspCampaignManage.setBudget(dspCampaignDto.getBudget());

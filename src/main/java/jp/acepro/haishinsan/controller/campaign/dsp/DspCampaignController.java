@@ -4,8 +4,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -58,7 +56,7 @@ public class DspCampaignController {
 	@Autowired
 	OperationService operationService;
 
-	@GetMapping("/selectCampaign")
+	@GetMapping("/selectCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
 	public ModelAndView selectCreative(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
 
@@ -66,7 +64,7 @@ public class DspCampaignController {
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeListFromDb();
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("campaign/dsp/creativeList");
+		modelAndView.setViewName("campaign/dsp/selectCreative");
 		modelAndView.addObject("dspCreativeDtoList", dspCreativeDtoList);
 
 		// 全てクリエイティブをsessionに格納する
@@ -190,9 +188,11 @@ public class DspCampaignController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
 	public ModelAndView completeCampaign() {
 
+		// sessionからdspCampaignDto対象を取得
 		DspCampaignDto dspCampaignDto = (DspCampaignDto) session.getAttribute("dspCampaignDto");
 
-		Long issueId = dspCampaignService.saveCampaign(dspCampaignDto);
+		// 広告キャンペーン作成
+		dspCampaignDto = dspCampaignService.createCampaign(dspCampaignDto, null);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("campaign/dsp/createSuccess");
@@ -203,7 +203,7 @@ public class DspCampaignController {
 		session.removeAttribute("dspCreativeDtoList");
 
 		// オペレーションログ記録
-		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(issueId));
+		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(dspCampaignDto.getCampaignId()));
 
 		return modelAndView;
 	}
