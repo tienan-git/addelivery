@@ -101,7 +101,8 @@ public class GetRefreshToken {
 		// in the ads.properties file.
 		GoogleClientSecrets clientSecrets = null;
 		try {
-			clientSecrets = new GoogleClientSecretsBuilder().forApi(Api.ADWORDS).fromFile().build();
+			String propFileName = "ads-develop.properties";
+			clientSecrets = new GoogleClientSecretsBuilder().forApi(Api.ADWORDS).fromFile(propFileName).build();
 		} catch (ValidationException e) {
 			System.err.println("Please input your client ID and secret into your ads.properties file, which is either " + "located in your home directory, in your src/main/resources directory, or " + "on your classpath. If you do not have a client ID or secret, please create one in "
 					+ "the API console: https://console.developers.google.com/project");
