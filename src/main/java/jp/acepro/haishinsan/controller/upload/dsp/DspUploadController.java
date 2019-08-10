@@ -28,7 +28,7 @@ import jp.acepro.haishinsan.util.ImageUtil;
 
 @Controller
 @RequestMapping("/dsp")
-public class UploadCreativeController {
+public class DspUploadController {
 
 	@Autowired
 	HttpSession session;
