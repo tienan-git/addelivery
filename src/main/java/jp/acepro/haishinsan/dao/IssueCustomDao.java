@@ -7,6 +7,7 @@ import org.seasar.doma.Select;
 
 import jp.acepro.haishinsan.db.annotation.InjectConfig;
 import jp.acepro.haishinsan.db.entity.Issue;
+import jp.acepro.haishinsan.db.entity.TwitterCampaignManage;
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.entity.IssueWithShopWithCorporation;
 
@@ -19,5 +20,8 @@ public interface IssueCustomDao {
 
     @Select
     List<IssueWithShopWithCorporation> selectIssueList(Long shopId, IssuesDto issueSearchDto);
+
+    @Select
+    TwitterCampaignManage selectCampaignIdByIssueId(Long shopId, Long issueId);
 
 }

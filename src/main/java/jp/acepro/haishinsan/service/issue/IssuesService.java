@@ -12,4 +12,7 @@ public interface IssuesService {
     // 案件を案件Idで削除
     void deleteIssueById(Long issueId);
 
+    // 案件IdでcampaignIdを検索
+    String selectCampaignIdByIssueId(Long issueId);
+
 }

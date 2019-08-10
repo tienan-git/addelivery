@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.db.entity.Issue;
+import jp.acepro.haishinsan.db.entity.TwitterCampaignManage;
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.entity.IssueWithShopWithCorporation;
 import jp.acepro.haishinsan.enums.Flag;
@@ -79,6 +80,15 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
         // DB更新
         issueDao.update(issue);
 
+    }
+
+    // 案件IdでcampaignIdを検索
+    @Override
+    public String selectCampaignIdByIssueId(Long issueId) {
+        TwitterCampaignManage twitterCampaignManage = issueCustomDao
+                .selectCampaignIdByIssueId(ContextUtil.getCurrentShop().getShopId(), issueId);
+        String campaignId = twitterCampaignManage.getCampaignId();
+        return campaignId;
     }
 
 }

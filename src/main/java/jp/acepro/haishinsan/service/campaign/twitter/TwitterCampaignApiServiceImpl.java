@@ -41,6 +41,9 @@ import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
 import jp.acepro.haishinsan.dto.twitter.TweetUrls;
 import jp.acepro.haishinsan.dto.twitter.TwitterAdsDto;
+import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
+import jp.acepro.haishinsan.dto.twitter.TwitterCampaignDataRes;
+import jp.acepro.haishinsan.dto.twitter.TwitterCampaignIdReq;
 import jp.acepro.haishinsan.dto.twitter.TwitterCampaignReq;
 import jp.acepro.haishinsan.dto.twitter.TwitterCampaignRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterFundingInstrumentRes;
@@ -720,6 +723,127 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             throw new SystemException("システムエラー発生しました");
         }
 
+    }
+
+    // 広告削除(停止の状態にする)
+    @Override
+    @Transactional
+    public void deleteAds(String campaignId, Long issueId) {
+
+        // Call API: campaignIdでcampaign情報を取得する
+        TwitterCampaignData campaignData = getCampaignById(campaignId);
+        // campaignステータスを判断する
+        if (campaignData.getReasons_not_servable().isEmpty() == true
+                || campaignData.getReasons_not_servable().isEmpty() == false
+                        && (TwitterCampaignStatus.RESERVATION.getLabel())
+                                .equals(campaignData.getReasons_not_servable().get(0))
+                        && campaignData.getEntity_status().equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+            // Call API: campaignステータスを停止状態にする
+            changeAdsStatus(campaignId, TwitterCampaignStatus.PAUSED.getLabel());
+        }
+        // DB更新：論理削除
+        // tbl: twitter_campaign_manage
+        TwitterCampaignManage twitterCampaignManage = twitterCampaignManageCustomDao.selectByCampaignId(campaignId);
+        twitterCampaignManage.setIsActived(Flag.OFF.getValue());
+        twitterCampaignManageDao.update(twitterCampaignManage);
+        // tbl: issue
+        Issue issue = issueDao.selectById(issueId);
+        issue.setIsActived(Flag.OFF.getValue());
+        issueDao.update(issue);
+
+    }
+
+    // GETキャンペーン
+    private TwitterCampaignData getCampaignById(String campaignId) {
+
+        TwitterCampaignData twitterCampaignData = new TwitterCampaignData();
+        // Call API
+        TwitterCampaignDataRes twitterCampaignDataRes = getCampaign(campaignId);
+        List<TwitterCampaignData> twitterCampaignDataList = twitterCampaignDataRes.getData();
+        for (TwitterCampaignData obj : twitterCampaignDataList) {
+            twitterCampaignData.setId(obj.getId());
+            twitterCampaignData.setName(obj.getName());
+            twitterCampaignData.setStart_time(obj.getStart_time());
+            twitterCampaignData.setEnd_time(obj.getEnd_time());
+            twitterCampaignData.setDaily_budget_amount_local_micro(obj.getDaily_budget_amount_local_micro());
+            twitterCampaignData.setTotal_budget_amount_local_micro(obj.getTotal_budget_amount_local_micro());
+            twitterCampaignData.setEntity_status(obj.getEntity_status());
+            twitterCampaignData.setServable(obj.getServable());
+            twitterCampaignData.setReasons_not_servable(obj.getReasons_not_servable());
+        }
+        return twitterCampaignData;
+
+    }
+
+    // API : GETキャンペーン
+    private TwitterCampaignDataRes getCampaign(String campaignIds) {
+
+        TwitterCampaignDataRes twitterCampaignDataRes = new TwitterCampaignDataRes();
+        try {
+            // Http request URL
+            String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+                    + applicationProperties.getTwitterCreatCampaign() + "?campaign_ids=" + campaignIds;
+            // oauth URL
+            String url_oauth = applicationProperties.getTwitterhost()
+                    + ContextUtil.getCurrentShop().getTwitterAccountId()
+                    + applicationProperties.getTwitterCreatCampaign();
+            String method = "GET";
+            // oauth用 パラメータ
+            SortedMap<String, String> parameters = new TreeMap<String, String>();
+            parameters.put("campaign_ids", TwitterUtil.urlEncode(campaignIds));
+            // Twitter oauth用 Header
+            String auth = getHeader(method, url_oauth, parameters);
+            // Request Body
+            TwitterCampaignIdReq body = new TwitterCampaignIdReq();
+            body.setCampaign_ids(campaignIds);
+            // Call API
+            twitterCampaignDataRes = call(url, HttpMethod.GET, body, auth, TwitterCampaignDataRes.class);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            throw new SystemException("システムエラー発生しました");
+        }
+        return twitterCampaignDataRes;
+    }
+
+    // API : 広告ステータスの変更
+    @Override
+    @Transactional
+    public void changeAdsStatus(String campaignId, String switchFlag) {
+
+        try {
+            // パラメーターの設定
+            SortedMap<String, String> parameters = new TreeMap<String, String>();
+            parameters.put("entity_status", TwitterUtil.urlEncode(switchFlag));
+            // call_url
+            String call_url = applicationProperties.getTwitterhost()
+                    + ContextUtil.getCurrentShop().getTwitterAccountId()
+                    + applicationProperties.getTwitterChangeCampaignStatus() + campaignId + "?entity_status="
+                    + switchFlag;
+            // auth_url
+            String auth_url = applicationProperties.getTwitterhost()
+                    + ContextUtil.getCurrentShop().getTwitterAccountId()
+                    + applicationProperties.getTwitterChangeCampaignStatus() + campaignId;
+            // Request body
+            TwitterCampaignReq body = new TwitterCampaignReq();
+            body.setEntity_status(switchFlag);
+            String method = "PUT";
+            // oauth Header
+            String auth = getHeader(method, auth_url, parameters);
+            // Call API
+            call(call_url, HttpMethod.PUT, body, auth, TwitterCampaignRes.class);
+            // キャンペーン情報更新（DB）
+            TwitterCampaignManage twitterCampaignManage = twitterCampaignManageCustomDao.selectByCampaignId(campaignId);
+            if (twitterCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+                // 承認フラグ設定
+                if (switchFlag.equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+                    twitterCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+                    twitterCampaignManageDao.update(twitterCampaignManage);
+                }
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            throw new SystemException("システムエラー発生しました");
+        }
     }
 
     // API: すべてのWEBSITEツイートリストを検索
