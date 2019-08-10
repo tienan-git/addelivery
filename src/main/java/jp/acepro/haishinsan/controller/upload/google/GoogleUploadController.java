@@ -11,6 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.io.ByteSource;
 
+import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.GoogleDeviceType;
@@ -62,8 +65,7 @@ public class GoogleUploadController {
 	}
 
 	@PostMapping("/bannerAd/confirm")
-	public ModelAndView bannerAdConfirm(UploadGoogleBannerAdCreateForm form) throws IOException {
-		log.debug(form.toString());
+	public ModelAndView bannerAdConfirm(@Validated UploadGoogleBannerAdCreateForm form, BindingResult result) throws IOException {
 		try {
 			if (!form.getImageFile01().isEmpty()) {
 				form.setImageFileName01(form.getImageFile01().getOriginalFilename());
@@ -85,9 +87,22 @@ public class GoogleUploadController {
 				form.setImageData04("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile04(), MediaType.GOOGLEIMG.getValue()));
 				form.setImageBytes04(getByteArrayFromStream(form.getImageFile04().getInputStream()));
 			}
-			log.debug(form.toString());
+			if (form.getImageFile01().isEmpty() && form.getImageFile02().isEmpty() && form.getImageFile03().isEmpty() && form.getImageFile04().isEmpty()) {
+				// バナーを少なくとも１枚アップロードしてください。
+				throw new BusinessException(ErrorCodeConstant.E70009);
+			}
 		} catch (BusinessException e) {
-			e.printStackTrace();
+			// 異常時レスポンスを作成
+			result.reject(e.getMessage(), e.getParams(), null);
+
+			// テンプレートを読込
+//			List<GoogleTemplateDto> googleTemplateDtoList = getGoogleTemplateList();
+			// ＤＳＰＵＲＬを読込
+//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("upload/google/bannerAd/create");
+			modelAndView.addObject("form", form);
+			return modelAndView;
 		}
 		session.setAttribute("bannerAdForm", form);
 		ModelAndView mv = new ModelAndView();

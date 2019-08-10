@@ -90,6 +90,12 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
@@ -104,7 +110,13 @@
 	
 	
 	
+	
+	
+	
 	 
+	
+	
+	
 	
 	
 	
@@ -191,7 +203,16 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
+	
+	
+	
 	
 	
 	
@@ -219,7 +240,16 @@
 	
 	
 	
+	
+	
+	
 	table-cell
+	
+	
+	
+	
+	
+	
 	
 	
 	
@@ -274,6 +304,12 @@
 	
 	
 	
+	
+	
+	
+	
+	
+	
 	:
 	
 	
@@ -288,7 +324,13 @@
 	
 	
 	
+	
+	
+	
 	 
+	
+	
+	
 	
 	
 	
@@ -601,40 +643,39 @@ li {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<div class="card">
-			<div class="card pc" id="progressbar">
-				<ul class="nav nav-pills nav-justified step step-arrow">
-					<li><a>1.媒体</a></li>
-					<li class="active"><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
-					<li><a>3.確認</a></li>
-					<li><a>4.配信確認</a></li>
-				</ul>
-			</div>
-			<div align="center" class="pheader pc">
-				<h3>
-					<img th:src="@{/images/google.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
-				</h3>
-				<br />
-				<p style="margin-left: 100px;">
-					<strong>Googleバナー広告(バナーのみ)</strong>
-				</p>
-			</div>
-			<div class="pheader sp">
-				<h4>
-					<img th:src="@{/images/google.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
-				</h4>
-				<h2 style="margin-top: 30px; margin-left: 80px;">
-					<strong>2.どれを配信しますか？</strong>
-				</h2>
-				<br />
-			</div>
+		<form th:action="@{/}" method="post" enctype="multipart/form-data" th:object="${form}">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card pc" id="progressbar">
+					<ul class="nav nav-pills nav-justified step step-arrow">
+						<li><a>1.媒体</a></li>
+						<li class="active"><a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.広告/バナー</a></li>
+						<li><a>3.確認</a></li>
+						<li><a>4.配信確認</a></li>
+					</ul>
+				</div>
+				<div align="center" class="pheader pc">
+					<h3>
+						<img th:src="@{/images/google.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
+					</h3>
+					<br />
+					<p style="margin-left: 100px;">
+						<strong>Googleバナー広告(バナーのみ)</strong>
+					</p>
+				</div>
+				<div class="pheader sp">
+					<h4>
+						<img th:src="@{/images/google.png}" style="width: 60px; margin-left: 20px;" /><strong style="margin-left: 30px;">Googleバナー広告(文字+バナー)</strong>
+					</h4>
+					<h2 style="margin-top: 30px; margin-left: 80px;">
+						<strong>2.どれを配信しますか？</strong>
+					</h2>
+					<br />
+				</div>
 
-			<form th:action="@{/}" th:method="post" enctype="multipart/form-data" th:object=${form}>
 				<div class="card-block">
 					<div>
-						<span>広告</span> <span class="text-danger">(〇〇/〇〇文字)</span>
-						<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
-						<input type="text" class="form-control" maxlength="15" placeholder="広告名" th:field=*{imgAdName}>
+						<span>広告</span> <input type="text" class="form-control" maxlength="30" placeholder="広告名" required="required" th:field=*{imgAdName}>
 					</div>
 					<div class="top">
 						<div class="banner-left">
@@ -675,8 +716,8 @@ li {
 						</div>
 					</div>
 				</div>
-			</form>
-		</div>
+			</div>
+		</form>
 	</div>
 	<!-- page body end -->
 	<div layout:fragment="custom_resource_body"></div>
