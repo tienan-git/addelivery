@@ -800,31 +800,6 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		TwitterCampaignManage twitterCampaignManage = twitterCampaignManageCustomDao.selectByCampaignId(campaignId);
 		twitterCampaignManage.setIsActived(Flag.OFF.getValue());
 		twitterCampaignManageDao.update(twitterCampaignManage);
-
-		// try {
-		// //パラメーターの設定
-		// SortedMap<String, String> parameters = new TreeMap<String, String>();
-		//
-		// //call_url
-		// String url = applicationProperties.getTwitterhost()
-		// + ContextUtil.getCurrentShop().getTwitterAccountId()
-		// + applicationProperties.getTwitterChangeCampaignStatus()
-		// + campaignId;
-		//
-		// //auth_url
-		// String auth_url = applicationProperties.getTwitterhost()
-		// + ContextUtil.getCurrentShop().getTwitterAccountId()
-		// + applicationProperties.getTwitterChangeCampaignStatus()
-		// + campaignId;
-		//
-		// String method = "DELETE";
-		// String auth = TwitterUtil.getHeader(method, auth_url , parameters, null);
-		//
-		// call(url, HttpMethod.DELETE, null, auth, TwitterCampaignRes.class);
-		//
-		// } catch (Exception e1) {
-		// e1.printStackTrace();
-		// }
 	}
 
 	// GETグループ

@@ -21,8 +21,14 @@ public interface TwitterCampaignApiService {
     // 予算_地域チェック
     void budgetCheck(TwitterAdsDto twitterAdsDto);
 
-    // 広告作成
+    // API: 広告作成
     void createAds(TwitterAdsDto twitterAdsDto, IssueDto issueDto);
+
+    // API: 広告削除(停止の状態にする)
+    void deleteAds(String campaignId, Long issueId);
+
+    // API: 広告ステータス変更
+    void changeAdsStatus(String campaignId, String switchFlag);
 
     // DB検索：TweetIdListでTweetListを抽出 いらないかも。。。。
     List<TwitterTweet> searchTweetList(List<String> tweetIdList);
@@ -30,14 +36,10 @@ public interface TwitterCampaignApiService {
     // tweetListをsessionから洗い出す
     List<TwitterTweet> getTweetList(TwitterAdsDto twitterAdsDt);
 
-    /**
-     * すべてのWEBSITEツイートリストを検索
-     **/
+    // API: すべてのWEBSITEツイートリストを検索
     List<TwitterTweet> searchWebsiteTweets();
 
-    /**
-     * すべてのFOLLOWERSツイートリストを検索
-     **/
+    // API: すべてのFOLLOWERSツイートリストを検索
     List<TwitterTweet> searchFollowersTweets();
 
     void createTwitterCampaign(TwitterAdsDto twitterAdsDto, IssueDto issueDto);
