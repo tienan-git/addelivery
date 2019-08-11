@@ -63,7 +63,6 @@ import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.service.twitter.TwitterApiService;
 import jp.acepro.haishinsan.util.CalculateUtil;
-import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.DateUtil;
 import jp.acepro.haishinsan.util.ReportUtil;
 import jp.acepro.haishinsan.util.TwitterUtil;
@@ -252,38 +251,27 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         // DBからレポートデータ取得
         List<TwitterDeviceReport> twitterDeviceReportList = twitterDeviceReportCustomtDao
                 .selectDeviceReport(twitterReportDto);
-        // DBからキャンペーンデータ取得
-        List<TwitterCampaignManage> twitterCampaignManageList = twitterCampaignManageCustomDao
-                .selectAll(ContextUtil.getCurrentShopId());
 
         List<TwitterDisplayReportDto> twitterDeviceReportDtoList = new ArrayList<>();
 
         // Table表示用リスト
-        if (twitterDeviceReportList.isEmpty() == false && twitterCampaignManageList.isEmpty() == false) {
+        if (twitterDeviceReportList.isEmpty() == false) {
             for (TwitterDeviceReport deviceReport : twitterDeviceReportList) {
-                for (TwitterCampaignManage twitterCampaignManage : twitterCampaignManageList) {
-                    // Mapping : キャンペーン名取得ため
-                    if (deviceReport.getCampaignId().equals(twitterCampaignManage.getCampaignId())) {
-                        Long longPrice = CalculateUtil
-                                .getRoundedPrice(Double.valueOf(deviceReport.getBilledChargeLoaclMicro()));
-                        TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
-                        twitterDisplayReportDto.setCampaignId(deviceReport.getCampaignId());
-                        twitterDisplayReportDto.setCampaignName(twitterCampaignManage.getCampaignName());
-                        twitterDisplayReportDto.setDeviceName(deviceReport.getDevice());
-                        twitterDisplayReportDto.setImpressions(Integer.valueOf(deviceReport.getImpressions()));
-                        twitterDisplayReportDto.setCosts(longPrice);
-                        twitterDisplayReportDto.setClicks(Integer.valueOf(deviceReport.getUrlClicks()));
-                        twitterDisplayReportDto.setFollows(Integer.valueOf(deviceReport.getFollows()));
-                        twitterDisplayReportDto
-                                .setCpc(ReportUtil.calCpc(Long.valueOf(deviceReport.getUrlClicks()), longPrice));
-                        twitterDisplayReportDto
-                                .setCpm(ReportUtil.calCpm(Long.valueOf(deviceReport.getImpressions()), longPrice));
-                        twitterDisplayReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(deviceReport.getUrlClicks()),
-                                Long.valueOf(deviceReport.getImpressions())));
-                        twitterDeviceReportDtoList.add(twitterDisplayReportDto);
-                    }
-                }
-
+                Long longPrice = CalculateUtil
+                        .getRoundedPrice(Double.valueOf(deviceReport.getBilledChargeLoaclMicro()));
+                TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
+                twitterDisplayReportDto.setCampaignId(deviceReport.getCampaignId());
+                twitterDisplayReportDto.setDeviceName(deviceReport.getDevice());
+                twitterDisplayReportDto.setImpressions(Integer.valueOf(deviceReport.getImpressions()));
+                twitterDisplayReportDto.setCosts(longPrice);
+                twitterDisplayReportDto.setClicks(Integer.valueOf(deviceReport.getUrlClicks()));
+                twitterDisplayReportDto.setFollows(Integer.valueOf(deviceReport.getFollows()));
+                twitterDisplayReportDto.setCpc(ReportUtil.calCpc(Long.valueOf(deviceReport.getUrlClicks()), longPrice));
+                twitterDisplayReportDto
+                        .setCpm(ReportUtil.calCpm(Long.valueOf(deviceReport.getImpressions()), longPrice));
+                twitterDisplayReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(deviceReport.getUrlClicks()),
+                        Long.valueOf(deviceReport.getImpressions())));
+                twitterDeviceReportDtoList.add(twitterDisplayReportDto);
             }
         }
 
@@ -298,37 +286,26 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         // DBからレポートデータ取得
         List<TwitterRegionReport> twitterRegionReportList = twitterRegionReportCustomtDao
                 .selectRegionReport(twitterReportDto);
-        // DBからキャンペーンデータ取得
-        List<TwitterCampaignManage> twitterCampaignManageList = twitterCampaignManageCustomDao
-                .selectAll(ContextUtil.getCurrentShopId());
 
         List<TwitterDisplayReportDto> twitterRegionReportDtoList = new ArrayList<>();
 
-        if (twitterRegionReportList.isEmpty() == false && twitterCampaignManageList.isEmpty() == false) {
+        if (twitterRegionReportList.isEmpty() == false) {
             for (TwitterRegionReport regionReport : twitterRegionReportList) {
-                for (TwitterCampaignManage twitterCampaignManage : twitterCampaignManageList) {
-                    // Mapping : キャンペーン名取得ため
-                    if (regionReport.getCampaignId().equals(twitterCampaignManage.getCampaignId())) {
-                        Long longPrice = CalculateUtil
-                                .getRoundedPrice(Double.valueOf(regionReport.getBilledChargeLoaclMicro()));
-                        TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
-                        twitterDisplayReportDto.setCampaignId(regionReport.getCampaignId());
-                        twitterDisplayReportDto.setCampaignName(twitterCampaignManage.getCampaignName());
-                        twitterDisplayReportDto.setLocationName((regionReport.getRegion()));
-                        twitterDisplayReportDto.setImpressions(Integer.valueOf(regionReport.getImpressions()));
-                        twitterDisplayReportDto.setCosts(longPrice);
-                        twitterDisplayReportDto.setClicks(Integer.valueOf(regionReport.getUrlClicks()));
-                        twitterDisplayReportDto.setFollows(Integer.valueOf(regionReport.getFollows()));
-                        twitterDisplayReportDto
-                                .setCpc(ReportUtil.calCpc(Long.valueOf(regionReport.getUrlClicks()), longPrice));
-                        twitterDisplayReportDto
-                                .setCpm(ReportUtil.calCpm(Long.valueOf(regionReport.getImpressions()), longPrice));
-                        twitterDisplayReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(regionReport.getUrlClicks()),
-                                Long.valueOf(regionReport.getImpressions())));
-                        twitterRegionReportDtoList.add(twitterDisplayReportDto);
-                    }
-                }
-
+                Long longPrice = CalculateUtil
+                        .getRoundedPrice(Double.valueOf(regionReport.getBilledChargeLoaclMicro()));
+                TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
+                twitterDisplayReportDto.setCampaignId(regionReport.getCampaignId());
+                twitterDisplayReportDto.setLocationName((regionReport.getRegion()));
+                twitterDisplayReportDto.setImpressions(Integer.valueOf(regionReport.getImpressions()));
+                twitterDisplayReportDto.setCosts(longPrice);
+                twitterDisplayReportDto.setClicks(Integer.valueOf(regionReport.getUrlClicks()));
+                twitterDisplayReportDto.setFollows(Integer.valueOf(regionReport.getFollows()));
+                twitterDisplayReportDto.setCpc(ReportUtil.calCpc(Long.valueOf(regionReport.getUrlClicks()), longPrice));
+                twitterDisplayReportDto
+                        .setCpm(ReportUtil.calCpm(Long.valueOf(regionReport.getImpressions()), longPrice));
+                twitterDisplayReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(regionReport.getUrlClicks()),
+                        Long.valueOf(regionReport.getImpressions())));
+                twitterRegionReportDtoList.add(twitterDisplayReportDto);
             }
         }
 
@@ -342,37 +319,27 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         // DBからレポートデータ取得
         List<TwitterDeviceReport> twitterDayReportList = twitterDeviceReportCustomtDao
                 .selectDayReport(twitterReportDto);
-        // DBからキャンペーンデータ取得
-        List<TwitterCampaignManage> twitterCampaignManageList = twitterCampaignManageCustomDao
-                .selectAll(ContextUtil.getCurrentShopId());
 
         List<TwitterDisplayReportDto> twitterDayReportDtoList = new ArrayList<>();
 
         // Table表示用リスト
-        if (twitterDayReportList.isEmpty() == false && twitterCampaignManageList.isEmpty() == false) {
+        if (twitterDayReportList.isEmpty() == false) {
             for (TwitterDeviceReport deviceReport : twitterDayReportList) {
-                for (TwitterCampaignManage twitterCampaignManage : twitterCampaignManageList) {
-                    // Mapping : キャンペーン名取得ため
-                    if (deviceReport.getCampaignId().equals(twitterCampaignManage.getCampaignId())) {
-                        Long longPrice = CalculateUtil
-                                .getRoundedPrice(Double.valueOf(deviceReport.getBilledChargeLoaclMicro()));
-                        TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
-                        twitterDisplayReportDto.setCampaignId(deviceReport.getCampaignId());
-                        twitterDisplayReportDto.setCampaignName(twitterCampaignManage.getCampaignName());
-                        twitterDisplayReportDto.setDay(DateUtil.fromLocalDate(deviceReport.getDay()));
-                        twitterDisplayReportDto.setImpressions(Integer.valueOf(deviceReport.getImpressions()));
-                        twitterDisplayReportDto.setCosts(longPrice);
-                        twitterDisplayReportDto.setClicks(Integer.valueOf(deviceReport.getUrlClicks()));
-                        twitterDisplayReportDto.setFollows(Integer.valueOf(deviceReport.getFollows()));
-                        twitterDisplayReportDto
-                                .setCpc(ReportUtil.calCpc(Long.valueOf(deviceReport.getUrlClicks()), longPrice));
-                        twitterDisplayReportDto
-                                .setCpm(ReportUtil.calCpm(Long.valueOf(deviceReport.getImpressions()), longPrice));
-                        twitterDisplayReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(deviceReport.getUrlClicks()),
-                                Long.valueOf(deviceReport.getImpressions())));
-                        twitterDayReportDtoList.add(twitterDisplayReportDto);
-                    }
-                }
+                Long longPrice = CalculateUtil
+                        .getRoundedPrice(Double.valueOf(deviceReport.getBilledChargeLoaclMicro()));
+                TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
+                twitterDisplayReportDto.setCampaignId(deviceReport.getCampaignId());
+                twitterDisplayReportDto.setDay(DateUtil.fromLocalDate(deviceReport.getDay()));
+                twitterDisplayReportDto.setImpressions(Integer.valueOf(deviceReport.getImpressions()));
+                twitterDisplayReportDto.setCosts(longPrice);
+                twitterDisplayReportDto.setClicks(Integer.valueOf(deviceReport.getUrlClicks()));
+                twitterDisplayReportDto.setFollows(Integer.valueOf(deviceReport.getFollows()));
+                twitterDisplayReportDto.setCpc(ReportUtil.calCpc(Long.valueOf(deviceReport.getUrlClicks()), longPrice));
+                twitterDisplayReportDto
+                        .setCpm(ReportUtil.calCpm(Long.valueOf(deviceReport.getImpressions()), longPrice));
+                twitterDisplayReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(deviceReport.getUrlClicks()),
+                        Long.valueOf(deviceReport.getImpressions())));
+                twitterDayReportDtoList.add(twitterDisplayReportDto);
             }
         }
 
