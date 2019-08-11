@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.service.twitter;
+package jp.acepro.haishinsan.service.issue;
 
 import java.time.LocalDate;
 import java.util.List;
