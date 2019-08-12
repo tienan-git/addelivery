@@ -71,6 +71,22 @@ public class Issue extends BaseEntity {
     @Column(name = "end_date")
     String endDate;
 
+    /** Google日別予算 */
+    @Column(name = "google_oneday_budget")
+    Long googleOnedayBudget;
+
+    /** Google地域コード */
+    @Column(name = "google_regions")
+    String googleRegions;
+
+    /** Facebook一日予算 */
+    @Column(name = "facebook_oneday_budget")
+    Long facebookOnedayBudget;
+
+    /** Facebook地域コード */
+    @Column(name = "facebook_regions")
+    String facebookRegions;
+
     /** バージョン番号 */
     @Version
     @Column(name = "version_no")
@@ -310,6 +326,78 @@ public class Issue extends BaseEntity {
      */
     public void setEndDate(String endDate) {
         this.endDate = endDate;
+    }
+
+    /** 
+     * Returns the googleOnedayBudget.
+     * 
+     * @return the googleOnedayBudget
+     */
+    public Long getGoogleOnedayBudget() {
+        return googleOnedayBudget;
+    }
+
+    /** 
+     * Sets the googleOnedayBudget.
+     * 
+     * @param googleOnedayBudget the googleOnedayBudget
+     */
+    public void setGoogleOnedayBudget(Long googleOnedayBudget) {
+        this.googleOnedayBudget = googleOnedayBudget;
+    }
+
+    /** 
+     * Returns the googleRegions.
+     * 
+     * @return the googleRegions
+     */
+    public String getGoogleRegions() {
+        return googleRegions;
+    }
+
+    /** 
+     * Sets the googleRegions.
+     * 
+     * @param googleRegions the googleRegions
+     */
+    public void setGoogleRegions(String googleRegions) {
+        this.googleRegions = googleRegions;
+    }
+
+    /** 
+     * Returns the facebookOnedayBudget.
+     * 
+     * @return the facebookOnedayBudget
+     */
+    public Long getFacebookOnedayBudget() {
+        return facebookOnedayBudget;
+    }
+
+    /** 
+     * Sets the facebookOnedayBudget.
+     * 
+     * @param facebookOnedayBudget the facebookOnedayBudget
+     */
+    public void setFacebookOnedayBudget(Long facebookOnedayBudget) {
+        this.facebookOnedayBudget = facebookOnedayBudget;
+    }
+
+    /** 
+     * Returns the facebookRegions.
+     * 
+     * @return the facebookRegions
+     */
+    public String getFacebookRegions() {
+        return facebookRegions;
+    }
+
+    /** 
+     * Sets the facebookRegions.
+     * 
+     * @param facebookRegions the facebookRegions
+     */
+    public void setFacebookRegions(String facebookRegions) {
+        this.facebookRegions = facebookRegions;
     }
 
     /** 
