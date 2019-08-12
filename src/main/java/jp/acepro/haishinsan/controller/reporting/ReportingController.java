@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.dto.twitter.TwitterDisplayReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterGraphReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
 import jp.acepro.haishinsan.service.OperationService;
+import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -32,6 +34,9 @@ public class ReportingController {
     @Autowired
     TwitterReportingService twitterReportingService;
 
+    @Autowired
+    IssuesService issuesService;
+
     @GetMapping("/allReporting")
     public ModelAndView getReporting() {
         ModelAndView mv = new ModelAndView();
@@ -47,10 +52,11 @@ public class ReportingController {
     }
 
     @GetMapping("/twitterReporting")
-    public ModelAndView getTwitterReporting() {
+    public ModelAndView getTwitterReporting(@RequestParam Long issueId) {
 
         TwitterReportDto twitterReportDto = new TwitterReportDto();
-        twitterReportDto.setCampaignId("cv0bs");
+        String campaignId = issuesService.selectCampaignIdByIssueId(issueId);
+        twitterReportDto.setCampaignId(campaignId);
         /**
          * 地域別の場合
          **/
