@@ -2,6 +2,7 @@ package jp.acepro.haishinsan.service.google;
 
 import java.util.List;
 
+import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.dto.IssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
@@ -25,4 +26,9 @@ public interface GoogleCampaignService {
 	void deleteCampaign(Long campaignId);
 
 	void createGoogleCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto);
+
+	List<GoogleCampaignManage> searchGoogleCampaignManageList(String adType);
+
+	List<GoogleCampaignDto> campaignList(List<GoogleCampaignManage> googleCampaignManageList);
+
 }

@@ -1,22 +1,20 @@
-package jp.acepro.haishinsan.dto.google;
+package jp.acepro.haishinsan.form;
 
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jp.acepro.haishinsan.util.StringFormatter;
 import lombok.Data;
 
 @Data
-public class GoogleCampaignDto {
+public class GoogleIssueInputForm {
 
 	// テンプレートID
 	Long templateId;
-
+	
 	// テンプレート名
 	String templateName;
-
-	// キャンペインID
-	Long campaignId;
 
 	// キャンペイン名
 	String campaignName;
@@ -26,17 +24,23 @@ public class GoogleCampaignDto {
 
 	// 予算
 	Long budget;
-
-	// 単価タイプ
-	String unitPriceType;
+	
+    // 単価タイプ
+    String unitPriceType;
 
 	// 開始日
 	String startDate;
+    public String getStartDateSlash() {
+		return StringFormatter.dateHyphenToSlash(startDate);
+	}
 
 	// 終了日
 	String endDate;
+    public String getEndDateSlash() {
+		return StringFormatter.dateHyphenToSlash(endDate);
+	}
 
-	// デバイス
+	// デバイスタイプ
 	String deviceType;
 
 	// 広告タイプ
@@ -45,8 +49,7 @@ public class GoogleCampaignDto {
 	// -------- レスポンシブ広告関連 --------
 	// 画像ファイル
 	List<MultipartFile> resAdImageFileList;
-	List<String> resAdImageFileNameList;
-	List<byte[]> resAdImageBytesList;
+	List<byte[]> resAdImageDateList;
 
 	// 短い広告見出し
 	String resAdShortTitle;
@@ -60,8 +63,7 @@ public class GoogleCampaignDto {
 	// -------- イメージ広告関連 --------
 	// 画像ファイル
 	List<MultipartFile> imageAdImageFileList;
-	List<String> imageAdImageFileNameList;
-	List<byte[]> imageAdImageBytesList;
+	List<byte[]> imageAdImageDataList;
 
 	// 最終ページURL
 	String imageAdFinalPageUrl;
@@ -78,28 +80,4 @@ public class GoogleCampaignDto {
 
 	// 説明文
 	String textAdDescription;
-
-	// イメージ１URL
-	String image1Url;
-	
-	// イメージ２URL
-	String image2Url;
-
-	// イメージ３URL
-	String image3Url;
-
-	// イメージ４URL
-	String image4Url;
-	
-	// 見出し１
-	String adTitle1;
-
-	// 見出し２
-	String adTitle2;
-
-	// 説明文
-	String adDescription;
-
-	// 最終ページURL
-	String linkUrl;
 }

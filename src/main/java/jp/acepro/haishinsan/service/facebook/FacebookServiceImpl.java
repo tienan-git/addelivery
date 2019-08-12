@@ -671,8 +671,6 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 	@Transactional
 	public List<FbCampaignDto> campaignList(List<FacebookCampaignManage> facebookCampaignManageList) {
 
-		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
-
 		List<FbCampaignDto> fbCampaignDtoList = new ArrayList<FbCampaignDto>();
 
 		if (facebookCampaignManageList.size() == 0) {

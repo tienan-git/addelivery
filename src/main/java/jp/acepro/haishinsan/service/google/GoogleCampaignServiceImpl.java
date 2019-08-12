@@ -24,11 +24,13 @@ import jp.acepro.haishinsan.dao.GoogleCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
+import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
+import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
@@ -435,6 +437,44 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
 		googleCampaignManage.setIsActived(Flag.OFF.getValue());
 		googleCampaignManageDao.update(googleCampaignManage);
+
+	}
+
+	@Override
+	@Transactional
+	public List<GoogleCampaignManage> searchGoogleCampaignManageList(String adType) {
+
+		// DBから該当店舗所有するキャンペーンをすべて取得して、リストとして返却
+		return googleCampaignManageCustomDao.selectByShopIdAndAdType(ContextUtil.getCurrentShop().getShopId(), adType);
+	}
+	
+	@Override
+	@Transactional
+	public List<GoogleCampaignDto> campaignList(List<GoogleCampaignManage> googleCampaignManageList) {
+
+		List<GoogleCampaignDto> googleCampaignDtoList = new ArrayList<GoogleCampaignDto>();
+
+		if (googleCampaignDtoList.size() == 0) {
+			return googleCampaignDtoList;
+		}
+
+		for (GoogleCampaignManage googleCampaignManage : googleCampaignManageList) {
+			GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
+			googleCampaignDto.setCampaignId(googleCampaignManage.getCampaignId());
+			googleCampaignDto.setCampaignName(googleCampaignManage.getCampaignName());
+			googleCampaignDto.setImage1Url(googleCampaignManage.getImage1Url());
+			googleCampaignDto.setImage2Url(googleCampaignManage.getImage2Url());
+			googleCampaignDto.setImage3Url(googleCampaignManage.getImage3Url());
+			googleCampaignDto.setImage4Url(googleCampaignManage.getImage4Url());
+			googleCampaignDto.setAdTitle1(googleCampaignManage.getTitle1());
+			googleCampaignDto.setAdTitle2(googleCampaignManage.getTitle2());
+			googleCampaignDto.setAdDescription(googleCampaignManage.getDescription());
+			googleCampaignDto.setLinkUrl(googleCampaignManage.getLinkUrl());
+
+			googleCampaignDtoList.add(googleCampaignDto);
+		}
+
+		return googleCampaignDtoList;
 
 	}
 }
