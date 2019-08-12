@@ -101,11 +101,6 @@ public class GoogleUploadController {
 		} catch (BusinessException e) {
 			// 異常時レスポンスを作成
 			result.reject(e.getMessage(), e.getParams(), null);
-
-			// テンプレートを読込
-//			List<GoogleTemplateDto> googleTemplateDtoList = getGoogleTemplateList();
-			// ＤＳＰＵＲＬを読込
-//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 			ModelAndView modelAndView = new ModelAndView();
 			modelAndView.setViewName("upload/google/bannerAd/create");
 			modelAndView.addObject("form", form);
@@ -129,8 +124,6 @@ public class GoogleUploadController {
 		GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
 		// 広告種別（バナー）
 		googleCampaignDto.setAdType(GoogleAdType.IMAGE.getValue());
-		// 広告名（画面入力）
-		googleCampaignDto.setCampaignName(form.getImgAdName());
 		// バナー（画面入力）
 		googleCampaignDto.setImageAdImageFileNameList(new ArrayList<String>());
 		googleCampaignDto.setImageAdImageBytesList(new ArrayList<byte[]>());
@@ -171,19 +164,29 @@ public class GoogleUploadController {
 		LocalDateTime dateTime = LocalDateTime.now();
 		dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(dateTime);
 
-		// セグメント分の広告作成
+		// セグメントURL分の広告作成
+		int urlCount = 0;
 		if (dspSegmentDtoList != null && dspSegmentDtoList.size() > 0) {
 			for (DspSegmentListDto dto : dspSegmentDtoList) {
-				// 最終ページURL（セグメントURL）
-				googleCampaignDto.setImageAdFinalPageUrl(dto.getUrl());
-				// 広告作成
-				googleCampaignService.createCampaign(googleCampaignDto, null);
+				if (!dto.getUrl().isEmpty()) {
+					//
+					urlCount++;
+					// 広告名（画面入力＋セグメントID）※キャンペーン名重複不可のため、セグメントIDで区別
+					googleCampaignDto.setCampaignName(form.getImgAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
+					// 最終ページURL（セグメントURL）
+					googleCampaignDto.setImageAdFinalPageUrl(dto.getUrl());
+					// 広告作成
+					googleCampaignService.createCampaign(googleCampaignDto, null);
+				}
+			}
+			if (urlCount == 0) {
+				// セグメントURLが存在しない（セグメント存在するが、セグメントURL存在しない）
+				throw new BusinessException(ErrorCodeConstant.E00012);
 			}
 		} else {
-			// セグメントのURLが存在しない
+			// セグメントURLが存在しない（セグメント存在しない）
 			throw new BusinessException(ErrorCodeConstant.E00012);
 		}
-
 		return mv;
 	}
 
@@ -270,16 +273,27 @@ public class GoogleUploadController {
 		LocalDateTime dateTime = LocalDateTime.now();
 		dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(dateTime);
 
-		// セグメント分の広告作成
+		// セグメントURL分の広告作成
+		int urlCount = 0;
 		if (dspSegmentDtoList != null && dspSegmentDtoList.size() > 0) {
 			for (DspSegmentListDto dto : dspSegmentDtoList) {
-				// 最終ページURL（セグメントURL）
-				googleCampaignDto.setResAdFinalPageUrl(dto.getUrl());
-				// 広告作成
-				googleCampaignService.createCampaign(googleCampaignDto, null);
+				if (!dto.getUrl().isEmpty()) {
+					//
+					urlCount++;
+					// 広告名（画面入力＋セグメントID）※キャンペーン名重複不可のため、セグメントIDで区別
+					googleCampaignDto.setCampaignName(form.getResAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
+					// 最終ページURL（セグメントURL）
+					googleCampaignDto.setResAdFinalPageUrl(dto.getUrl());
+					// 広告作成
+					googleCampaignService.createCampaign(googleCampaignDto, null);
+				}
+			}
+			if (urlCount == 0) {
+				// セグメントURLが存在しない（セグメント存在するが、セグメントURL存在しない）
+				throw new BusinessException(ErrorCodeConstant.E00012);
 			}
 		} else {
-			// セグメントのURLが存在しない
+			// セグメントURLが存在しない（セグメント存在しない）
 			throw new BusinessException(ErrorCodeConstant.E00012);
 		}
 		return mv;
@@ -343,16 +357,27 @@ public class GoogleUploadController {
 		LocalDateTime dateTime = LocalDateTime.now();
 		dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(dateTime);
 
-		// セグメント分の広告作成
+		// セグメントURL分の広告作成
+		int urlCount = 0;
 		if (dspSegmentDtoList != null && dspSegmentDtoList.size() > 0) {
 			for (DspSegmentListDto dto : dspSegmentDtoList) {
-				// 最終ページURL（セグメントURL）
-				googleCampaignDto.setTextAdFinalPageUrl(dto.getUrl());
-				// 広告作成
-				googleCampaignService.createCampaign(googleCampaignDto, null);
+				if (!dto.getUrl().isEmpty()) {
+					//
+					urlCount++;
+					// 広告名（画面入力＋セグメントID）※キャンペーン名重複不可のため、セグメントIDで区別
+					googleCampaignDto.setCampaignName(form.getTextAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
+					// 最終ページURL（セグメントURL）
+					googleCampaignDto.setTextAdFinalPageUrl(dto.getUrl());
+					// 広告作成
+					googleCampaignService.createCampaign(googleCampaignDto, null);
+				}
+			}
+			if (urlCount == 0) {
+				// セグメントURLが存在しない（セグメント存在するが、セグメントURL存在しない）
+				throw new BusinessException(ErrorCodeConstant.E00012);
 			}
 		} else {
-			// セグメントのURLが存在しない
+			// セグメントURLが存在しない（セグメント存在しない）
 			throw new BusinessException(ErrorCodeConstant.E00012);
 		}
 		return mv;
