@@ -531,13 +531,6 @@ public class CreativeController {
 		mv.setViewName("creative/mediaSelection");
 		return mv;
 	}
-
-	@GetMapping("/mediaDescription")
-	public ModelAndView mediaDescription(ModelAndView mv) {
-
-		mv.setViewName("creative/mediaDescription");
-		return mv;
-	}
 	
 	@GetMapping("/mediaDescriptionByYahoo")
 	public ModelAndView mediaDescriptionByYahoo(ModelAndView mv) {

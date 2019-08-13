@@ -31,6 +31,10 @@ public class FacebookCampaignManage extends BaseEntity {
     @Column(name = "campaign_id")
     String campaignId;
 
+    /** 店舗ID */
+    @Column(name = "shop_id")
+    Long shopId;
+
     /** キャンペーン名 */
     @Column(name = "campaign_name")
     String campaignName;
@@ -118,6 +122,24 @@ public class FacebookCampaignManage extends BaseEntity {
      */
     public void setCampaignId(String campaignId) {
         this.campaignId = campaignId;
+    }
+
+    /** 
+     * Returns the shopId.
+     * 
+     * @return the shopId
+     */
+    public Long getShopId() {
+        return shopId;
+    }
+
+    /** 
+     * Sets the shopId.
+     * 
+     * @param shopId the shopId
+     */
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     /** 

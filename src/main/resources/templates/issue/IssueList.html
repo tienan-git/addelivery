@@ -155,7 +155,7 @@
 									<td th:text="${issue.campaignName}">キャンペーン名</td>
 									<td><label th:class="${issue.mediaIcon}"
 										th:text="${issue.media}">媒体</label></td>
-									<td><label class="label live">配信中</label></td>
+									<td><label th:class="${issue.statusIcon}" th:text="${issue.status}">配信中</label></td>
 									<td th:text="${issue.budget}">予算</td>
 									<td th:text="${issue.startDate}">配信開始日</td>
 									<td th:text="${issue.endDate}">配信終了日</td>

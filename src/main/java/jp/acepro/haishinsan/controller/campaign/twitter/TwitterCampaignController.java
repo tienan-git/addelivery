@@ -27,7 +27,6 @@ import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.campaign.twitter.TwitterCampaignApiService;
-import jp.acepro.haishinsan.service.twitter.TwitterReportingService;
 
 @lombok.extern.slf4j.Slf4j
 @Controller
@@ -42,9 +41,6 @@ public class TwitterCampaignController {
 
     @Autowired
     CodeMasterService codeMasterService;
-
-    @Autowired
-    TwitterReportingService twitterReportingService;
 
     @Autowired
     TwitterCampaignApiService twitterCampaignApiService;

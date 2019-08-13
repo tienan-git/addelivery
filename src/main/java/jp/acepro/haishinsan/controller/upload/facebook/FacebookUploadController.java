@@ -178,71 +178,12 @@ public class FacebookUploadController {
 		session.removeAttribute("imaBase64");
 		session.removeAttribute("bytes");
 		session.removeAttribute("image");
+		session.removeAttribute("dspSegmentDtoList");
 
 		// オペレーションログ記録
-		//operationService.create(Operation.FACEBOOK_CAMPAIGN_CREATE.getValue(), String.valueOf(fbCampaignDto.getCampaignId()));
+		operationService.create(Operation.FACEBOOK_CAMPAIGN_CREATE.getValue(), null);
 
 		return modelAndView;
 	}
 
-//	@PostMapping("/completeFacebookCreative")
-//	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
-//	public ModelAndView completeCampaign(@Validated FbCampaignInputForm fbCampaignInputForm, BindingResult result) throws IOException {
-//
-//		FbCampaignDto fbCampaignDto = FacebookMapper.INSTANCE.map(fbCampaignInputForm);
-//		try {
-//			imageUtil.getImageBytes(fbCampaignInputForm.getImage(), MediaType.FACEBOOK.getValue());
-//		} catch (BusinessException e) {
-//			result.reject(e.getMessage(), e.getParams(), null);
-//			ModelAndView mv = new ModelAndView("facebook/createCampaign");
-//			// テンプレート一覧を取得
-//			List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
-//			// コードマスタをメモリへロード
-//			getFacebookAreaList();
-//			// ＤＳＰＵＲＬを読込
-//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
-//			mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
-//			mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
-//			mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
-//			return mv;
-//		}
-//		
-//		File imageFile = new File(fbCampaignInputForm.getImage().getOriginalFilename());
-//		FileOutputStream fo = new FileOutputStream(imageFile);
-//		fo.write(fbCampaignInputForm.getImage().getBytes());
-//		fo.close();
-//		fbCampaignDto.setImageFile(imageFile);
-//		try {
-//			facebookService.createCampaign(fbCampaignDto, null);
-//		} catch (BusinessException e) {
-//			// 異常時レスポンスを作成
-//			result.reject(e.getMessage());
-//			ModelAndView mv = new ModelAndView("facebook/createCampaign");
-//			// テンプレート一覧を取得
-//			List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
-//			// コードマスタをメモリへロード
-//			getFacebookAreaList();
-//			// ＤＳＰＵＲＬを読込
-//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
-//			mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
-//			mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
-//			mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
-//			return mv;
-//		}finally {
-//			try {
-//				imageFile.delete();
-//			}catch(Exception ex) {
-//				
-//			}
-//		}
-//
-//		ModelAndView mv = new ModelAndView("facebook/completeCampaign");
-//		mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
-//		mv.addObject("fbCampaignDto", fbCampaignDto);
-//
-//		// オペレーションログ記録
-//		operationService.create(Operation.FACEBOOK_CAMPAIGN_CREATE.getValue(), String.valueOf(fbCampaignDto.getCampaignId()));
-//		return mv;
-//
-//	}
 }

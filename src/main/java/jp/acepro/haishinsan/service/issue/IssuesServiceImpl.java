@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.service.issue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -45,6 +46,7 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             issuesDto.setBudget(issue.getBudget());
             issuesDto.setStartDate(issue.getStartDate());
             issuesDto.setEndDate(issue.getEndDate());
+            // campaignIdの有無で媒体を判別
             // Google
             if (Objects.nonNull(issue.getGoogleCampaignManageId())) {
                 issuesDto.setMedia("Google");
@@ -64,6 +66,36 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             if (Objects.nonNull(issue.getDspCampaignManageId())) {
                 issuesDto.setMedia("FreakOut");
                 issuesDto.setMediaIcon("label dsp");
+            }
+            // yahoo
+            if (Objects.nonNull(issue.getYahooCampaignManageId())) {
+                issuesDto.setMedia("Yahoo");
+                issuesDto.setMediaIcon("label yahoo");
+            }
+            // youtube
+            if (Objects.nonNull(issue.getYoutubeCampaignManageId())) {
+                issuesDto.setMedia("Youtube");
+                issuesDto.setMediaIcon("label youtube");
+            }
+            // 配信開始日と配信終了日で配信状態を判別
+            LocalDate today = LocalDate.now();
+            LocalDate startDate = LocalDate.parse(issue.getStartDate());
+            LocalDate endDate = LocalDate.parse(issue.getEndDate());
+            // 配信待ち
+            if (today.isBefore(startDate)) {
+                issuesDto.setStatusIcon("label wait");
+                issuesDto.setStatus("配信待ち");
+            }
+            // 配信済み
+            if (today.isAfter(endDate)) {
+                issuesDto.setStatusIcon("label stop");
+                issuesDto.setStatus("配信済み");
+            }
+            // 配信中
+            if ((today.isAfter(startDate) || today.isEqual(startDate))
+                    && (today.isBefore(endDate) || today.isEqual(endDate))) {
+                issuesDto.setStatusIcon("label live");
+                issuesDto.setStatus("配信中");
             }
             issuesDtoList.add(issuesDto);
         }

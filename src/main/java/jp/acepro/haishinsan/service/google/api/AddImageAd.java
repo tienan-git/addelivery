@@ -65,6 +65,8 @@ public class AddImageAd {
 	public GoogleCampaignDto googleCampaignDto;
 	public AdGroup newAdGroupUser;
 	public AdGroup newAdGroupKeyword;
+	public List<String> imageUrls = new ArrayList<String>();
+	private Long adGroupId;
 
 	public void run() {
 		AdWordsSession session;
@@ -135,6 +137,9 @@ public class AddImageAd {
 	 * @throws IOException     if uploading an image failed.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws IOException {
+		// Set current AdGroupId
+		this.adGroupId = adGroupId;
+
 		// Get the MediaService.
 		MediaServiceInterface mediaService = adWordsServices.get(session, MediaServiceInterface.class);
 
@@ -205,6 +210,14 @@ public class AddImageAd {
 
 		// Upload image.
 		Image uploadedImage = (Image) mediaService.upload(new Media[] { image })[0];
+
+		// Get upload image URL.
+		if (this.adGroupId.equals(newAdGroupUser.getId())) {
+			// Preview size image URL
+			this.imageUrls.add(uploadedImage.getUrls(1).getValue());
+			// Original size image URL
+//			this.imageUrls.add(uploadedImage.getUrls(0).getValue());
+		}
 		return uploadedImage.getMediaId();
 	}
 }

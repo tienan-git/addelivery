@@ -27,9 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.CreativeDto;
 import jp.acepro.haishinsan.dto.NonTwitterAdDto;
 import jp.acepro.haishinsan.dto.TwitterAdDto;
+import jp.acepro.haishinsan.dto.dsp.DspCampaignDto;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
@@ -124,6 +126,15 @@ public class FacebookIssueController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
 	public ModelAndView createIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) {
 
+		if (fbIssueInputForm.getIdList() == null || fbIssueInputForm.getIdList().isEmpty()) {
+			result.reject("E00020");
+			return campaignList(fbIssueInputForm);
+		}
+		if (fbIssueInputForm.getIdList().size() > 1) {
+			result.reject("E00021");
+			return campaignList(fbIssueInputForm);
+		}
+
 		// テンプレート一覧を取得
 		List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
 		// コードマスタをメモリへロード
@@ -131,78 +142,52 @@ public class FacebookIssueController {
 
 		// -------- 優先度一番高いテンプレートで初期値を設定 --------
 		if (fbTemplateDtoList != null && fbTemplateDtoList.size() > 0) {
-			fbIssueInputForm.setLocationList(fbTemplateDtoList.get(0).getLocationList());
-			fbIssueInputForm.setTemplateId(fbTemplateDtoList.get(0).getTemplateId());
-			fbIssueInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
+			if (fbTemplateDtoList.get(0).getLocationList() != null) {
+				fbIssueInputForm.setLocationList(fbTemplateDtoList.get(0).getLocationList());
+			}
+			if (fbTemplateDtoList.get(0).getDailyBudget() != null) {
+				fbIssueInputForm.setDailyBudget(fbTemplateDtoList.get(0).getDailyBudget());
+			}
+			//fbIssueInputForm.setTemplateId(fbTemplateDtoList.get(0).getTemplateId());
+			//fbIssueInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
 		}
-
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("campaign/facebook/createIssue");
-		mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
 		return mv;
 
 	}
 
-//	@PostMapping("/confirmIssue")
-//	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
-//	public ModelAndView confirmIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) throws IOException {
-//
-//		FbIssueDto fbIssueDto = FacebookMapper.INSTANCE.map(fbIssueInputForm);
-//		try {
-//			imageUtil.getImageBytes(fbCampaignInputForm.getImage(), MediaType.FACEBOOK.getValue());
-//		} catch (BusinessException e) {
-//			result.reject(e.getMessage(), e.getParams(), null);
-//			ModelAndView mv = new ModelAndView("facebook/createCampaign");
-//			// テンプレート一覧を取得
-//			List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
-//			// コードマスタをメモリへロード
-//			getFacebookAreaList();
-//			// ＤＳＰＵＲＬを読込
-//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
-//			mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
-//			mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
-//			mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
-//			return mv;
-//		}
-//		
-//		File imageFile = new File(fbCampaignInputForm.getImage().getOriginalFilename());
-//		FileOutputStream fo = new FileOutputStream(imageFile);
-//		fo.write(fbCampaignInputForm.getImage().getBytes());
-//		fo.close();
-//		fbCampaignDto.setImageFile(imageFile);
-//		try {
-//			facebookService.createCampaign(fbCampaignDto, null);
-//		} catch (BusinessException e) {
-//			// 異常時レスポンスを作成
-//			result.reject(e.getMessage());
-//			ModelAndView mv = new ModelAndView("facebook/createCampaign");
-//			// テンプレート一覧を取得
-//			List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
-//			// コードマスタをメモリへロード
-//			getFacebookAreaList();
-//			// ＤＳＰＵＲＬを読込
-//			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
-//			mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
-//			mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
-//			mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
-//			return mv;
-//		}finally {
-//			try {
-//				imageFile.delete();
-//			}catch(Exception ex) {
-//				
-//			}
-//		}
-//
-//		ModelAndView mv = new ModelAndView("facebook/completeCampaign");
-//		mv.addObject("fbCampaignInputForm", fbCampaignInputForm);
-//		mv.addObject("fbCampaignDto", fbCampaignDto);
-//
-//		// オペレーションログ記録
-//		operationService.create(Operation.FACEBOOK_CAMPAIGN_CREATE.getValue(), String.valueOf(fbCampaignDto.getCampaignId()));
-//		return mv;
-//
-//	}
+	@PostMapping("/confirmIssue")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	public ModelAndView confirmIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) throws IOException {
+
+		FbIssueDto fbIssueDto = FacebookMapper.INSTANCE.map(fbIssueInputForm);
+
+		session.setAttribute("fbIssueDto", fbIssueDto);
+
+		ModelAndView mv = new ModelAndView("campaign/facebook/confirmIssue");
+		mv.addObject("fbIssueDto", fbIssueDto);
+
+		return mv;
+	}
+
+	@GetMapping("/completeIssue")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	public ModelAndView completeIssue() {
+
+		FbIssueDto fbIssueDto = (FbIssueDto) session.getAttribute("fbIssueDto");
+
+		Issue issue = facebookService.createIssue(fbIssueDto);
+
+		session.removeAttribute("fbIssueDto");
+
+		ModelAndView mv = new ModelAndView("campaign/facebook/completeIssue");
+		//mv.addObject("fbIssueDto", fbIssueDto);
+
+		// オペレーションログ記録
+		operationService.create(Operation.FACEBOOK_ISSUE_CREATE.getValue(), String.valueOf(issue.getIssueId()));
+		return mv;
+	}
 
 }
