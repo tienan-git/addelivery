@@ -31,6 +31,10 @@ public class GoogleCampaignManage extends BaseEntity {
     @Column(name = "campaign_id")
     Long campaignId;
 
+    /** 店舗ID */
+    @Column(name = "shop_id")
+    Long shopId;
+
     /** キャンペーン名 */
     @Column(name = "campaign_name")
     String campaignName;
@@ -50,6 +54,38 @@ public class GoogleCampaignManage extends BaseEntity {
     /** 広告タイプ:01:レスポンシブ広告 02:イメージ広告 03:拡張テキスト広告 */
     @Column(name = "ad_type")
     String adType;
+
+    /** イメージ１URL */
+    @Column(name = "image1_url")
+    String image1Url;
+
+    /** イメージ２URL */
+    @Column(name = "image2_url")
+    String image2Url;
+
+    /** イメージ３URL */
+    @Column(name = "image3_url")
+    String image3Url;
+
+    /** イメージ４URL */
+    @Column(name = "image4_url")
+    String image4Url;
+
+    /** タイトル１ */
+    @Column(name = "title1")
+    String title1;
+
+    /** タイトル２ */
+    @Column(name = "title2")
+    String title2;
+
+    /** 説明文 */
+    @Column(name = "description")
+    String description;
+
+    /** リンク先 */
+    @Column(name = "link_url")
+    String linkUrl;
 
     /** バージョン番号 */
     @Version
@@ -110,6 +146,24 @@ public class GoogleCampaignManage extends BaseEntity {
      */
     public void setCampaignId(Long campaignId) {
         this.campaignId = campaignId;
+    }
+
+    /** 
+     * Returns the shopId.
+     * 
+     * @return the shopId
+     */
+    public Long getShopId() {
+        return shopId;
+    }
+
+    /** 
+     * Sets the shopId.
+     * 
+     * @param shopId the shopId
+     */
+    public void setShopId(Long shopId) {
+        this.shopId = shopId;
     }
 
     /** 
@@ -200,6 +254,150 @@ public class GoogleCampaignManage extends BaseEntity {
      */
     public void setAdType(String adType) {
         this.adType = adType;
+    }
+
+    /** 
+     * Returns the image1Url.
+     * 
+     * @return the image1Url
+     */
+    public String getImage1Url() {
+        return image1Url;
+    }
+
+    /** 
+     * Sets the image1Url.
+     * 
+     * @param image1Url the image1Url
+     */
+    public void setImage1Url(String image1Url) {
+        this.image1Url = image1Url;
+    }
+
+    /** 
+     * Returns the image2Url.
+     * 
+     * @return the image2Url
+     */
+    public String getImage2Url() {
+        return image2Url;
+    }
+
+    /** 
+     * Sets the image2Url.
+     * 
+     * @param image2Url the image2Url
+     */
+    public void setImage2Url(String image2Url) {
+        this.image2Url = image2Url;
+    }
+
+    /** 
+     * Returns the image3Url.
+     * 
+     * @return the image3Url
+     */
+    public String getImage3Url() {
+        return image3Url;
+    }
+
+    /** 
+     * Sets the image3Url.
+     * 
+     * @param image3Url the image3Url
+     */
+    public void setImage3Url(String image3Url) {
+        this.image3Url = image3Url;
+    }
+
+    /** 
+     * Returns the image4Url.
+     * 
+     * @return the image4Url
+     */
+    public String getImage4Url() {
+        return image4Url;
+    }
+
+    /** 
+     * Sets the image4Url.
+     * 
+     * @param image4Url the image4Url
+     */
+    public void setImage4Url(String image4Url) {
+        this.image4Url = image4Url;
+    }
+
+    /** 
+     * Returns the title1.
+     * 
+     * @return the title1
+     */
+    public String getTitle1() {
+        return title1;
+    }
+
+    /** 
+     * Sets the title1.
+     * 
+     * @param title1 the title1
+     */
+    public void setTitle1(String title1) {
+        this.title1 = title1;
+    }
+
+    /** 
+     * Returns the title2.
+     * 
+     * @return the title2
+     */
+    public String getTitle2() {
+        return title2;
+    }
+
+    /** 
+     * Sets the title2.
+     * 
+     * @param title2 the title2
+     */
+    public void setTitle2(String title2) {
+        this.title2 = title2;
+    }
+
+    /** 
+     * Returns the description.
+     * 
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /** 
+     * Sets the description.
+     * 
+     * @param description the description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /** 
+     * Returns the linkUrl.
+     * 
+     * @return the linkUrl
+     */
+    public String getLinkUrl() {
+        return linkUrl;
+    }
+
+    /** 
+     * Sets the linkUrl.
+     * 
+     * @param linkUrl the linkUrl
+     */
+    public void setLinkUrl(String linkUrl) {
+        this.linkUrl = linkUrl;
     }
 
     /** 

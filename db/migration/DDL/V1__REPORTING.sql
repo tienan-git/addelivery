@@ -1,5 +1,5 @@
 -- Project Name : reporting
--- Date/Time    : 2019/08/03 16:04:21
+-- Date/Time    : 2019/08/11 21:23:19
 -- Author       : luoq1
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -446,6 +446,10 @@ create table issue (
   , budget bigint comment '全体予算'
   , start_date VARCHAR(10) comment '配信開始日'
   , end_date VARCHAR(10) comment '配信終了日'
+  , google_oneday_budget bigint comment 'Google日別予算'
+  , google_regions text comment 'Google地域コード'
+  , facebook_oneday_budget bigint comment 'Facebook一日予算'
+  , facebook_regions text comment 'Facebook地域コード'
   , version_no bigint not null comment 'バージョン番号'
   , created_at DATETIME(6) not null comment '登録日時'
   , created_by VARCHAR(15) not null comment '登録者'
@@ -497,6 +501,7 @@ create table facebook_template (
 create table facebook_campaign_manage (
   Facebook_campaign_manage_id bigint auto_increment not null comment 'Facebookキャンペーン管理ID'
   , campaign_id VARCHAR(80) not null comment 'キャンペーンID'
+  , shop_id bigint comment '店舗ID'
   , campaign_name VARCHAR(240) comment 'キャンペーン名'
   , budget bigint comment '予算'
   , segment_id INT comment 'セグメントID'
@@ -697,11 +702,20 @@ create table google_template (
 create table google_campaign_manage (
   google_campaign_manage_id bigint auto_increment not null comment 'Googleキャンペーン管理ID'
   , campaign_id bigint not null comment 'キャンペーンID'
+  , shop_id bigint comment '店舗ID'
   , campaign_name VARCHAR(240) not null comment 'キャンペーン名'
   , approval_flag CHAR(1) not null comment '審査フラグ:0:承認待ち 1:承認済み'
-  , budget bigint not null comment '予算'
+  , budget bigint comment '予算'
   , regions text comment '地域コード'
   , ad_type CHAR(2) not null comment '広告タイプ:01:レスポンシブ広告 02:イメージ広告 03:拡張テキスト広告'
+  , image1_url VARCHAR(2083) comment 'イメージ１URL'
+  , image2_url VARCHAR(2083) comment 'イメージ２URL'
+  , image3_url VARCHAR(2083) comment 'イメージ３URL'
+  , image4_url VARCHAR(2083) comment 'イメージ４URL'
+  , title1 VARCHAR(128) comment 'タイトル１'
+  , title2 VARCHAR(128) comment 'タイトル２'
+  , description VARCHAR(90) comment '説明文'
+  , link_url VARCHAR(2083) comment 'リンク先'
   , version_no bigint not null comment 'バージョン番号'
   , created_at DATETIME(6) not null comment '登録日時'
   , created_by VARCHAR(15) not null comment '登録者'

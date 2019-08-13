@@ -18,6 +18,8 @@ public class IssuesDto {
     // 配信媒体
     String media;
     // ステータス（アイコン）
+    String statusIcon;
+    // ステータス
     String status;
     // 費用
     Long budget;

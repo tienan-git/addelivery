@@ -33,6 +33,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
 import com.google.api.ads.adwords.axis.v201809.cm.AssetLink;
 import com.google.api.ads.adwords.axis.v201809.cm.AssetOperation;
+import com.google.api.ads.adwords.axis.v201809.cm.AssetReturnValue;
 import com.google.api.ads.adwords.axis.v201809.cm.AssetServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.DisplayAdFormatSetting;
 import com.google.api.ads.adwords.axis.v201809.cm.ImageAsset;
@@ -68,6 +69,8 @@ public class AddMultiAssetResponsiveDisplayAd {
 	public GoogleCampaignDto googleCampaignDto;
 	public AdGroup newAdGroupUser;
 	public AdGroup newAdGroupKeyword;
+	public List<String> imageUrls = new ArrayList<String>();
+	private Long adGroupId;
 
 	public void run() {
 		AdWordsSession session;
@@ -138,6 +141,9 @@ public class AddMultiAssetResponsiveDisplayAd {
 	 * @throws IOException     if unable to retrieve an image from a URL.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws IOException {
+		// Set current AdGroupId
+		this.adGroupId = adGroupId;
+
 		// Get the AdGroupAdService.
 		AdGroupAdServiceInterface adGroupAdService = adWordsServices.get(session, AdGroupAdServiceInterface.class);
 
@@ -169,7 +175,10 @@ public class AddMultiAssetResponsiveDisplayAd {
 		// 非正方形イメージ
 		ad.setMarketingImages(new AssetLink[] { createAssetLinkForImageAsset(uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(0))) });
 		// 正方形イメージ
-		ad.setSquareMarketingImages(new AssetLink[] { createAssetLinkForImageAsset(uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(1))) });
+		AssetLink[] assetLinks = new AssetLink[] { createAssetLinkForImageAsset(uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(1))) };
+		ad.setSquareMarketingImages(assetLinks);
+		// ロゴイメージ
+		ad.setLogoImages(assetLinks);
 		// 最終ページURL
 		ad.setFinalUrls(new String[] { googleCampaignDto.getResAdFinalPageUrl() });
 
@@ -191,8 +200,6 @@ public class AddMultiAssetResponsiveDisplayAd {
 //		// and price prefix.
 //		ad.setDynamicSettingsPricePrefix("as low as");
 //		ad.setDynamicSettingsPromoText("Free shipping!");
-		// ロゴイメージ
-		ad.setLogoImages(new AssetLink[] { createAssetLinkForImageAsset(uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(1))) });
 
 		// Create ad group ad.
 		AdGroupAd adGroupAd = new AdGroupAd();
@@ -252,7 +259,7 @@ public class AddMultiAssetResponsiveDisplayAd {
 	 * @return the ID of the {@link ImageAsset}.
 	 * @throws IOException if unable to read the image from the specified URL.
 	 */
-	private static long uploadImageAsset(AdWordsServicesInterface adWordsServices, AdWordsSession session, byte[] bytesFile) throws IOException {
+	private long uploadImageAsset(AdWordsServicesInterface adWordsServices, AdWordsSession session, byte[] bytesFile) throws IOException {
 
 		AssetServiceInterface assetService = adWordsServices.get(session, AssetServiceInterface.class);
 
@@ -273,6 +280,14 @@ public class AddMultiAssetResponsiveDisplayAd {
 		operation.setOperand(image);
 
 		// Create the asset and return the ID.
-		return assetService.mutate(new AssetOperation[] { operation }).getValue(0).getAssetId();
+		AssetReturnValue result = assetService.mutate(new AssetOperation[] { operation });
+
+		// Get upload image URL.
+		if (this.adGroupId.equals(newAdGroupUser.getId())) {
+			ImageAsset imageAsset = (ImageAsset) result.getValue(0);
+			// Original size image URL
+			this.imageUrls.add((imageAsset.getFullSizeInfo().getImageUrl()));
+		}
+		return result.getValue(0).getAssetId();
 	}
 }

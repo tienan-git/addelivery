@@ -59,7 +59,7 @@ public class ErrorCodeConstant {
 	public static final String E10004 = "E10004";
 	// 店舗更新できないので、該当店舗へ遷移してください。
 	public static final String E10005 = "E10005";
-	
+
 	/************* Facebookエラーコード *************/
 	// テンプレート作成が失敗しました。
 	public static final String E40001 = "E40001";
@@ -154,4 +154,7 @@ public class ErrorCodeConstant {
 
 	// Google広告の画像ポリシーを確認してください。
 	public static final String E70008 = "E70008";
+
+	// バナーを少なくとも１枚アップロードしてください。
+	public static final String E70009 = "E70009";
 }

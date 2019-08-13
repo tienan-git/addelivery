@@ -78,6 +78,7 @@ import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
 import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
 import jp.acepro.haishinsan.dto.facebook.FbDeviceReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbGraphReportDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbRegionReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbReportDisplayDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
@@ -433,22 +434,12 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 				FacebookCampaignManage facebookCampaignManage = new FacebookCampaignManage();
 				facebookCampaignManage.setCampaignId(campaignId);
 				facebookCampaignManage.setCampaignName(campaignName);
-				// facebookCampaignManage.setSegmentId(null);
+				facebookCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
 				facebookCampaignManage.setBudget(totalBudget);
 				facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
 				facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
 				facebookCampaignManage.setLinkUrl(linkUrl);
 				facebookCampaignManageDao.insert(facebookCampaignManage);
-
-				Issue issue = new Issue();
-				issue = new Issue();
-				issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-				issue.setFacebookCampaignManageId(facebookCampaignManage.getFacebookCampaignManageId());
-				issue.setCampaignName(campaignName);
-				issue.setBudget(totalBudget);
-				//issue.setStartDate(startDateString);
-				//issue.setEndDate(endDateString);
-				issueDao.insert(issue);
 
 			}
 
@@ -679,8 +670,6 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 	@Override
 	@Transactional
 	public List<FbCampaignDto> campaignList(List<FacebookCampaignManage> facebookCampaignManageList) {
-
-		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
 
 		List<FbCampaignDto> fbCampaignDtoList = new ArrayList<FbCampaignDto>();
 
@@ -1215,6 +1204,27 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		return out.toString();
 	}
 
+	
+	@Override
+	@Transactional
+	public Issue createIssue(FbIssueDto fbIssueDto) {
+
+		// 案件表にインサート
+		Issue issue = new Issue();
+		//issue.setBudget(fbIssueDto.getBudget());
+
+		issue.setShopId(ContextUtil.getCurrentShopId());
+		issue.setFacebookCampaignManageId(Long.valueOf(fbIssueDto.getCampaignId()));
+		issue.setCampaignName(fbIssueDto.getCampaignName());
+		issue.setStartDate(fbIssueDto.getStartDate());
+		issue.setEndDate(fbIssueDto.getEndDate());
+		issue.setFacebookOnedayBudget(fbIssueDto.getDailyBudget());
+		issue.setFacebookRegions(assembleLocationString(fbIssueDto.getLocationList()));
+		issueDao.insert(issue);
+		
+		return issue;
+	}
+
 	// 合計データ
 	private List<FbReportDisplayDto> getSummary(List<FbReportDisplayDto> fbReportDisplayDtoList) {
 
@@ -1234,6 +1244,25 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		fbReportDisplayDtoList.add(sumReportDto);
 
 		return fbReportDisplayDtoList;
+	}
+	
+	// 地域を組み立てる
+	private String assembleLocationString(List<Long> locationList) {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		// 地域を組み立てる
+		for (Long location : locationList) {
+			stringBuilder.append(location.toString());
+			stringBuilder.append(",");
+		}
+		if (stringBuilder.length() > 0) {
+			stringBuilder.substring(0, stringBuilder.length() - 1);
+		}
+		if (stringBuilder.length() > 0) {
+			return stringBuilder.substring(0, stringBuilder.length() - 1);
+		} else {
+			return stringBuilder.toString();
+		}
 	}
 
 }
