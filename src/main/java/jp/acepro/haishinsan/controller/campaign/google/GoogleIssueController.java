@@ -28,11 +28,15 @@ import com.google.common.io.ByteSource;
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
+import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
+import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleTemplateDto;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
@@ -40,6 +44,7 @@ import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.FbIssueInputForm;
 import jp.acepro.haishinsan.form.GoogleCampaignForm;
 import jp.acepro.haishinsan.form.GoogleIssueInputForm;
+import jp.acepro.haishinsan.mapper.FacebookMapper;
 import jp.acepro.haishinsan.mapper.GoogleMapper;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
@@ -95,6 +100,82 @@ public class GoogleIssueController {
 		mv.setViewName("campaign/google/bannerCampaignList");
 		mv.addObject("googleCampaignDtoList", googleCampaignDtoList);
 
+		return mv;
+	}
+
+	@PostMapping("/createBannerIssue")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+	public ModelAndView createBannerIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result) {
+
+		if (googleIssueInputForm.getIdList() == null || googleIssueInputForm.getIdList().isEmpty()) {
+			result.reject("E00020");
+			return bannerCampaignList(googleIssueInputForm);
+		}
+		if (googleIssueInputForm.getIdList().size() > 1) {
+			result.reject("E00021");
+			return bannerCampaignList(googleIssueInputForm);
+		}
+
+		// コードマスタを読込
+		getGoogleAreaList();
+
+		// テンプレートを読込
+		List<GoogleTemplateDto> googleTemplateDtoList = getGoogleTemplateList();
+
+		// -------- 優先度一番高いテンプレートで初期値を設定 --------
+		if (googleTemplateDtoList != null && googleTemplateDtoList.size() > 0) {
+			GoogleTemplateDto googleTemplateDto = googleTemplateDtoList.get(0);
+			googleIssueInputForm.setBudget( googleTemplateDto.getBudget() );
+			googleIssueInputForm.setCampaignName( googleTemplateDto.getCampaignName() );
+	        List<Long> list = googleTemplateDto.getLocationList();
+	        if ( list != null ) {
+	        	googleIssueInputForm.setLocationList(       new ArrayList<Long>( list )
+	            );
+	        }
+//	        googleIssueInputForm.setResAdDescription( googleTemplateDto.getResAdDescription() );
+//	        googleIssueInputForm.setResAdShortTitle( googleTemplateDto.getResAdShortTitle() );
+//	        googleIssueInputForm.setTextAdDescription( googleTemplateDto.getTextAdDescription() );
+//	        googleIssueInputForm.setTextAdTitle1( googleTemplateDto.getTextAdTitle1() );
+//	        googleIssueInputForm.setTextAdTitle2( googleTemplateDto.getTextAdTitle2() );
+//	        googleIssueInputForm.setUnitPriceType( googleTemplateDto.getUnitPriceType() );
+		}
+
+		session.setAttribute("campaignId", googleIssueInputForm.getIdList().get(0));
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("campaign/google/createBannerIssue");
+		return mv;
+
+	}
+
+	@PostMapping("/confirmIssue")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+	public ModelAndView confirmIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result) throws IOException {
+
+		String campaignId = (String) session.getAttribute("campaignId");
+		GoogleIssueDto googleIssueDto = googleCampaignService.mapToIssue(googleIssueInputForm);
+		googleIssueDto.setCampaignId(Long.valueOf(campaignId));
+		
+		session.setAttribute("googleIssueDto", googleIssueDto);
+		ModelAndView mv = new ModelAndView("campaign/google/confirmIssue");
+		mv.addObject("googleIssueDto", googleIssueDto);
+
+		return mv;
+	}
+
+	@GetMapping("/completeIssue")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+	public ModelAndView completeIssue() {
+
+		GoogleIssueDto googleIssueDto = (GoogleIssueDto) session.getAttribute("googleIssueDto");
+
+		Issue issue = googleCampaignService.createIssue(googleIssueDto);
+
+		session.removeAttribute("googleIssueDto");
+		session.removeAttribute("campaignId");
+		ModelAndView mv = new ModelAndView("campaign/google/completeIssue");
+
+		// オペレーションログ記録
+		operationService.create(Operation.GOOGLE_ISSUE_CREATE.getValue(), String.valueOf(issue.getIssueId()));
 		return mv;
 	}
 
