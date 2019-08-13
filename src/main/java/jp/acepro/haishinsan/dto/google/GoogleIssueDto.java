@@ -1,24 +1,23 @@
-package jp.acepro.haishinsan.form;
+package jp.acepro.haishinsan.dto.google;
 
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
 
 import jp.acepro.haishinsan.util.StringFormatter;
 import lombok.Data;
 
 @Data
-public class GoogleIssueInputForm {
-
-	List<String> idList;
-
-	// テンプレートID
-	Long templateId;
+public class GoogleIssueDto {
 	
-	// テンプレート名
-	String templateName;
+	// 承認フラグ
+	String approvalFlag;
+	
+	// キャンペーンステータス
+	String campaignStatus;
+	
+	// キャンペーンID
+	Long campaignId;
 
-	// キャンペイン名
+	// キャンペーン名
 	String campaignName;
 
 	// 地域
@@ -33,13 +32,13 @@ public class GoogleIssueInputForm {
 	// 開始日
 	String startDate;
     public String getStartDateSlash() {
-		return StringFormatter.dateHyphenToSlash(startDate);
+		return StringFormatter.formatToSlash(startDate);
 	}
 
 	// 終了日
 	String endDate;
     public String getEndDateSlash() {
-		return StringFormatter.dateHyphenToSlash(endDate);
+		return StringFormatter.formatToSlash(endDate);
 	}
 
 	// デバイスタイプ
@@ -50,8 +49,7 @@ public class GoogleIssueInputForm {
 
 	// -------- レスポンシブ広告関連 --------
 	// 画像ファイル
-	List<MultipartFile> resAdImageFileList;
-	List<byte[]> resAdImageDateList;
+	List<String> resAdImageUrlList;
 
 	// 短い広告見出し
 	String resAdShortTitle;
@@ -64,8 +62,7 @@ public class GoogleIssueInputForm {
 
 	// -------- イメージ広告関連 --------
 	// 画像ファイル
-	List<MultipartFile> imageAdImageFileList;
-	List<byte[]> imageAdImageDataList;
+	List<String> imageAdImageUrlList;
 
 	// 最終ページURL
 	String imageAdFinalPageUrl;
