@@ -20,9 +20,6 @@ public interface DspReportManageCustomDao {
 	@Select
 	List<DspReportManage> selectByCampaignIds(List<Integer> campaignIds);
 
-	@Delete(sqlFile = true)
-	int deleteByCampaignIds(List<Integer> campaignIds, String startDate, String endDate);
-
 	@Select
 	List<DspReportManage> selectByDevice(DspAdReportDto dspAdReportDto);
 
@@ -40,5 +37,8 @@ public interface DspReportManageCustomDao {
 
 	@Select
 	List<DspReportManage> selectByCreativeForGraph(DspAdReportDto dspAdReportDto);
+
+	@Select
+	List<DspReportManage> selectByCampaignIdsAndDate(List<Integer> campaignIds, String startDate, String endDate);
 
 }

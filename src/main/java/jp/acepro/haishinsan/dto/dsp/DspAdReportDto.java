@@ -8,6 +8,7 @@ import lombok.Data;
 public class DspAdReportDto {
 
 	List<Integer> campaignIdList;
+	Integer campaignId;
 	String startDate;
 	String endDate;
 	Integer reportType;

@@ -12,7 +12,7 @@ public interface DspCampaignService {
 
 	List<DspCampaignDto> getCampaignList();
 
-	DspCampaignDetailDto getCampaignDetail(Integer creativeId, Integer dspUserId);
+	DspCampaignDetailDto getCampaignDetail(Integer campaignId, Integer dspUserId);
 
 	void updateCampaign(Integer campaignId, String status);
 
