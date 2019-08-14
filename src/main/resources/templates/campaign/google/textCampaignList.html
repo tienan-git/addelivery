@@ -128,10 +128,9 @@
 									<th>選択</th>
 									<th>クリエイティブID</th>
 									<th>クリエイティブ名</th>
-									<th>イメージ１</th>
-									<th>イメージ２</th>
-									<th>イメージ３</th>
-									<th>イメージ４</th>
+									<th>見出し１</th>
+									<th>見出し２</th>
+									<th>説明文</th>
 									<th>リンク先</th>
 								</tr>
 							</thead>
@@ -140,10 +139,9 @@
 									<th>選択</th>
 									<th>クリエイティブID</th>
 									<th>クリエイティブ名</th>
-									<th>イメージ１</th>
-									<th>イメージ２</th>
-									<th>イメージ３</th>
-									<th>イメージ４</th>
+									<th>見出し１</th>
+									<th>見出し２</th>
+									<th>説明文</th>
 									<th>リンク先</th>
 								</tr>
 							</tfoot>
@@ -154,14 +152,12 @@
 									<td><a sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" 
 										th:text="${googleCampaignDto.campaignId}">0001</a></td>
 									<td><a th:text="${googleCampaignDto.campaignName}">0001</a></td>
-									<td><img th:src="${googleCampaignDto.image1Url}" style='display: block; width:50px'
-										th:id="${stat.index}"></td>
-									<td><img th:src="${googleCampaignDto.image2Url}" style='display: block; width:50px'
-										th:id="${stat.index}"></td>
-									<td><img th:src="${googleCampaignDto.image3Url}" style='display: block; width:50px'
-										th:id="${stat.index}"></td>
-									<td><img th:src="${googleCampaignDto.image4Url}" style='display: block; width:50px'
-										th:id="${stat.index}"></td>
+									<td><a sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" 
+										th:text="${googleCampaignDto.adTitle1}">0001</a></td>
+									<td><a sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" 
+										th:text="${googleCampaignDto.adTitle2}">0001</a></td>
+									<td><a sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" 
+										th:text="${googleCampaignDto.adDescription}">0001</a></td>
 									<td><a sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_VIEW')" 
 										th:text="${googleCampaignDto.linkUrl}">0001</a></td>
 								</tr>

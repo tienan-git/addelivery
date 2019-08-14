@@ -159,6 +159,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			}
 			googleCampaignManage.setTitle1(googleCampaignDto.getResAdShortTitle());
 			googleCampaignManage.setDescription(googleCampaignDto.getResAdDescription());
+			googleCampaignManage.setLinkUrl(googleCampaignDto.getResAdFinalPageUrl());
 			break;
 		case IMAGE:
 			AddImageAd addImageAd = new AddImageAd();
@@ -179,6 +180,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			if (addImageAd.imageUrls.size() >= 4) {
 				googleCampaignManage.setImage4Url(addImageAd.imageUrls.get(3));
 			}
+			googleCampaignManage.setLinkUrl(googleCampaignDto.getImageAdFinalPageUrl());
 			break;
 		case TEXT:
 			AddExpandedTextAds addExpandedTextAds = new AddExpandedTextAds();
@@ -190,6 +192,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			googleCampaignManage.setTitle1(googleCampaignDto.getTextAdTitle1());
 			googleCampaignManage.setTitle2(googleCampaignDto.getTextAdTitle2());
 			googleCampaignManage.setDescription(googleCampaignDto.getTextAdDescription());
+			googleCampaignManage.setLinkUrl(googleCampaignDto.getTextAdFinalPageUrl());
 			break;
 		}
 
@@ -483,7 +486,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		List<GoogleCampaignDto> googleCampaignDtoList = new ArrayList<GoogleCampaignDto>();
 
-		if (googleCampaignDtoList.size() == 0) {
+		if (googleCampaignManageList == null || googleCampaignManageList.size() == 0) {
 			return googleCampaignDtoList;
 		}
 
@@ -518,6 +521,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), googleIssueDto.getStartDate(), googleIssueDto.getEndDate()));
 		issue.setStartDate(googleIssueDto.getStartDate());
 		issue.setEndDate(googleIssueDto.getEndDate());
+		issue.setGoogleOnedayBudget(googleIssueDto.getBudget());
+		issue.setGoogleRegions(assembleLocationString(googleIssueDto.getLocationList()));
 		issueDao.insert(issue);
 
 		return issue;
@@ -541,5 +546,24 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
         }
         googleIssueDto.setStartDate( googleIssueInputForm.getStartDate() );
         return googleIssueDto;
+	}
+	
+	// 地域を組み立てる
+	private String assembleLocationString(List<Long> locationList) {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		// 地域を組み立てる
+		for (Long location : locationList) {
+			stringBuilder.append(location.toString());
+			stringBuilder.append(",");
+		}
+		if (stringBuilder.length() > 0) {
+			stringBuilder.substring(0, stringBuilder.length() - 1);
+		}
+		if (stringBuilder.length() > 0) {
+			return stringBuilder.substring(0, stringBuilder.length() - 1);
+		} else {
+			return stringBuilder.toString();
+		}
 	}
 }

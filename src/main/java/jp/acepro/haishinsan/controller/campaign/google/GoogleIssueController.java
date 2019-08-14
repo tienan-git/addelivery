@@ -103,9 +103,39 @@ public class GoogleIssueController {
 		return mv;
 	}
 
-	@PostMapping("/createBannerIssue")
+	@GetMapping("/respCampaignList")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
+	public ModelAndView respCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
+
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.RESPONSIVE.getValue());
+
+		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("campaign/google/respCampaignList");
+		mv.addObject("googleCampaignDtoList", googleCampaignDtoList);
+
+		return mv;
+	}
+
+	@GetMapping("/textCampaignList")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
+	public ModelAndView textCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
+
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.TEXT.getValue());
+
+		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
+
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("campaign/google/textCampaignList");
+		mv.addObject("googleCampaignDtoList", googleCampaignDtoList);
+
+		return mv;
+	}
+
+	@PostMapping("/createIssue")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView createBannerIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result) {
+	public ModelAndView createIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result) {
 
 		if (googleIssueInputForm.getIdList() == null || googleIssueInputForm.getIdList().isEmpty()) {
 			result.reject("E00020");
@@ -142,7 +172,7 @@ public class GoogleIssueController {
 
 		session.setAttribute("campaignId", googleIssueInputForm.getIdList().get(0));
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("campaign/google/createBannerIssue");
+		mv.setViewName("campaign/google/createIssue");
 		return mv;
 
 	}
