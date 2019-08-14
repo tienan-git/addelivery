@@ -3,10 +3,13 @@ package jp.acepro.haishinsan.service.google;
 import java.util.List;
 
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.IssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
+import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
+import jp.acepro.haishinsan.form.GoogleIssueInputForm;
 
 public interface GoogleCampaignService {
 
@@ -31,4 +34,7 @@ public interface GoogleCampaignService {
 
 	List<GoogleCampaignDto> campaignList(List<GoogleCampaignManage> googleCampaignManageList);
 
+	Issue createIssue(GoogleIssueDto googleIssueDto);
+	
+	GoogleIssueDto mapToIssue(GoogleIssueInputForm googleIssueInputForm);
 }

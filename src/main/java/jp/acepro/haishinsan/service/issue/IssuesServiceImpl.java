@@ -16,6 +16,8 @@ import jp.acepro.haishinsan.db.entity.TwitterCampaignManage;
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.entity.IssueWithShopWithCorporation;
 import jp.acepro.haishinsan.enums.Flag;
+import jp.acepro.haishinsan.enums.IssueAdStatus;
+import jp.acepro.haishinsan.enums.IssueAdtype;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.util.ContextUtil;
 
@@ -49,33 +51,33 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             // campaignIdの有無で媒体を判別
             // Google
             if (Objects.nonNull(issue.getGoogleCampaignManageId())) {
-                issuesDto.setMedia("Google");
-                issuesDto.setMediaIcon("label google");
+                issuesDto.setMedia(IssueAdtype.GOOGLE.getLabel());
+                issuesDto.setMediaIcon(IssueAdtype.GOOGLE.getValue());
             }
             // Facebook
             if (Objects.nonNull(issue.getFacebookCampaignManageId())) {
-                issuesDto.setMedia("FaceBook");
-                issuesDto.setMediaIcon("label faceBook");
+                issuesDto.setMedia(IssueAdtype.FACEBOOK.getLabel());
+                issuesDto.setMediaIcon(IssueAdtype.FACEBOOK.getValue());
             }
             // twitter
             if (Objects.nonNull(issue.getTwitterCampaignManageId())) {
-                issuesDto.setMedia("Twitter");
-                issuesDto.setMediaIcon("label twitter");
+                issuesDto.setMedia(IssueAdtype.TWITTER.getLabel());
+                issuesDto.setMediaIcon(IssueAdtype.TWITTER.getValue());
             }
             // dsp
             if (Objects.nonNull(issue.getDspCampaignManageId())) {
-                issuesDto.setMedia("FreakOut");
-                issuesDto.setMediaIcon("label dsp");
+                issuesDto.setMedia(IssueAdtype.DSP.getLabel());
+                issuesDto.setMediaIcon(IssueAdtype.DSP.getValue());
             }
             // yahoo
             if (Objects.nonNull(issue.getYahooCampaignManageId())) {
-                issuesDto.setMedia("Yahoo");
-                issuesDto.setMediaIcon("label yahoo");
+                issuesDto.setMedia(IssueAdtype.YAHOO.getLabel());
+                issuesDto.setMediaIcon(IssueAdtype.YAHOO.getValue());
             }
             // youtube
             if (Objects.nonNull(issue.getYoutubeCampaignManageId())) {
-                issuesDto.setMedia("Youtube");
-                issuesDto.setMediaIcon("label youtube");
+                issuesDto.setMedia(IssueAdtype.YOUTUBE.getLabel());
+                issuesDto.setMediaIcon(IssueAdtype.YOUTUBE.getValue());
             }
             // 配信開始日と配信終了日で配信状態を判別
             LocalDate today = LocalDate.now();
@@ -83,19 +85,19 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             LocalDate endDate = LocalDate.parse(issue.getEndDate());
             // 配信待ち
             if (today.isBefore(startDate)) {
-                issuesDto.setStatusIcon("label wait");
-                issuesDto.setStatus("配信待ち");
+                issuesDto.setStatusIcon(IssueAdStatus.WAIT.getValue());
+                issuesDto.setStatus(IssueAdStatus.WAIT.getLabel());
             }
             // 配信済み
             if (today.isAfter(endDate)) {
-                issuesDto.setStatusIcon("label stop");
-                issuesDto.setStatus("配信済み");
+                issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
+                issuesDto.setStatus(IssueAdStatus.END.getLabel());
             }
             // 配信中
             if ((today.isAfter(startDate) || today.isEqual(startDate))
                     && (today.isBefore(endDate) || today.isEqual(endDate))) {
-                issuesDto.setStatusIcon("label live");
-                issuesDto.setStatus("配信中");
+                issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
+                issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
             }
             issuesDtoList.add(issuesDto);
         }

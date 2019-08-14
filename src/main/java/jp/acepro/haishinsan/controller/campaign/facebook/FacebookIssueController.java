@@ -152,6 +152,7 @@ public class FacebookIssueController {
 			//fbIssueInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
 		}
 
+		session.setAttribute("campaignId", fbIssueInputForm.getIdList().get(0));
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("campaign/facebook/createIssue");
 		return mv;
@@ -163,7 +164,8 @@ public class FacebookIssueController {
 	public ModelAndView confirmIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) throws IOException {
 
 		FbIssueDto fbIssueDto = FacebookMapper.INSTANCE.map(fbIssueInputForm);
-
+		String campaignId = (String) session.getAttribute("campaignId");
+		fbIssueDto.setCampaignId(campaignId);
 		session.setAttribute("fbIssueDto", fbIssueDto);
 
 		ModelAndView mv = new ModelAndView("campaign/facebook/confirmIssue");
@@ -181,7 +183,7 @@ public class FacebookIssueController {
 		Issue issue = facebookService.createIssue(fbIssueDto);
 
 		session.removeAttribute("fbIssueDto");
-
+		session.removeAttribute("campaignId");
 		ModelAndView mv = new ModelAndView("campaign/facebook/completeIssue");
 		//mv.addObject("fbIssueDto", fbIssueDto);
 

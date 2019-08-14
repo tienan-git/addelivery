@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
-	layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
 <head>
 <style type="text/css">
 .accordion-msg {
@@ -38,7 +35,7 @@
 	<div layout:fragment="page_body_container">
 		<div class="card">
 			<div class="card-block">
-				<form th:action="@{/}" method="get" th:object="${issueSearchForm}">
+				<form th:action="@{/issues/issueList}" method="post" th:object="${issueSearchForm}">
 					<!-- <h4 class="sub-title">
 						<a class="accordion-msg" data-toggle="collapse"
 							data-parent="#accordion" href="#collapseOne" aria-expanded="true"
