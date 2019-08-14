@@ -35,6 +35,7 @@ import jp.acepro.haishinsan.dao.DspTemplateCustomDao;
 import jp.acepro.haishinsan.dao.DspTemplateDao;
 import jp.acepro.haishinsan.dao.DspTokenCustomDao;
 import jp.acepro.haishinsan.dao.DspTokenDao;
+import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
 import jp.acepro.haishinsan.db.entity.CreativeManage;
 import jp.acepro.haishinsan.db.entity.DspAdManage;
@@ -107,6 +108,9 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 
 	@Autowired
 	ShopCustomDao shopCustomDao;
+	
+	@Autowired
+	IssueDao issueDao;
 
 	@Override
 	@Transactional
@@ -215,10 +219,9 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 
 		// DBからテンプレートをすべて取得して、リストとして返却
 		List<DspTemplate> dspTemplateList = dspTemplateCustomDao.selectByShopId(ContextUtil.getCurrentShopId());
-		// TODO
 		List<DspTemplateDto> dspTemplateDtoLiist = new ArrayList<DspTemplateDto>();
-		// TODO dspTemplateDtoLiist
-		// dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
+		// dspTemplateDtoLiistに変更して返す
+		 dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
 
 		return dspTemplateDtoLiist;
 	}
@@ -324,8 +327,8 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		DspAdReportReq dspAdReportReq = new DspAdReportReq();
 		dspAdReportReq.setUser_id(shop.getDspUserId());
 		dspAdReportReq.setCampaign_ids(campaignIds);
-		dspAdReportReq.setStart_date(startDate);
-		dspAdReportReq.setEnd_date(endDate);
+		dspAdReportReq.setStart_date("2019-08-07");
+		dspAdReportReq.setEnd_date("2019-08-10");
 
 		DspAdReportRes dspAdReportRes = null;
 		try {
@@ -337,7 +340,8 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		}
 
 		// システムDBに保存しているレポーティング情報を検索条件で削除する
-		dspReportManageCustomDao.deleteByCampaignIds(campaignIds, startDate, endDate);
+		List<DspReportManage> dspReportManageListForDelete = dspReportManageCustomDao.selectByCampaignIdsAndDate(campaignIds, startDate, endDate);
+		dspReportManageDao.delete(dspReportManageListForDelete);
 		// 取得した広告レポートを編集して、システムDBに保存する
 		List<DspReportManage> dspReportManageList = new ArrayList<DspReportManage>();
 		for (DspAdReportResDto dspAdReportResDto : dspAdReportRes.getResult()) {

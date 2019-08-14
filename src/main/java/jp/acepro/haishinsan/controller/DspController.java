@@ -39,6 +39,7 @@ import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
 import jp.acepro.haishinsan.util.Utf8BomUtil;
+import jp.acepro.haishinsan.enums.ReportType;
 
 @Controller
 @RequestMapping("/dsp")
