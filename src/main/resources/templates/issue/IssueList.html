@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <head>
 <style type="text/css">
 .accordion-msg {
@@ -35,7 +38,8 @@
 	<div layout:fragment="page_body_container">
 		<div class="card">
 			<div class="card-block">
-				<form th:action="@{/issues/issueList}" method="post" th:object="${issueSearchForm}">
+				<form th:action="@{/issues/issueList}" method="post"
+					th:object="${issueSearchForm}">
 					<!-- <h4 class="sub-title">
 						<a class="accordion-msg" data-toggle="collapse"
 							data-parent="#accordion" href="#collapseOne" aria-expanded="true"
@@ -152,15 +156,23 @@
 									<td th:text="${issue.campaignName}">キャンペーン名</td>
 									<td><label th:class="${issue.mediaIcon}"
 										th:text="${issue.media}">媒体</label></td>
-									<td><label th:class="${issue.statusIcon}" th:text="${issue.status}">配信中</label></td>
+									<td><label th:class="${issue.statusIcon}"
+										th:text="${issue.status}">配信中</label></td>
 									<td th:text="${issue.budget}">予算</td>
 									<td th:text="${issue.startDate}">配信開始日</td>
 									<td th:text="${issue.endDate}">配信終了日</td>
 									<td>
-										<button class="label detail" type="button" onclick="move('1')">
+										<button class="label detail" type="submit"
+											th:formmethod="post"
+											sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
+											th:formaction="@{/issues/allReporting(issueId=${issue.issueId}, media=${issue.media})}">
 											<i class="ti-bar-chart"></i>詳細
 										</button>
-										<button class="label delete" type="submit" th:formmethod="post" th:formaction="@{/issues/deleteIssue(issueId=${issue.issueId}, media=${issue.media})}"><i class="ti-trash"></i>削除</button>
+										<button class="label delete" type="submit"
+											th:formmethod="post"
+											th:formaction="@{/issues/deleteIssue(issueId=${issue.issueId}, media=${issue.media})}">
+											<i class="ti-trash"></i>削除
+										</button>
 									</td>
 								</tr>
 							</tbody>
@@ -173,26 +185,6 @@
 	<!-- Page body end -->
 	<div layout:fragment="custom_resource_body">
 		<script type="text/javascript">
-			function move(obj) {
-				switch (obj) {
-				case "1":
-					window.location = '/reporting/allReporting';
-					break;
-				case "2":
-					window.location = '/reporting/googleReporting';
-					break;
-				case "3":
-					window.location = '/reporting/twitterReporting';
-					break;
-				case "4":
-					window.location = '/reporting/dspReporting';
-					break;
-				case "5":
-					window.location = '/reporting/facebookReporting';
-				}
-
-			}
-
 			$(function() {
 				$('#tableForIssueList').DataTable({
 					scrollY : true,
