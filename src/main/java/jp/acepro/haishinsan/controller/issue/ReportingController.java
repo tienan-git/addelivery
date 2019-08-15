@@ -15,12 +15,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.dao.DspCampaignManageDao;
+import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.db.entity.DspCampaignManage;
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDetailDto;
 import jp.acepro.haishinsan.dto.dsp.DspReportingGraphDto;
 import jp.acepro.haishinsan.dto.dsp.DspReportingListDto;
+import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
+import jp.acepro.haishinsan.dto.facebook.FbGraphReportDto;
+import jp.acepro.haishinsan.dto.facebook.FbReportDisplayDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterDisplayReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterGraphReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
@@ -29,6 +34,8 @@ import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
+import jp.acepro.haishinsan.service.facebook.FacebookService;
+import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
 import jp.acepro.haishinsan.util.ContextUtil;
@@ -61,6 +68,15 @@ public class ReportingController {
 	DspCampaignService dspCampaignService;
 
 	@Autowired
+	FacebookCampaignManageDao facebookCampaignManageDao;
+
+	@Autowired
+	FacebookService facebookService;
+
+	@Autowired
+	FacebookReportingService facebookReportingService;
+
+	@Autowired
 	IssueDao issueDao;
 
 	@PostMapping("/allReporting")
@@ -71,7 +87,10 @@ public class ReportingController {
 			return getDspReporting(issueId);
 		case "Twitter":
 			return getTwitterReporting(issueId);
-		}
+		case "FaceBook":
+			return getFacebookReporting(issueId);
+		}		
+
 		return null;
 	}
 
@@ -172,10 +191,46 @@ public class ReportingController {
 	}
 
 	@GetMapping("/facebookReporting")
-	public ModelAndView getFacebookReporting() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("reporting/facebookReporting");
-		return mv;
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_REPORT_VIEW + "')")
+	public ModelAndView getFacebookReporting(@RequestParam Long issueId) {
+
+		Issue issue = issueDao.selectById(issueId);
+		FbCampaignDto fbCampaignDto = facebookService.campaignDetail(issue.getFacebookCampaignManageId().toString());
+
+		// 検索条件を集める
+		List<String> campaignIdList = new ArrayList<String>();
+		campaignIdList.add(fbCampaignDto.getCampaignId());
+		String startDate = issue.getStartDate();
+		String endDate = issue.getEndDate(); 
+
+		// 日付別のグラフレポートを取得
+		FbGraphReportDto fbDateGraphReportDto = facebookReportingService.getFacebookDateReportingGraph(campaignIdList, startDate, endDate);
+		// 日付別のリストレポートを取得
+		List<FbReportDisplayDto> fbDateReportDisplayDtoList = facebookReportingService.getDateReport(campaignIdList, startDate, endDate);
+		// デバイス別のリグラフレポートを取得
+		FbGraphReportDto fbDeviceGraphReportDto = facebookReportingService.getFacebookDeviceReportingGraph(campaignIdList, startDate, endDate);
+		// デバイス別のリストレポートを取得
+		List<FbReportDisplayDto> fbDeviceReportDisplayDtoList = facebookReportingService.getDeviceReport(campaignIdList, startDate, endDate);
+		// 地域別のリグラフレポートを取得
+		FbGraphReportDto fbRegionGraphReportDto = facebookReportingService.getFacebookRegionReportingGraph(campaignIdList, startDate, endDate);
+		// 地域別のリストレポートを取得
+		List<FbReportDisplayDto> fbRegionReportDisplayDtoList = facebookReportingService.getRegionReport(campaignIdList, startDate, endDate);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("reporting/facebookReporting");
+		modelAndView.addObject("issue", issue);
+		modelAndView.addObject("fbCampaignDto", fbCampaignDto);
+		modelAndView.addObject("fbDateGraphReportDto", fbDateGraphReportDto);
+		modelAndView.addObject("fbDateReportDisplayDtoList", fbDateReportDisplayDtoList);
+		modelAndView.addObject("fbDeviceGraphReportDto", fbDeviceGraphReportDto);
+		modelAndView.addObject("fbDeviceReportDisplayDtoList", fbDeviceReportDisplayDtoList);
+		modelAndView.addObject("fbRegionGraphReportDto", fbRegionGraphReportDto);
+		modelAndView.addObject("fbRegionReportDisplayDtoList", fbRegionReportDisplayDtoList);
+
+		// オペレーションログ記録
+		operationService.create(Operation.FACEBOOK_REPORT_VIEW.getValue(), null);
+
+		return modelAndView;
 	}
 
 	@GetMapping("/googleReporting")

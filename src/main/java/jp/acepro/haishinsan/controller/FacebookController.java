@@ -51,6 +51,7 @@ import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.service.facebook.FacebookService;
+import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.ImageUtil;
 import jp.acepro.haishinsan.util.Utf8BomUtil;
@@ -68,6 +69,9 @@ public class FacebookController {
 
 	@Autowired
 	FacebookService facebookService;
+
+	@Autowired
+	FacebookReportingService facebookReportingService;
 
 	@Autowired
 	DspSegmentService dspSegmentService;
@@ -340,8 +344,8 @@ public class FacebookController {
 	public ModelAndView getReport() {
 
 		// レポート取得（API経由）
-		facebookService.getReportDetails(EnumDatePreset.VALUE_TODAY);
-		facebookService.getReportDetails(EnumDatePreset.VALUE_YESTERDAY);
+		facebookReportingService.getReportDetails(EnumDatePreset.VALUE_TODAY);
+		facebookReportingService.getReportDetails(EnumDatePreset.VALUE_YESTERDAY);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("facebook/reporting");
@@ -379,9 +383,9 @@ public class FacebookController {
 			endDate = fbReportInputForm.getEndDate();
 		}
 		// テーブル表示用のDtoリストを取得
-		List<FbReportDisplayDto> fbReportDisplayDtoList = facebookService.getDeviceReport(fbReportInputForm.getCampaignIdList(), startDate, endDate);
+		List<FbReportDisplayDto> fbReportDisplayDtoList = facebookReportingService.getDeviceReport(fbReportInputForm.getCampaignIdList(), startDate, endDate);
 		// Graph用
-		FbGraphReportDto fbGraphReportDto = facebookService.getFacebookDeviceReportingGraph(fbReportInputForm.getCampaignIdList(), startDate, endDate);
+		FbGraphReportDto fbGraphReportDto = facebookReportingService.getFacebookDeviceReportingGraph(fbReportInputForm.getCampaignIdList(), startDate, endDate);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("facebook/reporting");
@@ -407,9 +411,9 @@ public class FacebookController {
 			endDate = fbReportInputForm.getEndDate();
 		}
 		// テーブル表示用のDtoリストを取得
-		List<FbReportDisplayDto> fbReportDisplayDtoList = facebookService.getRegionReport(fbReportInputForm.getCampaignIdList(), startDate, endDate);
+		List<FbReportDisplayDto> fbReportDisplayDtoList = facebookReportingService.getRegionReport(fbReportInputForm.getCampaignIdList(), startDate, endDate);
 		// Graph用
-		FbGraphReportDto fbGraphReportDto = facebookService.getFacebookRegionReportingGraph(fbReportInputForm.getCampaignIdList(), startDate, endDate);
+		FbGraphReportDto fbGraphReportDto = facebookReportingService.getFacebookRegionReportingGraph(fbReportInputForm.getCampaignIdList(), startDate, endDate);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("facebook/reporting");
@@ -435,9 +439,9 @@ public class FacebookController {
 			endDate = fbReportInputForm.getEndDate();
 		}
 		// テーブル表示用のDtoリストを取得
-		List<FbReportDisplayDto> fbReportDisplayDtoList = facebookService.getDateReport(fbReportInputForm.getCampaignIdList(), startDate, endDate);
+		List<FbReportDisplayDto> fbReportDisplayDtoList = facebookReportingService.getDateReport(fbReportInputForm.getCampaignIdList(), startDate, endDate);
 		// Graph用
-		FbGraphReportDto fbGraphReportDto = facebookService.getFacebookDateReportingGraph(fbReportInputForm.getCampaignIdList(), startDate, endDate);
+		FbGraphReportDto fbGraphReportDto = facebookReportingService.getFacebookDateReportingGraph(fbReportInputForm.getCampaignIdList(), startDate, endDate);
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("facebook/reporting");
@@ -463,7 +467,7 @@ public class FacebookController {
 			endDate = fbReportInputForm.getEndDate();
 		}
 		// CSVファイル中身を取得し、文字列にする
-		String file = facebookService.download(fbReportInputForm.getCampaignIdList(), startDate, endDate, reportType);
+		String file = facebookReportingService.download(fbReportInputForm.getCampaignIdList(), startDate, endDate, reportType);
 
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
