@@ -14,6 +14,7 @@ import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.service.facebook.FacebookService;
 import jp.acepro.haishinsan.service.google.GoogleReportService;
+import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
 import jp.acepro.haishinsan.service.youtube.YoutubeReportService;
 import lombok.extern.slf4j.Slf4j;
@@ -33,6 +34,9 @@ public class ReportApiServiceImpl implements ReportApiService {
 
     @Autowired
     FacebookService facebookService;
+
+    @Autowired
+    FacebookReportingService facebookReportingService;
 
     @Autowired
     TwitterReportingService twitterReportingService;
@@ -70,8 +74,8 @@ public class ReportApiServiceImpl implements ReportApiService {
         }
         try {
             // Facebookのレポートを取得
-            facebookService.getReportDetails(EnumDatePreset.VALUE_TODAY);
-            facebookService.getReportDetails(EnumDatePreset.VALUE_YESTERDAY);
+        	facebookReportingService.getReportDetails(EnumDatePreset.VALUE_TODAY);
+        	facebookReportingService.getReportDetails(EnumDatePreset.VALUE_YESTERDAY);
             // オペレーションログ記録
             operationService.createWithoutUser(Operation.GET_FACEBOOK_REPORT_RAWDATA.getValue(),
                     "Facebookレポート生データ取得が成功しました。");
