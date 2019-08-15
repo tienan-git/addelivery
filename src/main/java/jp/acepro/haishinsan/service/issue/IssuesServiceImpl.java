@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.db.entity.Issue;
-import jp.acepro.haishinsan.db.entity.TwitterCampaignManage;
 import jp.acepro.haishinsan.dto.IssuesDto;
+import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
+import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
 import jp.acepro.haishinsan.entity.IssueWithShopWithCorporation;
+import jp.acepro.haishinsan.entity.TwitterCampaignWithIssueWithTweetList;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.IssueAdStatus;
 import jp.acepro.haishinsan.enums.IssueAdtype;
@@ -118,11 +120,30 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
 
     // 案件IdでcampaignIdを検索
     @Override
-    public String selectCampaignIdByIssueId(Long issueId) {
-        TwitterCampaignManage twitterCampaignManage = issueCustomDao
-                .selectCampaignIdByIssueId(ContextUtil.getCurrentShop().getShopId(), issueId);
-        String campaignId = twitterCampaignManage.getCampaignId();
-        return campaignId;
+    public TwitterCampaignData selectCampaignIdByIssueId(Long issueId) {
+        List<TwitterCampaignWithIssueWithTweetList> twitterCampaignList = issueCustomDao.selectCampaignIdByIssueId(
+                ContextUtil.getCurrentShop().getShopId(), ContextUtil.getCurrentShop().getTwitterAccountId(), issueId);
+        TwitterCampaignData twitterCampaignData = new TwitterCampaignData();
+        // DBから検索されたデータ→Dto
+        if (twitterCampaignList.isEmpty() == false) {
+            twitterCampaignData.setId(twitterCampaignList.get(0).getCampaignId());
+            twitterCampaignData.setName(twitterCampaignList.get(0).getCampaignName());
+            twitterCampaignData.setDaily_budget_amount_local_micro(twitterCampaignList.get(0).getDailyBudget());
+            twitterCampaignData.setTotal_budget_amount_local_micro(twitterCampaignList.get(0).getTotalBudget());
+            twitterCampaignData.setStart_time(twitterCampaignList.get(0).getStartDate());
+            twitterCampaignData.setEnd_time(twitterCampaignList.get(0).getEndDate());
+            List<TwitterTweet> TwitterTweetList = new ArrayList<>();
+            for (TwitterCampaignWithIssueWithTweetList twitterCampaign : twitterCampaignList) {
+                TwitterTweet twitterTweet = new TwitterTweet();
+                twitterTweet.setTweetId(twitterCampaign.getTweetId());
+                twitterTweet.setTweetTitle(twitterCampaign.getTweetTitle());
+                twitterTweet.setTweetBody(twitterCampaign.getTweetBody());
+                twitterTweet.setPreviewUrl(twitterCampaign.getPreviewUrl());
+                TwitterTweetList.add(twitterTweet);
+            }
+            twitterCampaignData.setTweetList(TwitterTweetList);
+        }
+        return twitterCampaignData;
     }
 
 }

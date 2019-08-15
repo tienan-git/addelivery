@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.dto.IssuesDto;
+import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
 import jp.acepro.haishinsan.form.IssueSearchForm;
 import jp.acepro.haishinsan.service.campaign.twitter.TwitterCampaignApiService;
 import jp.acepro.haishinsan.service.issue.IssuesService;
@@ -70,7 +71,8 @@ public class IssuesController {
     public ModelAndView deleteIssue(@RequestParam Long issueId, @RequestParam String media) {
 
         if ("Twitter".equals(media)) {
-            String campaignId = issuesService.selectCampaignIdByIssueId(issueId);
+            TwitterCampaignData twitterCampaignData = issuesService.selectCampaignIdByIssueId(issueId);
+            String campaignId = twitterCampaignData.getId();
             // Call Api: Twitter広告状態を停止にする
             twitterCampaignApiService.deleteAds(campaignId, issueId);
         } else {
