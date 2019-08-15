@@ -47,21 +47,6 @@ public interface FacebookService {
 	// キャンペーンの審査ステータスを更新
 	void updateCampaignCheckStatus(String campaignId, String checkStatus);
 
-	void getReportDetails(EnumDatePreset enumDatePreset);
-
-	List<FbReportDisplayDto> getDeviceReport(List<String> campaignIdList, String startDate, String endDate);
-
-	List<FbReportDisplayDto> getRegionReport(List<String> campaignIdList, String startDate, String endDate);
-
-	List<FbReportDisplayDto> getDateReport(List<String> campaignIdList, String startDate, String endDate);
-
-	FbGraphReportDto getFacebookDeviceReportingGraph(List<String> campaignIdList, String startDate, String endDate);
-
-	FbGraphReportDto getFacebookDateReportingGraph(List<String> campaignIdList, String startDate, String endDate);
-
-	FbGraphReportDto getFacebookRegionReportingGraph(List<String> campaignIdList, String startDate, String endDate);
-
-	String download(List<String> campaignIdList, String startDate, String endDate, Integer reportType);
 
 	void createFacebookCampaign(FbCampaignDto fbCampaignDto, IssueDto issueDto);
 	
