@@ -387,10 +387,10 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			EnumBillingEvent enumBillingEvent = AdSet.EnumBillingEvent.VALUE_IMPRESSIONS;
 			// 最大入札価格を設定
 			Long bidAmount = 200l;
-			// 地域設定 とりあえず固定
+			// 地域設定 （仮に東京銀座に設定）
 			// location_typesが指定されていない場合、デフォルトはこの地域に住んでる人です。
 			List<TargetingGeoLocationCity> TargetingGeoLocationCityList = new ArrayList<TargetingGeoLocationCity>();
-			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("2686399"));
+			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("1200778"));
 
 			// 趣味設定
 			List<IDName> idNameList = new ArrayList<IDName>();
@@ -404,9 +404,8 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 					.setFieldInterests(idNameList)// 趣味
 					.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList));
 			targeting.setFieldPublisherPlatforms(Arrays.asList("facebook")).setFieldFacebookPositions(Arrays.asList("feed"));
-			// 広告セットを作成
+			// 広告セットを作成（スタート日時は仮に次の日に設定、終了日時は設定せず）
 			String startDateTime = DateFormatter.yyyyMMdd_HYPHEN.format(today.plusDays(1L)) + "T00:00:00+0900";
-			String nextEndDateTime = DateFormatter.yyyyMMdd_HYPHEN.format(today.plusDays(180L)) + "T00:00:00+0900";
 			AdImage adImage = account.createAdImage().addUploadFile("filename", fbCreativeDto.getImageFile()).execute();
 			for (DspSegmentListDto dspSegmentListDto : dspSegmentDtoList) {
 				cnt++;
@@ -420,7 +419,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 						// 配信ステータス
 						.setStatus(enumSetStatus)
 						// 入札戦略（最小コスト）
-						.setDailyBudget(realDailyBudget).setStartTime(startDateTime).setEndTime(nextEndDateTime).setBillingEvent(enumBillingEvent).setBidStrategy(EnumBidStrategy.VALUE_LOWEST_COST_WITH_BID_CAP).setBidAmount(bidAmount)
+						.setDailyBudget(realDailyBudget).setStartTime(startDateTime).setBillingEvent(enumBillingEvent).setBidStrategy(EnumBidStrategy.VALUE_LOWEST_COST_WITH_BID_CAP).setBidAmount(bidAmount)
 						// 広告配信の最適化対象
 						.setOptimizationGoal(EnumOptimizationGoal.VALUE_IMPRESSIONS).setTargeting(targeting).execute();
 				String adSetId = adset.getFieldId();
