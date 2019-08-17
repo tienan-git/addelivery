@@ -112,6 +112,14 @@ public class Issue extends BaseEntity {
     @Column(name = "is_actived")
     Integer isActived;
 
+    /** 配信開始タイムスタンプ */
+    @Column(name = "start_timestamp")
+    LocalDateTime startTimestamp;
+
+    /** 配信終了タイムスタンプ */
+    @Column(name = "end_timestamp")
+    LocalDateTime endTimestamp;
+
     /** 
      * Returns the issueId.
      * 
@@ -506,5 +514,41 @@ public class Issue extends BaseEntity {
      */
     public void setIsActived(Integer isActived) {
         this.isActived = isActived;
+    }
+
+    /** 
+     * Returns the startTimestamp.
+     * 
+     * @return the startTimestamp
+     */
+    public LocalDateTime getStartTimestamp() {
+        return startTimestamp;
+    }
+
+    /** 
+     * Sets the startTimestamp.
+     * 
+     * @param startTimestamp the startTimestamp
+     */
+    public void setStartTimestamp(LocalDateTime startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    /** 
+     * Returns the endTimestamp.
+     * 
+     * @return the endTimestamp
+     */
+    public LocalDateTime getEndTimestamp() {
+        return endTimestamp;
+    }
+
+    /** 
+     * Sets the endTimestamp.
+     * 
+     * @param endTimestamp the endTimestamp
+     */
+    public void setEndTimestamp(LocalDateTime endTimestamp) {
+        this.endTimestamp = endTimestamp;
     }
 }
