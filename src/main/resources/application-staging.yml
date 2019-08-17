@@ -32,7 +32,7 @@ twitter:
 logging:
   level:
     root: INFO
-    jp.acepro.reporting: TRACE
+    jp.acepro.haishinsan: DEBUG
     
 email:
   url:
