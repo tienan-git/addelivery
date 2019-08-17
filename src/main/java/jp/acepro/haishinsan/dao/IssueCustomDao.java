@@ -24,4 +24,6 @@ public interface IssueCustomDao {
     @Select
     List<TwitterCampaignWithIssueWithTweetList> selectCampaignIdByIssueId(Long shopId, String accountId, Long issueId);
 
+    @Select
+    List<Issue> selectFacebookIssueNeededStart(String date);
 }
