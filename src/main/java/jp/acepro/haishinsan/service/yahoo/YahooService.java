@@ -12,40 +12,42 @@ import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
 
-
 public interface YahooService {
 
-	List<YahooCsvBean> readCsv(MultipartFile csvFile);
-	
-	void uploadData(List<YahooCsvBean> yahooCsvBeanList);
-	
-	List<YahooCampaignManage> searchYahooCampaignManageList();
-	
-	List<YahooReportDisplayDto> getDeviceReport(List<String> campaignIdList, String startDate, String endDate);
-	
-	List<YahooReportDisplayDto> getRegionReport(List<String> campaignIdList, String startDate, String endDate);
+    List<YahooCsvBean> readCsv(MultipartFile csvFile);
 
-	List<YahooReportDisplayDto> getDateReport(List<String> campaignIdList, String startDate, String endDate);
-	
-	List<YahooIssueDto> searchYahooIssueList();
-	
-	List<DspSegmentDto> searchSegmentList();
-	
-	List<YahooLocationDto> getLocationList(List<Long> locationIdList);
-	
-	YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<MultipartFile> imageList) throws Exception;
-	
-	YahooIssueDto getIssueDetail(Long issueId);
-	
-	YahooIssueDto deleteIssue(Long issueId);
-	
-	void updateIssue(Long issueId, String campaignId);
-	
-	YahooGraphReportDto getYahooDeviceReportingGraph(List<String> campaignIdList, String startDate, String endDate);
+    void uploadData(List<YahooCsvBean> yahooCsvBeanList);
 
-	YahooGraphReportDto getYahooDateReportingGraph(List<String> campaignIdList, String startDate, String endDate);
+    List<YahooCampaignManage> searchYahooCampaignManageList();
 
-	YahooGraphReportDto getYahooRegionReportingGraph(List<String> campaignIdList, String startDate, String endDate);
+    List<YahooReportDisplayDto> getDeviceReport(List<String> campaignIdList, String startDate, String endDate);
 
-	String download(List<String> campaignIdList, String startDate, String endDate, Integer reportType);
+    List<YahooReportDisplayDto> getRegionReport(List<String> campaignIdList, String startDate, String endDate);
+
+    List<YahooReportDisplayDto> getDateReport(List<String> campaignIdList, String startDate, String endDate);
+
+    List<YahooIssueDto> searchYahooIssueList();
+
+    List<DspSegmentDto> searchSegmentList();
+
+    List<YahooLocationDto> getLocationList(List<Long> locationIdList);
+
+    YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<String> imaBase64List);
+
+    YahooIssueDto getIssueDetail(Long issueId);
+
+    YahooIssueDto deleteIssue(Long issueId);
+
+    void updateIssue(Long issueId, String campaignId);
+
+    YahooGraphReportDto getYahooDeviceReportingGraph(List<String> campaignIdList, String startDate, String endDate);
+
+    YahooGraphReportDto getYahooDateReportingGraph(List<String> campaignIdList, String startDate, String endDate);
+
+    YahooGraphReportDto getYahooRegionReportingGraph(List<String> campaignIdList, String startDate, String endDate);
+
+    String download(List<String> campaignIdList, String startDate, String endDate, Integer reportType);
+
+    // 入力チェック
+    void yahooCampaignCheck(YahooIssueDto yahooIssueDto);
 }
