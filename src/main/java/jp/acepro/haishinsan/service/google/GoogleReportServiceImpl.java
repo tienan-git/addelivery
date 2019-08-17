@@ -41,7 +41,6 @@ import jp.acepro.haishinsan.dto.google.GoogleReportDisplayDto;
 import jp.acepro.haishinsan.dto.google.GoogleReportDto;
 import jp.acepro.haishinsan.dto.google.GoogleReportSearchDto;
 import jp.acepro.haishinsan.enums.GoogleDeviceType;
-import jp.acepro.haishinsan.enums.PeriodSet;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
@@ -200,10 +199,11 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		}
 
 		// 表示対象期間を判定
-		if (googleReportSearchDto.getPeriod().equals(PeriodSet.WHOLE.getValue())) {
-			googleReportSearchDto.setStartDate(null);
-			googleReportSearchDto.setEndDate(null);
-		}
+		// 検索条件がないので、一旦こちらをコメントアウトする
+//		if (googleReportSearchDto.getPeriod().equals(PeriodSet.WHOLE.getValue())) {
+//			googleReportSearchDto.setStartDate(null);
+//			googleReportSearchDto.setEndDate(null);
+//		}
 
 		// 表示対象キャンペーンのレポート情報を取得
 		List<GoogleDeviceReport> googleDeviceReportList = googleDeviceReportCustomDao.selectDeviceReport(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
@@ -283,10 +283,11 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		}
 
 		// 表示対象期間を判定
-		if (googleReportSearchDto.getPeriod().equals(PeriodSet.WHOLE.getValue())) {
-			googleReportSearchDto.setStartDate(null);
-			googleReportSearchDto.setEndDate(null);
-		}
+		// 検索条件がないので、一旦こちらをコメントアウトする
+//		if (googleReportSearchDto.getPeriod().equals(PeriodSet.WHOLE.getValue())) {
+//			googleReportSearchDto.setStartDate(null);
+//			googleReportSearchDto.setEndDate(null);
+//		}
 
 		// 表示対象キャンペーンのレポート情報を取得
 		List<GoogleLocationReport> googleLocationReportList = googleLocationReportCustomDao.selectLocationReport(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
@@ -380,10 +381,11 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		}
 
 		// 表示対象期間を判定
-		if (googleReportSearchDto.getPeriod().equals(PeriodSet.WHOLE.getValue())) {
-			googleReportSearchDto.setStartDate(null);
-			googleReportSearchDto.setEndDate(null);
-		}
+		// 検索条件がないので、一旦こちらをコメントアウトする
+//		if (googleReportSearchDto.getPeriod().equals(PeriodSet.WHOLE.getValue())) {
+//			googleReportSearchDto.setStartDate(null);
+//			googleReportSearchDto.setEndDate(null);
+//		}
 
 		// 表示対象キャンペーンのレポート情報を取得
 		List<GoogleDeviceReport> googleDeviceReportList = googleDeviceReportCustomDao.selectDailyReport(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
