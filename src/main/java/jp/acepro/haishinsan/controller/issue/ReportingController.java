@@ -113,8 +113,10 @@ public class ReportingController {
 	@GetMapping("/dspReporting")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
 	public ModelAndView getDspReporting(@RequestParam Long issueId) {
+		
+		Issue issue = issueDao.selectById(issueId);
 
-		DspCampaignManage dspCampaginManage = dspCampaignManageDao.selectById(issueId);
+		DspCampaignManage dspCampaginManage = dspCampaignManageDao.selectById(issue.getDspCampaignManageId());
 		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(dspCampaginManage.getCampaignId(), ContextUtil.getCurrentShop().getDspUserId());
 
 		// 検索条件を集める

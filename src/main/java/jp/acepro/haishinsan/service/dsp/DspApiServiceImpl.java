@@ -335,8 +335,8 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		DspAdReportReq dspAdReportReq = new DspAdReportReq();
 		dspAdReportReq.setUser_id(shop.getDspUserId());
 		dspAdReportReq.setCampaign_ids(campaignIds);
-		dspAdReportReq.setStart_date("2019-08-07");
-		dspAdReportReq.setEnd_date("2019-08-10");
+		dspAdReportReq.setStart_date(startDate);
+		dspAdReportReq.setEnd_date(endDate);
 
 		DspAdReportRes dspAdReportRes = null;
 		try {
