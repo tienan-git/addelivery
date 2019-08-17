@@ -25,17 +25,163 @@
 	<div layout:fragment="page_body_container">
 		<form action="#" method="post">
 			<div class="card" id="GoogleReporting">
-				<div class="card-block">
-					<h4 class="sub-title">Google-広告物</h4>
+				<div class="card-block" th:object="${googleCampaignDetailDto}">
+					<h4 class="sub-title">基本情報</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">案件名</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{campaignName}">キャンペーン名</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">配信開始日</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{startDateSlash}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">配信終了日</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{endDateSlash}">2018/10/15</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">日別予算</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{budget} + 円">1,000</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">地域</label>
+						<div class="col-sm-4 col-form-label"
+							th:if="${#lists.isEmpty(googleCampaignDetailDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple
+								th:field="*{locationList}" disabled>
+								<option
+									th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}"
+									th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+						<div class="col-sm-4 col-form-label"
+							th:unless="${#lists.isEmpty(googleCampaignDetailDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple
+								th:field="*{locationList}" disabled>
+								<option
+									th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}"
+									th:selected="${#lists.contains(googleCampaignDetailDto.locationList, object.getFirst())}"
+									th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+					</div>
+					<br />
+					<h4 class="sub-title">広告情報</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
+						<div class="col-sm-4 col-form-label">
+							<label id="adType"
+								th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleCampaignDetailDto.adType).getLabel()}">レスポンシブ広告</label>
+						</div>
+					</div>
+					<div
+						th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdDescription}">新しいパソコンが発売</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">画像ファイル</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="imageUrl : *{resAdImageUrlList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${imageUrl}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{imageAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="card-block">
+							<div class="sub-title">画像ファイル</div>
+							<div class="card">
+								<div class="card-block masonry-image">
+									<div class="default-grid ">
+										<div class="row lightboxgallery-popup">
+											<div class="col-sm-3 default-grid-item"
+												th:each="imageUrl : *{imageAdImageUrlList}">
+												<div class="masonry-media">
+													<a class="media-middle" href="#!"> <img
+														class="img-fluid" th:src="${imageUrl}" alt="masonary">
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div
+						th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdTitle1}">MacBook Pro広告見出し１</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdTitle2}">MacBook Pro広告見出し２</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{textAdDescription}">MacBook Pro説明文</label>
+							</div>
+						</div>
+					</div>
 				</div>
 				<div class="card-block">
-					<img
-						src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" />
+					<h4 class="sub-title">Googleー日付別</h4>
 				</div>
-				<div class="card-block">
-					<h4 class="sub-title">Google-日付別</h4>
-				</div>
-				<div class="card-block">
+				<div class="card-block col-lg-12">
 					<div id="googleDaily"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -44,7 +190,7 @@
 						style="width: 100%;">
 						<thead>
 							<tr>
-								<th>日次サマリ</th>
+								<th>日付</th>
 								<th>表示回数</th>
 								<th>クリック数</th>
 								<th>ご利用金額</th>
@@ -54,32 +200,50 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>2019/1/1</td>
-								<td>130092</td>
-								<td>136</td>
-								<td>¥7,570</td>
-								<td>0.10%</td>
-								<td>¥56</td>
-								<td>¥58</td>
+							<tr
+								th:each="dailyDto : ${googleDailyReportDto.googleReportDisplayDtoList}">
+								<td th:text="${dailyDto.date}">2019/1/1</td>
+								<td th:text="${dailyDto.impressions}">130092</td>
+								<td th:text="${dailyDto.clicks}">136</td>
+								<td th:text="${dailyDto.costs}">¥7,570</td>
+								<td th:text="${dailyDto.ctr}">0.10%</td>
+								<td th:text="${dailyDto.cpc}">¥56</td>
+								<td th:text="${dailyDto.cpm}">¥58</td>
 							</tr>
+						</tbody>
+					</table>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">Google-地域別</h4>
+				</div>
+				<div class="card-block">
+					<div id="googleLocation"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table id="basicTable"
+						class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
 							<tr>
-								<td>2019/1/1</td>
-								<td>106492</td>
-								<td>123</td>
-								<td>¥7,411</td>
-								<td>0.12%</td>
-								<td>¥60</td>
-								<td>¥70</td>
+								<th>地域名</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
 							</tr>
-							<tr>
-								<td>合計</td>
-								<td>236584</td>
-								<td>259</td>
-								<td>¥14,981</td>
-								<td>0.11%</td>
-								<td>¥58</td>
-								<td>¥64</td>
+						</thead>
+						<tbody>
+							<tr
+								th:each="locationDto : ${googleLocationReportDto.googleReportDisplayDtoList}">
+								<td th:text="${locationDto.locationName}">2019/1/1</td>
+								<td th:text="${locationDto.impressions}">130092</td>
+								<td th:text="${locationDto.clicks}">136</td>
+								<td th:text="${locationDto.costs}">¥7,570</td>
+								<td th:text="${locationDto.ctr}">0.10%</td>
+								<td th:text="${locationDto.cpc}">¥56</td>
+								<td th:text="${locationDto.cpm}">¥58</td>
 							</tr>
 						</tbody>
 					</table>
@@ -89,12 +253,11 @@
 				</div>
 				<div class="card-block col-lg-12"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-
-					<div id="googleDeviceImpression"
+					<div id="googleDeviceImpressions"
 						style="width: 33%; display: inline-block;"></div>
 					<div id="googleDeviceClick"
 						style="width: 33%; display: inline-block;"></div>
-					<div id="googleDeviceSum"
+					<div id="googleDeviceCosts"
 						style="width: 33%; display: inline-block;"></div>
 				</div>
 				<div class="card-block col-lg-12">
@@ -113,188 +276,15 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
-								<td>パソコン</td>
-								<td>130092</td>
-								<td>749,813</td>
-								<td>¥7,570</td>
-								<td>0.10%</td>
-								<td>¥56</td>
-								<td>¥58</td>
-							</tr>
-							<tr>
-								<td>スマートフォン</td>
-								<td>106492</td>
-								<td>123</td>
-								<td>¥7,411</td>
-								<td>0.12%</td>
-								<td>¥60</td>
-								<td>¥70</td>
-							</tr>
-							<tr>
-								<td>タブレット</td>
-								<td>236584</td>
-								<td>749,813</td>
-								<td>¥14,981</td>
-								<td>0.11%</td>
-								<td>¥58</td>
-								<td>¥64</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="card-block">
-					<h4 class="sub-title">Googleークリエイティブ別</h4>
-				</div>
-				<div class="card-block col-lg-12"
-					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-					<div id="googleCreativeImpression"
-						style="width: 33%; display: inline-block;"></div>
-					<div id="googleCreativeClick"
-						style="width: 33%; display: inline-block;"></div>
-					<div id="googleCreativeSum"
-						style="width: 33%; display: inline-block;"></div>
-				</div>
-				<div class="card-block col-lg-12">
-					<table id="basicTable"
-						class="table table-striped table-bordered nowrap"
-						style="width: 100%;">
-						<thead>
-							<tr>
-								<th>クリエいティブ</th>
-								<th>表示回数</th>
-								<th>クリック数</th>
-								<th>ご利用金額</th>
-								<th>CTR</th>
-								<th>CPC</th>
-								<th>CPM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>テキスト_1</td>
-								<td>130092</td>
-								<td>136</td>
-								<td>¥7,570</td>
-								<td>0.10%</td>
-								<td>¥56</td>
-								<td>¥58</td>
-							</tr>
-							<tr>
-								<td>テキスト_2</td>
-								<td>106492</td>
-								<td>123</td>
-								<td>¥7,411</td>
-								<td>0.12%</td>
-								<td>¥60</td>
-								<td>¥70</td>
-							</tr>
-							<tr>
-								<td>テキスト_3</td>
-								<td>236584</td>
-								<td>259</td>
-								<td>¥14,981</td>
-								<td>0.11%</td>
-								<td>¥58</td>
-								<td>¥64</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="card-block">
-					<h4 class="sub-title">Googleー地域別</h4>
-				</div>
-				<div class="card-block col-lg-12">
-					<table id="basicTable"
-						class="table table-striped table-bordered nowrap"
-						style="width: 100%;">
-						<thead>
-							<tr>
-								<th>地域別</th>
-								<th>表示回数</th>
-								<th>クリック数</th>
-								<th>ご利用金額</th>
-								<th>CTR</th>
-								<th>CPC</th>
-								<th>CPM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>大阪府大阪市</td>
-								<td>130092</td>
-								<td>136</td>
-								<td>¥7,570</td>
-								<td>0.10%</td>
-								<td>¥56</td>
-								<td>¥58</td>
-							</tr>
-							<tr>
-								<td>兵庫県神戸市</td>
-								<td>106492</td>
-								<td>123</td>
-								<td>¥7,411</td>
-								<td>0.12%</td>
-								<td>¥60</td>
-								<td>¥70</td>
-							</tr>
-							<tr>
-								<td>千葉県千葉市</td>
-								<td>236584</td>
-								<td>259</td>
-								<td>¥14,981</td>
-								<td>0.11%</td>
-								<td>¥58</td>
-								<td>¥64</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="card-block">
-					<h4 class="sub-title">Googleーキーワード別 TOP10</h4>
-				</div>
-				<div class="card-block col-lg-12">
-					<table id="basicTable"
-						class="table table-striped table-bordered nowrap"
-						style="width: 100%;">
-						<thead>
-							<tr>
-								<th>キーワード別</th>
-								<th>表示回数</th>
-								<th>クリック数</th>
-								<th>ご利用金額</th>
-								<th>CTR</th>
-								<th>CPC</th>
-								<th>CPM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td>キーワード_1</td>
-								<td>130092</td>
-								<td>136</td>
-								<td>¥7,570</td>
-								<td>0.10%</td>
-								<td>¥56</td>
-								<td>¥58</td>
-							</tr>
-							<tr>
-								<td>キーワード_2</td>
-								<td>106492</td>
-								<td>123</td>
-								<td>¥7,411</td>
-								<td>0.12%</td>
-								<td>¥60</td>
-								<td>¥70</td>
-							</tr>
-							<tr>
-								<td>キーワード_3</td>
-								<td>236584</td>
-								<td>259</td>
-								<td>¥14,981</td>
-								<td>0.11%</td>
-								<td>¥58</td>
-								<td>¥64</td>
+							<tr
+								th:each="deviceDto : ${googleDeviceReportDto.googleReportDisplayDtoList}">
+								<td th:text="${deviceDto.deviceName}">2019/1/1</td>
+								<td th:text="${deviceDto.impressions}">130092</td>
+								<td th:text="${deviceDto.clicks}">136</td>
+								<td th:text="${deviceDto.costs}">¥7,570</td>
+								<td th:text="${deviceDto.ctr}">0.10%</td>
+								<td th:text="${deviceDto.cpc}">¥56</td>
+								<td th:text="${deviceDto.cpm}">¥58</td>
 							</tr>
 						</tbody>
 					</table>
@@ -307,171 +297,201 @@
 </body>
 <div layout:fragment="custom_resource_body">
 	<script type="text/javascript" th:inline="javascript">
-	/*Google日付 Chart*/
-	var chart = c3.generate({
-		bindto : '#googleDaily',
-		data : {
-			columns : [ [ '表示回数', 30, 20, 50, 40, 60, 50 ],
-					[ 'クリック数', 200, 130, 90, 240, 130, 220 ],
-					[ 'ご利用金額', 300, 200, 160, 400, 250, 250 ],
-					[ 'CTR', 200, 130, 90, 240, 130, 220 ],
-					[ 'CPC', 130, 120, 150, 140, 160, 150 ],
-					[ 'CPM', 90, 70, 20, 50, 60, 120 ], ],
-			type : 'bar',
-			colors : {
-				表示回数 : '#00C292',
-				クリック数 : '#4C5667',
-				ご利用金額 : '#03A9F3',
-				CTR : '#AB8CE4',
-				CPC : '#a3aebd',
-				CPM : '#FEC107'
+		/*<![CDATA[*/
+		// 日付別グラフデータ作成
+		var dailyReportGraphDtoList = /*[[${googleDailyReportDto.googleReportGraphDtoList}]]*/;
+		var dailyArr = new Array("x");
+		var dailyImpressionsArr = new Array("impressions");
+		var dailyClicksArr = new Array("clicks");
+		var dailyCostsArr = new Array("costs");
+		var dailyCtrArr = new Array("ctr");
+		var dailyCpcArr = new Array("cpc");
+		var dailyCpmArr = new Array("cpm");
+		dailyReportGraphDtoList.forEach(
+		    function(obj) {
+		    	dailyArr.push(obj.dateSlash);
+		    	dailyImpressionsArr.push(obj.impressions);
+		    	dailyClicksArr.push(obj.clicks);
+		    	dailyCostsArr.push(obj.costs);
+		    	dailyCtrArr.push(obj.ctr);
+		    	dailyCpcArr.push(obj.cpc);
+		    	dailyCpmArr.push(obj.cpm);
+		    }
+	    );
+		// 地域別グラフデータ作成
+		var locationReportGraphDtoList = /*[[${googleLocationReportDto.googleReportGraphDtoList}]]*/;
+		var locationArr = new Array("x");
+		var locationImpressionsArr = new Array("impressions");
+		var locationClicksArr = new Array("clicks");
+		var locationCostsArr = new Array("costs");
+		var locationCtrArr = new Array("ctr");
+		var locationCpcArr = new Array("cpc");
+		var locationCpmArr = new Array("cpm");
+		dailyReportGraphDtoList.forEach(
+		    function(obj) {
+		    	locationArr.push(obj.locationName);
+		    	locationImpressionsArr.push(obj.impressions);
+		    	locationClicksArr.push(obj.clicks);
+		    	locationCostsArr.push(obj.costs);
+		    	locationCtrArr.push(obj.ctr);
+		    	locationCpcArr.push(obj.cpc);
+		    	locationCpmArr.push(obj.cpm);
+		    }
+	    );
+		/*Google日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#googleDaily',
+			data : {
+				x:'x',
+				columns : [
+					dailyArr,
+					dailyImpressionsArr,
+					dailyClicksArr,
+					dailyCostsArr,
+					dailyCtrArr,
+					dailyCpcArr,
+					dailyCpmArr
+				],
+				type : 'bar',
+				colors : {
+					表示回数 : '#00C292',
+					クリック数 : '#4C5667',
+					ご利用金額 : '#03A9F3',
+					CTR : '#AB8CE4',
+					CPC : '#a3aebd',
+					CPM : '#FEC107'
+				},
+				types : {
+					CTR : 'spline',
+					CPC : 'line',
+					CPM : 'area',
+				},
+				groups : [ [ '表示回数', 'クリック数' ] ]
 			},
-			types : {
-				CTR : 'spline',
-				CPC : 'line',
-				CPM : 'area',
+			axis: { 
+			    x: { 
+			     type: 'category'
+			    } 
+			} 
+		});
+		/*Google地域 Chart*/
+		var chart = c3.generate({
+			bindto : '#googleLocation',
+			data : {
+				x:'x',
+				columns : [
+					locationArr,
+					locationImpressionsArr,
+					locationClicksArr,
+					locationCostsArr,
+					locationCtrArr,
+					locationCpcArr,
+					locationCpmArr
+				],
+				type : 'bar',
+				colors : {
+					表示回数 : '#00C292',
+					クリック数 : '#4C5667',
+					ご利用金額 : '#03A9F3',
+					CTR : '#AB8CE4',
+					CPC : '#a3aebd',
+					CPM : '#FEC107'
+				},
+				types : {
+					CTR : 'spline',
+					CPC : 'line',
+					CPM : 'area',
+				},
+				groups : [ [ '表示回数', 'クリック数' ] ]
 			},
-			groups : [ [ '表示回数', 'クリック数' ] ]
-		}
-	});
-	/*googleDeviceClick*/
-	var chart = c3.generate({
-		bindto : '#googleDeviceClick',
-		data : {
-			columns : [ [ 'PC', 30 ], [ 'SP', 120 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
+			axis: { 
+			    x: { 
+			     type: 'category'
+			    } 
+			} 
+		});
+		/*googleDeviceClick*/
+		var chart = c3.generate({
+			bindto : '#googleDeviceClick',
+			data : {
+				columns : [ 
+					[ 'パソコン', /*[[${googleDeviceReportDto.googleReportGraphDtoList[0].clicks}]]*/ ], 
+					[ 'モバイル', /*[[${googleDeviceReportDto.googleReportGraphDtoList[1].clicks}]]*/ ], 
+					[ 'タブレット', /*[[${googleDeviceReportDto.googleReportGraphDtoList[2].clicks}]]*/ ]
+				],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
 			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
 			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
+			donut : {
+				title : "クリック数"
 			}
-		},
-		color : {
-			pattern : [ '#4C5667', '#1ABC9C' ]
-		},
-		donut : {
-			title : "クリック数"
-		}
-	});
-	/*googleDeviceSum*/
-	var chart = c3.generate({
-		bindto : '#googleDeviceSum',
-		data : {
-			columns : [ [ 'PC', 30 ], [ 'SP', 120 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
+		});
+		/*googleDeviceSum*/
+		var chart = c3.generate({
+			bindto : '#googleDeviceCosts',
+			data : {
+				columns : [ 
+					[ 'パソコン', /*[[${googleDeviceReportDto.googleReportGraphDtoList[0].costs}]]*/ ], 
+					[ 'モバイル', /*[[${googleDeviceReportDto.googleReportGraphDtoList[1].costs}]]*/ ], 
+					[ 'タブレット', /*[[${googleDeviceReportDto.googleReportGraphDtoList[2].costs}]]*/ ]
+				],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
 			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
 			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
+			donut : {
+				title : "ご利用金額"
 			}
-		},
-		color : {
-			pattern : [ '#4C5667', '#1ABC9C' ]
-		},
-		donut : {
-			title : "ご利用金額"
-		}
-	});
-	/*googleDeviceImpression*/
-	var chart = c3.generate({
-		bindto : '#googleDeviceImpression',
-		data : {
-			columns : [ [ 'PC', 30 ], [ 'SP', 120 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
+		});
+		/*googleDeviceImpression*/
+		var chart = c3.generate({
+			bindto : '#googleDeviceImpressions',
+			data : {
+				columns : [ 
+					[ 'パソコン', /*[[${googleDeviceReportDto.googleReportGraphDtoList[0].impressions}]]*/ ], 
+					[ 'モバイル', /*[[${googleDeviceReportDto.googleReportGraphDtoList[1].impressions}]]*/ ], 
+					[ 'タブレット', /*[[${googleDeviceReportDto.googleReportGraphDtoList[2].impressions}]]*/ ]
+				],
+				type : 'donut',
+				onclick : function(d, i) {
+					console.log("onclick", d, i);
+				},
+				onmouseover : function(d, i) {
+					console.log("onmouseover", d, i);
+				},
+				onmouseout : function(d, i) {
+					console.log("onmouseout", d, i);
+				}
 			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
+			color : {
+				pattern : [ '#4C5667', '#1ABC9C' ]
 			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
+			donut : {
+				title : "表示回数"
 			}
-		},
-		color : {
-			pattern : [ '#4C5667', '#1ABC9C' ]
-		},
-		donut : {
-			title : "表示回数"
-		}
-	});
-	/*googleCreativeClick*/
-	var chart = c3.generate({
-		bindto : '#googleCreativeClick',
-		data : {
-			columns : [ [ 'クリエイティブA', 30 ], [ 'クリエイティブB', 120 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
-			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
-			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
-			}
-		},
-		color : {
-			pattern : [ '#4C5667', '#1ABC9C' ]
-		},
-		donut : {
-			title : "クリック数"
-		}
-	});
-	/*googleCreativeSum*/
-	var chart = c3.generate({
-		bindto : '#googleCreativeSum',
-		data : {
-			columns : [ [ 'クリエイティブA', 30 ], [ 'クリエイティブB', 120 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
-			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
-			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
-			}
-		},
-		color : {
-			pattern : [ '#4C5667', '#1ABC9C' ]
-		},
-		donut : {
-			title : "ご利用金額"
-		}
-	});
-	/*googleCreativeImpression*/
-	var chart = c3.generate({
-		bindto : '#googleCreativeImpression',
-		data : {
-			columns : [ [ 'クリエイティブA', 30 ], [ 'クリエイティブB', 120 ], ],
-			type : 'donut',
-			onclick : function(d, i) {
-				console.log("onclick", d, i);
-			},
-			onmouseover : function(d, i) {
-				console.log("onmouseover", d, i);
-			},
-			onmouseout : function(d, i) {
-				console.log("onmouseout", d, i);
-			}
-		},
-		color : {
-			pattern : [ '#4C5667', '#1ABC9C' ]
-		},
-		donut : {
-			title : "表示回数"
-		}
-	});
+		});
+		/*]]>*/
 	</script>
 </div>
 </html>

@@ -108,7 +108,7 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 
 	@Autowired
 	ShopCustomDao shopCustomDao;
-	
+
 	@Autowired
 	IssueDao issueDao;
 
@@ -221,7 +221,15 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		List<DspTemplate> dspTemplateList = dspTemplateCustomDao.selectByShopId(ContextUtil.getCurrentShopId());
 		List<DspTemplateDto> dspTemplateDtoLiist = new ArrayList<DspTemplateDto>();
 		// dspTemplateDtoLiistに変更して返す
-		 dspTemplateDtoLiist = DspMapper.INSTANCE.tempListEntityToDto(dspTemplateList);
+		for (DspTemplate dspTemplate : dspTemplateList) {
+			DspTemplateDto dspTemplateDto = new DspTemplateDto();
+			dspTemplateDto.setTemplateId(dspTemplate.getTemplateId());
+			dspTemplateDto.setTemplateName(dspTemplate.getTemplateName());
+			dspTemplateDto.setTemplatePriority(dspTemplate.getTemplatePriority());
+			dspTemplateDto.setBidCpcPrice(dspTemplate.getBidCpcPrice());
+			dspTemplateDto.setBillingType(dspTemplate.getBillingType());
+			dspTemplateDtoLiist.add(dspTemplateDto);
+		}
 
 		return dspTemplateDtoLiist;
 	}
