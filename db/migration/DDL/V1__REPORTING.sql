@@ -1,5 +1,5 @@
 -- Project Name : reporting
--- Date/Time    : 2019/08/11 21:23:19
+-- Date/Time    : 2019/08/17 14:23:36
 -- Author       : luoq1
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -450,6 +450,8 @@ create table issue (
   , google_regions text comment 'Google地域コード'
   , facebook_oneday_budget bigint comment 'Facebook一日予算'
   , facebook_regions text comment 'Facebook地域コード'
+  , start_timestamp DATETIME(6) comment '配信開始タイムスタンプ'
+  , end_timestamp DATETIME(6) comment '配信終了タイムスタンプ'
   , version_no bigint not null comment 'バージョン番号'
   , created_at DATETIME(6) not null comment '登録日時'
   , created_by VARCHAR(15) not null comment '登録者'
