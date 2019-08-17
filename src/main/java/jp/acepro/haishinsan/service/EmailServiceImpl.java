@@ -2,6 +2,7 @@ package jp.acepro.haishinsan.service;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -120,8 +121,8 @@ public class EmailServiceImpl implements EmailService {
 			if (Objects.nonNull(attachmentList) && !attachmentList.isEmpty()) {
 				for (YahooImageDto attachment : attachmentList) {
 
-					final InputStreamSource attachmentSource = new ByteArrayResource(
-							attachment.getImageData().getBytes(StandardCharsets.UTF_8));
+					byte[] imgBytes = Base64.getDecoder().decode(attachment.getImageData());
+					final InputStreamSource attachmentSource = new ByteArrayResource(imgBytes);
 					message.addAttachment(attachment.getImageName(), attachmentSource, attachment.getContentType());
 				}
 			}

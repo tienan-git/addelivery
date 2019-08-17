@@ -10,7 +10,7 @@ public class YahooImageDto {
 	// 画像名
 	String imageName;
 
-	// 画像データ
+	// 画像データ(Base64)
 	String imageData;
 
 	// 画像タイプ
