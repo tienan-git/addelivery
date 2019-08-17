@@ -235,8 +235,7 @@ public class ReportingController {
 		Issue issue = issueDao.selectById(issueId);
 		List<Long> ids = new ArrayList<Long>();
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageDao.selectById(issue.getGoogleCampaignManageId());
-//		ids.add(googleCampaignManage.getCampaignId());
-		ids.add(2088722360l);
+		ids.add(googleCampaignManage.getCampaignId());
 		googleReportSearchDto.setCampaignIdList(ids);
 
 		// レポート表示（地域別）
@@ -247,7 +246,7 @@ public class ReportingController {
 		GoogleReportDto googleDeviceReportDto = googleReportService.showDeviceReport(googleReportSearchDto);
 		// キャンプーン詳細取得
 		GoogleCampaignDetailDto googleCampaignDetailDto = new GoogleCampaignDetailDto();
-//		googleCampaignDetailDto = googleCampaignService.getCampaign(2088722360l);
+		googleCampaignDetailDto = googleCampaignService.getCampaign(googleCampaignManage.getCampaignId());
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
