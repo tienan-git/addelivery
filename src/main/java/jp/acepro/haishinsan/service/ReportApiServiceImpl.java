@@ -61,64 +61,59 @@ public class ReportApiServiceImpl implements ReportApiService {
             // オペレーションログ記録
             operationService.createWithoutUser(Operation.GET_DSP_REPORT_RAWDATA.getValue(), e.getMessage());
         }
-        try {
-            // Googleのレポートを取得
-            googleReportService.getReport();
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_GOOGLE_REPORT_RAWDATA.getValue(),
-                    "Googleレポート生データ取得が成功しました。");
-        } catch (Exception e) {
-            log.error("Googleレポートデータ取得中エラー発生", e);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_GOOGLE_REPORT_RAWDATA.getValue(), e.getMessage());
-        }
-        try {
-            // Facebookのレポートを取得
-        	facebookReportingService.getReportDetails(EnumDatePreset.VALUE_TODAY);
-        	facebookReportingService.getReportDetails(EnumDatePreset.VALUE_YESTERDAY);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_FACEBOOK_REPORT_RAWDATA.getValue(),
-                    "Facebookレポート生データ取得が成功しました。");
-        } catch (Exception e) {
-            log.error("Facebookレポートデータ取得中エラー発生", e);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_FACEBOOK_REPORT_RAWDATA.getValue(), e.getMessage());
-        }
-        try {
-            // Twitterのレポートを取得
-            // 今日と昨日の時間を取得
-            LocalDate dNow = LocalDate.now();
-            twitterReportingService.getReport(dNow);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_TWITTER_REPORT_RAWDATA.getValue(),
-                    "Twitterレポート生データ取得が成功しました。");
-        } catch (Exception e) {
-            log.error("Twitterレポートデータ取得中エラー発生", e);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_TWITTER_REPORT_RAWDATA.getValue(), e.getMessage());
-        }
-        try {
-            // Youtubeのレポートを取得
-            youtubeReportService.getReport();
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_YOUTUBE_REPORT_RAWDATA.getValue(),
-                    "Youtubeレポート生データ取得が成功しました。");
-        } catch (Exception e) {
-            log.error("Youtubeレポートデータ取得中エラー発生", e);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_YOUTUBE_REPORT_RAWDATA.getValue(), e.getMessage());
-        }
-        try {
-            // セグメントのレポートを取得
-            dspSegmentService.getSegmentReporting();
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_SEGMENT_REPORT_RAWDATA.getValue(),
-                    "セグメントレポート生データ取得が成功しました。");
-        } catch (Exception e) {
-            log.error("セグメントレポートデータ取得中エラー発生", e);
-            // オペレーションログ記録
-            operationService.createWithoutUser(Operation.GET_SEGMENT_REPORT_RAWDATA.getValue(), e.getMessage());
-        }
+		try {
+			// Googleのレポートを取得
+			googleReportService.getReport();
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_GOOGLE_REPORT_RAWDATA.getValue(), "Googleレポート生データ取得が成功しました。");
+		} catch (Exception e) {
+			log.error("Googleレポートデータ取得中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_GOOGLE_REPORT_RAWDATA.getValue(), e.getMessage());
+		}
+		try {
+			// Facebookのレポートを取得
+			facebookReportingService.getReportDetails(EnumDatePreset.VALUE_TODAY);
+			facebookReportingService.getReportDetails(EnumDatePreset.VALUE_YESTERDAY);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_FACEBOOK_REPORT_RAWDATA.getValue(), "Facebookレポート生データ取得が成功しました。");
+		} catch (Exception e) {
+			log.error("Facebookレポートデータ取得中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_FACEBOOK_REPORT_RAWDATA.getValue(), e.getMessage());
+		}
+		try {
+			// Twitterのレポートを取得
+			// 今日と昨日の時間を取得
+			LocalDate dNow = LocalDate.now();
+			twitterReportingService.getReport(dNow);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_TWITTER_REPORT_RAWDATA.getValue(), "Twitterレポート生データ取得が成功しました。");
+		} catch (Exception e) {
+			log.error("Twitterレポートデータ取得中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_TWITTER_REPORT_RAWDATA.getValue(), e.getMessage());
+		}
+		try {
+			// Youtubeのレポートを取得
+			youtubeReportService.getReport();
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_YOUTUBE_REPORT_RAWDATA.getValue(), "Youtubeレポート生データ取得が成功しました。");
+		} catch (Exception e) {
+			log.error("Youtubeレポートデータ取得中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_YOUTUBE_REPORT_RAWDATA.getValue(), e.getMessage());
+		}
+		try {
+			// セグメントのレポートを取得
+			dspSegmentService.getSegmentReporting();
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_SEGMENT_REPORT_RAWDATA.getValue(), "セグメントレポート生データ取得が成功しました。");
+		} catch (Exception e) {
+			log.error("セグメントレポートデータ取得中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.GET_SEGMENT_REPORT_RAWDATA.getValue(), e.getMessage());
+		}
     }
 
 }
