@@ -1367,11 +1367,13 @@ Field="Google日別予算","google_oneday_budget","*予算",,,"","",$FFFFFFFF,""
 Field="Google地域コード","google_regions","*地域",,,"","",$FFFFFFFF,""
 Field="Facebook一日予算","facebook_oneday_budget","*予算",,,"","",$FFFFFFFF,""
 Field="Facebook地域コード","facebook_regions","*地域",,,"","",$FFFFFFFF,""
+Field="配信開始タイムスタンプ","start_timestamp","*日時",,,"","",$FFFFFFFF,""
+Field="配信終了タイムスタンプ","end_timestamp","*日時",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190811210416
-Position="MAIN",2050,1050,669,759
+ModifiedDateTime=20190817142315
+Position="MAIN",2050,1050,669,855
 ZOrder=27
 
 [Relation]
