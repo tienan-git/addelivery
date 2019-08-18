@@ -36,6 +36,9 @@ public interface ShopCustomDao {
 
 	@Select
 	List<Shop> selectCorporationShops(Long shopId);
+	
+	@Select
+	List<Shop> selectByIssueId(Long issueId);
 
 
 }

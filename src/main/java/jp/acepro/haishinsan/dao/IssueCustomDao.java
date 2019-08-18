@@ -26,4 +26,14 @@ public interface IssueCustomDao {
 
     @Select
     List<Issue> selectFacebookIssueNeededStart(String date);
+    
+    @Select
+    List<Issue> selectFacebookIssueNeededStop(String date);
+    
+    @Select
+    List<Issue> selectGoogleIssueNeededStart(String date);
+
+    @Select
+    List<Issue> selectGoogleIssueNeededStop(String date);
+
 }
