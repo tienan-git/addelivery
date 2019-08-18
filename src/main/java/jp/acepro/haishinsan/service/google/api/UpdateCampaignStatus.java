@@ -17,20 +17,18 @@ package jp.acepro.haishinsan.service.google.api;
 import static com.google.api.ads.common.lib.utils.Builder.DEFAULT_CONFIGURATION_FILENAME;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.google.api.ads.adwords.axis.factory.AdWordsServices;
-import com.google.api.ads.adwords.axis.utils.v201809.SelectorBuilder;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroup;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupPage;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
-import com.google.api.ads.adwords.axis.v201809.cm.Selector;
+import com.google.api.ads.adwords.axis.v201809.cm.Campaign;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignOperation;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignReturnValue;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignServiceInterface;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignStatus;
+import com.google.api.ads.adwords.axis.v201809.cm.Operator;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
-import com.google.api.ads.adwords.lib.selectorfields.v201809.cm.AdGroupField;
 import com.google.api.ads.common.lib.auth.OfflineCredentials;
 import com.google.api.ads.common.lib.auth.OfflineCredentials.Api;
 import com.google.api.ads.common.lib.conf.ConfigurationLoadException;
@@ -41,23 +39,18 @@ import com.google.api.client.auth.oauth2.Credential;
 import jp.acepro.haishinsan.util.ContextUtil;
 
 /**
- * This example gets all ad groups in a campaign. To add an ad group, run
- * AddAdGroup.java. To get campaigns, run GetCampaigns.java.
+ * This example updates a campaign by setting the status to PAUSED. To get
+ * campaigns, run GetCampaigns.java.
  *
  * <p>
  * Credentials and properties in {@code fromFile()} are pulled from the
  * "ads.properties" file. See README for more info.
  */
-public class GetAdGroups {
-
-	private static final int PAGE_SIZE = 100;
+public class UpdateCampaignStatus {
 
 	public String propFileName;
-	public Long campaignId;
 	public String googleAccountId;
-	public List<Long> adGroupIdList = new ArrayList<Long>();
-
-	public void run() {
+	public void run(Long campaignId, String switchFlag) {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
@@ -81,7 +74,7 @@ public class GetAdGroups {
 		AdWordsServicesInterface adWordsServices = AdWordsServices.getInstance();
 
 		try {
-			runExample(adWordsServices, session, campaignId);
+			runExample(adWordsServices, session, campaignId, switchFlag);
 		} catch (ApiException apiException) {
 			// ApiException is the base class for most exceptions thrown by an API request.
 			// Instances
@@ -114,40 +107,38 @@ public class GetAdGroups {
 	 * @param session
 	 *            the session.
 	 * @param campaignId
-	 *            the ID of the campaign to use to find ad groups.
+	 *            the ID of the campaign to update.
 	 * @throws ApiException
 	 *             if the API request failed with one or more service errors.
 	 * @throws RemoteException
 	 *             if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long campaignId) throws RemoteException {
-		// Get the AdGroupService.
-		AdGroupServiceInterface adGroupService = adWordsServices.get(session, AdGroupServiceInterface.class);
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long campaignId, String switchFlag) throws RemoteException {
+		// Get the CampaignService.
+		CampaignServiceInterface campaignService = adWordsServices.get(session, CampaignServiceInterface.class);
 
-		int offset = 0;
-		boolean morePages = true;
-
-		// Create selector.
-		SelectorBuilder builder = new SelectorBuilder();
-		Selector selector = builder.fields(AdGroupField.Id, AdGroupField.Name).orderAscBy(AdGroupField.Name).offset(offset).limit(PAGE_SIZE).equals(AdGroupField.CampaignId, campaignId.toString()).build();
-
-		while (morePages) {
-			// Get all ad groups.
-			AdGroupPage page = adGroupService.get(selector);
-
-			// Display ad groups.
-			if (page.getEntries() != null) {
-				for (AdGroup adGroup : page.getEntries()) {
-					//System.out.printf("Ad group with name '%s' and ID %d was found.%n", adGroup.getName(), adGroup.getId());
-					adGroupIdList.add(adGroup.getId());
-				}
-			} else {
-				//System.out.println("No ad groups were found.");
-			}
-
-			offset += PAGE_SIZE;
-			selector = builder.increaseOffsetBy(PAGE_SIZE).build();
-			morePages = offset < page.getTotalNumEntries();
+		// Create campaign with updated status.
+		Campaign campaign = new Campaign();
+		campaign.setId(campaignId);
+		if (switchFlag.equals("ON")) {
+			campaign.setStatus(CampaignStatus.ENABLED);
+		} else {
+			campaign.setStatus(CampaignStatus.PAUSED);
 		}
+
+		// Create operations.
+		CampaignOperation operation = new CampaignOperation();
+		operation.setOperand(campaign);
+		operation.setOperator(Operator.SET);
+
+		CampaignOperation[] operations = new CampaignOperation[] { operation };
+
+		// Update campaign.
+		CampaignReturnValue result = campaignService.mutate(operations);
+
+		// Display campaigns.
+//		for (Campaign campaignResult : result.getValue()) {
+//			System.out.printf("The status of Campaign with name '%s', ID %d " + "was updated to '%s' .%n", campaignResult.getName(), campaignResult.getId(), campaignResult.getStatus().toString());
+//		}
 	}
 }

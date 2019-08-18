@@ -4,4 +4,9 @@ public interface IssueApiService {
 
 	void startFacebookIssueAsync();
 
+	void stopFacebookIssueAsync();
+
+	void startGoogleIssueAsync();
+	
+	void stopGoogleIssueAsync();
 }

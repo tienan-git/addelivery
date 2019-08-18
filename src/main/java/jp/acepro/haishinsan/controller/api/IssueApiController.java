@@ -18,6 +18,15 @@ public class IssueApiController {
 	@GetMapping("/updateFacebookIssue")
 	public void updateFacebookIssue() {
 		issueApiService.startFacebookIssueAsync();
+		
+		issueApiService.stopFacebookIssueAsync();
+	}
+
+	@GetMapping("/updateGoogleIssue")
+	public void updateGoogleIssue() {
+		issueApiService.startGoogleIssueAsync();
+		
+		issueApiService.stopGoogleIssueAsync();
 	}
 
 }
