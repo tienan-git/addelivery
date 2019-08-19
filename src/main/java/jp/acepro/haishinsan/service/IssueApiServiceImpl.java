@@ -253,7 +253,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			UpdateAdGroup updateAdGroup = new UpdateAdGroup();
 			updateAdGroup.propFileName = propFileName;
 			updateAdGroup.googleAccountId = shopList.get(0).getGoogleAccountId();
-
+			updateAdGroup.googleCampaignDto = googleCampaignDto;
 			for (Long adGroupId : getAdGroups.adGroupIdList) {
 				updateAdGroup.adGroupId = adGroupId;
 				updateAdGroup.run();
@@ -263,8 +263,11 @@ public class IssueApiServiceImpl implements IssueApiService {
 			updateCampaign.propFileName = propFileName;
 			updateCampaign.googleAccountId = shopList.get(0).getGoogleAccountId();
 			updateCampaign.ratio = shopList.get(0).getMarginRatio();
+			updateCampaign.googleCampaignDto = googleCampaignDto;
 			updateCampaign.run(issue.getGoogleCampaignManageId(), "ON");
 
+			issue.setStartTimestamp(dateTime);
+			issueDao.update(issue);
 		}
 	}
 	
@@ -288,6 +291,8 @@ public class IssueApiServiceImpl implements IssueApiService {
 			updateCampaignStatus.googleAccountId = shopList.get(0).getGoogleAccountId();;
 			updateCampaignStatus.run(issue.getGoogleCampaignManageId(), "OFF");
 
+			issue.setEndTimestamp(dateTime);
+			issueDao.update(issue);
 		}
 	}
 }

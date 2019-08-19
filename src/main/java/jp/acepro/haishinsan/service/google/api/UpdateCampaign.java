@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.api.ads.adwords.axis.factory.AdWordsServices;
+import com.google.api.ads.adwords.axis.utils.v201809.SelectorBuilder;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
 import com.google.api.ads.adwords.axis.v201809.cm.BiddingStrategyConfiguration;
@@ -32,6 +33,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.BudgetServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.Campaign;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignCriterion;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignCriterionOperation;
+import com.google.api.ads.adwords.axis.v201809.cm.CampaignCriterionPage;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignCriterionReturnValue;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignCriterionServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignOperation;
@@ -44,10 +46,12 @@ import com.google.api.ads.adwords.axis.v201809.cm.Location;
 import com.google.api.ads.adwords.axis.v201809.cm.ManualCpmBiddingScheme;
 import com.google.api.ads.adwords.axis.v201809.cm.Money;
 import com.google.api.ads.adwords.axis.v201809.cm.Operator;
+import com.google.api.ads.adwords.axis.v201809.cm.Selector;
 import com.google.api.ads.adwords.axis.v201809.cm.Setting;
 import com.google.api.ads.adwords.axis.v201809.cm.TargetSpendBiddingScheme;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
+import com.google.api.ads.adwords.lib.selectorfields.v201809.cm.CampaignCriterionField;
 import com.google.api.ads.common.lib.auth.OfflineCredentials;
 import com.google.api.ads.common.lib.auth.OfflineCredentials.Api;
 import com.google.api.ads.common.lib.conf.ConfigurationLoadException;
@@ -72,9 +76,12 @@ import jp.acepro.haishinsan.util.ContextUtil;
  */
 public class UpdateCampaign {
 
+	private static final int PAGE_SIZE = 100;
+
 	public String propFileName;
 	public String googleAccountId;
 	public Integer ratio;
+	public List<CampaignCriterion> campaignCriterionList = new ArrayList<CampaignCriterion>();
 	public GoogleCampaignDto googleCampaignDto;
 
 	public void run(Long campaignId, String switchFlag) {
@@ -141,10 +148,54 @@ public class UpdateCampaign {
 	 *             if the API request failed due to other errors.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long campaignId, String switchFlag) throws RemoteException {
-		// Get the CampaignCriterionService.
+		// Get the CampaignService.
 		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session, CampaignCriterionServiceInterface.class);
+
+		int offset = 0;
+		String[] arr = { String.valueOf(campaignId) };
+		// Create selector.
+		SelectorBuilder builder = new SelectorBuilder();
+		Selector selector = builder
+				.fields(CampaignCriterionField.CampaignId, CampaignCriterionField.Id, CampaignCriterionField.CriteriaType, CampaignCriterionField.LocationName, CampaignCriterionField.BidModifier)
+				.in(CampaignCriterionField.CriteriaType, "LOCATION")
+				.in(CampaignCriterionField.CampaignId, arr)
+				.offset(0)
+				.limit(PAGE_SIZE)
+				.build();
+
+		CampaignCriterionPage page = null;
+		do {
+			page = campaignCriterionService.get(selector);
+
+			if (page.getEntries() != null) {
+				// Display campaigns.
+				for (CampaignCriterion campaignCriterion : page.getEntries()) {
+					// System.out.printf("Campaign criterion with campaign ID %d, criterion ID %d, "
+					// + "and type '%s' was found.%n", campaignCriterion.getCampaignId(),
+					// campaignCriterion.getCriterion().getId(),
+					// campaignCriterion.getCriterion().getCriterionType());
+					campaignCriterionList.add(campaignCriterion);
+				}
+			} else {
+				//System.out.println("No campaign criteria were found.");
+			}
+			offset += PAGE_SIZE;
+			selector = builder.increaseOffsetBy(PAGE_SIZE).build();
+		} while (offset < page.getTotalNumEntries());
+		
 		List<CampaignCriterionOperation> campaignCriterionOperations = new ArrayList<>();
+        for(CampaignCriterion campaignCriterion : campaignCriterionList) {
+    		CampaignCriterionOperation campaignCriterionOperation = new CampaignCriterionOperation();
+    		campaignCriterionOperation.setOperand(campaignCriterion);
+    		campaignCriterionOperation.setOperator(Operator.REMOVE);
+    		campaignCriterionOperations.add(campaignCriterionOperation);      	
+        }
+		// REMOVE the campaign targets.
+		CampaignCriterionReturnValue returnRemoveTargetsValue = campaignCriterionService.mutate(campaignCriterionOperations.toArray(new CampaignCriterionOperation[campaignCriterionOperations.size()]));
+
 		// 地域設定
+		List<CampaignCriterionOperation> campaignCriterionOperationsNew = new ArrayList<>();
+
 		for (Long locationId : googleCampaignDto.getLocationList()) {
 			// Create location
 			Location location = new Location();
@@ -157,10 +208,10 @@ public class UpdateCampaign {
 			CampaignCriterionOperation campaignCriterionOperation = new CampaignCriterionOperation();
 			campaignCriterionOperation.setOperand(campaignCriterion);
 			campaignCriterionOperation.setOperator(Operator.ADD);
-			campaignCriterionOperations.add(campaignCriterionOperation);
+			campaignCriterionOperationsNew.add(campaignCriterionOperation);
 		}
 		// Set the campaign targets.
-		CampaignCriterionReturnValue returnValue = campaignCriterionService.mutate(campaignCriterionOperations.toArray(new CampaignCriterionOperation[campaignCriterionOperations.size()]));
+		CampaignCriterionReturnValue returnSetTargetsValue = campaignCriterionService.mutate(campaignCriterionOperationsNew.toArray(new CampaignCriterionOperation[campaignCriterionOperationsNew.size()]));
 
 
 		// Get the CampaignService.
