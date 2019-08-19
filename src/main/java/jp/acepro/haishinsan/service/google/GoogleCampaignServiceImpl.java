@@ -57,7 +57,7 @@ import jp.acepro.haishinsan.service.google.api.GetCampaigns;
 import jp.acepro.haishinsan.service.google.api.GetExpandedTextAds;
 import jp.acepro.haishinsan.service.google.api.GetImageAd;
 import jp.acepro.haishinsan.service.google.api.GetResponsiveDisplayAd;
-import jp.acepro.haishinsan.service.google.api.UpdateCampaign;
+import jp.acepro.haishinsan.service.google.api.UpdateCampaignStatus;
 import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.ContextUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -249,9 +249,10 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	public void updateCampaignStatus(Long campaignId, String switchFlag) {
 
 		// キャンペーン情報更新（API経由）
-		UpdateCampaign updateCampaign = new UpdateCampaign();
-		updateCampaign.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
-		updateCampaign.run(campaignId, switchFlag);
+		UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
+		updateCampaignStatus.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+		updateCampaignStatus.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
+		updateCampaignStatus.run(campaignId, switchFlag);
 
 		// キャンペーン情報更新（DB）
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
@@ -401,6 +402,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		GetAdGroups getAdGroups = new GetAdGroups();
 		getAdGroups.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 		getAdGroups.campaignId = getCampaigns.campaignIdList.get(0);
+		getAdGroups.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 		getAdGroups.run();
 		// ---------広告グループ取得API実行
 
@@ -461,9 +463,10 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	public void deleteCampaign(Long campaignId) {
 
 		// キャンペーン情報更新（API経由）
-		UpdateCampaign updateCampaign = new UpdateCampaign();
-		updateCampaign.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
-		updateCampaign.run(campaignId, "OFF");
+		UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
+		updateCampaignStatus.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+		updateCampaignStatus.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
+		updateCampaignStatus.run(campaignId, "OFF");
 
 		// キャンペーン情報更新（DB）
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);

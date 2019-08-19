@@ -118,6 +118,29 @@ public class CalculateUtil {
 	}
 
 	/**
+	 * マージン率により、画面入力予算から、キャンプーン作成API実行時の実際予算を算出
+	 * 
+	 * @param inputBudget
+	 * @return Long
+	 * 
+	 */
+	public static Long calRealBudgetWithShopRatio(Long inputBudget, Integer ratio) {
+
+		// レアケース対応
+		if (inputBudget == null) {
+			return 0l;
+		}
+		if (ratio.intValue() == 100) {
+			return 0l;
+		}
+
+		// 実際予算 = 入力予算 * (100 - マージン率) / 100
+		BigDecimal realBudgetBigDecimal = BigDecimal.valueOf(inputBudget).multiply(BigDecimal.valueOf(100 - ratio)).divide(BigDecimal.valueOf(100), 0, BigDecimal.ROUND_HALF_UP);
+		Long realBudget = realBudgetBigDecimal.longValue();
+		return realBudget;
+	}
+
+	/**
 	 * 
 	 * 四捨五入により、費用を算出
 	 * 

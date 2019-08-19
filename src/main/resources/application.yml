@@ -88,7 +88,7 @@ inputLength:
 
 email:
   sendFrom: haishinsan@ace-pro.com
-  admin: haishinsan@ace-pro.com
+  admin: beyond_3210@hotmail.com;paku.seimi@sparkworks.co.jp
   senderName: 配信さん
   encoding: UTF-8
   prefix: /templates/

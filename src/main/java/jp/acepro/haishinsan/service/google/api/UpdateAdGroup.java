@@ -17,52 +17,69 @@ package jp.acepro.haishinsan.service.google.api;
 import static com.google.api.ads.common.lib.utils.Builder.DEFAULT_CONFIGURATION_FILENAME;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.List;
 
+import com.beust.jcommander.Parameter;
 import com.google.api.ads.adwords.axis.factory.AdWordsServices;
-import com.google.api.ads.adwords.axis.utils.v201809.SelectorBuilder;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroup;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupPage;
+import com.google.api.ads.adwords.axis.v201809.cm.AdGroupCriterionOperation;
+import com.google.api.ads.adwords.axis.v201809.cm.AdGroupCriterionReturnValue;
+import com.google.api.ads.adwords.axis.v201809.cm.AdGroupCriterionServiceInterface;
+import com.google.api.ads.adwords.axis.v201809.cm.AdGroupOperation;
+import com.google.api.ads.adwords.axis.v201809.cm.AdGroupReturnValue;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroupServiceInterface;
+import com.google.api.ads.adwords.axis.v201809.cm.AdGroupStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
-import com.google.api.ads.adwords.axis.v201809.cm.Selector;
+import com.google.api.ads.adwords.axis.v201809.cm.BiddableAdGroupCriterion;
+import com.google.api.ads.adwords.axis.v201809.cm.BiddingStrategyConfiguration;
+import com.google.api.ads.adwords.axis.v201809.cm.Bids;
+import com.google.api.ads.adwords.axis.v201809.cm.Campaign;
+import com.google.api.ads.adwords.axis.v201809.cm.CpcBid;
+import com.google.api.ads.adwords.axis.v201809.cm.CpmBid;
+import com.google.api.ads.adwords.axis.v201809.cm.Keyword;
+import com.google.api.ads.adwords.axis.v201809.cm.KeywordMatchType;
+import com.google.api.ads.adwords.axis.v201809.cm.Money;
+import com.google.api.ads.adwords.axis.v201809.cm.Operator;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
-import com.google.api.ads.adwords.lib.selectorfields.v201809.cm.AdGroupField;
+import com.google.api.ads.adwords.lib.utils.examples.ArgumentNames;
 import com.google.api.ads.common.lib.auth.OfflineCredentials;
 import com.google.api.ads.common.lib.auth.OfflineCredentials.Api;
 import com.google.api.ads.common.lib.conf.ConfigurationLoadException;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;
+import com.google.api.ads.common.lib.utils.examples.CodeSampleParams;
 import com.google.api.client.auth.oauth2.Credential;
 
+import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
+import jp.acepro.haishinsan.enums.GoogleAdType;
+import jp.acepro.haishinsan.enums.UnitPriceType;
+import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
+import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.ContextUtil;
 
 /**
- * This example gets all ad groups in a campaign. To add an ad group, run
- * AddAdGroup.java. To get campaigns, run GetCampaigns.java.
+ * This example adds ad groups to a campaign. To get campaigns, run
+ * GetCampaigns.java.
  *
  * <p>
  * Credentials and properties in {@code fromFile()} are pulled from the
  * "ads.properties" file. See README for more info.
  */
-public class GetAdGroups {
 
-	private static final int PAGE_SIZE = 100;
+public class UpdateAdGroup {
 
 	public String propFileName;
-	public Long campaignId;
 	public String googleAccountId;
-	public List<Long> adGroupIdList = new ArrayList<Long>();
+	public Long adGroupId;
+	public GoogleCampaignDto googleCampaignDto;
 
 	public void run() {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
 			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
-
 			// Construct an AdWordsSession.
 			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
 			// 店舗AdwordsIdを設定
@@ -80,8 +97,9 @@ public class GetAdGroups {
 
 		AdWordsServicesInterface adWordsServices = AdWordsServices.getInstance();
 
+
 		try {
-			runExample(adWordsServices, session, campaignId);
+			runExample(adWordsServices, session);
 		} catch (ApiException apiException) {
 			// ApiException is the base class for most exceptions thrown by an API request.
 			// Instances
@@ -114,40 +132,63 @@ public class GetAdGroups {
 	 * @param session
 	 *            the session.
 	 * @param campaignId
-	 *            the ID of the campaign to use to find ad groups.
+	 *            the ID of the campaign where the ad groups will be created.
 	 * @throws ApiException
 	 *             if the API request failed with one or more service errors.
 	 * @throws RemoteException
 	 *             if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long campaignId) throws RemoteException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session) throws RemoteException {
 		// Get the AdGroupService.
 		AdGroupServiceInterface adGroupService = adWordsServices.get(session, AdGroupServiceInterface.class);
 
-		int offset = 0;
-		boolean morePages = true;
+	    // Create an ad group with the specified ID.
+	    AdGroup adGroup = new AdGroup();
+	    adGroup.setId(adGroupId);
 
-		// Create selector.
-		SelectorBuilder builder = new SelectorBuilder();
-		Selector selector = builder.fields(AdGroupField.Id, AdGroupField.Name).orderAscBy(AdGroupField.Name).offset(offset).limit(PAGE_SIZE).equals(AdGroupField.CampaignId, campaignId.toString()).build();
-
-		while (morePages) {
-			// Get all ad groups.
-			AdGroupPage page = adGroupService.get(selector);
-
-			// Display ad groups.
-			if (page.getEntries() != null) {
-				for (AdGroup adGroup : page.getEntries()) {
-					//System.out.printf("Ad group with name '%s' and ID %d was found.%n", adGroup.getName(), adGroup.getId());
-					adGroupIdList.add(adGroup.getId());
-				}
-			} else {
-				//System.out.println("No ad groups were found.");
+		// 単価設定
+		switch (GoogleAdType.of(googleCampaignDto.getAdType())) {
+		case RESPONSIVE:
+		case IMAGE:
+			// クリック重視
+			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue()) || googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
+				break;
 			}
-
-			offset += PAGE_SIZE;
-			selector = builder.increaseOffsetBy(PAGE_SIZE).build();
-			morePages = offset < page.getTotalNumEntries();
+			// 表示重視
+			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.DISPLAY.getValue())) {
+				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
+				// 単価設定
+				Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceDisplayList.stream().filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				Long averageUnitPrice = Math.round(averageDisplayUnitPriceDouble);
+				Money cpmBidMoney = new Money();
+				cpmBidMoney.setMicroAmount(averageUnitPrice * 1000000);
+				CpmBid bid = new CpmBid();
+				bid.setBid(cpmBidMoney);
+				biddingStrategyConfiguration.setBids(new Bids[] { bid });
+				adGroup.setBiddingStrategyConfiguration(biddingStrategyConfiguration);
+				break;
+			}
+			break;
+		case TEXT:
+			BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
+			Money cpcBidMoney = new Money();
+			cpcBidMoney.setMicroAmount(50L * 1000000);
+			CpcBid bid = new CpcBid();
+			bid.setBid(cpcBidMoney);
+			biddingStrategyConfiguration.setBids(new Bids[] { bid });
+			adGroup.setBiddingStrategyConfiguration(biddingStrategyConfiguration);
+			break;
 		}
+
+	    // Create operations.
+	    AdGroupOperation operation = new AdGroupOperation();
+	    operation.setOperand(adGroup);
+	    operation.setOperator(Operator.SET);
+
+	    AdGroupOperation[] operations = new AdGroupOperation[] {operation};
+
+	    // Update ad group.
+	    AdGroupReturnValue result = adGroupService.mutate(operations);
+
 	}
 }

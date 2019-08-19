@@ -47,6 +47,7 @@ import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooGraphReportDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooImageDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
@@ -416,7 +417,7 @@ public class YahooServiceImpl implements YahooService {
 
     @Transactional
     @Override
-    public YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<String> imaBase64List) {
+    public YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<YahooImageDto> imaBase64List) {
         // 配信開始、終了日のチェック
         if (DateUtil.toLocalDate(yahooIssueDto.getStartDate())
                 .isAfter(DateUtil.toLocalDate(yahooIssueDto.getEndDate()))) {
@@ -497,8 +498,7 @@ public class YahooServiceImpl implements YahooService {
         emailCampDetailDtoList.add(emailCampDetailDto);
         emailDto.setCampaignList(emailCampDetailDtoList);
         emailDto.setAttachmentList(imaBase64List);
-        emailDto.setImageNameList(yahooIssueDto.getImageNameList());
-
+     
         // Template type - 案件依頼
         emailDto.setTemplateType(EmailTemplateType.ISSUEREQUEST.getValue());
         emailService.sendEmail(emailDto);

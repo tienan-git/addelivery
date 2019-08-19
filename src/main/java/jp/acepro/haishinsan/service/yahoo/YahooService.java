@@ -8,6 +8,7 @@ import jp.acepro.haishinsan.bean.YahooCsvBean;
 import jp.acepro.haishinsan.db.entity.YahooCampaignManage;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooGraphReportDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooImageDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
@@ -32,7 +33,7 @@ public interface YahooService {
 
     List<YahooLocationDto> getLocationList(List<Long> locationIdList);
 
-    YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<String> imaBase64List);
+    YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<YahooImageDto> imaBase64List);
 
     YahooIssueDto getIssueDetail(Long issueId);
 
