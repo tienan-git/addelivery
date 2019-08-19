@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.controller.issue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -158,7 +159,8 @@ public class ReportingController {
 
 		TwitterReportDto twitterReportDto = new TwitterReportDto();
 		TwitterCampaignData twitterCampaignData = issuesService.selectCampaignIdByIssueId(issueId);
-		twitterReportDto.setCampaignId(twitterCampaignData.getId());
+		List<String> campaignIdList = new ArrayList<>(Arrays.asList(twitterCampaignData.getId()));
+		twitterReportDto.setCampaignIdList(campaignIdList);
 
 		// 地域別のTable用データ取得
 		List<TwitterDisplayReportDto> twitterRegionsTableDtoList = twitterReportingService.getTwitterRegionReporting(twitterReportDto);
