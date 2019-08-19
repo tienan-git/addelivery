@@ -123,9 +123,9 @@ btn1.onclick=function(){
 					    <li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-twitter-alt" style="color:#41abe1"></i></span> <span class="pcoded-mtext">Twitter</span>
 							<span class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">			
-						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/twitter/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
+						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/twitterTemplate/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 						    </a></li>
-						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitter/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
+						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitterTemplate/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 						    </a></li>
 						</ul></li>
 						
