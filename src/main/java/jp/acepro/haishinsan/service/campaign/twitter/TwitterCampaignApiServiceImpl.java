@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
@@ -410,18 +411,21 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             campaignStatus = TwitterCampaignStatus.PAUSED.getLabel();
         }
 
+        // 半角スペース削除
+        String campaignName = (twitterAdsDto.getCampaignName()).replaceAll(" ", "");
+
         try {
             // Request Body
             TwitterCampaignReq body = new TwitterCampaignReq();
             body.setFunding_instrument_id(fundingInstrumentId);
-            body.setName(twitterAdsDto.getCampaignName());
+            body.setName(campaignName);
             body.setStart_time(twitterAdsDto.getStartTime());
             body.setDaily_budget_amount_local_micro(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000));
             body.setEntity_status(campaignStatus);
             // パラメーターの設定
             SortedMap<String, String> parameters = new TreeMap<String, String>();
             parameters.put("funding_instrument_id", TwitterUtil.urlEncode(fundingInstrumentId));
-            parameters.put("name", TwitterUtil.urlEncode(twitterAdsDto.getCampaignName()));
+            parameters.put("name", TwitterUtil.urlEncode(campaignName));
             parameters.put("start_time", TwitterUtil.urlEncode(twitterAdsDto.getStartTime()));
             if (twitterAdsDto.getEndTime() != null) {
                 parameters.put("end_time", TwitterUtil.urlEncode(twitterAdsDto.getEndTime()));
@@ -439,9 +443,9 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             // URLの設定
             url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
                     + applicationProperties.getTwitterCreatCampaign() + "?funding_instrument_id="
-                    + TwitterUtil.urlEncode(fundingInstrumentId) + "&name="
-                    + TwitterUtil.urlEncode(twitterAdsDto.getCampaignName()) + "&start_time="
-                    + TwitterUtil.urlEncode(twitterAdsDto.getStartTime()) + "&daily_budget_amount_local_micro="
+                    + TwitterUtil.urlEncode(fundingInstrumentId) + "&name=" + TwitterUtil.urlEncode(campaignName)
+                    + "&start_time=" + TwitterUtil.urlEncode(twitterAdsDto.getStartTime())
+                    + "&daily_budget_amount_local_micro="
                     + TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000))
                     + "&entity_status=" + TwitterUtil.urlEncode(campaignStatus);
 
@@ -732,14 +736,17 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
         // Call API: campaignIdでcampaign情報を取得する
         TwitterCampaignData campaignData = getCampaignById(campaignId);
-        // campaignステータスを判断する
-        if (campaignData.getReasons_not_servable().isEmpty() == true
-                || campaignData.getReasons_not_servable().isEmpty() == false
-                        && (TwitterCampaignStatus.RESERVATION.getLabel())
-                                .equals(campaignData.getReasons_not_servable().get(0))
-                        && campaignData.getEntity_status().equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
-            // Call API: campaignステータスを停止状態にする
-            changeAdsStatus(campaignId, TwitterCampaignStatus.PAUSED.getLabel());
+        // campaignがconsoleから見つからなかった場合（もしくはdeleteされた）
+        if (Objects.nonNull(campaignData.getId())) {
+            // campaignステータスを判断する
+            if (campaignData.getReasons_not_servable().isEmpty() == true
+                    || campaignData.getReasons_not_servable().isEmpty() == false
+                            && (TwitterCampaignStatus.RESERVATION.getLabel())
+                                    .equals(campaignData.getReasons_not_servable().get(0))
+                            && campaignData.getEntity_status().equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+                // Call API: campaignステータスを停止状態にする
+                changeAdsStatus(campaignId, TwitterCampaignStatus.PAUSED.getLabel());
+            }
         }
         // DB更新：論理削除
         // tbl: twitter_campaign_manage
