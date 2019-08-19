@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-twitter bg-twiter"></i>
+						<div class="d-inline">
+							<h4>Twitterテンプレート 詳細画面</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/twitterTemplate/updateTemplate(templateId=*{templateId})}" method="post" th:object="${twitterTemplateDto}">
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">テンプレート</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">テンプレートID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templateId}">01</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">優先順</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templatePriority}">1</label>
+						</div>
+						<span class="col-form-label">（小さい数値が優先される）</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">テンプレート名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templateName}">テンプレート名</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">案件作成</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">案件名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}">テスト</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startTime}">2018年09月15日</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endTime}">2018年09月16日</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">日別予算</label>
+						</div>
+						<div th:if="*{dailyBudget} != null" class="col-sm-8">
+							<label class="col-form-label" th:text="*{dailyBudget} + 円">10000円</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">総予算</label>
+						</div>
+						<div th:if="*{totalBudget} != null" class="col-sm-8">
+							<label class="col-form-label" th:text="*{totalBudget} + 円">200円</label>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">ターゲット設定</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">地域</label>
+						</div>
+						<div th:if="${twitterTemplateDto.location} == 2">
+							<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(regions)}">
+								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								</select>
+							</div>
+							<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(regions)}">
+								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterTemplateDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4" th:unless="${twitterTemplateDto.location} == 2">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterLocationType).of(__*{location}__).label}">繧ｦ繧ｧ繝悶し繧､繝医�ｮ繧ｯ繝ｪ繝�繧ｯ縺ｾ縺溘�ｯ繧ｳ繝ｳ繝舌�ｼ繧ｸ繝ｧ繝ｳ</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button type="submit" class="btn btn-info" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/twitterTemplate/updateTemplate(templateId=*{templateId})}" th:formmethod="post">更新</button>
+						<button id="delete" type="submit" class="btn btn-danger" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" onclick="return check('Twitterテンポレートを削除してよろしいでしょうか？')" th:formaction="@{/twitterTemplate/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">削除</button>
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitterTemplate/templateList}" th:formmethod="get">一覧へ</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- page body end -->
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>
