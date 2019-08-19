@@ -20,7 +20,6 @@ import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.db.entity.DspCampaignManage;
-import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDetailDto;
@@ -238,8 +237,7 @@ public class ReportingController {
 		GoogleReportSearchDto googleReportSearchDto = new GoogleReportSearchDto();
 		Issue issue = issueDao.selectById(issueId);
 		List<Long> ids = new ArrayList<Long>();
-		GoogleCampaignManage googleCampaignManage = googleCampaignManageDao.selectById(issue.getGoogleCampaignManageId());
-		ids.add(googleCampaignManage.getCampaignId());
+		ids.add(issue.getGoogleCampaignManageId());
 		googleReportSearchDto.setCampaignIdList(ids);
 
 		// レポート表示（地域別）
@@ -250,7 +248,7 @@ public class ReportingController {
 		GoogleReportDto googleDeviceReportDto = googleReportService.showDeviceReport(googleReportSearchDto);
 		// キャンプーン詳細取得
 		GoogleCampaignDetailDto googleCampaignDetailDto = new GoogleCampaignDetailDto();
-		googleCampaignDetailDto = googleCampaignService.getCampaign(googleCampaignManage.getCampaignId());
+		googleCampaignDetailDto = googleCampaignService.getCampaign(issue.getGoogleCampaignManageId());
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
