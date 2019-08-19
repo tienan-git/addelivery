@@ -70,7 +70,7 @@
 						<p th:text="${tweet.tweetBody}"></p>
 					</div>
 				</div>
-				<div th:if="${#lists.isEmpty(twitterDateTableDtoList)}" class="card-block">
+				<div th:if="${#lists.size(twitterDateTableDtoList)}>1" class="card-block">
 					<h4 class="sub-title">Twitter-日付別</h4>
 					<div class="page-body">
 						<div class="row">
@@ -113,7 +113,7 @@
 						</table>
 					</div>
 				</div>
-				<div th:if="${#lists.isEmpty(twitterDeviceTableDtoList)}" class="card-block">
+				<div th:if="${#lists.size(twitterDeviceTableDtoList)}>1" class="card-block">
 					<h4 class="sub-title">Twitterーデバイス別</h4>
 				<div class="card-block col-lg-12" style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
 					<div id="twitterDeviceImpression" style="width: 33%; display: inline-block;"></div>
@@ -150,7 +150,7 @@
 					</table>
 				</div>
 				</div>
-				<div th:if="${#lists.isEmpty(twitterRegionsTableDtoList)}" class="card-block">
+				<div th:if="${#lists.size(twitterRegionsTableDtoList)}>1" class="card-block">
 					<h4 class="sub-title">Twitterー地域別</h4>
 				<div class="page-body">
 					<div class="row">
