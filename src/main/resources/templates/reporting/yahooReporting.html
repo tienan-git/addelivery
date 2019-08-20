@@ -25,160 +25,145 @@
 	<div layout:fragment="page_body_container">
 		<form action="#" method="post">
 			<div class="card" id="GoogleReporting">
-				<div class="card-block" th:object="${googleCampaignDetailDto}">
+				<div class="card-block" th:object="${yahooIssueDto}">
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">案件名</label>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{campaignName}">キャンペーン名</label>
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Yahoo広告ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${#strings.isEmpty(yahooIssueDto.campaignId)} ? '--' : ${yahooIssueDto.campaignId}">12345</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">配信開始日</label>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{startDateSlash}">2018/10/10</label>
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Yahoo広告名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}"></label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">配信終了日</label>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{endDateSlash}">2018/10/15</label>
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">予算</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{budget} + '円'">1000円</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">日別予算</label>
-						<div class="col-sm-4 col-form-label">
-							<label th:text="*{budget} + 円">1,000</label>
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startDate}">2018/10/10</label>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">地域</label>
-						<div class="col-sm-4 col-form-label"
-							th:if="${#lists.isEmpty(googleCampaignDetailDto.locationList)}">
-							<select id="custom-headers" class="searchable" multiple
-								th:field="*{locationList}" disabled>
-								<option
-									th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}"
-									th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
-							</select>
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日</label>
 						</div>
-						<div class="col-sm-4 col-form-label"
-							th:unless="${#lists.isEmpty(googleCampaignDetailDto.locationList)}">
-							<select id="custom-headers" class="searchable" multiple
-								th:field="*{locationList}" disabled>
-								<option
-									th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}"
-									th:selected="${#lists.contains(googleCampaignDetailDto.locationList, object.getFirst())}"
-									th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
-							</select>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endDate}">2018/10/10</label>
 						</div>
 					</div>
-					<br />
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信地域</label>
+						</div>
+						<div class="col-sm-8">
+							<ul class="col-form-label" th:remove="all-but-first" th:each="yahooLocationDto : *{locationList}">
+								<li th:text="${yahooLocationDto.locationName}">東京</li>
+							</ul>
+						</div>
+					</div>
 					<h4 class="sub-title">広告情報</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
 						<div class="col-sm-4 col-form-label">
-							<label id="adType"
-								th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleCampaignDetailDto.adType).getLabel()}">レスポンシブ広告</label>
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.AdvDestination).of(__${yahooIssueDto.advDestination}__).getLabel()}">レスポンシブ広告</label>
 						</div>
 					</div>
-					<div
-						th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).RESPONSIVE.getValue()}">
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">デバイス</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(yahooIssueDto.deviceType).getLabel()}">モバイル</label>
+						</div>
+					</div>
+					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).RESPONSIVE.getValue()}">
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
+								<label th:text="*{adShortTitle}">MacBook Pro</label>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{resAdDescription}">新しいパソコンが発売</label>
+								<label th:text="*{adDescription}">新しいパソコンが発売</label>
 							</div>
 						</div>
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<label class="col-sm-2 col-form-label text-right">LP</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{resAdFinalPageUrl}">https://www.apple.com/macbook</label>
+								<label th:text="*{url}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
-						<div class="card-block">
-							<div class="sub-title">画像ファイル</div>
-							<div class="card">
-								<div class="card-block masonry-image">
-									<div class="default-grid ">
-										<div class="row lightboxgallery-popup">
-											<div class="col-sm-3 default-grid-item"
-												th:each="imageUrl : *{resAdImageUrlList}">
-												<div class="masonry-media">
-													<a class="media-middle" href="#!"> <img
-														class="img-fluid" th:src="${imageUrl}" alt="masonary">
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">画像ファイル</label>
+							<div class="col-sm-8">
+								<ul class="col-form-label" th:remove="all-but-first" th:each="imageName : *{imageNameList}">
+									<li th:text="${imageName}">test.jpg</li>
+								</ul>
 							</div>
 						</div>
 					</div>
-					<div
-						th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).IMAGE.getValue()}">
+					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).IMAGE.getValue()}">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<label class="col-sm-2 col-form-label text-right">LP</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{imageAdFinalPageUrl}">https://www.apple.com/macbook</label>
+								<label th:text="*{url}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
-						<div class="card-block">
-							<div class="sub-title">画像ファイル</div>
-							<div class="card">
-								<div class="card-block masonry-image">
-									<div class="default-grid ">
-										<div class="row lightboxgallery-popup">
-											<div class="col-sm-3 default-grid-item"
-												th:each="imageUrl : *{imageAdImageUrlList}">
-												<div class="masonry-media">
-													<a class="media-middle" href="#!"> <img
-														class="img-fluid" th:src="${imageUrl}" alt="masonary">
-													</a>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">画像ファイル</label>
+							<div class="col-sm-8">
+								<ul class="col-form-label" th:remove="all-but-first" th:each="imageName : *{imageNameList}">
+									<li th:text="${imageName}">test.jpg</li>
+								</ul>
 							</div>
 						</div>
 					</div>
-					<div
-						th:if="${googleCampaignDetailDto.adType == T(jp.acepro.haishinsan.enums.GoogleAdType).TEXT.getValue()}">
+					<div th:if="${yahooIssueDto.advDestination == T(jp.acepro.haishinsan.enums.AdvDestination).LISTING.getValue()}">
 						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<label class="col-sm-2 col-form-label text-right">LP</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdFinalPageUrl}">https://www.apple.com/macbook</label>
+								<label th:text="*{url}">https://www.apple.com/macbook</label>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdTitle1}">MacBook Pro広告見出し１</label>
+								<label th:text="*{adTitle1}">MacBook Pro広告見出し１</label>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdTitle2}">MacBook Pro広告見出し２</label>
+								<label th:text="*{adTitle2}">MacBook Pro広告見出し２</label>
 							</div>
 						</div>
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">説明文</label>
 							<div class="col-sm-4 col-form-label">
-								<label th:text="*{textAdDescription}">MacBook Pro説明文</label>
+								<label th:text="*{adDescription}">MacBook Pro説明文</label>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="card-block">
+				<!-- <div class="card-block">
 					<h4 class="sub-title">Googleー日付別</h4>
 				</div>
 				<div class="card-block col-lg-12">
@@ -212,12 +197,12 @@
 							</tr>
 						</tbody>
 					</table>
+				</div> -->
+				<div class="card-block">
+					<h4 class="sub-title">Yahoo-地域別</h4>
 				</div>
 				<div class="card-block">
-					<h4 class="sub-title">Google-地域別</h4>
-				</div>
-				<div class="card-block">
-					<div id="googleLocation"></div>
+					<div id="yahooRegion" class="c3"></div>
 				</div>
 				<div class="card-block col-lg-12">
 					<table id="basicTable"
@@ -236,11 +221,11 @@
 						</thead>
 						<tbody>
 							<tr
-								th:each="locationDto : ${googleLocationReportDto.googleReportDisplayDtoList}">
-								<td th:text="${locationDto.locationName}">2019/1/1</td>
+								th:each="locationDto : ${yahooRegionReportDisplayDtoList}">
+								<td th:text="${locationDto.region}">2019/1/1</td>
 								<td th:text="${locationDto.impressions}">130092</td>
 								<td th:text="${locationDto.clicks}">136</td>
-								<td th:text="${locationDto.costs}">¥7,570</td>
+								<td th:text="${locationDto.spend}">¥7,570</td>
 								<td th:text="${locationDto.ctr}">0.10%</td>
 								<td th:text="${locationDto.cpc}">¥56</td>
 								<td th:text="${locationDto.cpm}">¥58</td>
@@ -249,16 +234,16 @@
 					</table>
 				</div>
 				<div class="card-block">
-					<h4 class="sub-title">Googleーデバイス別</h4>
+					<h4 class="sub-title">Yahooーデバイス別</h4>
 				</div>
 				<div class="card-block col-lg-12"
 					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-					<div id="googleDeviceImpressions"
-						style="width: 33%; display: inline-block;"></div>
-					<div id="googleDeviceClick"
-						style="width: 33%; display: inline-block;"></div>
-					<div id="googleDeviceCosts"
-						style="width: 33%; display: inline-block;"></div>
+					<div id="yahooDeviceImpressions"
+						style="width: 33%; display: inline-block;" class="c3"></div>
+					<div id="yahooDeviceClick"
+						style="width: 33%; display: inline-block;" class="c3"></div>
+					<div id="yahooDeviceCosts"
+						style="width: 33%; display: inline-block;" class="c3"></div>
 				</div>
 				<div class="card-block col-lg-12">
 					<table id="basicTable"
@@ -277,11 +262,11 @@
 						</thead>
 						<tbody>
 							<tr
-								th:each="deviceDto : ${googleDeviceReportDto.googleReportDisplayDtoList}">
-								<td th:text="${deviceDto.deviceName}">2019/1/1</td>
+								th:each="deviceDto : ${yahooDeviceReportDisplayDtoList}">
+								<td th:text="${deviceDto.device}">2019/1/1</td>
 								<td th:text="${deviceDto.impressions}">130092</td>
 								<td th:text="${deviceDto.clicks}">136</td>
-								<td th:text="${deviceDto.costs}">¥7,570</td>
+								<td th:text="${deviceDto.spend}">¥7,570</td>
 								<td th:text="${deviceDto.ctr}">0.10%</td>
 								<td th:text="${deviceDto.cpc}">¥56</td>
 								<td th:text="${deviceDto.cpm}">¥58</td>
@@ -298,95 +283,19 @@
 <div layout:fragment="custom_resource_body">
 	<script type="text/javascript" th:inline="javascript">
 		/*<![CDATA[*/
-		// 日付別グラフデータ作成
-		var dailyReportGraphDtoList = /*[[${googleDailyReportDto.googleReportGraphDtoList}]]*/;
-		var dailyArr = new Array("x");
-		var dailyImpressionsArr = new Array("impressions");
-		var dailyClicksArr = new Array("clicks");
-		var dailyCostsArr = new Array("costs");
-		var dailyCtrArr = new Array("ctr");
-		var dailyCpcArr = new Array("cpc");
-		var dailyCpmArr = new Array("cpm");
-		dailyReportGraphDtoList.forEach(
-		    function(obj) {
-		    	dailyArr.push(obj.dateSlash);
-		    	dailyImpressionsArr.push(obj.impressions);
-		    	dailyClicksArr.push(obj.clicks);
-		    	dailyCostsArr.push(obj.costs);
-		    	dailyCtrArr.push(obj.ctr);
-		    	dailyCpcArr.push(obj.cpc);
-		    	dailyCpmArr.push(obj.cpm);
-		    }
-	    );
-		// 地域別グラフデータ作成
-		var locationReportGraphDtoList = /*[[${googleLocationReportDto.googleReportGraphDtoList}]]*/;
-		var locationArr = new Array("x");
-		var locationImpressionsArr = new Array("impressions");
-		var locationClicksArr = new Array("clicks");
-		var locationCostsArr = new Array("costs");
-		var locationCtrArr = new Array("ctr");
-		var locationCpcArr = new Array("cpc");
-		var locationCpmArr = new Array("cpm");
-		locationReportGraphDtoList.forEach(
-		    function(obj) {
-		    	locationArr.push(obj.locationName);
-		    	locationImpressionsArr.push(obj.impressions);
-		    	locationClicksArr.push(obj.clicks);
-		    	locationCostsArr.push(obj.costs);
-		    	locationCtrArr.push(obj.ctr);
-		    	locationCpcArr.push(obj.cpc);
-		    	locationCpmArr.push(obj.cpm);
-		    }
-	    );
-		/*Google日付 Chart*/
+		/*Yahoo地域 Chart*/
 		var chart = c3.generate({
-			bindto : '#googleDaily',
+			bindto : '#yahooRegion',
 			data : {
 				x:'x',
 				columns : [
-					dailyArr,
-					dailyImpressionsArr,
-					dailyClicksArr,
-					dailyCostsArr,
-					dailyCtrArr,
-					dailyCpcArr,
-					dailyCpmArr
-				],
-				type : 'bar',
-				colors : {
-					表示回数 : '#00C292',
-					クリック数 : '#4C5667',
-					ご利用金額 : '#03A9F3',
-					CTR : '#AB8CE4',
-					CPC : '#a3aebd',
-					CPM : '#FEC107'
-				},
-				types : {
-					CTR : 'spline',
-					CPC : 'line',
-					CPM : 'area',
-				},
-				groups : [ [ '表示回数', 'クリック数' ] ]
-			},
-			axis: { 
-			    x: { 
-			     type: 'category'
-			    } 
-			} 
-		});
-		/*Google地域 Chart*/
-		var chart = c3.generate({
-			bindto : '#googleLocation',
-			data : {
-				x:'x',
-				columns : [
-					locationArr,
-					locationImpressionsArr,
-					locationClicksArr,
-					locationCostsArr,
-					locationCtrArr,
-					locationCpcArr,
-					locationCpmArr
+					/*[[${yahooRegionGraphReportDto.reportTypeList}]]*/,
+					/*[[${yahooRegionGraphReportDto.impressionList}]]*/,
+					/*[[${yahooRegionGraphReportDto.clicksList}]]*/,
+					/*[[${yahooRegionGraphReportDto.spendList}]]*/,
+					/*[[${yahooRegionGraphReportDto.CTRList}]]*/,
+					/*[[${yahooRegionGraphReportDto.CPCList}]]*/,
+					/*[[${yahooRegionGraphReportDto.CPMList}]]*/
 				],
 				type : 'bar',
 				colors : {
@@ -412,12 +321,11 @@
 		});
 		/*googleDeviceClick*/
 		var chart = c3.generate({
-			bindto : '#googleDeviceClick',
+			bindto : '#yahooDeviceClick',
 			data : {
 				columns : [ 
-					[ 'パソコン', /*[[${googleDeviceReportDto.googleReportGraphDtoList[0].clicks}]]*/ ], 
-					[ 'モバイル', /*[[${googleDeviceReportDto.googleReportGraphDtoList[1].clicks}]]*/ ], 
-					[ 'タブレット', /*[[${googleDeviceReportDto.googleReportGraphDtoList[2].clicks}]]*/ ]
+					[ 'パソコン', /*[[${yahooDeviceReportDisplayDtoList[0].clicks}]]*/ ], 
+					[ 'モバイル', /*[[${yahooDeviceReportDisplayDtoList[1].clicks}]]*/ ]
 				],
 				type : 'donut',
 				onclick : function(d, i) {
@@ -439,12 +347,11 @@
 		});
 		/*googleDeviceSum*/
 		var chart = c3.generate({
-			bindto : '#googleDeviceCosts',
+			bindto : '#yahooDeviceCosts',
 			data : {
 				columns : [ 
-					[ 'パソコン', /*[[${googleDeviceReportDto.googleReportGraphDtoList[0].costs}]]*/ ], 
-					[ 'モバイル', /*[[${googleDeviceReportDto.googleReportGraphDtoList[1].costs}]]*/ ], 
-					[ 'タブレット', /*[[${googleDeviceReportDto.googleReportGraphDtoList[2].costs}]]*/ ]
+					[ 'パソコン', /*[[${yahooDeviceReportDisplayDtoList[0].spend}]]*/ ], 
+					[ 'モバイル', /*[[${yahooDeviceReportDisplayDtoList[1].spend}]]*/ ]
 				],
 				type : 'donut',
 				onclick : function(d, i) {
@@ -466,12 +373,11 @@
 		});
 		/*googleDeviceImpression*/
 		var chart = c3.generate({
-			bindto : '#googleDeviceImpressions',
+			bindto : '#yahooDeviceImpressions',
 			data : {
 				columns : [ 
-					[ 'パソコン', /*[[${googleDeviceReportDto.googleReportGraphDtoList[0].impressions}]]*/ ], 
-					[ 'モバイル', /*[[${googleDeviceReportDto.googleReportGraphDtoList[1].impressions}]]*/ ], 
-					[ 'タブレット', /*[[${googleDeviceReportDto.googleReportGraphDtoList[2].impressions}]]*/ ]
+					[ 'パソコン', /*[[${yahooDeviceReportDisplayDtoList[0].impressions}]]*/ ], 
+					[ 'モバイル', /*[[${yahooDeviceReportDisplayDtoList[1].impressions}]]*/ ]
 				],
 				type : 'donut',
 				onclick : function(d, i) {

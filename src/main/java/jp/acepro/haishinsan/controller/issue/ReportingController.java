@@ -119,6 +119,8 @@ public class ReportingController {
 			return getFacebookReporting(issueId);
 		case "Google":
 			return getGoogleReporting(issueId);
+		case "Yahoo":
+			return getYahooReporting(issueId);
 		}
 
 		return null;
@@ -299,8 +301,8 @@ public class ReportingController {
 		YahooGraphReportDto yahooDeviceGraphReportDto = yahooService.getYahooDeviceReportingGraph(campaignIdList, null, null);
 		// 地域別レポート
 		List<YahooReportDisplayDto> yahooRegionReportDisplayDtoList = yahooService.getRegionReport(campaignIdList, null, null);
-		// Graph用
 		YahooGraphReportDto yahooRegionGraphReportDto = yahooService.getYahooRegionReportingGraph(campaignIdList, null, null);
+
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("reporting/yahooReporting");
