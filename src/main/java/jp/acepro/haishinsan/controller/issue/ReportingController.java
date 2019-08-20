@@ -3,6 +3,7 @@ package jp.acepro.haishinsan.controller.issue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpSession;
 
@@ -19,8 +20,10 @@ import jp.acepro.haishinsan.dao.DspCampaignManageDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueDao;
+import jp.acepro.haishinsan.dao.YahooCampaignManageDao;
 import jp.acepro.haishinsan.db.entity.DspCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
+import jp.acepro.haishinsan.db.entity.YahooCampaignManage;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDetailDto;
 import jp.acepro.haishinsan.dto.dsp.DspReportingGraphDto;
@@ -35,6 +38,10 @@ import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
 import jp.acepro.haishinsan.dto.twitter.TwitterDisplayReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterGraphReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooGraphReportDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.service.OperationService;
@@ -46,6 +53,7 @@ import jp.acepro.haishinsan.service.google.GoogleReportService;
 import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
+import jp.acepro.haishinsan.service.yahoo.YahooService;
 import jp.acepro.haishinsan.util.ContextUtil;
 
 @Controller
@@ -94,6 +102,12 @@ public class ReportingController {
 	@Autowired
 	IssueDao issueDao;
 
+	@Autowired
+	YahooService yahooService;
+
+	@Autowired
+	YahooCampaignManageDao yahooCampaignManageDao;
+
 	@PostMapping("/allReporting")
 	public ModelAndView allReporting(@RequestParam Long issueId, @RequestParam String media) {
 		switch (media) {
@@ -113,7 +127,7 @@ public class ReportingController {
 	@GetMapping("/dspReporting")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
 	public ModelAndView getDspReporting(@RequestParam Long issueId) {
-		
+
 		Issue issue = issueDao.selectById(issueId);
 
 		DspCampaignManage dspCampaginManage = dspCampaignManageDao.selectById(issue.getDspCampaignManageId());
@@ -257,6 +271,44 @@ public class ReportingController {
 		modelAndView.addObject("googleDailyReportDto", googleDailyReportDto);
 		modelAndView.addObject("googleDeviceReportDto", googleDeviceReportDto);
 		modelAndView.addObject("googleCampaignDetailDto", googleCampaignDetailDto);
+
+		// オペレーションログ記録
+		operationService.create(Operation.GOOGLE_REGION_REPORT_VIEW.getValue(), null);
+		return modelAndView;
+	}
+
+	@GetMapping("/yahooReporting")
+	public ModelAndView getYahooReporting(@RequestParam Long issueId) {
+
+		// 検索条件を集める
+		List<String> campaignIdList = new ArrayList<String>();
+		Issue issue = issueDao.selectById(issueId);
+		YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao.selectById(issue.getYahooCampaignManageId());
+		campaignIdList.add(yahooCampaignManage.getCampaignId());
+
+		// Yahoo広告詳細取得
+		YahooIssueDto yahooIssueDto = yahooService.getIssueDetail(issueId);
+		// 地域詳細処理
+		List<String> locationIdListString = Arrays.asList(yahooIssueDto.getLocationIds().split(","));
+		List<Long> locationIdList = locationIdListString.stream().map(s -> Long.parseLong(s)).collect(Collectors.toList());
+		List<YahooLocationDto> locationList = yahooService.getLocationList(locationIdList);
+		yahooIssueDto.setLocationList(locationList);
+
+		// デバイス別レポート
+		List<YahooReportDisplayDto> yahooDeviceReportDisplayDtoList = yahooService.getDeviceReport(campaignIdList, null, null);
+		YahooGraphReportDto yahooDeviceGraphReportDto = yahooService.getYahooDeviceReportingGraph(campaignIdList, null, null);
+		// 地域別レポート
+		List<YahooReportDisplayDto> yahooRegionReportDisplayDtoList = yahooService.getRegionReport(campaignIdList, null, null);
+		// Graph用
+		YahooGraphReportDto yahooRegionGraphReportDto = yahooService.getYahooRegionReportingGraph(campaignIdList, null, null);
+		// 正常時レスポンスを作成
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("reporting/yahooReporting");
+		modelAndView.addObject("yahooDeviceReportDisplayDtoList", yahooDeviceReportDisplayDtoList);
+		modelAndView.addObject("yahooDeviceGraphReportDto", yahooDeviceGraphReportDto);
+		modelAndView.addObject("yahooRegionReportDisplayDtoList", yahooRegionReportDisplayDtoList);
+		modelAndView.addObject("yahooRegionGraphReportDto", yahooRegionGraphReportDto);
+		modelAndView.addObject("yahooIssueDto", yahooIssueDto);
 
 		// オペレーションログ記録
 		operationService.create(Operation.GOOGLE_REGION_REPORT_VIEW.getValue(), null);
