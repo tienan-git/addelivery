@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.campaign.youtube;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,14 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import com.beust.jcommander.Strings;
 
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
@@ -30,8 +27,8 @@ import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.service.youtube.YoutubeService;
 
 @Controller
-@RequestMapping("/youtube_bak")
-public class YoutubeController {
+@RequestMapping("/youtube")
+public class YoutubeCampaignController {
 
     @Autowired
     HttpSession session;
@@ -44,16 +41,6 @@ public class YoutubeController {
 
     @Autowired
     DspSegmentService dspSegmentService;
-
-    @GetMapping("/campaignList")
-    public ModelAndView getCampaignList(ModelAndView mv) {
-
-        List<YoutubeIssueDto> youtubeIssueDtoList = youtubeService.searchYoutubeIssueList();
-
-        mv.addObject("youtubeIssueDtoList", youtubeIssueDtoList);
-        mv.setViewName("youtube/campaignList");
-        return mv;
-    }
 
     @Autowired
     CodeMasterService codeMasterService;
@@ -71,17 +58,16 @@ public class YoutubeController {
 
         youtubeIssueinputForm.setSegmentList(segmentPairList);
 
-        mv.setViewName("youtube/issueCreate");
+        mv.setViewName("campaign/youtube/issueCreate");
 
         List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
         mv.addObject("dspSegmentDtoList", dspSegmentDtoList);
-
         mv.addObject("youtubeIssueinputForm", youtubeIssueinputForm);
         return mv;
 
     }
 
-    @PostMapping("/issueCreateComplete")
+    @PostMapping("/issueCreateConfirm")
     public ModelAndView createIssueComplete(@ModelAttribute YoutubeIssueinputForm youtubeIssueinputForm,
             BindingResult result, ModelAndView mv) {
 
@@ -91,7 +77,7 @@ public class YoutubeController {
             result.reject(ErrorCodeConstant.E60001);
 
             mv.addObject("youtubeIssueinputForm", youtubeIssueinputForm);
-            mv.setViewName("youtube/issueCreate");
+            mv.setViewName("campaign/youtube/issueCreate");
             return mv;
         }
 
@@ -106,86 +92,25 @@ public class YoutubeController {
             }
         }
         youtubeIssueDto.setArea(sb.toString());
+
+        // Sessionに保存する
+        session.setAttribute("youtubeIssueDto", youtubeIssueDto);
+
+        mv.setViewName("campaign/youtube/issueCreateConfirm");
+        mv.addObject("youtubeIssueDto", youtubeIssueDto);
+        return mv;
+
+    }
+
+    @GetMapping("/issueSuccess")
+    public ModelAndView issueSuccess(ModelAndView mv) {
+
+        // Sessionから広告データ取得する
+        YoutubeIssueDto youtubeIssueDto = (YoutubeIssueDto) session.getAttribute("youtubeIssueDto");
         youtubeIssueDto = youtubeService.createIssue(youtubeIssueDto);
-        mv.setViewName("youtube/issueCreateComplete");
-        mv.addObject("youtubeIssueDto", youtubeIssueDto);
+
+        mv.setViewName("campaign/youtube/issueSuccess");
         return mv;
-
-    }
-
-    @GetMapping("/issueList")
-    public ModelAndView issueList(ModelAndView mv) {
-        List<YoutubeIssueDto> youtubeIssueDtoList = youtubeService.searchYoutubeIssueList();
-
-        mv.setViewName("youtube/issueList");
-        mv.addObject("youtubeIssueDtoList", youtubeIssueDtoList);
-        return mv;
-    }
-
-    @GetMapping("/issueDetail")
-    public ModelAndView issueDetail(Long issueId, ModelAndView mv) {
-        YoutubeIssueDto youtubeIssueDto = youtubeService.getIssueDetail(issueId);
-
-        List<Pair<Long, String>> locationList = getLocationrList(youtubeIssueDto.getArea());
-        youtubeIssueDto.setLocationList(locationList);
-
-        mv.setViewName("youtube/issueDetail");
-        mv.addObject("youtubeIssueDto", youtubeIssueDto);
-        return mv;
-    }
-
-    @PostMapping("/issueDelete")
-    public ModelAndView issueDelete(@Validated YoutubeIssueinputForm youtubeIssueinputForm, ModelAndView mv) {
-
-        YoutubeIssueDto youtubeIssueDto = youtubeService.deleteIssue(youtubeIssueinputForm.getIssueId());
-
-        mv.setViewName("youtube/issueDeleteComplete");
-        mv.addObject("youtubeIssueDto", youtubeIssueDto);
-        return mv;
-    }
-
-    @PostMapping("/issueUpdate")
-    public ModelAndView issueUpdate(@Validated YoutubeIssueinputForm youtubeIssueinputForm, ModelAndView mv) {
-
-        YoutubeIssueDto youtubeIssueDto = youtubeService.getIssueDetail(youtubeIssueinputForm.getIssueId());
-        List<Pair<Long, String>> locationList = getLocationrList(youtubeIssueDto.getArea());
-        youtubeIssueDto.setLocationList(locationList);
-
-        mv.setViewName("youtube/issueUpdate");
-        mv.addObject("youtubeIssueDto", youtubeIssueDto);
-        return mv;
-    }
-
-    @PostMapping("/issueUpdateComplete")
-    public ModelAndView issueUpdateComplete(@Validated YoutubeIssueinputForm youtubeIssueinputForm, ModelAndView mv) {
-
-        Long campaignId = youtubeIssueinputForm.getCampaignId();
-        Long issueId = youtubeIssueinputForm.getIssueId();
-        youtubeService.updateIssue(issueId, campaignId);
-
-        YoutubeIssueDto youtubeIssueDto = youtubeService.getIssueDetail(issueId);
-        List<Pair<Long, String>> locationList = getLocationrList(youtubeIssueDto.getArea());
-        youtubeIssueDto.setLocationList(locationList);
-
-        mv.setViewName("youtube/issueUpdateComplete");
-        mv.addObject("youtubeIssueDto", youtubeIssueDto);
-        return mv;
-    }
-
-    private List<Pair<Long, String>> getLocationrList(String area) {
-
-        if (Strings.isStringEmpty(area)) {
-            return null;
-        }
-
-        String[] areas = area.split(",");
-
-        List<Long> locationIdList = new ArrayList<Long>();
-        for (String a : areas) {
-            locationIdList.add(Long.parseLong(a));
-        }
-
-        return getLocationrList(locationIdList);
     }
 
     private List<Pair<Long, String>> getLocationrList(List<Long> locationIdList) {

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-youtube-play label youtube"></i>
+						<div class="d-inline">
+							<h4>Youtube広告 案件依頼作成</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/youtube/createIssueConfirm}" enctype="multipart/form-data" th:object="${youtubeIssueinputForm}" method="post" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title text-capitalize">Youtube案件依頼入力内容</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">案件名<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
+						</div>
+					</div>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">広告タイプ<span class="text-danger">※</span></label>
+							<div class="radio radio-inline col-sm-2 col-form-label" th:each="advDestination : ${T(jp.acepro.haishinsan.enums.YoutubeAdType).values()}">
+								<label> <input class="form-control" type="radio" name="radio" th:value="${advDestination.value}" th:field="*{adType}" th:text="${advDestination.label}" required="required" checked="checked"> <i class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">予算<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-2">
+							<input type="number" class="form-control" th:field="*{budget}" min="1" max="9999999999" required="required">
+						</div>
+						<span class="col-form-label">円</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-3">
+							<input type="date" class="form-control" th:field="*{startDate}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-3">
+							<input type="date" class="form-control" th:field="*{endDate}" required="required">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">地域</label>
+						<div class="col-sm-4" th:if="${#lists.isEmpty(youtubeIssueinputForm.locationIdList)}">
+							<select class="searchable" multiple="multiple" th:field="*{locationIdList}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+						<div class="col-sm-4" th:unless="${#lists.isEmpty(youtubeIssueinputForm.locationIdList)}">
+							<select class="searchable" multiple="multiple" th:field="*{locationIdList}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateForm.locationIdList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">LP</label>
+						<div class="col-sm-4">
+							<select name="select" class="form-control" th:field="*{lp}">
+								<option value="">-- 選択してください --</option>
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${lp==dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getSegmentName()}">クリエイティブを選択してください</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">動画URL</label>
+						<div class="col-sm-8">
+							<input type="url" class="form-control" th:field="*{videoUrl}" placeholder="アップロードした動画広告用のURLをご入力ください。">
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<div class="col-sm-10 text-center">
+							<button class="btn btn-success" th:formaction="@{/youtube/issueCreateConfirm}" th:formmethod="post">作成</button>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			
+		    var nowTemplateId = $('#templateId').val();
+	        function refreshVal(){
+	        	var fbTemplateDtoList = /*[[${fbTemplateDtoList}]]*/;
+	        	var templateId = $('#templateId').val();
+	        	var fbTemplateDto = fbTemplateDtoList.find(
+	        		function(element) {
+	        		    return element.templateId == templateId;
+	        		}
+	        	);
+	        	
+	            if(window.confirm('テンプレート「' + fbTemplateDto.templateName + '」を使用してもよろしいですか？\r\nテンプレートが切り替わると、入力内容は変更されます。')) { 
+	            	// 確認時の処理
+	            	nowTemplateId = $('#templateId').val();
+
+	            	$("#unitPriceType").val(fbTemplateDto.unitPriceType);
+	            
+	            	var comma = ",";
+	            	var location = fbTemplateDto.location;
+	            	var locationList = location.split(comma);
+	            	console.log('locationList : ' + locationList);
+	            	$("#locationList").val(locationList);
+	            	$('#locationList').multiSelect('refresh');
+	            } else { 
+	            	// キャンセル時の処理
+		            $('#templateId').val(nowTemplateId); // 処理中止
+	            }
+	        }
+
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>
