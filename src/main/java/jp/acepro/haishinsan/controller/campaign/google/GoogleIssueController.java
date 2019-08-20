@@ -92,6 +92,8 @@ public class GoogleIssueController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView bannerCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
 
+		session.setAttribute("adType", GoogleAdType.IMAGE);
+
 		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.IMAGE.getValue());
 
 		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
@@ -107,6 +109,8 @@ public class GoogleIssueController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView respCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
 
+		session.setAttribute("adType", GoogleAdType.RESPONSIVE);
+
 		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.RESPONSIVE.getValue());
 
 		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
@@ -121,6 +125,8 @@ public class GoogleIssueController {
 	@GetMapping("/textCampaignList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView textCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
+
+		session.setAttribute("adType", GoogleAdType.TEXT);
 
 		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.TEXT.getValue());
 
@@ -139,11 +145,31 @@ public class GoogleIssueController {
 
 		if (googleIssueInputForm.getIdList() == null || googleIssueInputForm.getIdList().isEmpty()) {
 			result.reject("E00020");
-			return bannerCampaignList(googleIssueInputForm);
+			GoogleAdType adType = (GoogleAdType) session.getAttribute("adType");
+			switch (adType) {
+			case IMAGE:
+				return bannerCampaignList(googleIssueInputForm);
+			case RESPONSIVE:
+				return respCampaignList(googleIssueInputForm);
+			case TEXT:
+				return textCampaignList(googleIssueInputForm);
+			default:
+			    return bannerCampaignList(googleIssueInputForm);
+			}
 		}
 		if (googleIssueInputForm.getIdList().size() > 1) {
 			result.reject("E00021");
-			return bannerCampaignList(googleIssueInputForm);
+			GoogleAdType adType = (GoogleAdType) session.getAttribute("adType");
+			switch (adType) {
+			case IMAGE:
+				return bannerCampaignList(googleIssueInputForm);
+			case RESPONSIVE:
+				return respCampaignList(googleIssueInputForm);
+			case TEXT:
+				return textCampaignList(googleIssueInputForm);
+			default:
+			    return bannerCampaignList(googleIssueInputForm);
+			}
 		}
 
 		// コードマスタを読込
@@ -202,6 +228,7 @@ public class GoogleIssueController {
 
 		session.removeAttribute("googleIssueDto");
 		session.removeAttribute("campaignId");
+		session.removeAttribute("adType");
 		ModelAndView mv = new ModelAndView("campaign/google/completeIssue");
 
 		// オペレーションログ記録
