@@ -234,7 +234,6 @@ task zip(type: Zip, dependsOn: bootJar) {
     from('release') {
         include 'Dockerfile'
         include 'Dockerrun.aws.json'
-        include '.ebextensions/*'
     } 
 }
 
@@ -242,5 +241,26 @@ task zip(type: Zip, dependsOn: bootJar) {
 task zipAndCopy(type: Copy, dependsOn: zip) {
     from 'build/distributions'
     into 'release'
+    include '*.zip'    
+}
+
+/******************************
+*********　 本番用   ***********
+*******************************/
+//デプロイ用ZIPファイル作成
+task zip4Production(type: Zip, dependsOn: bootJar) {
+    from('build/libs') {
+        include '*.jar'
+    }
+    from('release-production') {
+        include 'Dockerfile'
+        include 'Dockerrun.aws.json'
+        include '.ebextensions/*'
+    } 
+}
+//デプロイ用ZIPファイル作成してから、releaseフォルダにコピーする
+task zipAndCopy4Production(type: Copy, dependsOn: zip4Production) {
+    from 'build/distributions'
+    into 'release-production'
     include '*.zip'    
 }
