@@ -247,10 +247,6 @@ ol, ul {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<!-- <form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data"> -->
-		<!-- 		<form th:action="@{/}" method="post" th:object="${creativeInputForm}" enctype="multipart/form-data" onsubmit="return issueCheck()"> -->
-
-		<!-- <div th:replace="common/errorMessages"></div> -->
 		<div class="card">
 			<div class="card-block-container" id="progressbar">
 				<div class="card-block pc">
@@ -266,27 +262,6 @@ ol, ul {
 					<h3>1.どこに登録しますか？</h3>
 				</div>
 				<div class="card-block">
-					<!--     	<table id="basicTable" class="table nowrap" style="width: 100%;">
-				    		<tbody>
-				    			<tr role="row" class="odd">
-				    				<td>google</td>
-				    				<td>facebook</td>
-				    				<td>Instagram</td>
-				    				<td>Twitter</td>
-				    				<td>Yahoo!</td>
-				    				<td>Youtube</td>
-				    		
-				    			</tr>
-				    			<tr role="row" class="odd"> 
-				    				<td rowspan="2"><a href="#!"><img src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png" /></a></td>
-				    				<td><img src="https://cdn.pixabay.com/photo/2017/10/04/11/58/facebook-2815970_960_720.jpg" /></td>
-				    				<td><img src="https://is5-ssl.mzstatic.com/image/thumb/Purple123/v4/2f/09/df/2f09dfae-7d0f-6047-a035-ddb3082e6205/Prod-0-1x_U007emarketing-0-0-GLES2_U002c0-512MB-sRGB-0-0-0-85-220-0-0-0-6.png/1200x630wa.png" /></td>
-				    				<td><img src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" /></td>
-				    				<td><img src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" /></td>
-				    				<td><img src="https://s3-ap-northeast-1.amazonaws.com/mock.reporting/DspImage.png" /></td>
-				    			</tr>
-				    	 	</tbody>
-						</table> -->
 					<div class="cssgrid">
 						<div>
 							<p class="grid-header">Google</p>
@@ -297,34 +272,20 @@ ol, ul {
 						<div>
 							<p class="grid-header">Facebook</p>
 							<div>
-								<a th:href="@{/upload/createFacebookCreative}"><img th:src="@{/images/facebook.png}"/></a>
+								<a th:href="@{/upload/facebook/createFacebookCreative}"><img th:src="@{/images/facebook.png}"/></a>
 							</div>
 						</div>
 						<div>
 							<p class="grid-header">Instagram</p>
 							<div>
-								<a th:href="@{/upload/createInstagramCreative}"><img th:src="@{/images/Instagram.png}"/></a>
+								<a th:href="@{/upload/facebook/createInstagramCreative}"><img th:src="@{/images/Instagram.png}"/></a>
 							</div>
 						</div>
 						<div>
 							<p class="grid-header">FreakOut</p>
 							<a th:href="@{/upload/dsp/createCreative}"><img th:src="@{/images/dsp.png}" /></a>
 						</div>
-						<!-- <div>
-							<p class="grid-header">Twitter</p>
-							<img
-								th:src="@{/images/Twitter.png}"  />
 						</div>
-						<div>
-							<p class="grid-header">Yahoo!</p>
-							<img
-								th:src="@{/images/Yahoo.png}" />
-						</div>
-						<div>
-							<p class="grid-header">Youtube</p>
-							<img
-								th:src="@{/images/youtube.png}" />
-						</div> -->
 					</div>
 				</div>
 			</div>
