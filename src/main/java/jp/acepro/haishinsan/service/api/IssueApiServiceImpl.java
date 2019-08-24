@@ -98,7 +98,21 @@ public class IssueApiServiceImpl implements IssueApiService {
 	@Async
 	@Override
 	@Transactional
-	public void startFacebookIssueAsync() {
+	public void executeAsync() {
+		// Facebook
+		startFacebookIssueAsync();
+
+		stopFacebookIssueAsync();
+
+		// Google
+		startGoogleIssueAsync();
+
+		stopGoogleIssueAsync();
+		
+	}
+
+	@Transactional
+	private void startFacebookIssueAsync() {
 
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime dateTime = LocalDateTime.now();
@@ -177,10 +191,8 @@ public class IssueApiServiceImpl implements IssueApiService {
 
 	}
 
-	@Async
-	@Override
 	@Transactional
-	public void stopFacebookIssueAsync() {
+	private void stopFacebookIssueAsync() {
 
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime dateTime = LocalDateTime.now();
@@ -205,10 +217,8 @@ public class IssueApiServiceImpl implements IssueApiService {
 
 	}
 
-	@Async
-	@Override
 	@Transactional
-	public void startGoogleIssueAsync() {
+	private void startGoogleIssueAsync() {
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime dateTime = LocalDateTime.now();
 		String dateString = df.format(dateTime);
@@ -265,10 +275,8 @@ public class IssueApiServiceImpl implements IssueApiService {
 		}
 	}
 
-	@Async
-	@Override
 	@Transactional
-	public void stopGoogleIssueAsync() {
+	private void stopGoogleIssueAsync() {
 		DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime dateTime = LocalDateTime.now();
 		String dateString = df.format(dateTime);
