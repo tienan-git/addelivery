@@ -44,7 +44,3 @@ email:
   url:
     prefix: http://reporting.sparkworks.jp
     
-    
-awsConfig: 
-  region: ap-northeast-1
-  bucket: mock.reporting

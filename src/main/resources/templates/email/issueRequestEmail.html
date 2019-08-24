@@ -6,21 +6,17 @@
 </head>
 <body>
 	<p>
-		<img class="img-fluid" src="../images/acepro.png"
-			th:src="${imageUrl}"
-			alt="Theme-Logo" />
+		<img class="img-fluid" src="../images/acepro.png" th:src="${imageUrl}" />
 	</p>
 	<p th:text="#{greeting0}">お客様、</p>
 	<p>
-		<span th:text="#{greeting1}">平素よりAcePro管理サービスをご利用頂き</span>
-		<br><span th:text="#{greeting2}">誠にありがとうございます。</span>
+		<span th:text="#{greeting1}">平素よりAcePro管理サービスをご利用頂き</span> <br>
+		<span th:text="#{greeting2}">誠にありがとうございます。</span>
 	</p>
-	<p th:text="#{outlineIssueRequest}">
-            案件の新規依頼内容をお知らせします。
-        </p>
+	<p th:text="#{outlineIssueRequest}">案件の新規依頼内容をお知らせします。</p>
 	<p>
-		<b>案件ID: </b><span th:text="${issueId}">123</span> <br>
-		<b>作成時間: </b><span th:text="${createDateTime}">28-12-2012</span>
+		<b>案件ID: </b><span th:text="${issueId}">123</span> <br> <b>作成時間:
+		</b><span th:text="${createDateTime}">28-12-2012</span>
 	</p>
 
 	<ul th:remove="all-but-first">
@@ -28,9 +24,8 @@
 			<p>
 				<strong><span
 					th:text="${T(jp.acepro.haishinsan.enums.MediaCollection).of(__${emailCampDetailDto.mediaType}__).label}">xxxxx</span></strong>
-				<br>案件名: <span
-					th:text="${emailCampDetailDto.campaignName}">テストcamp</span> <br>
-				<a href="#"
+				<br>案件名: <span th:text="${emailCampDetailDto.campaignName}">テストcamp</span>
+				<br> <a href="#"
 					th:href="${urlPrefix} + ${T(jp.acepro.haishinsan.enums.MediaCollection).of(__${emailCampDetailDto.mediaType}__).path}"
 					th:text="${T(jp.acepro.haishinsan.enums.MediaCollection).of(__${emailCampDetailDto.mediaType}__).label} + 'の案件依頼一覧へ'">http://www.example.com</a>
 			</p>
@@ -38,15 +33,17 @@
 	</ul>
 
 	<p>
-		<span th:text="#{notes1}">注：このメールアドレスは送信専用です。返信をいただいてもご回答できま</span>
-		<br><span th:text="#{notes2}">せんのでご了承ください。</span>
+		<span th:text="#{notes1}">注：このメールアドレスは送信専用です。返信をいただいてもご回答できま</span> <br>
+		<span th:text="#{notes2}">せんのでご了承ください。</span>
 	</p>
 	<p>
-		<br><span th:text="#{companyName}">株式会社エースプロ</span>
-		<br><span th:text="#{companyAddress}">東京都千代田区外神田４丁目５−４</span>
-		<br>──────────────────────────────────
-		<br><span th:text="#{copyright}">Copyright All Right Reserved. AcePro Co., Ltd.</span> 
-		<br><span th:text="#{warning}">無断転載および再配布を禁じます。</span>
+		<br>
+		<span th:text="#{companyName}">株式会社エースプロ</span> <br>
+		<span th:text="#{companyAddress}">東京都千代田区外神田４丁目５−４</span> <br>──────────────────────────────────
+		<br>
+		<span th:text="#{copyright}">Copyright All Right Reserved.
+			AcePro Co., Ltd.</span> <br>
+		<span th:text="#{warning}">無断転載および再配布を禁じます。</span>
 	</p>
 </body>
 </html>

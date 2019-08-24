@@ -8,8 +8,8 @@ from
 	dsp_report_manage
 where
 	is_actived = 1
-	/*%if dspAdReportDto.campaignIdList != null && dspAdReportDto.campaignIdList.size()!=0  */ 
-	and campaign_id in /* dspAdReportDto.campaignIdList */('1','2') 
+	/*%if dspAdReportDto.campaignId != null  */ 
+	and campaign_id = /* dspAdReportDto.campaignId */'2'
 	/*%end*/
 	/*%if dspAdReportDto.startDate != null && dspAdReportDto.startDate != ""*/ 
 	and date >= /* dspAdReportDto.startDate */'2018-10-05' 
