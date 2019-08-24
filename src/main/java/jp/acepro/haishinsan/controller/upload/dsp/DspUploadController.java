@@ -62,7 +62,7 @@ public class DspUploadController {
 			bytes = dspCreativeInputForm.getImage().getBytes();
 		} catch (BusinessException e) {
 			result.reject(e.getMessage(), e.getParams(), null);
-			ModelAndView mv = new ModelAndView("upload/dsp/confirmCreative");
+			ModelAndView mv = new ModelAndView("upload/dsp/createCreative");
 			mv.addObject("dspCreativeInputForm", dspCreativeInputForm);
 			return mv;
 		}
@@ -83,7 +83,7 @@ public class DspUploadController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("dspCreativeDto", dspCreativeDto);
 		modelAndView.addObject("base64Data", data.toString());
-		modelAndView.setViewName("upload/dsp/createSuccess");
+		modelAndView.setViewName("upload/dsp/confirmCreative");
 		return modelAndView;
 	}
 
