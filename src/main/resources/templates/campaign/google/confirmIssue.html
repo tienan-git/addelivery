@@ -117,7 +117,7 @@
 			</h5>
 		</div>
 		<br />
-		<form id="defaultForm" class="form-horizontal" th:action="@{/google/completeCampaign}" method="post" th:object="${googleIssueDto}">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/campaign/google/completeCampaign}" method="post" th:object="${googleIssueDto}">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
@@ -165,7 +165,7 @@
 
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class="btn btn-success" th:formaction="@{/google/completeIssue}" th:formmethod="get">作成</button>
+							<button sec:authorize="hasAuthority('GOOGLE_CAMPAIGN_MANAGE')" class="btn btn-success" th:formaction="@{/campaign/google/completeIssue}" th:formmethod="get">作成</button>
 						</div>
 					</div>
 				</div>
