@@ -3,6 +3,9 @@ spring:
     url: jdbc:mysql://localhost:3306/haishinsan?useSSL=false
     username: root
     password: goodlunch
+    hikari:
+      maximum-pool-size: 1
+      minimum-idle: 1
   mail:
     host: smtp.sparkworks.co.jp
     port: 587
