@@ -22,7 +22,7 @@
 	<div layout:fragment="page_body_container">
 		<div class="card">
 			<div class="card-block">
-				<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeTemplate}" method="post">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/template/facebook/completeTemplate}" method="post">
 					<div class="dt-responsive table-responsive">
 						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
 							<thead>
@@ -43,7 +43,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="fbTemplateDto : ${fbTemplateDtoList}">
-									<td><a th:href="@{/facebook/templateDetail(templateId=${fbTemplateDto.templateId})}" th:text="${fbTemplateDto.templateId}">0001</a></td>
+									<td><a th:href="@{/template/facebook/templateDetail(templateId=${fbTemplateDto.templateId})}" th:text="${fbTemplateDto.templateId}">0001</a></td>
 									<td th:text="${fbTemplateDto.templateName}"></td>
 									<td th:text="${fbTemplateDto.templatePriority}"></td>
 									<td th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(fbTemplateDto.unitPriceType).getLabel()}"></td>

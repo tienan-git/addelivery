@@ -28,7 +28,7 @@
 		</div>
 		<div class="card">
 			<div class="card-block">
-				<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeTemplate}" th:object="${fbTemplateDto}" method="post">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/template/facebook/completeTemplate}" th:object="${fbTemplateDto}" method="post">
 					<h4 class="sub-title">基本情報</h4>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">テンプレートID</label>
@@ -69,7 +69,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" type="submit" class="btn btn-warning" th:formaction="@{/facebook/templateList}" th:formmethod="get">一覧へ</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" type="submit" class="btn btn-warning" th:formaction="@{/template/facebook/templateList}" th:formmethod="get">一覧へ</button>
 						</div>
 
 					</div>

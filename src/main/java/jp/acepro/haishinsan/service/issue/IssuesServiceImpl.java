@@ -52,14 +52,19 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
 			issuesDto.setEndDate(issue.getEndDate());
 			// campaignIdの有無で媒体を判別
 			// Google
-			if (Objects.nonNull(issue.getGoogleCampaignManageId())) {
+			if (Objects.nonNull(issue.getGoogleCampaignId())) {
 				issuesDto.setMedia(IssueAdtype.GOOGLE.getLabel());
 				issuesDto.setMediaIcon(IssueAdtype.GOOGLE.getValue());
 			}
 			// Facebook
-			if (Objects.nonNull(issue.getFacebookCampaignManageId())) {
+			if (Objects.nonNull(issue.getFacebookCampaignId())) {
 				issuesDto.setMedia(IssueAdtype.FACEBOOK.getLabel());
 				issuesDto.setMediaIcon(IssueAdtype.FACEBOOK.getValue());
+			}
+			// Instagram
+			if (Objects.nonNull(issue.getInstagramCampaignId())) {
+				issuesDto.setMedia(IssueAdtype.INSTAGRAM.getLabel());
+				issuesDto.setMediaIcon(IssueAdtype.INSTAGRAM.getValue());
 			}
 			// twitter
 			if (Objects.nonNull(issue.getTwitterCampaignManageId())) {
