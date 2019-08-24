@@ -58,7 +58,7 @@ public class SegmentController {
 	public ModelAndView createSegment(@ModelAttribute DspSegmentInputForm dspSegmentInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/createSegment");
+		modelAndView.setViewName("link/createSegment");
 		return modelAndView;
 	}
 
@@ -73,7 +73,7 @@ public class SegmentController {
 		dspSegmentDto = dspSegmentService.createSegment(dspSegmentDto);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/completeSegment");
+		modelAndView.setViewName("link/completeSegment");
 		modelAndView.addObject("dspSegmentDto", dspSegmentDto);
 
 		// オペレーションログ記録
@@ -89,7 +89,7 @@ public class SegmentController {
 		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/segmentList");
+		modelAndView.setViewName("link/segmentList");
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 
 		// オペレーションログ記録
@@ -105,7 +105,7 @@ public class SegmentController {
 		DspSegmentDto dspSegmentDto = dspSegmentService.deleteSegment(segmentManageId);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/deleteSegment");
+		modelAndView.setViewName("link/deleteSegment");
 		modelAndView.addObject("dspSegmentDto", dspSegmentDto);
 
 		// オペレーションログ記録
@@ -142,7 +142,7 @@ public class SegmentController {
 		dspSegmentSearchForm.setEndDate(endDate);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/segmentReporting");
+		modelAndView.setViewName("link/segmentReporting");
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 		modelAndView.addObject("segmentReportDisplayDto", segmentReportDisplayDto);
 
@@ -174,7 +174,7 @@ public class SegmentController {
 			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 			SegmentReportDisplayDto segmentReportDisplayDto = new SegmentReportDisplayDto();
 			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("dsp/segmentReporting");
+			modelAndView.setViewName("link/segmentReporting");
 			modelAndView.addObject("dspSegmentSearchForm", dspSegmentSearchForm);
 			modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 			modelAndView.addObject("segmentReportDisplayDto", segmentReportDisplayDto);
@@ -203,7 +203,7 @@ public class SegmentController {
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/segmentReporting");
+		modelAndView.setViewName("link/segmentReporting");
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 		modelAndView.addObject("segmentReportDisplayDtoList", segmentReportDisplayDtoList);
 		modelAndView.addObject("dspSegmentGraphDto", dspSegmentGraphDto);

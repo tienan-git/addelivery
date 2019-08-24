@@ -47,14 +47,13 @@ public class DspUploadController {
 	public ModelAndView createCreative(@ModelAttribute DspCreativeInputForm dspCreativeInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("campaign/dsp/createDspAd");
+		modelAndView.setViewName("upload/dsp/createCreative");
 		return modelAndView;
 	}
 
 	@PostMapping("/confirmCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
-	public ModelAndView confirmCreative(@Validated DspCreativeInputForm dspCreativeInputForm, BindingResult result)
-			throws IOException {
+	public ModelAndView confirmCreative(@Validated DspCreativeInputForm dspCreativeInputForm, BindingResult result) throws IOException {
 
 		String imaBase64 = null;
 		byte[] bytes = null;
@@ -63,7 +62,7 @@ public class DspUploadController {
 			bytes = dspCreativeInputForm.getImage().getBytes();
 		} catch (BusinessException e) {
 			result.reject(e.getMessage(), e.getParams(), null);
-			ModelAndView mv = new ModelAndView("dsp/createCreative");
+			ModelAndView mv = new ModelAndView("upload/dsp/confirmCreative");
 			mv.addObject("dspCreativeInputForm", dspCreativeInputForm);
 			return mv;
 		}
@@ -84,7 +83,7 @@ public class DspUploadController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("dspCreativeDto", dspCreativeDto);
 		modelAndView.addObject("base64Data", data.toString());
-		modelAndView.setViewName("campaign/dsp/confirmDspAd");
+		modelAndView.setViewName("upload/dsp/createSuccess");
 		return modelAndView;
 	}
 
@@ -105,11 +104,10 @@ public class DspUploadController {
 		DspCreativeDto newDspCreativeDto = dspCreativeService.createCreative(dspCreativeDto);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("creative/uploadCreateSuccess");
+		modelAndView.setViewName("upload/dsp/completeCreative");
 
 		// オペレーションログ記録
-		operationService.create(Operation.DSP_CREATIVE_CREATE.getValue(),
-				String.valueOf(newDspCreativeDto.getCreativeId()));
+		operationService.create(Operation.DSP_CREATIVE_CREATE.getValue(), String.valueOf(newDspCreativeDto.getCreativeId()));
 
 		return modelAndView;
 	}
