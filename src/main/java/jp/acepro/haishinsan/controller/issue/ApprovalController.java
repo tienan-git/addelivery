@@ -17,7 +17,7 @@ import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
 import jp.acepro.haishinsan.service.google.GoogleCampaignService;
-import jp.acepro.haishinsan.service.twitter.TwitterApiService;
+import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,64 +25,64 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/issue/approval")
 public class ApprovalController {
 
-	@Autowired
-	TwitterApiService twitterApiService;
+    @Autowired
+    TwitterCampaignApiService twitterCampaignApiService;
 
-	@GetMapping("/twitter/{campaignId}/{switchFlag}")
-	public TwitterSwitchRes switchCampaignStatus(@PathVariable String campaignId, @PathVariable String switchFlag) {
+    @GetMapping("/twitter/{campaignId}/{switchFlag}")
+    public TwitterSwitchRes switchCampaignStatus(@PathVariable String campaignId, @PathVariable String switchFlag) {
 
-		// キャンペーンステータスを更新
-		twitterApiService.changeAdsStatus(campaignId, switchFlag);
+        // キャンペーンステータスを更新
+        twitterCampaignApiService.changeAdsStatus(campaignId, switchFlag);
 
-		// 正常時レスポンスを作成
-		TwitterSwitchRes res = new TwitterSwitchRes();
-		res.setCode("0000");
-		res.setMessage("キャンペーンのステータスが更新されました！");
-		return res;
-	}
+        // 正常時レスポンスを作成
+        TwitterSwitchRes res = new TwitterSwitchRes();
+        res.setCode("0000");
+        res.setMessage("キャンペーンのステータスが更新されました！");
+        return res;
+    }
 
-	@Autowired
-	DspCampaignService dspCampaignService;
+    @Autowired
+    DspCampaignService dspCampaignService;
 
-	@Autowired
-	OperationService operationService;
+    @Autowired
+    OperationService operationService;
 
-	@GetMapping("/dsp/{campaignId}/{switchFlag}")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView Creative(@PathVariable Integer campaignId, @PathVariable String switchFlag) {
+    @GetMapping("/dsp/{campaignId}/{switchFlag}")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+    public ModelAndView Creative(@PathVariable Integer campaignId, @PathVariable String switchFlag) {
 
-		dspCampaignService.updateCampaign(campaignId, switchFlag);
+        dspCampaignService.updateCampaign(campaignId, switchFlag);
 
-		List<DspCampaignDto> dspCampaignDtoList = dspCampaignService.getCampaignList();
+        List<DspCampaignDto> dspCampaignDtoList = dspCampaignService.getCampaignList();
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/campaignList");
-		modelAndView.addObject("dspCampaignDtoList", dspCampaignDtoList);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("dsp/campaignList");
+        modelAndView.addObject("dspCampaignDtoList", dspCampaignDtoList);
 
-		// オペレーションログ記録
-		operationService.create(Operation.DSP_CAMPAIGN_UPDATE.getValue(), String.valueOf(campaignId));
+        // オペレーションログ記録
+        operationService.create(Operation.DSP_CAMPAIGN_UPDATE.getValue(), String.valueOf(campaignId));
 
-		return modelAndView;
+        return modelAndView;
 
-	}
+    }
 
-	@Autowired
-	GoogleCampaignService googleService;
+    @Autowired
+    GoogleCampaignService googleService;
 
-	@GetMapping("/google/{campaignId}/{switchFlag}")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
-	public GoogleSwitchRes switchCampaignStatus(@PathVariable Long campaignId, @PathVariable String switchFlag) {
+    @GetMapping("/google/{campaignId}/{switchFlag}")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+    public GoogleSwitchRes switchCampaignStatus(@PathVariable Long campaignId, @PathVariable String switchFlag) {
 
-		// キャンペーンステータスを更新
-		googleService.updateCampaignStatus(campaignId, switchFlag);
+        // キャンペーンステータスを更新
+        googleService.updateCampaignStatus(campaignId, switchFlag);
 
-		// 正常時レスポンスを作成
-		GoogleSwitchRes res = new GoogleSwitchRes();
-		res.setCode("0000");
-		res.setMessage("キャンペーンのステータスが更新されました！");
+        // 正常時レスポンスを作成
+        GoogleSwitchRes res = new GoogleSwitchRes();
+        res.setCode("0000");
+        res.setMessage("キャンペーンのステータスが更新されました！");
 
-		// オペレーションログ記録
-		operationService.create(Operation.GOOGLE_CAMPAIGN_STATUS_UPDATE.getValue(), String.valueOf(campaignId));
-		return res;
-	}
+        // オペレーションログ記録
+        operationService.create(Operation.GOOGLE_CAMPAIGN_STATUS_UPDATE.getValue(), String.valueOf(campaignId));
+        return res;
+    }
 }
