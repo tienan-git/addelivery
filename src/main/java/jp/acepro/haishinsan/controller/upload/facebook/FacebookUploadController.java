@@ -142,7 +142,7 @@ public class FacebookUploadController {
 		facebookService.createCreative(fbCreativeDto, dspSegmentDtoList);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("creative/uploadCreateSuccess");
+		modelAndView.setViewName("upload/facebook/completeCreative");
 
 		session.removeAttribute("creativeName");
 		session.removeAttribute("imaBase64");

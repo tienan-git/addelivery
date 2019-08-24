@@ -71,13 +71,10 @@ public class FacebookIssueController {
 		List<FacebookCampaignManage> facebookCampaignManageList = facebookService.searchFacebookCampaignManageList();
 
 		List<FbCampaignDto> fbCampaignDtoList = facebookService.campaignList(facebookCampaignManageList);
-		// ログインユーザーのロールIDを取得
-		Integer roleId = ContextUtil.getRoleId();
 
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("campaign/facebook/campaignList");
 		mv.addObject("fbCampaignDtoList", fbCampaignDtoList);
-		mv.addObject("roleId", roleId);
 
 		// オペレーションログ記録
 		operationService.create(Operation.FACEBOOK_CAMPAIGN_LIST.getValue(), String.valueOf(""));

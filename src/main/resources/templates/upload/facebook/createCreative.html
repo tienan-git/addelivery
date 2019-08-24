@@ -429,7 +429,6 @@ ol, ul {
 				<div class="card-block">
 					<div>
 						<span>広告物名</span> <span class="text-danger">(〇〇/〇〇文字)</span>
-						<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
 						<input type="text" class="form-control" maxlength="15" placeholder="広告物名" th:field=*{creativeName}>
 					</div>
 					<div class="top">
@@ -448,7 +447,7 @@ ol, ul {
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
 								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/upload/mediaSelection}">戻る</button>
-								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/confirmFacebookCreative}">次へ</button>
+								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/facebook/confirmFacebookCreative}">次へ</button>
 							</div>
 						</div>
 					</div>
