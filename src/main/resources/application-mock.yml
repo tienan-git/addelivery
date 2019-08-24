@@ -3,6 +3,9 @@ spring:
     url: jdbc:mysql://sparkworks.c0taibnfhlog.ap-northeast-1.rds.amazonaws.com:3306/haishinsan?useSSL=false
     username: sparkworks
     password: sparkworks
+    hikari:
+      maximum-pool-size: 1
+      minimum-idle: 1
   mail:
     host: smtp.sparkworks.co.jp
     port: 587

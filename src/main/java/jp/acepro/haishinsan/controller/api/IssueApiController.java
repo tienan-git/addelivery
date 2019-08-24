@@ -16,16 +16,7 @@ public class IssueApiController {
 
 	@GetMapping("/triggerIssues")
 	public void triggerIssues() {
-
-		// Facebook
-		issueApiService.startFacebookIssueAsync();
-
-		issueApiService.stopFacebookIssueAsync();
-
-		// Google
-		issueApiService.startGoogleIssueAsync();
-
-		issueApiService.stopGoogleIssueAsync();
+		issueApiService.executeAsync();
 	}
 
 }

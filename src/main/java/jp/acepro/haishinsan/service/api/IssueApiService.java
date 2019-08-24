@@ -2,11 +2,6 @@ package jp.acepro.haishinsan.service.api;
 
 public interface IssueApiService {
 
-	void startFacebookIssueAsync();
+	void executeAsync();
 
-	void stopFacebookIssueAsync();
-
-	void startGoogleIssueAsync();
-
-	void stopGoogleIssueAsync();
 }
