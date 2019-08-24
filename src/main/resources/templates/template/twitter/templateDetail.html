@@ -20,7 +20,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/twitterTemplate/updateTemplate(templateId=*{templateId})}" method="post" th:object="${twitterTemplateDto}">
+		<form th:action="@{/template/twitter/updateTemplate(templateId=*{templateId})}" method="post" th:object="${twitterTemplateDto}">
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">テンプレート</h4>
@@ -120,9 +120,9 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<button type="submit" class="btn btn-info" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/twitterTemplate/updateTemplate(templateId=*{templateId})}" th:formmethod="post">更新</button>
-						<button id="delete" type="submit" class="btn btn-danger" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" onclick="return check('Twitterテンポレートを削除してよろしいでしょうか？')" th:formaction="@{/twitterTemplate/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">削除</button>
-						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitterTemplate/templateList}" th:formmethod="get">一覧へ</button>
+						<button type="submit" class="btn btn-info" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/template/twitter/updateTemplate(templateId=*{templateId})}" th:formmethod="post">更新</button>
+						<button id="delete" type="submit" class="btn btn-danger" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" onclick="return check('Twitterテンポレートを削除してよろしいでしょうか？')" th:formaction="@{/template/twitter/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">削除</button>
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/template/twitter/templateList}" th:formmethod="get">一覧へ</button>
 					</div>
 				</div>
 			</div>
