@@ -39,163 +39,173 @@
 					<h4 class="sub-title">案件情報</h4>
 				</div>
 				<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">案件名</label>
-						<div class="col-sm-4">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.campaignName}">DSPキャンペーンテスト</label>
-						</div>
+					<label class="col-sm-2 col-form-label text-right">案件名</label>
+					<div class="col-sm-4">
+						<label class="col-form-label"
+							th:text="${dspCampaignDetailDto.campaignName}">DSPキャンペーンテスト</label>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">配信開始日</label>
-						<div class="col-sm-2">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.startDatetime}">2018-09-16</label>
-						</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">配信開始日</label>
+					<div class="col-sm-2">
+						<label class="col-form-label"
+							th:text="${dspCampaignDetailDto.startDatetime}">2018-09-16</label>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">配信終了日</label>
-						<div class="col-sm-2">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.endDatetime}">2018-10-16</label>
-						</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">配信終了日</label>
+					<div class="col-sm-2">
+						<label class="col-form-label"
+							th:text="${dspCampaignDetailDto.endDatetime}">2018-10-16</label>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">総予算</label>
-						<div class="col-sm-2">
-							<label class="col-form-label" th:text="${dspCampaignDetailDto.budget}">50,000円</label>
-						</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">総予算</label>
+					<div class="col-sm-2">
+						<label class="col-form-label"
+							th:text="${dspCampaignDetailDto.budget}">50,000円</label>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">デバイス</label>
-						<div class="col-sm-1">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000円</label>
-						</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-sm-2 col-form-label text-right">デバイス</label>
+					<div class="col-sm-1">
+						<label class="col-form-label"
+							th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000円</label>
 					</div>
-			</div>
-			<div class="card" id="dspReporting">
+				</div>
 				<div class="card-block">
 					<h4 class="sub-title">ファンへ配信-広告物</h4>
 				</div>
-				<div th:each="dspCreativeDto, stat : ${dspCampaignDetailDto.dspCreativeDtoList}">
-						<fieldset class="form_block" id="form_block[0]">
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label text-right">クリエイティブ</label>
-								<div class="col-sm-3">
-									<label class="col-form-label" th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)メガガーデン戸塚店_300x250</label>
-								</div>
+				<div
+					th:each="dspCreativeDto, stat : ${dspCampaignDetailDto.dspCreativeDtoList}">
+					<fieldset class="form_block" id="form_block[0]">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">クリエイティブ</label>
+							<div class="col-sm-3">
+								<label class="col-form-label"
+									th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)メガガーデン戸塚店_300x250</label>
 							</div>
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label text-right"></label>
-								<div class="col-sm-4">
-									<img class="img-fluid" th:src="*{dspCreativeDto.url}">
-								</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right"></label>
+							<div class="col-sm-4">
+								<img class="img-fluid" th:src="*{dspCreativeDto.url}">
 							</div>
-						</fieldset>
+						</div>
+					</fieldset>
+				</div>
+			</div>
+			<div class="card" id="dspReporting">
+				<div th:if="${dspDateReportingDtoList != null}">
+					<div class="card-block">
+						<h4 class="sub-title">ファンへ配信-日付別</h4>
 					</div>
-				<div class="card-block">
-					<h4 class="sub-title">ファンへ配信-日付別</h4>
+					<div class="card-block">
+						<div id="dspDaily" class="c3"></div>
+					</div>
+					<div class="card-block col-lg-12">
+						<table class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>日次サマリ</th>
+									<th>表示回数</th>
+									<th>クリック数</th>
+									<th>ご利用金額</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="dateDto : ${dspDateReportingDtoList}">
+									<td th:text="${dateDto.date}">2019/1/1</td>
+									<td th:text="${dateDto.impressionCount}">130092</td>
+									<td th:text="${dateDto.clickCount}">136</td>
+									<td th:text="${dateDto.price}">¥7,570</td>
+									<td th:text="${dateDto.ctr}">0.10%</td>
+									<td th:text="${dateDto.cpc}">¥56</td>
+									<td th:text="${dateDto.cpm}">¥58</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<div class="card-block">
-					<div id="dspDaily" class="c3"></div>
+				<div th:if="${dspDeviceReportingDtoList != null}">
+					<div class="card-block">
+						<h4 class="sub-title">ファンへ配信ーデバイス別</h4>
+					</div>
+					<div class="card-block col-lg-12"
+						style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+						<div id="dspDeviceClick"
+							style="width: 33%; display: inline-block;" class="c3"></div>
+						<div id="dspDeviceImpression"
+							style="width: 33%; display: inline-block;"></div>
+						<div id="dspDeviceSum" style="width: 33%; display: inline-block;"></div>
+					</div>
+					<div class="card-block col-lg-12">
+						<table class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>デバイス</th>
+									<th>表示回数</th>
+									<th>クリック数</th>
+									<th>ご利用金額</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="deviceDto : ${dspDeviceReportingDtoList}">
+									<td th:text="${deviceDto.deviceType}">2019/1/1</td>
+									<td th:text="${deviceDto.impressionCount}">130092</td>
+									<td th:text="${deviceDto.clickCount}">136</td>
+									<td th:text="${deviceDto.price}">¥7,570</td>
+									<td th:text="${deviceDto.ctr}">0.10%</td>
+									<td th:text="${deviceDto.cpc}">¥56</td>
+									<td th:text="${deviceDto.cpm}">¥58</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
-				<div class="card-block col-lg-12">
-					<table id="basicTable"
-						class="table table-striped table-bordered nowrap"
-						style="width: 100%;">
-						<thead>
-							<tr>
-								<th>日次サマリ</th>
-								<th>表示回数</th>
-								<th>クリック数</th>
-								<th>ご利用金額</th>
-								<th>CTR</th>
-								<th>CPC</th>
-								<th>CPM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="dateDto : ${dspDateReportingDtoList}">
-								<td th:text="${dateDto.date}">2019/1/1</td>
-								<td th:text="${dateDto.impressionCount}">130092</td>
-								<td th:text="${dateDto.clickCount}">136</td>
-								<td th:text="${dateDto.price}">¥7,570</td>
-								<td th:text="${dateDto.ctr}">0.10%</td>
-								<td th:text="${dateDto.cpc}">¥56</td>
-								<td th:text="${dateDto.cpm}">¥58</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="card-block">
-					<h4 class="sub-title">ファンへ配信ーデバイス別</h4>
-				</div>
-				<div class="card-block col-lg-12"
-					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-					<div id="dspDeviceClick" style="width: 33%; display: inline-block;"
-						class="c3"></div>
-					<div id="dspDeviceImpression"
-						style="width: 33%; display: inline-block;"></div>
-					<div id="dspDeviceSum" style="width: 33%; display: inline-block;"></div>
-				</div>
-				<div class="card-block col-lg-12">
-					<table id="basicTable"
-						class="table table-striped table-bordered nowrap"
-						style="width: 100%;">
-						<thead>
-							<tr>
-								<th>デバイス</th>
-								<th>表示回数</th>
-								<th>クリック数</th>
-								<th>ご利用金額</th>
-								<th>CTR</th>
-								<th>CPC</th>
-								<th>CPM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="deviceDto : ${dspDeviceReportingDtoList}">
-								<td th:text="${deviceDto.deviceType}">2019/1/1</td>
-								<td th:text="${deviceDto.impressionCount}">130092</td>
-								<td th:text="${deviceDto.clickCount}">136</td>
-								<td th:text="${deviceDto.price}">¥7,570</td>
-								<td th:text="${deviceDto.ctr}">0.10%</td>
-								<td th:text="${deviceDto.cpc}">¥56</td>
-								<td th:text="${deviceDto.cpm}">¥58</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-				<div class="card-block">
-					<h4 class="sub-title">ファンへ配信ークリエイティブ別</h4>
-				</div>
-				<div class="card-block col-lg-12"
-					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-					<div id="dspCreative" class="c3"></div>
-				</div>
-				<div class="card-block col-lg-12">
-					<table id="basicTable"
-						class="table table-striped table-bordered nowrap"
-						style="width: 100%;">
-						<thead>
-							<tr>
-								<th>クリエいティブ</th>
-								<th>表示回数</th>
-								<th>クリック数</th>
-								<th>ご利用金額</th>
-								<th>CTR</th>
-								<th>CPC</th>
-								<th>CPM</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="creatitveDto : ${dspCreativeReportingDtoList}">
-								<td th:text="${creatitveDto.creativeName}">2019/1/1</td>
-								<td th:text="${creatitveDto.impressionCount}">130092</td>
-								<td th:text="${creatitveDto.clickCount}">136</td>
-								<td th:text="${creatitveDto.price}">¥7,570</td>
-								<td th:text="${creatitveDto.ctr}">0.10%</td>
-								<td th:text="${creatitveDto.cpc}">¥56</td>
-								<td th:text="${creatitveDto.cpm}">¥58</td>
-							</tr>
-						</tbody>
-					</table>
+				<div th:if="${dspCreativeReportingDtoList != null}">
+					<div class="card-block">
+						<h4 class="sub-title">ファンへ配信ークリエイティブ別</h4>
+					</div>
+					<div class="card-block col-lg-12"
+						style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+						<div id="dspCreative" class="c3"></div>
+					</div>
+					<div class="card-block col-lg-12">
+						<table class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>クリエいティブ</th>
+									<th>表示回数</th>
+									<th>クリック数</th>
+									<th>ご利用金額</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="creatitveDto : ${dspCreativeReportingDtoList}">
+									<td th:text="${creatitveDto.creativeName}">2019/1/1</td>
+									<td th:text="${creatitveDto.impressionCount}">130092</td>
+									<td th:text="${creatitveDto.clickCount}">136</td>
+									<td th:text="${creatitveDto.price}">¥7,570</td>
+									<td th:text="${creatitveDto.ctr}">0.10%</td>
+									<td th:text="${creatitveDto.cpc}">¥56</td>
+									<td th:text="${creatitveDto.cpm}">¥58</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -210,9 +220,9 @@
 		var chart = c3.generate({
 			bindto : '#dspDaily',
 			data : {
-				x:'x',
+				x : 'x',
 				columns : [
-					/*[[${dspDateReportingGraphDto.reportType}]]*/ ,
+				/*[[${dspDateReportingGraphDto.reportType}]]*/,
 				/*[[${dspDateReportingGraphDto.impressionCount}]]*/,
 				/*[[${dspDateReportingGraphDto.clickCount}]]*/,
 				/*[[${dspDateReportingGraphDto.price}]]*/,
@@ -246,11 +256,11 @@
 				},
 				groups : [ [ '表示回数', 'クリック数' ] ]
 			},
-			axis: { 
-			    x: { 
-			     type: 'category'
-			    } 
-			} 
+			axis : {
+				x : {
+					type : 'category'
+				}
+			}
 		});
 		/*dspDeviceClick*/
 		var chart = c3
@@ -335,7 +345,7 @@
 		var chart = c3.generate({
 			bindto : '#dspCreative',
 			data : {
-				x:'x',
+				x : 'x',
 				columns : [
 				/*[[${dspCreativeReportingGraphDto.reportType}]]*/,
 				/*[[${dspCreativeReportingGraphDto.impressionCount}]]*/,
@@ -371,11 +381,11 @@
 				},
 				groups : [ [ '表示回数', 'クリック数' ] ]
 			},
-			axis: { 
-			    x: { 
-			     type: 'category'
-			    } 
-			} 
+			axis : {
+				x : {
+					type : 'category'
+				}
+			}
 		});
 		/*]]>*/
 	</script>

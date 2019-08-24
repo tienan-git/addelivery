@@ -50,7 +50,7 @@ public class DspTemplateController {
 	public ModelAndView createTemplate(@ModelAttribute DspTemplateInputForm dsptemplateInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/createTemplate");
+		modelAndView.setViewName("template/dsp/createTemplate");
 		return modelAndView;
 	}
 
@@ -64,13 +64,13 @@ public class DspTemplateController {
 			newdspTemplateDto = dspApiService.createTemplate(dspTemplateDto);
 		} catch (BusinessException e) {
 			result.reject(e.getMessage());
-			ModelAndView mv = new ModelAndView("dsp/createTemplate");
+			ModelAndView mv = new ModelAndView("template/dsp/createTemplate");
 			mv.addObject("dsptemplateInputForm", dsptemplateInputForm);
 			return mv;
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/completeTemplate");
+		modelAndView.setViewName("template/dsp/completeTemplate");
 		modelAndView.addObject("newdspTemplateDto", newdspTemplateDto);
 
 		// オペレーションログ記録
@@ -86,7 +86,7 @@ public class DspTemplateController {
 
 		List<DspTemplateDto> dspTemplateDtoList = dspApiService.templateList();
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/templateList");
+		modelAndView.setViewName("template/dsp/templateList");
 		modelAndView.addObject("dspTemplateDtoList", dspTemplateDtoList);
 
 		// オペレーションログ記録
@@ -102,7 +102,7 @@ public class DspTemplateController {
 		DspTemplateDto dspTemplateDto = dspApiService.templateDetail(templateId);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/templateDetail");
+		modelAndView.setViewName("template/dsp/templateDetail");
 		modelAndView.addObject("dspTemplateDto", dspTemplateDto);
 
 		// オペレーションログ記録
@@ -119,7 +119,7 @@ public class DspTemplateController {
 		DspTemplateDto dspTemplateDto = dspApiService.templateDetail(templateId);
 		DspTemplateInputForm dspTemplateInputForm = DspMapper.INSTANCE.tempDtoToForm(dspTemplateDto);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/updateTemplate");
+		modelAndView.setViewName("template/dsp/updateTemplate");
 		modelAndView.addObject("dspTemplateInputForm", dspTemplateInputForm);
 
 		// オペレーションログ記録
@@ -139,13 +139,13 @@ public class DspTemplateController {
 			dspApiService.templateUpdate(dspTemplateDto);
 		} catch (BusinessException e) {
 			result.reject(e.getMessage());
-			ModelAndView mv = new ModelAndView("dsp/updateTemplate");
+			ModelAndView mv = new ModelAndView("template/dsp/updateTemplate");
 			mv.addObject("dspTemplateInputForm", dspTemplateInputForm);
 			return mv;
 		}
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/updateTemplateComplete");
+		modelAndView.setViewName("template/dsp/updateTemplateComplete");
 		modelAndView.addObject("dspTemplateDto", dspTemplateDto);
 
 		// オペレーションログ記録
@@ -163,7 +163,7 @@ public class DspTemplateController {
 		DspTemplateDto dspTemplateDto = dspApiService.templateDelete(templateId);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("dsp/deleteTemplate");
+		modelAndView.setViewName("template/dsp/deleteTemplate");
 		modelAndView.addObject("dspTemplateDto", dspTemplateDto);
 
 		// オペレーションログ記録

@@ -63,8 +63,8 @@
 					<div class="form-group row">
 						<label class="col-sm-8 text-right"></label>
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" th:formaction="@{/dsp/updateTemplateComplete}" th:formmethod="Post">更新</button>
-							<button class="btn btn-warning" type="button" sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" th:onclick="'window.location.href = \'' + @{/dsp/templateList} + '\''">一覧へ</button>
+							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" th:formaction="@{/template/dsp/updateTemplateComplete}" th:formmethod="Post">更新</button>
+							<button class="btn btn-warning" type="button" sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" th:onclick="'window.location.href = \'' + @{/template/dsp/templateList} + '\''">一覧へ</button>
 						</div>
 					</div>
 				</div>
