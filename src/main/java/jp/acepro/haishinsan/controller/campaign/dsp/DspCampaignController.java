@@ -75,8 +75,7 @@ public class DspCampaignController {
 
 	@PostMapping("/returnToCreativeList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
-	public ModelAndView returnToCreativeList(@Validated DspCampaignInputForm dspCampaignInputForm,
-			BindingResult result) {
+	public ModelAndView returnToCreativeList(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
 
 		return null;
 	}
@@ -91,15 +90,12 @@ public class DspCampaignController {
 		}
 
 		// 最低予算金額
-		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000)
-				.divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio())
-						.divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
+		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
 		// 最低日次予算金額
 		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
 
 		// 全てクリエイティブをsessionから取得
-		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session
-				.getAttribute("dspCreativeDtoList");
+		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("dspCreativeDtoList");
 
 		List<DspCreativeDto> selectedDspCreativeDtoList = new ArrayList<DspCreativeDto>();
 
@@ -110,8 +106,7 @@ public class DspCampaignController {
 				if (dspCreativeDto.getCreativeId().equals(id)) {
 					selectedDspCreativeDtoList.add(dspCreativeDto);
 					if (dateTime != null) {
-						dateTime = dspCreativeDto.getCreatedAt().isAfter(dateTime) ? dateTime
-								: dspCreativeDto.getCreatedAt();
+						dateTime = dspCreativeDto.getCreatedAt().isAfter(dateTime) ? dateTime : dspCreativeDto.getCreatedAt();
 					} else {
 						dateTime = dspCreativeDto.getCreatedAt();
 					}
@@ -146,8 +141,7 @@ public class DspCampaignController {
 		// テンプレート情報を取って、優先度一番高いの方で使う
 		DspTemplateDto dspTemplateDto = dspApiService.getDefaultTemplate();
 
-		List<DspSegmentListDto> dspSegmentDtoList = (ArrayList<DspSegmentListDto>) session
-				.getAttribute("dspSegmentDtoList");
+		List<DspSegmentListDto> dspSegmentDtoList = (ArrayList<DspSegmentListDto>) session.getAttribute("dspSegmentDtoList");
 
 		// FormをDtoにして、キャンペーンを作成する
 		DspCampaignDto dspCampaignDto = new DspCampaignDto();
@@ -165,8 +159,7 @@ public class DspCampaignController {
 			}
 		}
 		// 選択したクリエイティブをsessionから取得
-		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session
-				.getAttribute("selectedDspCreativeDtoList");
+		List<DspCreativeDto> dspCreativeDtoList = (ArrayList<DspCreativeDto>) session.getAttribute("selectedDspCreativeDtoList");
 		// 選択したクリエイティブIDをsessionから取得
 		List<Integer> ids = (ArrayList<Integer>) session.getAttribute("idList");
 		dspCampaignDto.setDspCreativeDtoList(dspCreativeDtoList);
@@ -208,8 +201,7 @@ public class DspCampaignController {
 		session.removeAttribute("dspCreativeDtoList");
 
 		// オペレーションログ記録
-		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(),
-				String.valueOf(dspCampaignDto.getCampaignId()));
+		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(dspCampaignDto.getCampaignId()));
 
 		return modelAndView;
 	}
@@ -237,8 +229,7 @@ public class DspCampaignController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_VIEW + "')")
 	public ModelAndView campaignDetail(@RequestParam Integer campaignId) {
 
-		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(campaignId,
-				ContextUtil.getCurrentShop().getDspUserId());
+		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(campaignId, ContextUtil.getCurrentShop().getDspUserId());
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("dsp/campaignDetail");
