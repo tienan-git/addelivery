@@ -3,21 +3,91 @@ package jp.acepro.haishinsan.constant;
 /**
  * 権限定数を定義する。
  *
- * @author lmzh17
  *
  */
 public class AuthConstant {
 
-	public static final String CORPORATION_MANAGE = "CORPORATION_MANAGE";
-	public static final String CORPORATION_VIEW = "CORPORATION_VIEW";
-	public static final String SHOP_MANAGE = "SHOP_MANAGE";
-	public static final String SHOP_VIEW = "SHOP_VIEW";
-	public static final String USER_MANAGE = "USER_MANAGE";
-	public static final String USER_VIEW = "USER_VIEW";
-	public static final String AGENCY_MANAGE = "AGENCY_MANAGE";
-	public static final String AGENCY_VIEW = "AGENCY_VIEW";
-	public static final String CAMPAIGN_APPROVAL = "CAMPAIGN_APPROVAL";
+	/*---------------------
+	 * アカウント体制管理
+	 ---------------------*/
+	/** 法人管理 */
+	public static final String CORPORATION_MANAGE = "	CORPORATION_MANAGE	";
+	/** 法人照会 */
+	public static final String CORPORATION_VIEW = "	CORPORATION_VIEW	";
+	/** 店舗管理 */
+	public static final String SHOP_MANAGE = "	SHOP_MANAGE	";
+	/** 店舗照会 */
+	public static final String SHOP_VIEW = "	SHOP_VIEW	";
+	/** ユーザー管理 */
+	public static final String USER_MANAGE = "	USER_MANAGE	";
+	/** ユーザー照会 */
+	public static final String USER_VIEW = "	USER_VIEW	";
+	/** 代理店管理 */
+	public static final String AGENCY_MANAGE = "	AGENCY_MANAGE	";
+	/** 代理店照会 */
+	public static final String AGENCY_VIEW = "	AGENCY_VIEW	";
+	/** キャンペーン承認 */
+	public static final String CAMPAIGN_APPROVAL = "	CAMPAIGN_APPROVAL	";
+	/** ショップリスト_管理 */
+	public static final String SHOPLIST_MANAGE = "	SHOPLIST_MANAGE	";
+	/** ショップリスト_代理店 */
+	public static final String SHOPLIST_AGENCY = "	SHOPLIST_AGENCY	";
+	/** ショップリスト_法人 */
+	public static final String SHOPLIST_CORPORATION = "	SHOPLIST_CORPORATION	";
+	/** ショップリスト_店舗 */
+	public static final String SHOPLIST_SHOP = "	SHOPLIST_SHOP	";
 
+	/*---------------------
+	 * 広告作成
+	 ---------------------*/
+	/** 新規作成 */
+	public static final String CAMPAIGN_MANAGE = "	CAMPAIGN_MANAGE	";
+
+	/*---------------------
+	 * 広告物アップロード
+	 ---------------------*/
+	/** 作成 */
+	public static final String CAMPAIGN_UPLOAD = "	CAMPAIGN_UPLOAD	";
+
+	/*---------------------
+	 * 案件一覧
+	 ---------------------*/
+	/** 登録更新 */
+	public static final String ISSUE_MANAGE = "	ISSUE_MANAGE	";
+	/** 閲覧 */
+	public static final String ISSUE_VIEW = "	ISSUE_VIEW	";
+	/** 分析 */
+	public static final String CAMPAIGN_REPORT_VIEW = "	CAMPAIGN_REPORT_VIEW	";
+
+	/*---------------------
+	 * 分析レポート
+	 ---------------------*/
+	/** 分析 */
+	public static final String SEGMENT_REPORT_VIEW = "	SEGMENT_REPORT_VIEW	";
+
+	/*---------------------
+	 * 設定
+	 ---------------------*/
+	/** 閲覧 */
+	public static final String SETTING_MANUAL = "	SETTING_MANUAL	";
+	/** 閲覧 */
+	public static final String SETTING_PROVISION = "	SETTING_PROVISION	";
+	/** 管理 */
+	public static final String SEGMENT_MANAGE = "	SEGMENT_MANAGE	";
+	/** 閲覧 */
+	public static final String SEGMENT_VIEW = "	SEGMENT_VIEW	";
+
+	/*---------------------
+	 * テンプレート設定
+	 ---------------------*/
+	/** 一覧 */
+	public static final String TEMPLATE_VIEW = "	TEMPLATE_VIEW	";
+	/** 新規作成 */
+	public static final String TEMPLATE_MANAGE = "	TEMPLATE_MANAGE	";
+
+	/*---------------------
+	 * 以下は不要になる予定
+	 ---------------------*/
 	public static final String SIMPLE_CAMPAIGN_MANAGE = "SIMPLE_CAMPAIGN_MANAGE";
 	public static final String SIMPLE_CAMPAIGN_VIEW = "SIMPLE_CAMPAIGN_VIEW";
 
@@ -59,10 +129,5 @@ public class AuthConstant {
 	public static final String YAHOO_CAMPAIGN_MANAGE = "YAHOO_CAMPAIGN_MANAGE";
 	public static final String YAHOO_REPORT_VIEW = "YAHOO_REPORT_VIEW";
 	public static final String YAHOO_CSV_UPLOAD = "YAHOO_CSV_UPLOAD";
-
-	public static final String SHOPLIST_MANAGE = "SHOPLIST_MANAGE";
-	public static final String SHOPLIST_AGENCY = "SHOPLIST_AGENCY";
-	public static final String SHOPLIST_CORPORATION = "SHOPLIST_CORPORATION";
-	public static final String SHOPLIST_SHOP = "SHOPLIST_SHOP";
 
 }
