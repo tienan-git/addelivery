@@ -47,7 +47,7 @@ public class AgencyController {
 		List<AgencyDto> agencyDtoList = agencyService.search();
 
 		mv.addObject("agencyDtoList", agencyDtoList);
-		mv.setViewName("agency/list");
+		mv.setViewName("account/agency/list");
 		return mv;
 	}
 

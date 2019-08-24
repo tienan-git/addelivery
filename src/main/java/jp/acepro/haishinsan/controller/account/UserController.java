@@ -47,7 +47,7 @@ public class UserController {
 		List<UserDto> userDtoList = userService.search();
 
 		mv.addObject("userDtoList", userDtoList);
-		mv.setViewName("user/list");
+		mv.setViewName("account/user/list");
 		return mv;
 	}
 

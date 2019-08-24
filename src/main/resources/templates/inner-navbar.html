@@ -32,49 +32,28 @@ btn1.onclick=function(){
 			<li sec:authorize="hasAuthority('USER_VIEW')" class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-users"></i></i><b>N</b></span> <span class="pcoded-mtext">アカウント体制管理</span><span class="pcoded-mcaret"></span>
 			</a>
 				<ul class="pcoded-submenu">
-					<li sec:authorize="hasAuthority('AGENCY_VIEW')" class=" "><a th:href="@{/agency/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">代理店管理</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('AGENCY_VIEW')" class=" "><a th:href="@{/account/agency/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">代理店管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('CORPORATION_VIEW')" class=" "><a th:href="@{/corporation/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">法人管理</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('CORPORATION_VIEW')" class=" "><a th:href="@{/account/corporation/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">法人管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('SHOP_VIEW')" class=" "><a th:href="@{/shop/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">店舗管理</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('SHOP_VIEW')" class=" "><a th:href="@{/account/shop/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">店舗管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
-					<li sec:authorize="hasAuthority('USER_VIEW')" class=" "><a th:href="@{/user/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">ユーザー管理</span><span class="pcoded-mcaret"></span>
+					<li sec:authorize="hasAuthority('USER_VIEW')" class=" "><a th:href="@{/account/user/list}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">ユーザー管理</span><span class="pcoded-mcaret"></span>
 					</a></li>
 				</ul></li>
 		</ul>
-<!-- 		<div class="pcoded-navigatio-lavel">案件簡単作成</div>
-		<ul class="pcoded-item pcoded-left-item">
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/newIssueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/issue/creativeList}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">新規作成</span></a></li>
-			<li class="active"><a th:href="@{/creative/createCreative}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告アップロード</span></a></li>
-			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
-					class="pcoded-mcaret"></span></a>
-				<ul class="pcoded-submenu">
-				<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
- 					</a></li>
-				<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span>
- 					</a></li>
- <li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span> </a></li>
-		</ul>
-		</li> -->
-			
+		
 		<div class="pcoded-navigatio-lavel">広告作成</div>
 		<ul class="pcoded-item pcoded-left-item">
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/creative/mediaSelection}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">広告作成</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="active"><a th:href="@{/campaign/mediaSelection}"><span class="pcoded-micon"><i class="ti-crown"></i><b>F</b></span><span class="pcoded-mtext">広告作成</span></a></li>
 			<li class="active pc"><a th:href="@{/upload/mediaSelection}"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
 			<li class="active sp" id="sp_upload"><a class="disabled" href="#"><span class="pcoded-micon"><i class="ti-palette"></i><b>F</b></span><span class="pcoded-mtext">広告物アップロード</span></a></li>
 </ul>
 		<div class="pcoded-navigatio-lavel">案件管理</div>
 		<ul class="pcoded-item pcoded-left-item">
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issues/issueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
-			<!-- <li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">分析レポート</span><span class="pcoded-mcaret"></span></a> -->
-			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">分析レポート</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/issue/issues/issueList}"><span class="pcoded-micon"><i class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">案件一覧</span></a></li>
+			<li sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_VIEW')" class="active"><a th:href="@{/link/segment/segmentReporting}"><span class="pcoded-micon"><i class="ti-world"></i><b>F</b></span><span class="pcoded-mtext">分析レポート</span></a></li>
 				<ul class="pcoded-submenu">
-				<!-- <li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
- 					</a></li>
-				<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span> -->
- 					</a></li>
- <!-- <li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentReporting}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">リンク分析レポート</span><span class="pcoded-mcaret"></span> </a></li> -->
 		</ul>
 		</li>
 
@@ -87,9 +66,9 @@ btn1.onclick=function(){
 				<li class="pcoded-hasmenu active"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="ti-star" style="color:#FC6180" ></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
 					class="pcoded-mcaret"></span></a>
 				<ul class="pcoded-submenu">
-				<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/dsp/createSegment}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
+				<li sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" class=" "><a th:href="@{/link/segment/createSegment}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
  					</a></li>
-				<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/dsp/segmentList}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span>
+				<li sec:authorize="hasAuthority('DSP_SEGMENT_VIEW')" class=" "><a th:href="@{/link/segment/segmentList}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span>
  					</a></li>
 		       </ul>
 		       </li>		
@@ -101,61 +80,33 @@ btn1.onclick=function(){
 						<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getDspUserId())}"><a href="javascript:void(0)"><span class="pcoded-micon"><i class="fa fa-envira" style="color:#73993a"></i><b>F</b></span><span class="pcoded-mtext">ファンへの配信</span><span
 							class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"　></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
-							<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class=" "><a th:href="@{/dsp/templateList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_TEMPLATE_MANAGE')" class=" "><a th:href="@{/template/dsp/createTemplate}"><span class="pcoded-micon"><i class="icon-chart"　></i></span><span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> </a></li>
+							<li sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" class=" "><a th:href="@{/template/dsp/templateList}"><span class="pcoded-micon"><i class="icon-chart"></i></span><span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> </a></li>
 						</ul></li>
 						<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-google" style="color:#DD4B39"></i><b>F</b></span> <span class="pcoded-mtext">Google</span>
 							<span class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class=" "><a th:href="@{/google/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class=" "><a th:href="@{/template/google/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class=" "><a th:href="@{/google/listTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')" class=" "><a th:href="@{/template/google/listTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>
 						</ul></li>
 						<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getFacebookPageId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-facebook" style="color:#3c5a99"></i><b>T</b></span> <span class="pcoded-mtext"
 							data-i18n="nav.to-do.main">Facebook</span> <span class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">
-							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class=" "><a th:href="@{/facebook/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class=" "><a th:href="@{/template/facebook/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 							</a></li>
-							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class=" "><a th:href="@{/facebook/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
+							<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" class=" "><a th:href="@{/template/facebook/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 							</a></li>							
 						</ul></li>
 					    <li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getTwitterAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-twitter-alt" style="color:#41abe1"></i></span> <span class="pcoded-mtext">Twitter</span>
 							<span class="pcoded-mcaret"></span></a>
 						<ul class="pcoded-submenu">			
-						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/twitterTemplate/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
+						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" class=" "><a th:href="@{/template/twitter/createTemplate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 						    </a></li>
-						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/twitterTemplate/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
+						    <li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" class=" "><a th:href="@{/template/twitter/templateList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
 						    </a></li>
 						</ul></li>
-						
-		<!-- 			yahoo -->
-		<!-- 			<li class="pcoded-hasmenu active"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="icofont icofont-social-yahoo" style="color:#ff0033"></i><b>FU</b></span> <span class="pcoded-mtext" data-i18n="nav.file-upload.main">Yahoo</span> <span class="pcoded-mcaret"></span></a> -->
-		<!-- 				<ul class="pcoded-submenu"> -->
-		<!-- 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span></a> -->
-		<!-- 						<ul class="pcoded-submenu"> -->
-		<!-- 							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/yahoo/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span></a></li> -->
-		<!-- 							<li sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" class=" "><a th:href="@{/yahoo/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span></a></li> -->
-		<!-- 						</ul></lfqih１i> -->
-		<!-- 					<li sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" class=" "><a th:href="@{/yahoo/csvUpload}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">CSVアップロード</span><span class="pcoded-mcaret"></span></a></li> -->
-		<!-- 					<li sec:authorize="hasAuthority('YAHOO_REPORT_VIEW')" class=" "><a th:href="@{/yahoo/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span></a></li> -->
-		<!-- 				</ul></li> -->
-						
-		<!-- 			youtube -->
-		<!-- 			<li class="pcoded-hasmenu active" th:if="${!#strings.isEmpty(T(jp.acepro.haishinsan.util.ContextUtil).getCurrentShop().getGoogleAccountId())}"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="fa fa-youtube-play" style="color:#ff0000"></i><b>FU</b></span> <span class="pcoded-mtext" -->
-		<!-- 					data-i18n="nav.file-upload.main">Youtube</span> <span class="pcoded-mcaret"></span></a> -->
-		<!-- 				<ul class="pcoded-submenu"> -->
-		<!-- 					<li class="pcoded-hasmenu"><a href="javascript:void(0)"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext" data-i18n="nav.dash.crm">案件管理</span> <span class="pcoded-mcaret"></span> -->
-		<!-- 					</a> -->
-		<!-- 						<ul class="pcoded-submenu"> -->
-		<!-- 							<li sec:authorize="hasAuthority('YOUTUBE_CAMPAIGN_REQUEST')" class=" "><a th:href="@{/youtube/issueCreate}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span> -->
-		<!-- 							</a></li> -->
-		<!-- 							<li sec:authorize="hasAuthority('YOUTUBE_CAMPAIGN_MANAGE')" class=" "><a th:href="@{/youtube/issueList}"> <span class="pcoded-micon"><i class="icon-chart"></i></span> <span class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span> -->
-		<!-- 							</a></li> -->
-		<!-- 						</ul></li> -->
-		<!-- 					<li sec:authorize="hasAuthority('YOUTUBE_REPORT_VIEW')" class=" "><a th:href="@{/youtube/reporting}"> <span class="pcoded-micon"><i class="ti-angle-right"></i></span> <span class="pcoded-mtext">レポート</span> <span class="pcoded-mcaret"></span> -->
-		<!-- 					</a></li> -->
-		<!-- 				</ul></li> -->
 					</ul>
 					
 				</li>
