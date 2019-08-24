@@ -21,7 +21,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form id="defaultForm" class="form-horizontal" th:action="@{/youtube/createIssueConfirm}" enctype="multipart/form-data" th:object="${youtubeIssueinputForm}" method="post" onsubmit="return check('')">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/campaign/youtube/createIssueConfirm}" enctype="multipart/form-data" th:object="${youtubeIssueinputForm}" method="post" onsubmit="return check('')">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
@@ -103,7 +103,7 @@
 
 					<div class="form-group row">
 						<div class="col-sm-10 text-center">
-							<button class="btn btn-success" th:formaction="@{/youtube/issueCreateConfirm}" th:formmethod="post">作成</button>
+							<button class="btn btn-success" th:formaction="@{/campaign/youtube/issueCreateConfirm}" th:formmethod="post">作成</button>
 
 						</div>
 					</div>
