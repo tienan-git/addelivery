@@ -1,5 +1,5 @@
 -- Project Name : reporting
--- Date/Time    : 2019/08/17 14:23:36
+-- Date/Time    : 2019/08/24 15:02:14
 -- Author       : luoq1
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -437,11 +437,12 @@ create table issue (
   issue_id bigint auto_increment not null comment '案件ID'
   , shop_id bigint not null comment '店舗ID'
   , dsp_campaign_manage_id bigint comment 'DSPキャンペーン管理ID'
-  , google_campaign_manage_id bigint comment 'Googleキャンペーン管理ID'
-  , facebook_campaign_manage_id bigint comment 'Facebookキャンペーン管理ID'
   , twitter_campaign_manage_id bigint comment 'Twitterキャンペーン管理ID'
   , yahoo_campaign_manage_id bigint comment 'Yahooキャンペーン管理ID'
   , youtube_campaign_manage_id bigint comment 'Youtubeキャンペーン管理ID'
+  , google_campaign_id bigint comment 'GoogleキャンペーンID'
+  , facebook_campaign_id VARCHAR(80) comment 'FacebookキャンペーンID'
+  , instagram_campaign_id VARCHAR(80) comment 'InstagramキャンペーンID'
   , campaign_name VARCHAR(240) comment 'キャンペーン名'
   , budget bigint comment '全体予算'
   , start_date VARCHAR(10) comment '配信開始日'

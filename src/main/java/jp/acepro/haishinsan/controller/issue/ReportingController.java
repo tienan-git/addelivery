@@ -214,7 +214,7 @@ public class ReportingController {
 	public ModelAndView getFacebookReporting(@RequestParam Long issueId) {
 
 		Issue issue = issueDao.selectById(issueId);
-		FbCampaignDto fbCampaignDto = facebookService.campaignDetail(issue.getFacebookCampaignManageId().toString());
+		FbCampaignDto fbCampaignDto = facebookService.campaignDetail(issue.getFacebookCampaignId().toString());
 
 		// 検索条件を集める
 		List<String> campaignIdList = new ArrayList<String>();
@@ -265,7 +265,7 @@ public class ReportingController {
 		GoogleReportSearchDto googleReportSearchDto = new GoogleReportSearchDto();
 		Issue issue = issueDao.selectById(issueId);
 		List<Long> ids = new ArrayList<Long>();
-		ids.add(issue.getGoogleCampaignManageId());
+		ids.add(issue.getGoogleCampaignId());
 		googleReportSearchDto.setCampaignIdList(ids);
 
 		// レポート表示（地域別）
@@ -276,7 +276,7 @@ public class ReportingController {
 		GoogleReportDto googleDeviceReportDto = googleReportService.showDeviceReport(googleReportSearchDto);
 		// キャンプーン詳細取得
 		GoogleCampaignDetailDto googleCampaignDetailDto = new GoogleCampaignDetailDto();
-		googleCampaignDetailDto = googleCampaignService.getCampaign(issue.getGoogleCampaignManageId());
+		googleCampaignDetailDto = googleCampaignService.getCampaign(issue.getGoogleCampaignId());
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
