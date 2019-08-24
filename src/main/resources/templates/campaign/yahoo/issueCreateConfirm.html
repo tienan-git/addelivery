@@ -22,7 +22,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/yahoo/issueSuccess}" method="get" th:object="${yahooIssueDto}">
+		<form th:action="@{/campaign/yahoo/issueSuccess}" method="get" th:object="${yahooIssueDto}">
 			<div th:replace="common/errorMessages"></div>
 			<input type="hidden" th:field="*{issueId}" />
 			<div class="form-group row">
@@ -163,7 +163,7 @@
 				</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<button class="btn btn-warning" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" type="submit" th:formaction="@{/yahoo/issueSuccess}" th:formmethod="get">確認</button>
+					<button class="btn btn-warning" sec:authorize="hasAuthority('YAHOO_CAMPAIGN_VIEW')" type="submit" th:formaction="@{/campaign/yahoo/issueSuccess}" th:formmethod="get">確認</button>
 				</div>
 			</div>
 		</form>
