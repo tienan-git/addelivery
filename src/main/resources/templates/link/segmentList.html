@@ -49,7 +49,7 @@
 									<td th:text="*{dspSegmentListDto.segmentName}">セグメント１</td>
 									<td th:text="*{dspSegmentListDto.url}">セグメント１</td>
 									<td th:text="${T(jp.acepro.haishinsan.enums.SegmentFlag).of(__*{dspSegmentListDto.is_enabled}__).label}">http://ace-pro.com</td>
-									<td><button type="submit" class="btn btn-danger" onclick="return check('DSPセグメントを削除してよろしいでしょうか？')" th:formaction="@{/dsp/segmentDelete(segmentManageId=*{dspSegmentListDto.segmentManageId})}" sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" th:formmethod="post">削除</button></td>
+									<td><button type="submit" class="btn btn-danger" onclick="return check('DSPセグメントを削除してよろしいでしょうか？')" th:formaction="@{/link/segment/segmentDelete(segmentManageId=*{dspSegmentListDto.segmentManageId})}" sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')" th:formmethod="post">削除</button></td>
 								</tr>
 							</tbody>
 						</table>
