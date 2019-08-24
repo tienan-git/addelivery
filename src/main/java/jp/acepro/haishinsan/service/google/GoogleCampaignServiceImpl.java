@@ -269,8 +269,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// キャンペーン情報取得（DBから）
 		List<Issue> issueList = issueCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
-		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null)
-				.map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
+		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignId() != null)
+				.map(obj -> obj.getGoogleCampaignId()).collect(Collectors.toList());
 		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao
 				.selectByCampaignManageIdList(campaignManageIdList);
 		List<Long> campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId())
@@ -517,7 +517,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		// 案件DB登録
 		Issue issue = new Issue();
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-		issue.setGoogleCampaignManageId(googleIssueDto.getCampaignId());
+		issue.setGoogleCampaignId(googleIssueDto.getCampaignId());
 		issue.setCampaignName(googleIssueDto.getCampaignName());
 		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), googleIssueDto.getStartDate(),
 				googleIssueDto.getEndDate()));

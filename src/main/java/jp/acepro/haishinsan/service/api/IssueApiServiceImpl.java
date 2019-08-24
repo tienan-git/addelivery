@@ -156,7 +156,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 						.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList))
 						.setFieldPublisherPlatforms(Arrays.asList("facebook"))
 						.setFieldFacebookPositions(Arrays.asList("feed"));
-				APINodeList<AdSet> adSets = new Campaign(issue.getFacebookCampaignManageId(), context).getAdSets()
+				APINodeList<AdSet> adSets = new Campaign(issue.getFacebookCampaignId(), context).getAdSets()
 						// .requestNameField()
 						// .requestConfiguredStatusField()
 						// .requestEffectiveStatusField()
@@ -164,7 +164,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 				adSets.get(0).update().setDailyBudget(realDailyBudget).setBidAmount(bidAmount).setTargeting(targeting)
 						.execute();
 
-				Campaign campaign = new Campaign(issue.getFacebookCampaignManageId(), context).update()
+				Campaign campaign = new Campaign(issue.getFacebookCampaignId(), context).update()
 						.setStatus(Campaign.EnumStatus.VALUE_ACTIVE).execute();
 
 				issue.setStartTimestamp(dateTime);
@@ -193,7 +193,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 		for (Issue issue : issueList) {
 			try {
 
-				Campaign campaign = new Campaign(issue.getFacebookCampaignManageId(), context).update()
+				Campaign campaign = new Campaign(issue.getFacebookCampaignId(), context).update()
 						.setStatus(Campaign.EnumStatus.VALUE_PAUSED).execute();
 				issue.setEndTimestamp(dateTime);
 				issueDao.update(issue);
@@ -225,7 +225,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			// 店舗情報取得
 			List<Shop> shopList = shopCustomDao.selectByIssueId(issue.getIssueId());
 			GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao
-					.selectByCampaignId(issue.getGoogleCampaignManageId());
+					.selectByCampaignId(issue.getGoogleCampaignId());
 			GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
 			googleCampaignDto.setUnitPriceType(UnitPriceType.DISPLAY.getValue());
 			googleCampaignDto.setAdType(googleCampaignManage.getAdType());
@@ -240,7 +240,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			// ---------広告グループ取得API実行
 			GetAdGroups getAdGroups = new GetAdGroups();
 			getAdGroups.propFileName = propFileName;
-			getAdGroups.campaignId = issue.getGoogleCampaignManageId();
+			getAdGroups.campaignId = issue.getGoogleCampaignId();
 			getAdGroups.googleAccountId = shopList.get(0).getGoogleAccountId();
 			getAdGroups.run();
 			// ---------広告グループ取得API実行
@@ -258,7 +258,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			updateCampaign.googleAccountId = shopList.get(0).getGoogleAccountId();
 			updateCampaign.ratio = shopList.get(0).getMarginRatio();
 			updateCampaign.googleCampaignDto = googleCampaignDto;
-			updateCampaign.run(issue.getGoogleCampaignManageId(), "ON");
+			updateCampaign.run(issue.getGoogleCampaignId(), "ON");
 
 			issue.setStartTimestamp(dateTime);
 			issueDao.update(issue);
@@ -284,7 +284,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			updateCampaignStatus.propFileName = propFileName;
 			updateCampaignStatus.googleAccountId = shopList.get(0).getGoogleAccountId();
 			;
-			updateCampaignStatus.run(issue.getGoogleCampaignManageId(), "OFF");
+			updateCampaignStatus.run(issue.getGoogleCampaignId(), "OFF");
 
 			issue.setEndTimestamp(dateTime);
 			issueDao.update(issue);

@@ -648,7 +648,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			if (issueDto == null) {
 				issue = new Issue();
 				issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-				issue.setFacebookCampaignManageId(facebookCampaignManage.getFacebookCampaignManageId());
+				issue.setFacebookCampaignId(facebookCampaignManage.getCampaignId());
 				issue.setCampaignName(campaignName);
 				issue.setBudget(totalBudget);
 				issue.setStartDate(startDateString);
@@ -852,7 +852,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		// issue.setBudget(fbIssueDto.getBudget());
 
 		issue.setShopId(ContextUtil.getCurrentShopId());
-		issue.setFacebookCampaignManageId(Long.valueOf(fbIssueDto.getCampaignId()));
+		issue.setFacebookCampaignId(fbIssueDto.getCampaignId());
 		issue.setCampaignName(fbIssueDto.getCampaignName());
 		issue.setBudget(CalculateUtil.calTotalBudget(fbIssueDto.getDailyBudget(), fbIssueDto.getStartDate(),
 				fbIssueDto.getEndDate()));

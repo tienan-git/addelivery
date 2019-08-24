@@ -1354,11 +1354,12 @@ Top=1050
 Field="案件ID","issue_id","*ID採番あり","NOT NULL",0,"","",$00FF0000,""
 Field="店舗ID","shop_id","*ID採番なし","NOT NULL",,"","",$FFFFFFFF,""
 Field="DSPキャンペーン管理ID","dsp_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
-Field="Googleキャンペーン管理ID","google_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
-Field="Facebookキャンペーン管理ID","facebook_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
 Field="Twitterキャンペーン管理ID","twitter_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
 Field="Yahooキャンペーン管理ID","yahoo_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
 Field="Youtubeキャンペーン管理ID","youtube_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
+Field="GoogleキャンペーンID","google_campaign_id","*ID採番なし",,,"","",$FFFFFFFF,""
+Field="FacebookキャンペーンID","facebook_campaign_id","*ID",,,"","",$FFFFFFFF,""
+Field="InstagramキャンペーンID","instagram_campaign_id","*ID",,,"","",$FFFFFFFF,""
 Field="キャンペーン名","campaign_name","*キャンペーン名",,,"","",$FFFFFFFF,""
 Field="全体予算","budget","*予算",,,"","",$FFFFFFFF,""
 Field="配信開始日","start_date","*文字列日付",,,"","",$FFFFFFFF,""
@@ -1372,8 +1373,8 @@ Field="配信終了タイムスタンプ","end_timestamp","*日時",,,"","",$FFF
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190817142315
-Position="MAIN",2050,1050,669,855
+ModifiedDateTime=20190824150155
+Position="MAIN",2050,1050,669,934
 ZOrder=27
 
 [Relation]

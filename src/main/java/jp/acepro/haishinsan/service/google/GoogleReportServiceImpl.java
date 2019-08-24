@@ -614,8 +614,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		List<Issue> issueList = issueCustomDao.selectByShopId(shopId);
 		if (issueList.size() > 0) {
 			// 店舗案件存在する場合
-			List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null)
-					.map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
+			List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignId() != null)
+					.map(obj -> obj.getGoogleCampaignId()).collect(Collectors.toList());
 			if (campaignManageIdList.size() > 0) {
 				// Googleキャンペーン存在する場合
 				List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao

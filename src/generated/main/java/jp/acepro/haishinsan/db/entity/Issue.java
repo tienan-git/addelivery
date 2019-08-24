@@ -35,14 +35,6 @@ public class Issue extends BaseEntity {
     @Column(name = "dsp_campaign_manage_id")
     Long dspCampaignManageId;
 
-    /** Googleキャンペーン管理ID */
-    @Column(name = "google_campaign_manage_id")
-    Long googleCampaignManageId;
-
-    /** Facebookキャンペーン管理ID */
-    @Column(name = "facebook_campaign_manage_id")
-    Long facebookCampaignManageId;
-
     /** Twitterキャンペーン管理ID */
     @Column(name = "twitter_campaign_manage_id")
     Long twitterCampaignManageId;
@@ -54,6 +46,18 @@ public class Issue extends BaseEntity {
     /** Youtubeキャンペーン管理ID */
     @Column(name = "youtube_campaign_manage_id")
     Long youtubeCampaignManageId;
+
+    /** GoogleキャンペーンID */
+    @Column(name = "google_campaign_id")
+    Long googleCampaignId;
+
+    /** FacebookキャンペーンID */
+    @Column(name = "facebook_campaign_id")
+    String facebookCampaignId;
+
+    /** InstagramキャンペーンID */
+    @Column(name = "instagram_campaign_id")
+    String instagramCampaignId;
 
     /** キャンペーン名 */
     @Column(name = "campaign_name")
@@ -87,6 +91,14 @@ public class Issue extends BaseEntity {
     @Column(name = "facebook_regions")
     String facebookRegions;
 
+    /** 配信開始タイムスタンプ */
+    @Column(name = "start_timestamp")
+    LocalDateTime startTimestamp;
+
+    /** 配信終了タイムスタンプ */
+    @Column(name = "end_timestamp")
+    LocalDateTime endTimestamp;
+
     /** バージョン番号 */
     @Version
     @Column(name = "version_no")
@@ -111,14 +123,6 @@ public class Issue extends BaseEntity {
     /** アクティブフラグ:0：無効、1：有効 */
     @Column(name = "is_actived")
     Integer isActived;
-
-    /** 配信開始タイムスタンプ */
-    @Column(name = "start_timestamp")
-    LocalDateTime startTimestamp;
-
-    /** 配信終了タイムスタンプ */
-    @Column(name = "end_timestamp")
-    LocalDateTime endTimestamp;
 
     /** 
      * Returns the issueId.
@@ -175,42 +179,6 @@ public class Issue extends BaseEntity {
     }
 
     /** 
-     * Returns the googleCampaignManageId.
-     * 
-     * @return the googleCampaignManageId
-     */
-    public Long getGoogleCampaignManageId() {
-        return googleCampaignManageId;
-    }
-
-    /** 
-     * Sets the googleCampaignManageId.
-     * 
-     * @param googleCampaignManageId the googleCampaignManageId
-     */
-    public void setGoogleCampaignManageId(Long googleCampaignManageId) {
-        this.googleCampaignManageId = googleCampaignManageId;
-    }
-
-    /** 
-     * Returns the facebookCampaignManageId.
-     * 
-     * @return the facebookCampaignManageId
-     */
-    public Long getFacebookCampaignManageId() {
-        return facebookCampaignManageId;
-    }
-
-    /** 
-     * Sets the facebookCampaignManageId.
-     * 
-     * @param facebookCampaignManageId the facebookCampaignManageId
-     */
-    public void setFacebookCampaignManageId(Long facebookCampaignManageId) {
-        this.facebookCampaignManageId = facebookCampaignManageId;
-    }
-
-    /** 
      * Returns the twitterCampaignManageId.
      * 
      * @return the twitterCampaignManageId
@@ -262,6 +230,60 @@ public class Issue extends BaseEntity {
      */
     public void setYoutubeCampaignManageId(Long youtubeCampaignManageId) {
         this.youtubeCampaignManageId = youtubeCampaignManageId;
+    }
+
+    /** 
+     * Returns the googleCampaignId.
+     * 
+     * @return the googleCampaignId
+     */
+    public Long getGoogleCampaignId() {
+        return googleCampaignId;
+    }
+
+    /** 
+     * Sets the googleCampaignId.
+     * 
+     * @param googleCampaignId the googleCampaignId
+     */
+    public void setGoogleCampaignId(Long googleCampaignId) {
+        this.googleCampaignId = googleCampaignId;
+    }
+
+    /** 
+     * Returns the facebookCampaignId.
+     * 
+     * @return the facebookCampaignId
+     */
+    public String getFacebookCampaignId() {
+        return facebookCampaignId;
+    }
+
+    /** 
+     * Sets the facebookCampaignId.
+     * 
+     * @param facebookCampaignId the facebookCampaignId
+     */
+    public void setFacebookCampaignId(String facebookCampaignId) {
+        this.facebookCampaignId = facebookCampaignId;
+    }
+
+    /** 
+     * Returns the instagramCampaignId.
+     * 
+     * @return the instagramCampaignId
+     */
+    public String getInstagramCampaignId() {
+        return instagramCampaignId;
+    }
+
+    /** 
+     * Sets the instagramCampaignId.
+     * 
+     * @param instagramCampaignId the instagramCampaignId
+     */
+    public void setInstagramCampaignId(String instagramCampaignId) {
+        this.instagramCampaignId = instagramCampaignId;
     }
 
     /** 
@@ -409,6 +431,42 @@ public class Issue extends BaseEntity {
     }
 
     /** 
+     * Returns the startTimestamp.
+     * 
+     * @return the startTimestamp
+     */
+    public LocalDateTime getStartTimestamp() {
+        return startTimestamp;
+    }
+
+    /** 
+     * Sets the startTimestamp.
+     * 
+     * @param startTimestamp the startTimestamp
+     */
+    public void setStartTimestamp(LocalDateTime startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    /** 
+     * Returns the endTimestamp.
+     * 
+     * @return the endTimestamp
+     */
+    public LocalDateTime getEndTimestamp() {
+        return endTimestamp;
+    }
+
+    /** 
+     * Sets the endTimestamp.
+     * 
+     * @param endTimestamp the endTimestamp
+     */
+    public void setEndTimestamp(LocalDateTime endTimestamp) {
+        this.endTimestamp = endTimestamp;
+    }
+
+    /** 
      * Returns the versionNo.
      * 
      * @return the versionNo
@@ -514,41 +572,5 @@ public class Issue extends BaseEntity {
      */
     public void setIsActived(Integer isActived) {
         this.isActived = isActived;
-    }
-
-    /** 
-     * Returns the startTimestamp.
-     * 
-     * @return the startTimestamp
-     */
-    public LocalDateTime getStartTimestamp() {
-        return startTimestamp;
-    }
-
-    /** 
-     * Sets the startTimestamp.
-     * 
-     * @param startTimestamp the startTimestamp
-     */
-    public void setStartTimestamp(LocalDateTime startTimestamp) {
-        this.startTimestamp = startTimestamp;
-    }
-
-    /** 
-     * Returns the endTimestamp.
-     * 
-     * @return the endTimestamp
-     */
-    public LocalDateTime getEndTimestamp() {
-        return endTimestamp;
-    }
-
-    /** 
-     * Sets the endTimestamp.
-     * 
-     * @param endTimestamp the endTimestamp
-     */
-    public void setEndTimestamp(LocalDateTime endTimestamp) {
-        this.endTimestamp = endTimestamp;
     }
 }
