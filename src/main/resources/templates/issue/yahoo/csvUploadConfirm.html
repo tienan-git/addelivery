@@ -87,8 +87,7 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<button class="btn btn-success" sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" type="submit" th:formaction="@{/yahoo/csvUploadComplete}" th:formmethod="post">アップロード</button>
-					<button class="btn btn-warning" sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" type="submit" th:formaction="@{/yahoo/csvUpload}" th:formmethod="get">戻る</button>
+					<button class="btn btn-success" sec:authorize="hasAuthority('YAHOO_CSV_UPLOAD')" type="submit" th:formaction="@{campaign/yahoo/csvUploadComplete}" th:formmethod="post">アップロード</button>
 				</div>
 			</div>
 		</form>

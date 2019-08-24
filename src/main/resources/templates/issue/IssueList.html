@@ -165,7 +165,7 @@
 										<button class="label detail" type="submit"
 											th:formmethod="post"
 											sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
-											th:formaction="@{/issues/allReporting(issueId=${issue.issueId}, media=${issue.media})}">
+											th:formaction="@{/issue/report/allReporting(issueId=${issue.issueId}, media=${issue.media})}">
 											<i class="ti-bar-chart"></i>詳細
 										</button>
 										<button class="label delete" type="submit"
