@@ -122,7 +122,7 @@ public class GoogleUploadController {
 	@PostMapping("/bannerAd/complete")
 	public ModelAndView bannerAdComplete() throws IOException {
 		UploadGoogleBannerAdCreateForm form = (UploadGoogleBannerAdCreateForm) session.getAttribute("bannerAdForm");
-		log.debug(form.toString());
+		//log.debug(form.toString());
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("upload/google/textAd/complete");
 		session.removeAttribute("bannerAdForm");
@@ -235,7 +235,7 @@ public class GoogleUploadController {
 	public ModelAndView bannerTextAdComplete() {
 		UploadGoogleBannerTextAdCreateForm form = (UploadGoogleBannerTextAdCreateForm) session
 				.getAttribute("bannerTextAdForm");
-		log.debug(form.toString());
+		//log.debug(form.toString());
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("upload/google/bannerTextAd/complete");
 		session.removeAttribute("bannerTextAdForm");
@@ -321,7 +321,7 @@ public class GoogleUploadController {
 
 	@PostMapping("/textAd/confirm")
 	public ModelAndView textAdConfirm(UploadGoogleTextAdCreateForm form) {
-		log.debug(form.toString());
+		//log.debug(form.toString());
 		session.setAttribute("textAdForm", form);
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("upload/google/textAd/confirm");
@@ -332,7 +332,7 @@ public class GoogleUploadController {
 	@PostMapping("/textAd/complete")
 	public ModelAndView textAdComplete() {
 		UploadGoogleTextAdCreateForm form = (UploadGoogleTextAdCreateForm) session.getAttribute("textAdForm");
-		log.debug(form.toString());
+		//log.debug(form.toString());
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("upload/google/textAd/complete");
 		session.removeAttribute("textAdForm");
