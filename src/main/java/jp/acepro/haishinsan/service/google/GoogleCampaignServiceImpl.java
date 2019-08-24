@@ -118,8 +118,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			throw new BusinessException(ErrorCodeConstant.E70003);
 		}
 
-		log.debug("キャンペーン新規作成開始----------------------------");
-		log.debug("キャンペーン新規作成用パラメータ: {}", googleCampaignDto);
+		//log.debug("キャンペーン新規作成開始----------------------------");
+		//log.debug("キャンペーン新規作成用パラメータ: {}", googleCampaignDto);
 		// キャンプーン作成
 		AddCampaign addCampaign = new AddCampaign();
 		addCampaign.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
@@ -234,7 +234,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 //		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
 //		emailService.sendEmail(emailDto);
 
-		log.debug("キャンペーン新規作成完了----------------------------");
+		//log.debug("キャンペーン新規作成完了----------------------------");
 	}
 
 	// キャンペーン状態変更（API経由）
@@ -305,7 +305,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 				}
 			}
 		}
-		log.debug("googleCampaignInfoDtoList : {}", googleCampaignInfoDtoList);
+		//log.debug("googleCampaignInfoDtoList : {}", googleCampaignInfoDtoList);
 		return googleCampaignInfoDtoList;
 	}
 
