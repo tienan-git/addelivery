@@ -49,4 +49,14 @@ public interface DspSegmentCustomDao {
 	@Select
 	List<SegmentManage> selectUrlByDateTime(LocalDateTime dateTime, Long shopId);
 
+	/**
+	 * segmentReport取得
+	 * @param segmentIds
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	@Select
+	List<SegmentReportManage> selectBySegmentIds(List<Integer> segmentIds, String startDate, String endDate);
+
 }
