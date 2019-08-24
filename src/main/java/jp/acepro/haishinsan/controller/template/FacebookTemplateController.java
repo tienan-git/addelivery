@@ -79,7 +79,7 @@ public class FacebookTemplateController {
 		List<FbTemplateDto> fbTemplateDtoList = facebookService.searchList();
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/templateList");
+		mv.setViewName("template/facebook/templateList");
 		mv.addObject("fbTemplateDtoList", fbTemplateDtoList);
 
 		// オペレーションログ記録
@@ -100,7 +100,7 @@ public class FacebookTemplateController {
 
 		// -------- 地域初期値設定 --------
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/createTemplate");
+		mv.setViewName("template/facebook/createTemplate");
 		return mv;
 	}
 
@@ -116,12 +116,12 @@ public class FacebookTemplateController {
 			result.reject(e.getMessage());
 
 			ModelAndView mv = new ModelAndView();
-			mv.setViewName("facebook/createTemplate");
+			mv.setViewName("template/facebook/createTemplate");
 			mv.addObject("fbTempleteInputForm", fbTemplateInputForm);
 			return mv;
 		}
 
-		ModelAndView mv = new ModelAndView("facebook/completeTemplate");
+		ModelAndView mv = new ModelAndView("template/facebook/completeTemplate");
 		mv.addObject("fbTempleteInputForm", fbTemplateInputForm);
 		mv.addObject("fbTemplateDto", fbTemplateDto);
 
@@ -138,7 +138,7 @@ public class FacebookTemplateController {
 		FbTemplateDto fbTemplateDto = facebookService.templateDetail(templateId);
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/templateDetail");
+		mv.setViewName("template/facebook/templateDetail");
 		mv.addObject("fbTemplateDto", fbTemplateDto);
 
 		// オペレーションログ記録
@@ -154,7 +154,7 @@ public class FacebookTemplateController {
 		FbTemplateDto fbTemplateDto = facebookService.templateDetail(templateId);
 		FbTemplateInputForm fbTemplateInputForm = FacebookMapper.INSTANCE.mapDtoToForm(fbTemplateDto);
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/updateTemplate");
+		mv.setViewName("template/facebook/updateTemplate");
 		mv.addObject("fbTemplateInputForm", fbTemplateInputForm);
 		return mv;
 
@@ -173,13 +173,13 @@ public class FacebookTemplateController {
 			result.reject(e.getMessage());
 
 			ModelAndView mv = new ModelAndView();
-			mv.setViewName("facebook/updateTemplate");
+			mv.setViewName("template/facebook/updateTemplate");
 			mv.addObject("fbTempleteInputForm", fbTemplateInputForm);
 			return mv;
 		}
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/updateTemplateComplete");
+		mv.setViewName("template/facebook/updateTemplateComplete");
 		mv.addObject("fbTemplateDto", fbTemplateDto);
 
 		// オペレーションログ記録
@@ -196,7 +196,7 @@ public class FacebookTemplateController {
 		FbTemplateDto fbTemplateDto = facebookService.templateDelete(templateId);
 
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("facebook/deleteTemplate");
+		mv.setViewName("template/facebook/deleteTemplate");
 		mv.addObject("fbTemplateDto", fbTemplateDto);
 
 		// オペレーションログ記録

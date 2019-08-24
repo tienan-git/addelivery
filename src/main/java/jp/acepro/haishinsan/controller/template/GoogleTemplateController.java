@@ -67,7 +67,7 @@ public class GoogleTemplateController {
 		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/createTemplate");
+		modelAndView.setViewName("template/google/createTemplate");
 		modelAndView.addObject("googleTemplateForm", googleTemplateForm);
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 		return modelAndView;
@@ -90,7 +90,7 @@ public class GoogleTemplateController {
 			// ＤＳＰＵＲＬを読込
 			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("google/createTemplate");
+			modelAndView.setViewName("template/google/createTemplate");
 			modelAndView.addObject("googleTemplateForm", googleTemplateForm);
 			modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 			return modelAndView;
@@ -98,7 +98,7 @@ public class GoogleTemplateController {
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/createTemplateComplete");
+		modelAndView.setViewName("template/google/createTemplateComplete");
 		modelAndView.addObject("googleTemplateDto", googleTemplateDto);
 
 		// オペレーションログ記録
@@ -120,7 +120,7 @@ public class GoogleTemplateController {
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/listTemplate");
+		modelAndView.setViewName("template/google/listTemplate");
 		modelAndView.addObject("googleTemplateDtoList", googleTemplateDtoList);
 
 		// オペレーションログ記録
@@ -140,7 +140,7 @@ public class GoogleTemplateController {
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/detailTemplate");
+		modelAndView.setViewName("template/google/detailTemplate");
 		modelAndView.addObject("googleTemplateDto", googleTemplateDto);
 
 		// オペレーションログ記録
@@ -161,7 +161,7 @@ public class GoogleTemplateController {
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/updateTemplate");
+		modelAndView.setViewName("template/google/updateTemplate");
 		modelAndView.addObject("googleTemplateForm", googleTemplateForm);
 		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 		return modelAndView;
@@ -184,7 +184,7 @@ public class GoogleTemplateController {
 			// ＤＳＰＵＲＬを読込
 			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
 			ModelAndView modelAndView = new ModelAndView();
-			modelAndView.setViewName("google/updateTemplate");
+			modelAndView.setViewName("template/google/updateTemplate");
 			modelAndView.addObject("googleTemplateForm", googleTemplateForm);
 			modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
 			return modelAndView;
@@ -192,7 +192,7 @@ public class GoogleTemplateController {
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/updateTemplateComplete");
+		modelAndView.setViewName("template/google/updateTemplateComplete");
 		modelAndView.addObject("googleTemplateDto", googleTemplateDto);
 
 		// オペレーションログ記録
@@ -213,7 +213,7 @@ public class GoogleTemplateController {
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("google/deleteTemplateComplete");
+		modelAndView.setViewName("template/google/deleteTemplateComplete");
 		modelAndView.addObject("googleTemplateDto", googleTemplateDto);
 
 		// オペレーションログ記録

@@ -21,7 +21,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeTemplate}" th:object="${fbTemplateInputForm}" method="post" onsubmit="return check('')">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/template/facebook/completeTemplate}" th:object="${fbTemplateInputForm}" method="post" onsubmit="return check('')">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
@@ -68,7 +68,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class="btn btn-info" th:formaction="@{/facebook/updateTemplateComplete}" th:formmethod="post">更新</button>
+							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class="btn btn-info" th:formaction="@{/template/facebook/updateTemplateComplete}" th:formmethod="post">更新</button>
 						</div>
 					</div>
 				</div>

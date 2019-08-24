@@ -112,7 +112,7 @@
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-6">
-								<select class="form-control" th:field="*{resAdFinalPageUrl}" required>
+								<select class="form-control" th:field="*{resAdFinalPageUrl}">
 									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.resAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
@@ -124,7 +124,7 @@
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-6">
-								<select class="form-control" th:field="*{imageAdFinalPageUrl}" required>
+								<select class="form-control" th:field="*{imageAdFinalPageUrl}">
 									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.imageAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
@@ -136,7 +136,7 @@
 						<div class="form-group row">
 							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
 							<div class="col-sm-6">
-								<select class="form-control" th:field="*{textAdFinalPageUrl}" required>
+								<select class="form-control" th:field="*{textAdFinalPageUrl}">
 									<option th:each="dspSegmentDto : ${dspSegmentDtoList}" th:selected="${googleTemplateForm.textAdFinalPageUrl} == ${dspSegmentDto.getUrl()}" th:value="${dspSegmentDto.getUrl()}" th:text="${dspSegmentDto.getUrl()}">クリエイティブを選択してください</option>
 								</select>
 							</div>
@@ -162,7 +162,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/google/createTemplateComplete}">作成</button>
+							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/template/google/createTemplateComplete}">作成</button>
 						</div>
 					</div>
 				</div>

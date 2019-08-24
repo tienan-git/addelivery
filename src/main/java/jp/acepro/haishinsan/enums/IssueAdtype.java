@@ -6,7 +6,7 @@ package jp.acepro.haishinsan.enums;
  */
 public enum IssueAdtype implements CodeEnum<String> {
 
-	GOOGLE("label google", "Google"), FACEBOOK("label faceBook", "FaceBook"), DSP("label dsp", "FreakOut"),
+	GOOGLE("label google", "Google"), FACEBOOK("label faceBook", "FaceBook"), INSTAGRAM("label Instagram", "Instagram"), DSP("label dsp", "FreakOut"),
 	TWITTER("label twitter", "Twitter"), YAHOO("label yahoo", "Yahoo"), YOUTUBE("label youtube", "Youtube");
 
 	private IssueAdtype(String value, String label) {
