@@ -21,7 +21,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form action="#" th:action="@{/user/updateComplete}" method="post" th:object="${userInputForm}" onsubmit="return check('')">
+		<form action="#" th:action="@{/account/user/updateComplete}" method="post" th:object="${userInputForm}" onsubmit="return check('')">
 			<div th:replace="common/errorMessages"></div>
 			<input type="hidden" th:field="*{userId}" /> <input type="hidden" th:field="*{shopId}" /> <input type="hidden" th:field="*{shopName}" /> <input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" /> <input type="hidden" th:field="*{agencyId}" /> <input
 				type="hidden" th:field="*{agencyName}" />
@@ -122,8 +122,8 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" sec:authorize="hasAuthority('USER_MANAGE')" type="submit" th:formaction="@{/user/updateComplete}" th:formmethod="post">確認</button>
-							<button type="button" sec:authorize="hasAuthority('USER_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/user/detail?userId={id}(id=*{userId})} + '\''">詳細へ戻る</button>
+							<button class="btn btn-success" sec:authorize="hasAuthority('USER_MANAGE')" type="submit" th:formaction="@{/account/user/updateComplete}" th:formmethod="post">確認</button>
+							<button type="button" sec:authorize="hasAuthority('USER_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/account/user/detail?userId={id}(id=*{userId})} + '\''">詳細へ戻る</button>
 						</div>
 					</div>
 				</div>

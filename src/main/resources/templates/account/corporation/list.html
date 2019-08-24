@@ -44,9 +44,9 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="corporationDto : ${corporationDtoList}">
-									<td><a href="#" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:href="@{/corporation/detail(corporationId=${corporationDto.corporationId})}" th:method="get" th:text="${corporationDto.corporationId}">0001</a></td>
+									<td><a href="#" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:href="@{/account/corporation/detail(corporationId=${corporationDto.corporationId})}" th:method="get" th:text="${corporationDto.corporationId}">0001</a></td>
 									<td th:text="${corporationDto.corporationName}">法人名</td>
-									<td><a href="#" sec:authorize="hasAuthority('AGENCY_VIEW')" th:href="@{/agency/detail(agencyId=${corporationDto.agencyId})}" th:method="get" th:text="${corporationDto.agencyId}">0001</a></td>
+									<td><a href="#" sec:authorize="hasAuthority('AGENCY_VIEW')" th:href="@{/account/agency/detail(agencyId=${corporationDto.agencyId})}" th:method="get" th:text="${corporationDto.agencyId}">0001</a></td>
 									<td th:text="${corporationDto.agencyName}">代理店名</td>
 								</tr>
 							</tbody>

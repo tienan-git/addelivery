@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -20,12 +23,23 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form action="#" th:object="${shopInputForm}" th:action="@{/shop/list}" method="post">
+		<form action="#" th:object="${shopInputForm}"
+			th:action="@{/account/shop/list}" method="post">
 			<div th:replace="common/errorMessages"></div>
-			<input type="hidden" th:field="*{shopId}" /> <input type="hidden" th:field="*{shopName}" /> <input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" /> <input type="hidden" th:field="*{agencyId}" /> <input type="hidden" th:field="*{agencyName}" />
-			<input type="hidden" th:field="*{googleAccountId}" /> <input type="hidden" th:field="*{twitterAccountId}" /> <input type="hidden" th:field="*{dspDistributionRatio}" /> <input type="hidden" th:field="*{googleDistributionRatio}" /> <input type="hidden" th:field="*{facebookDistributionRatio}" />
-			<input type="hidden" th:field="*{twitterDistributionRatio}" /> <input type="hidden" th:field="*{salesCheckFlag}" /> <input type="hidden" th:field="*{marginRatio}" /> <input type="hidden" th:field="*{dspUserId}" /> <input type="hidden" th:field="*{facebookPageId}" /> <input type="hidden"
-				th:field="*{shopMailList}" /> <input type="hidden" th:field="*{salesMailList}" />
+			<input type="hidden" th:field="*{shopId}" /> <input type="hidden"
+				th:field="*{shopName}" /> <input type="hidden"
+				th:field="*{corporationId}" /> <input type="hidden"
+				th:field="*{corporationName}" /> <input type="hidden"
+				th:field="*{agencyId}" /> <input type="hidden"
+				th:field="*{agencyName}" /> <input type="hidden"
+				th:field="*{googleAccountId}" /> <input type="hidden"
+				th:field="*{twitterAccountId}" /><input type="hidden"
+				th:field="*{salesCheckFlag}" /> <input type="hidden"
+				th:field="*{marginRatio}" /> <input type="hidden"
+				th:field="*{dspUserId}" /> <input type="hidden"
+				th:field="*{facebookPageId}" /> <input type="hidden"
+				th:field="*{shopMailList}" /> <input type="hidden"
+				th:field="*{salesMailList}" />
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">店舗情報</h4>
@@ -50,7 +64,10 @@
 							<label class="col-form-label">法人ID</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label"><a sec:authorize="hasAuthority('CORPORATION_VIEW')" href="#" th:href="@{/corporation/detail(corporationId=*{corporationId})}" th:method="get" th:text="*{corporationId}">0001</a></label>
+							<label class="col-form-label"><a
+								sec:authorize="hasAuthority('CORPORATION_VIEW')" href="#"
+								th:href="@{/account/corporation/detail(corporationId=*{corporationId})}"
+								th:method="get" th:text="*{corporationId}">0001</a></label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -94,44 +111,14 @@
 							<label class="col-form-label" th:text="*{twitterAccountId}">1</label>
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{dspDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{googleDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{facebookDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{twitterDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
+
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
 							<label class="col-form-label">営業審査フラグ</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__${shopInputForm.salesCheckFlag}__).label}">1</label>
+							<label class="col-form-label"
+								th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__${shopInputForm.salesCheckFlag}__).label}">1</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -160,9 +147,16 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('USER_MANAGE')" th:onclick="'window.location.href = \'' + @{/user/create?shopId={id}(id=*{shopId})} + '\''">ユーザーの新規</button>
-							<button type="button" class="btn btn-info" sec:authorize="hasAuthority('SHOP_MANAGE')" th:onclick="'window.location.href = \'' + @{/shop/update?shopId={id}(id=*{shopId})} + '\''">編集</button>
-							<button type="submit" class="btn btn-danger" sec:authorize="hasAuthority('SHOP_MANAGE')" onclick="return check('店舗を削除してよろしいでしょうか？')"th:formaction="@{/shop/delete}" th:formmethod="post">削除</button>
+							<button type="button" class="btn btn-primary"
+								sec:authorize="hasAuthority('USER_MANAGE')"
+								th:onclick="'window.location.href = \'' + @{/account/user/create?shopId={id}(id=*{shopId})} + '\''">ユーザーの新規</button>
+							<button type="button" class="btn btn-info"
+								sec:authorize="hasAuthority('SHOP_MANAGE')"
+								th:onclick="'window.location.href = \'' + @{/account/shop/update?shopId={id}(id=*{shopId})} + '\''">編集</button>
+							<button type="submit" class="btn btn-danger"
+								sec:authorize="hasAuthority('SHOP_MANAGE')"
+								onclick="return check('店舗を削除してよろしいでしょうか？')"
+								th:formaction="@{/account/shop/delete}" th:formmethod="post">削除</button>
 						</div>
 					</div>
 				</div>
@@ -172,7 +166,9 @@
 					<h4 class="sub-title">所属ユーザーリスト</h4>
 					<div class="dt-responsive table-responsive">
 						<input type="hidden" class="js-single">
-						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%">
+						<table id="basicTable"
+							class="table table-striped table-hover table-bordered nowrap"
+							style="width: 100%">
 							<thead>
 								<tr>
 									<th>ユーザーID</th>
@@ -191,10 +187,13 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="userDto : *{userDtoList}">
-									<td><a href="#" sec:authorize="hasAuthority('USER_VIEW')" th:href="@{/user/detail(userId=${userDto.userId})}" th:method="get" th:text="${userDto.userId}">0001</a></td>
+									<td><a href="#" sec:authorize="hasAuthority('USER_VIEW')"
+										th:href="@{/account/user/detail(userId=${userDto.userId})}"
+										th:method="get" th:text="${userDto.userId}">0001</a></td>
 									<td th:text="${userDto.userName}">店舗名</td>
 									<td th:text="${userDto.email}">メールアドレス</td>
-									<td th:text="${T(jp.acepro.haishinsan.enums.Role).of(__${userDto.roleId}__).label}">権限１</td>
+									<td
+										th:text="${T(jp.acepro.haishinsan.enums.Role).of(__${userDto.roleId}__).label}">権限１</td>
 								</tr>
 							</tbody>
 						</table>
@@ -203,7 +202,9 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('SHOP_VIEW')" th:onclick="'window.location.href = \'' + @{/shop/list} + '\''">一覧へ</button>
+					<button type="button" class="btn btn-primary"
+						sec:authorize="hasAuthority('SHOP_VIEW')"
+						th:onclick="'window.location.href = \'' + @{/shop/list} + '\''">一覧へ</button>
 				</div>
 			</div>
 		</form>

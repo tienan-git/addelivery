@@ -54,7 +54,7 @@ public class AgencyController {
 	@GetMapping("/create")
 	public ModelAndView create(ModelAndView mv) {
 
-		mv.setViewName("agency/create");
+		mv.setViewName("account/agency/create");
 		return mv;
 	}
 
@@ -68,7 +68,7 @@ public class AgencyController {
 
 		agencyInputForm = AgencyMapper.INSTANCE.mapToForm(agencyDto);
 		mv.addObject("agencyInputForm", agencyInputForm);
-		mv.setViewName("agency/createComplete");
+		mv.setViewName("account/agency/createComplete");
 
 		// オペレーションログ記録
 		operationService.create(Operation.USER_CREATE.getValue(), String.valueOf(agencyInputForm.getAgencyId()));
@@ -86,7 +86,7 @@ public class AgencyController {
 
 		AgencyInputForm agencyInputForm = AgencyMapper.INSTANCE.mapToForm(agencyDto);
 		mv.addObject("agencyInputForm", agencyInputForm);
-		mv.setViewName("agency/detail");
+		mv.setViewName("account/agency/detail");
 		return mv;
 	}
 
@@ -97,7 +97,7 @@ public class AgencyController {
 		AgencyDto agencyDto = agencyService.getById(agencyId);
 		agencyInputForm = AgencyMapper.INSTANCE.mapToForm(agencyDto);
 		mv.addObject("agencyInputForm", agencyInputForm);
-		mv.setViewName("agency/update");
+		mv.setViewName("account/agency/update");
 		return mv;
 	}
 
@@ -110,7 +110,7 @@ public class AgencyController {
 		agencyService.update(agencyDto);
 
 		mv.addObject("agencyInputForm", agencyInputForm);
-		mv.setViewName("agency/updateComplete");
+		mv.setViewName("account/agency/updateComplete");
 		return mv;
 	}
 
@@ -122,7 +122,7 @@ public class AgencyController {
 			agencyService.delete(agencyInputForm.getAgencyId());
 		} catch (BusinessException be) {
 			result.reject(be.getMessage());
-			mv.setViewName("agency/detail");
+			mv.setViewName("account/agency/detail");
 			List<CorporationDto> corporationDtoList = agencyService
 					.searchCorpsByAgencyId(agencyInputForm.getAgencyId());
 			agencyInputForm.setCorporationDtoList(corporationDtoList);
@@ -133,7 +133,7 @@ public class AgencyController {
 		}
 
 		mv.addObject("agencyInputForm", agencyInputForm);
-		mv.setViewName("agency/deleteComplete");
+		mv.setViewName("account/agency/deleteComplete");
 		return mv;
 
 	}

@@ -20,7 +20,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form action="#" th:action="@{/agency/updateComplete}" method="post" th:object="${agencyInputForm}" onsubmit="return check('')">
+		<form action="#" th:action="@{/account/agency/updateComplete}" method="post" th:object="${agencyInputForm}" onsubmit="return check('')">
 			<div class="card">
 				<div class="card-block">
 					<input type="hidden" th:field="*{agencyId}"/>
@@ -43,8 +43,8 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" sec:authorize="hasAuthority('AGENCY_MANAGE')" type="submit" th:formaction="@{/agency/updateComplete}" th:formmethod="post">確認</button>
-							<button type="button" sec:authorize="hasAuthority('AGENCY_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/agency/detail?agencyId={id}(id=*{agencyId})} + '\''">詳細へ戻る</button>
+							<button class="btn btn-success" sec:authorize="hasAuthority('AGENCY_MANAGE')" type="submit" th:formaction="@{/account/agency/updateComplete}" th:formmethod="post">確認</button>
+							<button type="button" sec:authorize="hasAuthority('AGENCY_VIEW')" class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/account/agency/detail?agencyId={id}(id=*{agencyId})} + '\''">詳細へ戻る</button>
 						</div>
 					</div>
 

@@ -26,7 +26,7 @@
 			</button>
 			<strong>代理店の編集が成功しました!</strong>
 		</div>
-		<form action="#" th:action="@{/agency/list}" method="get" th:object="${agencyInputForm}">
+		<form action="#" th:action="@{/account/agency/list}" method="get" th:object="${agencyInputForm}">
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">基本情報</h4>
@@ -48,7 +48,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" type="submit" th:formaction="@{/agency/list}" th:formmethod="get">一覧へ</button>
+							<button class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" type="submit" th:formaction="@{/account/agency/list}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>
 

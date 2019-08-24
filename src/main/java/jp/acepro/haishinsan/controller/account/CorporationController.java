@@ -60,7 +60,7 @@ public class CorporationController {
 		corporationInputForm.setAgencyId(agencyId);
 		corporationInputForm.setAgencyName(agencyDto.getAgencyName());
 		mv.addObject("corporationInputForm", corporationInputForm);
-		mv.setViewName("corporation/create");
+		mv.setViewName("account/corporation/create");
 		return mv;
 	}
 
@@ -74,12 +74,13 @@ public class CorporationController {
 			corporationDto = corporationService.create(corporationDto);
 		} catch (BusinessException be) {
 			result.reject(ErrorCodeConstant.E10002);
-			mv.setViewName("corporation/create");
+			mv.setViewName("account/corporation/create");
 			mv.addObject("corporationInputForm", corporationInputForm);
 			return mv;
 		}
+		corporationInputForm.setCorporationId(corporationDto.getCorporationId());
 
-		mv.setViewName("corporation/createComplete");
+		mv.setViewName("account/corporation/createComplete");
 		mv.addObject("corporationInputForm", corporationInputForm);
 
 		// オペレーションログ記録
@@ -99,7 +100,7 @@ public class CorporationController {
 
 		CorporationInputForm corporationInputForm = CorporationMapper.INSTANCE.mapToForm(corporationDto);
 		mv.addObject("corporationInputForm", corporationInputForm);
-		mv.setViewName("corporation/detail");
+		mv.setViewName("account/corporation/detail");
 		return mv;
 	}
 
@@ -110,7 +111,7 @@ public class CorporationController {
 		CorporationDto corporationDto = corporationService.getById(corporationId);
 		corporationInputForm = CorporationMapper.INSTANCE.mapToForm(corporationDto);
 		mv.addObject("corporationInputForm", corporationInputForm);
-		mv.setViewName("corporation/update");
+		mv.setViewName("account/corporation/update");
 		return mv;
 	}
 
@@ -123,7 +124,7 @@ public class CorporationController {
 		corporationService.update(corporationDto);
 
 		mv.addObject("corporationInputForm", corporationInputForm);
-		mv.setViewName("corporation/updateComplete");
+		mv.setViewName("account/corporation/updateComplete");
 		return mv;
 	}
 
@@ -140,12 +141,12 @@ public class CorporationController {
 			List<ShopDto> shopDtoList = corporationService.searchShopsByCorpId(corporationInputForm.getCorporationId());
 			corporationInputForm.setShopDtoList(shopDtoList);
 			mv.addObject("corporationInputForm", corporationInputForm);
-			mv.setViewName("corporation/detail");
+			mv.setViewName("account/corporation/detail");
 			return mv;
 		}
 
 		mv.addObject("corporationInputForm", corporationInputForm);
-		mv.setViewName("corporation/deleteComplete");
+		mv.setViewName("account/corporation/deleteComplete");
 		return mv;
 
 	}

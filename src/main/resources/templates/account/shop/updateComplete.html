@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -20,13 +23,16 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<div id="info"
+			class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert"
+				aria-label="Close">
 				<i class="icofont icofont-close-line-circled text-white"></i>
 			</button>
 			<strong>店舗の編集が成功しました!</strong>
 		</div>
-		<form action="#" th:action="@{/shop/list}" method="get" th:object="${shopDto}">
+		<form action="#" th:action="@{/account/shop/list}" method="get"
+			th:object="${shopDto}">
 			<div class="card">
 				<div class="card-block">
 
@@ -95,44 +101,14 @@
 							<label class="col-form-label" th:text="*{twitterAccountId}">1</label>
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{dspDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{googleDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{facebookDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter分配率</label>
-						</div>
-						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{twitterDistributionRatio}+'%'">1</label>
-						</div>
-					</div>
+
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
 							<label class="col-form-label">営業審査フラグ</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__*{salesCheckFlag}__).label}">1</label>
+							<label class="col-form-label"
+								th:text="${T(jp.acepro.haishinsan.enums.SalesCheckFlag).of(__*{salesCheckFlag}__).label}">1</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -159,10 +135,12 @@
 							<label class="col-form-label" th:text="*{salesMailList}">営業通知メール先</label>
 						</div>
 					</div>
-					
+
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-warning" sec:authorize="hasAuthority('SHOP_VIEW')" type="submit" th:formaction="@{/shop/list}" th:formmethod="get">一覧へ</button>
+							<button class="btn btn-warning"
+								sec:authorize="hasAuthority('SHOP_VIEW')" type="submit"
+								th:formaction="@{/account/shop/list}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>
 

@@ -59,7 +59,7 @@ public class ShopController {
 		shopInputForm.setCorporationId(corporationId);
 		shopInputForm.setCorporationName(corporationDto.getCorporationName());
 		mv.addObject("shopInputForm", shopInputForm);
-		mv.setViewName("shop/create");
+		mv.setViewName("account/shop/create");
 		return mv;
 	}
 
@@ -75,11 +75,11 @@ public class ShopController {
 			result.reject(be.getMessage(), be.getParams(), null);
 
 			mv.addObject("shopInputForm", shopInputForm);
-			mv.setViewName("shop/create");
+			mv.setViewName("account/shop/create");
 			return mv;
 		}
 
-		mv.setViewName("shop/createComplete");
+		mv.setViewName("account/shop/createComplete");
 		mv.addObject("shopDto", shopDto);
 		return mv;
 	}
@@ -96,7 +96,7 @@ public class ShopController {
 		shopInputForm.setUserDtoList(userDtoList);
 
 		mv.addObject("shopInputForm", shopInputForm);
-		mv.setViewName("shop/detail");
+		mv.setViewName("account/shop/detail");
 		return mv;
 	}
 
@@ -108,7 +108,7 @@ public class ShopController {
 
 		shopInputForm = ShopMapper.INSTANCE.mapToForm(shopDto);
 		mv.addObject("shopInputForm", shopInputForm);
-		mv.setViewName("shop/update");
+		mv.setViewName("account/shop/update");
 		return mv;
 	}
 
@@ -124,12 +124,12 @@ public class ShopController {
 			result.reject(be.getMessage(), be.getParams(), null);
 
 			mv.addObject("shopInputForm", shopInputForm);
-			mv.setViewName("shop/update");
+			mv.setViewName("account/shop/update");
 			return mv;
 		}
 
 		mv.addObject("shopDto", shopDto);
-		mv.setViewName("shop/updateComplete");
+		mv.setViewName("account/shop/updateComplete");
 		return mv;
 	}
 
@@ -145,12 +145,12 @@ public class ShopController {
 			shopInputForm.setUserDtoList(userDtoList);
 
 			mv.addObject("shopInputForm", shopInputForm);
-			mv.setViewName("shop/detail");
+			mv.setViewName("account/shop/detail");
 			return mv;
 		}
 
 		mv.addObject("shopInputForm", shopInputForm);
-		mv.setViewName("shop/deleteComplete");
+		mv.setViewName("account/shop/deleteComplete");
 		return mv;
 
 	}

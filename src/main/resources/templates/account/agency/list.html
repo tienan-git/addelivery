@@ -28,7 +28,7 @@
 		<form id="defaultForm" class="form-horizontal">
 			<div class="form-group row">
 				<div class="col-sm-12 text-right">
-					<button class="btn btn-primary" type="submit" th:formaction="@{/agency/create}" th:formmethod="get">代理店の新規</button>
+					<button class="btn btn-primary" type="submit" th:formaction="@{/account/agency/create}" th:formmethod="get">代理店の新規</button>
 				</div>
 			</div>
 			<div class="card">
@@ -51,7 +51,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="agencyDto : ${agencyDtoList}">
-									<td><a sec:authorize="hasAuthority('AGENCY_VIEW')"  href="#" th:href="@{/agency/detail(agencyId=${agencyDto.agencyId})}" th:method="get" th:text="${agencyDto.agencyId}">0001</a></td>
+									<td><a sec:authorize="hasAuthority('AGENCY_VIEW')"  href="#" th:href="@{/account/agency/detail(agencyId=${agencyDto.agencyId})}" th:method="get" th:text="${agencyDto.agencyId}">0001</a></td>
 									<td th:text="${agencyDto.agencyName}">代理店名</td>
 								</tr>
 							</tbody>

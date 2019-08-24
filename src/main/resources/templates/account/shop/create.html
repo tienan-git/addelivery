@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
 		<!-- Page-header start -->
@@ -21,11 +24,15 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form id="defaultForm" class="form-horizontal" th:action="@{/shop/createComplete}" th:object="${shopInputForm}" method="post" onsubmit="return check('')">
+		<form id="defaultForm" class="form-horizontal"
+			th:action="@{/account/shop/createComplete}"
+			th:object="${shopInputForm}" method="post"
+			onsubmit="return check('')">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
-					<input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" />
+					<input type="hidden" th:field="*{corporationId}" /> <input
+						type="hidden" th:field="*{corporationName}" />
 					<h4 class="sub-title">店舗情報</h4>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
@@ -45,10 +52,12 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">店舗名<span class="text-danger">※</span></label>
+							<label class="col-form-label">店舗名<span
+								class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="店舗名" th:field="*{shopName}" required="required" maxlength="60">
+							<input type="text" class="form-control" placeholder="店舗名"
+								th:field="*{shopName}" required="required" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -56,7 +65,8 @@
 							<label class="col-form-label">DSPユーザーID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="DSPユーザーID" th:field="*{dspUserId}" maxlength="60">
+							<input type="number" class="form-control" placeholder="DSPユーザーID"
+								th:field="*{dspUserId}" maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -64,7 +74,9 @@
 							<label class="col-form-label">GoogleアカウントID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="GoogleアカウントID" th:field="*{googleAccountId}" maxlength="60">
+							<input type="text" class="form-control"
+								placeholder="GoogleアカウントID" th:field="*{googleAccountId}"
+								maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -72,7 +84,9 @@
 							<label class="col-form-label">FacebookページID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="FacebookページID" th:field="*{facebookPageId}" maxlength="60">
+							<input type="text" class="form-control"
+								placeholder="FacebookページID" th:field="*{facebookPageId}"
+								maxlength="60">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -80,61 +94,35 @@
 							<label class="col-form-label">TwitterアカウントID</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="TwitterアカウントID" th:field="*{twitterAccountId}" maxlength="60">
+							<input type="text" class="form-control"
+								placeholder="TwitterアカウントID" th:field="*{twitterAccountId}"
+								maxlength="60">
 						</div>
 					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">DSP分配率<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="DSP分配率" th:field="*{dspDistributionRatio}" required="required" min="0" max="100">
-						</div>
-						<span class="col-form-label">%</span>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Google分配率<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="Google分配率" th:field="*{googleDistributionRatio}" required="required" min="0" max="100">
-						</div>
-						<span class="col-form-label">%</span>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Facebook分配率<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="Facebook分配率" th:field="*{facebookDistributionRatio}" required="required" min="0" max="100">
-						</div>
-						<span class="col-form-label">%</span>
-					</div>
-					<div class="form-group row">
-						<div class="col-sm-2 text-right">
-							<label class="col-form-label">Twitter分配率<span class="text-danger">※</span></label>
-						</div>
-						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="Twitter分配率" th:field="*{twitterDistributionRatio}" required="required" min="0" max="100">
-						</div>
-						<span class="col-form-label">%</span>
-					</div>
+
+
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
 							<label class="col-form-label">営業審査フラグ</label>
 						</div>
 						<div class="col-sm-6">
-							<select name="select" class="form-control" th:field="*{salesCheckFlag}" required="required">
-								<option th:each="object : ${T(jp.acepro.haishinsan.enums.SalesCheckFlag).values()}" th:selected="${salesCheckFlag == object.getValue()}" th:value="${object.getValue()}" th:text="${object.getLabel()}">--</option>
+							<select name="select" class="form-control"
+								th:field="*{salesCheckFlag}" required="required">
+								<option
+									th:each="object : ${T(jp.acepro.haishinsan.enums.SalesCheckFlag).values()}"
+									th:selected="${salesCheckFlag == object.getValue()}"
+									th:value="${object.getValue()}" th:text="${object.getLabel()}">--</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-2 text-right">
-							<label class="col-form-label">マージン率<span class="text-danger">※</span></label>
+							<label class="col-form-label">マージン率<span
+								class="text-danger">※</span></label>
 						</div>
 						<div class="col-sm-6">
-							<input type="number" class="form-control" placeholder="マージン率" th:field="*{marginRatio}" required="required" min="0" max="100">
+							<input type="number" class="form-control" placeholder="マージン率"
+								th:field="*{marginRatio}" required="required" min="0" max="100">
 						</div>
 						<span class="col-form-label">%</span>
 					</div>
@@ -143,7 +131,8 @@
 							<label class="col-form-label">店舗通知メール先</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="店舗通知メール先" th:field="*{shopMailList}" maxlength="300">
+							<input type="text" class="form-control" placeholder="店舗通知メール先"
+								th:field="*{shopMailList}" maxlength="300">
 						</div>
 					</div>
 					<div class="form-group row">
@@ -151,13 +140,19 @@
 							<label class="col-form-label">営業通知メール先</label>
 						</div>
 						<div class="col-sm-6">
-							<input type="text" class="form-control" placeholder="営業通知メール先" th:field="*{salesMailList}" maxlength="300">
+							<input type="text" class="form-control" placeholder="営業通知メール先"
+								th:field="*{salesMailList}" maxlength="300">
 						</div>
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('SHOP_MANAGE')"  th:formaction="@{/shop/createComplete}" th:formmethod="post">作成</button>
-							<button class="btn btn-warning" type="button" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:onclick="'window.location.href = \'' + @{/corporation/detail?corporationId={id}(id=*{corporationId})} + '\''">法人の詳細へ戻る</button>
+							<button class="btn btn-success" type="submit"
+								sec:authorize="hasAuthority('SHOP_MANAGE')"
+								th:formaction="@{/account/shop/createComplete}"
+								th:formmethod="post">作成</button>
+							<button class="btn btn-warning" type="button"
+								sec:authorize="hasAuthority('CORPORATION_VIEW')"
+								th:onclick="'window.location.href = \'' + @{/account/corporation/detail?corporationId={id}(id=*{corporationId})} + '\''">法人の詳細へ戻る</button>
 						</div>
 					</div>
 				</div>

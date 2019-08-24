@@ -58,7 +58,7 @@ public class UserController {
 		userInputForm.setShopId(shopDto.getShopId());
 		userInputForm.setShopName(shopDto.getShopName());
 		mv.addObject("userInputForm", userInputForm);
-		mv.setViewName("user/create");
+		mv.setViewName("account/user/create");
 		return mv;
 	}
 
@@ -71,12 +71,12 @@ public class UserController {
 			userDto = userService.create(userDto);
 		} catch (BusinessException be) {
 			result.reject(be.getMessage());
-			mv.setViewName("user/create");
+			mv.setViewName("account/user/create");
 			mv.addObject("userInputForm", userInputForm);
 			return mv;
 		}
 		userInputForm = UserMapper.INSTANCE.mapToForm(userDto);
-		mv.setViewName("user/createComplete");
+		mv.setViewName("account/user/createComplete");
 		mv.addObject("userInputForm", userInputForm);
 
 		// オペレーションログ記録
@@ -91,7 +91,7 @@ public class UserController {
 		UserDto userDto = userService.getById(userId);
 
 		mv.addObject("userDto", userDto);
-		mv.setViewName("user/detail");
+		mv.setViewName("account/user/detail");
 		return mv;
 	}
 
@@ -99,7 +99,7 @@ public class UserController {
 	public ModelAndView update(@Validated UserInputForm userInputForm, ModelAndView mv, BindingResult result) {
 
 		mv.addObject("userInputForm", userInputForm);
-		mv.setViewName("user/update");
+		mv.setViewName("account/user/update");
 		return mv;
 	}
 
@@ -113,13 +113,13 @@ public class UserController {
 		} catch (BusinessException be) {
 			result.reject(be.getMessage());
 
-			mv.setViewName("user/update");
+			mv.setViewName("account/user/update");
 			mv.addObject("userInputForm", userInputForm);
 			return mv;
 		}
 
 		mv.addObject("userInputForm", userInputForm);
-		mv.setViewName("user/updateComplete");
+		mv.setViewName("account/user/updateComplete");
 		return mv;
 	}
 
@@ -130,7 +130,7 @@ public class UserController {
 		userService.delete(userInputForm.getUserId());
 
 		mv.addObject("userInputForm", userInputForm);
-		mv.setViewName("user/deleteComplete");
+		mv.setViewName("account/user/deleteComplete");
 		return mv;
 
 	}

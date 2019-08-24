@@ -21,7 +21,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form id="defaultForm" class="form-horizontal" th:action="@{/corporation/createComplete}" th:object="${corporationInputForm}" method="post" onsubmit="return check('')">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/account/corporation/createComplete}" th:object="${corporationInputForm}" method="post" onsubmit="return check('')">
 			<div class="card">
 				<div class="card-block">
 					<input type="hidden" th:field="*{agencyId}" /> <input type="hidden" th:field="*{agencyName}" />
@@ -52,8 +52,8 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success" sec:authorize="hasAuthority('CORPORATION_MANAGE')" type="submit" th:formaction="@{/corporation/createComplete}" th:formmethod="post">作成</button>
-							<button type="button" class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" th:onclick="'window.location.href = \'' + @{/agency/detail?agencyId={id}(id=*{agencyId})} + '\''">代理店の詳細へ戻る</button>
+							<button class="btn btn-success" sec:authorize="hasAuthority('CORPORATION_MANAGE')" type="submit" th:formaction="@{/account/corporation/createComplete}" th:formmethod="post">作成</button>
+							<button type="button" class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" th:onclick="'window.location.href = \'' + @{/account/agency/detail?agencyId={id}(id=*{agencyId})} + '\''">代理店の詳細へ戻る</button>
 						</div>
 					</div>
 				</div>

@@ -20,7 +20,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/agency/agencyList}" method="post" th:object="${agencyInputForm}">
+		<form th:action="@{/account/agency/agencyList}" method="post" th:object="${agencyInputForm}">
 			<div th:replace="common/errorMessages"></div>
 			<input type="hidden" th:field="*{agencyId}" /> <input type="hidden" th:field="*{agencyName}" />
 			<div class="card">
@@ -44,9 +44,9 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('CORPORATION_MANAGE')" th:onclick="'window.location.href = \'' + @{/corporation/create?agencyId={id}(id=*{agencyId})} + '\''">法人の新規</button>
-							<button type="button" class="btn btn-info" sec:authorize="hasAuthority('AGENCY_MANAGE')" th:onclick="'window.location.href = \'' + @{/agency/update?agencyId={id}(id=*{agencyId})} + '\''">編集</button>
-							<button class="btn btn-danger" onclick="return check('代理店削除してよろしいでしょうか？')" sec:authorize="hasAuthority('AGENCY_MANAGE')" type="submit" th:formaction="@{/agency/delete}" th:formmethod="post">削除</button>
+							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('CORPORATION_MANAGE')" th:onclick="'window.location.href = \'' + @{/account/corporation/create?agencyId={id}(id=*{agencyId})} + '\''">法人の新規</button>
+							<button type="button" class="btn btn-info" sec:authorize="hasAuthority('AGENCY_MANAGE')" th:onclick="'window.location.href = \'' + @{/account/agency/update?agencyId={id}(id=*{agencyId})} + '\''">編集</button>
+							<button class="btn btn-danger" onclick="return check('代理店削除してよろしいでしょうか？')" sec:authorize="hasAuthority('AGENCY_MANAGE')" type="submit" th:formaction="@{/account/agency/delete}" th:formmethod="post">削除</button>
 						</div>
 					</div>
 				</div>
@@ -71,7 +71,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="corporationDto : *{corporationDtoList}">
-									<td><a href="#" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:href="@{/corporation/detail(corporationId=${corporationDto.corporationId})}" th:method="get" th:text="${corporationDto.corporationId}">0001</a></td>
+									<td><a href="#" sec:authorize="hasAuthority('CORPORATION_VIEW')" th:href="@{/account/corporation/detail(corporationId=${corporationDto.corporationId})}" th:method="get" th:text="${corporationDto.corporationId}">0001</a></td>
 									<td th:text="${corporationDto.corporationName}">法人名</td>
 								</tr>
 							</tbody>
@@ -79,7 +79,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button type="button" class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" th:onclick="'window.location.href = \'' + @{/agency/list} + '\''">一覧へ</button>
+							<button type="button" class="btn btn-warning" sec:authorize="hasAuthority('AGENCY_VIEW')" th:onclick="'window.location.href = \'' + @{/account/agency/list} + '\''">一覧へ</button>
 						</div>
 					</div>
 				</div>
