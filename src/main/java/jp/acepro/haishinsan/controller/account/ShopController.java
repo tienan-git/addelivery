@@ -45,7 +45,7 @@ public class ShopController {
 
 		mv.addObject("shopDtoList", shopDtoList);
 
-		mv.setViewName("shop/list");
+		mv.setViewName("account/shop/list");
 
 		return mv;
 	}

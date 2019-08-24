@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-08-12T15:46:46+0900",
+    date = "2019-08-24T14:36:44+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class GoogleMapperImpl implements GoogleMapper {
@@ -237,22 +237,22 @@ public class GoogleMapperImpl implements GoogleMapper {
 
         GoogleTemplate googleTemplate = new GoogleTemplate();
 
-        googleTemplate.setAdType( googleTemplateDto.getAdType() );
-        googleTemplate.setBudget( googleTemplateDto.getBudget() );
-        googleTemplate.setCampaignName( googleTemplateDto.getCampaignName() );
-        googleTemplate.setDeviceType( googleTemplateDto.getDeviceType() );
-        googleTemplate.setImageAdFinalPageUrl( googleTemplateDto.getImageAdFinalPageUrl() );
-        googleTemplate.setResAdDescription( googleTemplateDto.getResAdDescription() );
-        googleTemplate.setResAdFinalPageUrl( googleTemplateDto.getResAdFinalPageUrl() );
-        googleTemplate.setResAdShortTitle( googleTemplateDto.getResAdShortTitle() );
         googleTemplate.setTemplateId( googleTemplateDto.getTemplateId() );
         googleTemplate.setTemplateName( googleTemplateDto.getTemplateName() );
         googleTemplate.setTemplatePriority( googleTemplateDto.getTemplatePriority() );
-        googleTemplate.setTextAdDescription( googleTemplateDto.getTextAdDescription() );
+        googleTemplate.setCampaignName( googleTemplateDto.getCampaignName() );
+        googleTemplate.setBudget( googleTemplateDto.getBudget() );
+        googleTemplate.setDeviceType( googleTemplateDto.getDeviceType() );
+        googleTemplate.setUnitPriceType( googleTemplateDto.getUnitPriceType() );
+        googleTemplate.setAdType( googleTemplateDto.getAdType() );
+        googleTemplate.setResAdShortTitle( googleTemplateDto.getResAdShortTitle() );
+        googleTemplate.setResAdDescription( googleTemplateDto.getResAdDescription() );
+        googleTemplate.setResAdFinalPageUrl( googleTemplateDto.getResAdFinalPageUrl() );
+        googleTemplate.setImageAdFinalPageUrl( googleTemplateDto.getImageAdFinalPageUrl() );
         googleTemplate.setTextAdFinalPageUrl( googleTemplateDto.getTextAdFinalPageUrl() );
         googleTemplate.setTextAdTitle1( googleTemplateDto.getTextAdTitle1() );
         googleTemplate.setTextAdTitle2( googleTemplateDto.getTextAdTitle2() );
-        googleTemplate.setUnitPriceType( googleTemplateDto.getUnitPriceType() );
+        googleTemplate.setTextAdDescription( googleTemplateDto.getTextAdDescription() );
 
         return googleTemplate;
     }

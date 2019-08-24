@@ -49,7 +49,7 @@ public class CorporationController {
 		List<CorporationDto> corporationDtoList = corporationService.search();
 
 		mv.addObject("corporationDtoList", corporationDtoList);
-		mv.setViewName("corporation/list");
+		mv.setViewName("account/corporation/list");
 		return mv;
 	}
 

@@ -12,7 +12,7 @@ import jp.acepro.haishinsan.form.TwitterTemplateInputForm;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-08-10T10:11:32+0900",
+    date = "2019-08-24T14:36:44+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class TwitterMapperImpl implements TwitterMapper {
