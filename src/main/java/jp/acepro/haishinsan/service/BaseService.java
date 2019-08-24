@@ -19,24 +19,20 @@ public abstract class BaseService {
 	/**
 	 * WebAPIを呼ぶ共通メソッド
 	 * 
-	 * @param resource
-	 *            webapiメソッドのURL("/goods","/addresses",など)
+	 * @param resource             webapiメソッドのURL("/goods","/addresses",など)
 	 * 
-	 * @param httpMethod
-	 *            Httpのメソッド(GET,POST,PUT,DELETEなど)
+	 * @param httpMethod           Httpのメソッド(GET,POST,PUT,DELETEなど)
 	 * 
-	 * @param requestObjec
-	 *            リクエストの対象設定(POSTとPUTの場合必須)
+	 * @param requestObjec         リクエストの対象設定(POSTとPUTの場合必須)
 	 * 
-	 * @param twitterAuthorization
-	 *            リクエストの対象設定(POSTとPUTの場合必須、Twitterのみ)
+	 * @param twitterAuthorization リクエストの対象設定(POSTとPUTの場合必須、Twitterのみ)
 	 * 
-	 * @param responseClass
-	 *            リターンクラスのタイプ
+	 * @param responseClass        リターンクラスのタイプ
 	 * @throws Exception
 	 * 
 	 */
-	protected <T> T call(String resource, HttpMethod httpMethod, Object requestObjec, String twitterAuthorization, Class<T> responseClass) throws Exception {
+	protected <T> T call(String resource, HttpMethod httpMethod, Object requestObjec, String twitterAuthorization,
+			Class<T> responseClass) throws Exception {
 
 		Request request = null;
 		Request.Builder builder = new Request.Builder().url(resource);
@@ -48,7 +44,7 @@ public abstract class BaseService {
 		Gson gson = new Gson();
 		if (requestObjec != null) {
 			body = RequestBody.create(MediaType.parse("application/json"), gson.toJson(requestObjec));
-			//System.out.println("body : " + gson.toJson(requestObjec));
+			// System.out.println("body : " + gson.toJson(requestObjec));
 		} else {
 			body = RequestBody.create(MediaType.parse("application/json"), gson.toJson(null));
 		}

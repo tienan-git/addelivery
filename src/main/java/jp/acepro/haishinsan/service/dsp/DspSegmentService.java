@@ -14,7 +14,7 @@ public interface DspSegmentService {
 	DspSegmentDto createSegment(DspSegmentDto dspSegmentDto);
 
 	List<DspSegmentListDto> segmentList();
-	
+
 	List<SegmentReportDisplayDto> getSegmentReportList(DspSegmentSearchDto dspSegmentSearchDto);
 
 	DspSegmentDto deleteSegment(Long segmentManageId);
@@ -29,13 +29,15 @@ public interface DspSegmentService {
 
 	/**
 	 * URL検索
+	 * 
 	 * @param LocalDateTime today
 	 * @return
 	 */
 	List<DspSegmentListDto> selectUrlByDateTime(LocalDateTime dateTim);
-	
+
 	/**
 	 * URL検索
+	 * 
 	 * @param LocalDateTime today
 	 * @return
 	 */

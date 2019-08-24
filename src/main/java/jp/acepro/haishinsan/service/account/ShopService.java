@@ -2,14 +2,13 @@ package jp.acepro.haishinsan.service.account;
 
 import java.util.List;
 
-import jp.acepro.haishinsan.dto.ShopDto;
-import jp.acepro.haishinsan.dto.UserDto;
-
+import jp.acepro.haishinsan.dto.account.ShopDto;
+import jp.acepro.haishinsan.dto.account.UserDto;
 
 public interface ShopService {
 
 	List<ShopDto> search();
-	
+
 	List<UserDto> searchUsersByShopId(Long shopId);
 
 	ShopDto create(ShopDto shopDto);

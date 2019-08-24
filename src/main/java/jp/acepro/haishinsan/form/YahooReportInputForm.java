@@ -15,5 +15,5 @@ public class YahooReportInputForm {
 	String campaignId;
 	String startDate;
 	String endDate;
-	
+
 }

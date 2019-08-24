@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.dto;
+package jp.acepro.haishinsan.dto.account;
 
 import java.util.List;
 

@@ -17,47 +17,33 @@ package jp.acepro.haishinsan.service.google.api;
 import static com.google.api.ads.common.lib.utils.Builder.DEFAULT_CONFIGURATION_FILENAME;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
-import com.beust.jcommander.Parameter;
 import com.google.api.ads.adwords.axis.factory.AdWordsServices;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroup;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupCriterionOperation;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupCriterionReturnValue;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupCriterionServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroupOperation;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroupReturnValue;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroupServiceInterface;
-import com.google.api.ads.adwords.axis.v201809.cm.AdGroupStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
-import com.google.api.ads.adwords.axis.v201809.cm.BiddableAdGroupCriterion;
 import com.google.api.ads.adwords.axis.v201809.cm.BiddingStrategyConfiguration;
 import com.google.api.ads.adwords.axis.v201809.cm.Bids;
-import com.google.api.ads.adwords.axis.v201809.cm.Campaign;
 import com.google.api.ads.adwords.axis.v201809.cm.CpcBid;
 import com.google.api.ads.adwords.axis.v201809.cm.CpmBid;
-import com.google.api.ads.adwords.axis.v201809.cm.Keyword;
-import com.google.api.ads.adwords.axis.v201809.cm.KeywordMatchType;
 import com.google.api.ads.adwords.axis.v201809.cm.Money;
 import com.google.api.ads.adwords.axis.v201809.cm.Operator;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
-import com.google.api.ads.adwords.lib.utils.examples.ArgumentNames;
 import com.google.api.ads.common.lib.auth.OfflineCredentials;
 import com.google.api.ads.common.lib.auth.OfflineCredentials.Api;
 import com.google.api.ads.common.lib.conf.ConfigurationLoadException;
 import com.google.api.ads.common.lib.exception.OAuthException;
 import com.google.api.ads.common.lib.exception.ValidationException;
-import com.google.api.ads.common.lib.utils.examples.CodeSampleParams;
 import com.google.api.client.auth.oauth2.Credential;
 
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.UnitPriceType;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
-import jp.acepro.haishinsan.util.CalculateUtil;
-import jp.acepro.haishinsan.util.ContextUtil;
 
 /**
  * This example adds ad groups to a campaign. To get campaigns, run
@@ -79,24 +65,29 @@ public class UpdateAdGroup {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
 		AdWordsServicesInterface adWordsServices = AdWordsServices.getInstance();
-
 
 		try {
 			runExample(adWordsServices, session);
@@ -127,38 +118,38 @@ public class UpdateAdGroup {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param campaignId
-	 *            the ID of the campaign where the ad groups will be created.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param campaignId      the ID of the campaign where the ad groups will be
+	 *                        created.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session) throws RemoteException {
 		// Get the AdGroupService.
 		AdGroupServiceInterface adGroupService = adWordsServices.get(session, AdGroupServiceInterface.class);
 
-	    // Create an ad group with the specified ID.
-	    AdGroup adGroup = new AdGroup();
-	    adGroup.setId(adGroupId);
+		// Create an ad group with the specified ID.
+		AdGroup adGroup = new AdGroup();
+		adGroup.setId(adGroupId);
 
 		// 単価設定
 		switch (GoogleAdType.of(googleCampaignDto.getAdType())) {
 		case RESPONSIVE:
 		case IMAGE:
 			// クリック重視
-			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue()) || googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
+			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue())
+					|| googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
 				break;
 			}
 			// 表示重視
 			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.DISPLAY.getValue())) {
 				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 				// 単価設定
-				Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceDisplayList.stream().filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceDisplayList.stream()
+						.filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 				Long averageUnitPrice = Math.round(averageDisplayUnitPriceDouble);
 				Money cpmBidMoney = new Money();
 				cpmBidMoney.setMicroAmount(averageUnitPrice * 1000000);
@@ -180,15 +171,15 @@ public class UpdateAdGroup {
 			break;
 		}
 
-	    // Create operations.
-	    AdGroupOperation operation = new AdGroupOperation();
-	    operation.setOperand(adGroup);
-	    operation.setOperator(Operator.SET);
+		// Create operations.
+		AdGroupOperation operation = new AdGroupOperation();
+		operation.setOperand(adGroup);
+		operation.setOperator(Operator.SET);
 
-	    AdGroupOperation[] operations = new AdGroupOperation[] {operation};
+		AdGroupOperation[] operations = new AdGroupOperation[] { operation };
 
-	    // Update ad group.
-	    AdGroupReturnValue result = adGroupService.mutate(operations);
+		// Update ad group.
+		AdGroupReturnValue result = adGroupService.mutate(operations);
 
 	}
 }

@@ -22,8 +22,9 @@ public interface DspCampaignService {
 
 	/**
 	 * 入力チェック
+	 * 
 	 * @param dspCampaignDto
-	 * @return 
+	 * @return
 	 */
 	DspCampaignDto validate(DspCampaignDto dspCampaignDto);
 

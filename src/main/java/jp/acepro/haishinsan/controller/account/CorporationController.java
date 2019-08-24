@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.account;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
-import jp.acepro.haishinsan.dto.AgencyDto;
-import jp.acepro.haishinsan.dto.CorporationDto;
-import jp.acepro.haishinsan.dto.ShopDto;
+import jp.acepro.haishinsan.dto.account.AgencyDto;
+import jp.acepro.haishinsan.dto.account.CorporationDto;
+import jp.acepro.haishinsan.dto.account.ShopDto;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.CorporationInputForm;
@@ -27,7 +27,7 @@ import jp.acepro.haishinsan.service.account.AgencyService;
 import jp.acepro.haishinsan.service.account.CorporationService;
 
 @Controller
-@RequestMapping("/corporation")
+@RequestMapping("/account/corporation")
 public class CorporationController {
 
 	@Autowired
@@ -38,7 +38,7 @@ public class CorporationController {
 
 	@Autowired
 	OperationService operationService;
-	
+
 	@Autowired
 	AgencyService agencyService;
 
@@ -83,7 +83,8 @@ public class CorporationController {
 		mv.addObject("corporationInputForm", corporationInputForm);
 
 		// オペレーションログ記録
-		operationService.create(Operation.USER_CREATE.getValue(), String.valueOf(corporationInputForm.getCorporationId()));
+		operationService.create(Operation.USER_CREATE.getValue(),
+				String.valueOf(corporationInputForm.getCorporationId()));
 		return mv;
 	}
 

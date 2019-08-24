@@ -12,21 +12,23 @@ import jp.acepro.haishinsan.db.entity.FacebookDeviceReport;
 @Dao
 @InjectConfig
 public interface FacebookDeviceReportCustomDao {
-	
-    @Select
-    FacebookDeviceReport selectByCampaignIdDateDevice(String campaignId, LocalDate date, String device);
-    
-    @Select
-    List<FacebookDeviceReport> selectDeviceReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
 
-    @Select
-    List<FacebookDeviceReport> selectDateReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
-    
-    // グラフ用
-    @Select
-    List<FacebookDeviceReport> selectDeviceReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+	@Select
+	FacebookDeviceReport selectByCampaignIdDateDevice(String campaignId, LocalDate date, String device);
 
-    // グラフ用
-    @Select
-    List<FacebookDeviceReport> selectDateReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+	@Select
+	List<FacebookDeviceReport> selectDeviceReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+
+	@Select
+	List<FacebookDeviceReport> selectDateReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+
+	// グラフ用
+	@Select
+	List<FacebookDeviceReport> selectDeviceReportGraph(List<String> campaignIdList, LocalDate startDate,
+			LocalDate endDate);
+
+	// グラフ用
+	@Select
+	List<FacebookDeviceReport> selectDateReportGraph(List<String> campaignIdList, LocalDate startDate,
+			LocalDate endDate);
 }

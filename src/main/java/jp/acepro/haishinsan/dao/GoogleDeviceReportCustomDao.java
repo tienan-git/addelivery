@@ -14,16 +14,16 @@ public interface GoogleDeviceReportCustomDao {
 
 	@Select
 	GoogleDeviceReport selectForUpdate(Long campaignId, String date, String deviceType);
-	
+
 	@Select
 	List<GoogleDeviceReport> selectDeviceReport(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<GoogleDeviceReport> selectDeviceGraph(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<GoogleDeviceReport> selectDailyReport(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<GoogleDeviceReport> selectDailyGraph(List<Long> campaignIdList, String startDate, String endDate);
 }

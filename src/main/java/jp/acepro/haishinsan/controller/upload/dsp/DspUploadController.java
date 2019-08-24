@@ -27,7 +27,7 @@ import jp.acepro.haishinsan.service.dsp.DspCreativeService;
 import jp.acepro.haishinsan.util.ImageUtil;
 
 @Controller
-@RequestMapping("/dsp")
+@RequestMapping("/upload/dsp")
 public class DspUploadController {
 
 	@Autowired
@@ -53,7 +53,8 @@ public class DspUploadController {
 
 	@PostMapping("/confirmCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
-	public ModelAndView confirmCreative(@Validated DspCreativeInputForm dspCreativeInputForm, BindingResult result) throws IOException {
+	public ModelAndView confirmCreative(@Validated DspCreativeInputForm dspCreativeInputForm, BindingResult result)
+			throws IOException {
 
 		String imaBase64 = null;
 		byte[] bytes = null;
@@ -107,7 +108,8 @@ public class DspUploadController {
 		modelAndView.setViewName("creative/uploadCreateSuccess");
 
 		// オペレーションログ記録
-		operationService.create(Operation.DSP_CREATIVE_CREATE.getValue(), String.valueOf(newDspCreativeDto.getCreativeId()));
+		operationService.create(Operation.DSP_CREATIVE_CREATE.getValue(),
+				String.valueOf(newDspCreativeDto.getCreativeId()));
 
 		return modelAndView;
 	}

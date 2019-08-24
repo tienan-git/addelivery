@@ -7,7 +7,7 @@ package jp.acepro.haishinsan.constant;
  *
  */
 public class AuthConstant {
-	
+
 	public static final String CORPORATION_MANAGE = "CORPORATION_MANAGE";
 	public static final String CORPORATION_VIEW = "CORPORATION_VIEW";
 	public static final String SHOP_MANAGE = "SHOP_MANAGE";
@@ -59,7 +59,7 @@ public class AuthConstant {
 	public static final String YAHOO_CAMPAIGN_MANAGE = "YAHOO_CAMPAIGN_MANAGE";
 	public static final String YAHOO_REPORT_VIEW = "YAHOO_REPORT_VIEW";
 	public static final String YAHOO_CSV_UPLOAD = "YAHOO_CSV_UPLOAD";
-	
+
 	public static final String SHOPLIST_MANAGE = "SHOPLIST_MANAGE";
 	public static final String SHOPLIST_AGENCY = "SHOPLIST_AGENCY";
 	public static final String SHOPLIST_CORPORATION = "SHOPLIST_CORPORATION";

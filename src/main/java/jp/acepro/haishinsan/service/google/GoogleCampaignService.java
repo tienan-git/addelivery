@@ -35,6 +35,6 @@ public interface GoogleCampaignService {
 	List<GoogleCampaignDto> campaignList(List<GoogleCampaignManage> googleCampaignManageList);
 
 	Issue createIssue(GoogleIssueDto googleIssueDto);
-	
+
 	GoogleIssueDto mapToIssue(GoogleIssueInputForm googleIssueInputForm);
 }

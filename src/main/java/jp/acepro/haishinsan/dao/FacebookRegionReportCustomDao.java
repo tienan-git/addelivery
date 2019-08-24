@@ -12,15 +12,16 @@ import jp.acepro.haishinsan.db.entity.FacebookRegionReport;
 @Dao
 @InjectConfig
 public interface FacebookRegionReportCustomDao {
-	
-    @Select
-    FacebookRegionReport selectByCampaignIdDateRegion(String campaignId, LocalDate date, String region);
 
-    @Select
-    List<FacebookRegionReport> selectRegionReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+	@Select
+	FacebookRegionReport selectByCampaignIdDateRegion(String campaignId, LocalDate date, String region);
 
-    // グラフ用
-    @Select
-    List<FacebookRegionReport> selectRegionReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
-    
+	@Select
+	List<FacebookRegionReport> selectRegionReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+
+	// グラフ用
+	@Select
+	List<FacebookRegionReport> selectRegionReportGraph(List<String> campaignIdList, LocalDate startDate,
+			LocalDate endDate);
+
 }

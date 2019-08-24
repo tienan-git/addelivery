@@ -17,7 +17,8 @@ public class CalculateUtil {
 	 * @return BudgetAllocationDto
 	 * 
 	 */
-	public static BudgetAllocationDto calCtr(Long budget, boolean dspSelected, boolean googleSelected, boolean facebookSelected, boolean twitterSelected) {
+	public static BudgetAllocationDto calCtr(Long budget, boolean dspSelected, boolean googleSelected,
+			boolean facebookSelected, boolean twitterSelected) {
 		if (budget == null) {
 			return null;
 		}
@@ -42,19 +43,33 @@ public class CalculateUtil {
 
 		if (dspSelected) {
 			// dspの分配予算を算出
-			budgetAllocationDto.setDspBudget(budgetBigDecimal.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getDspDistributionRatio()).divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP)).intValue());
+			budgetAllocationDto
+					.setDspBudget(
+							budgetBigDecimal
+									.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getDspDistributionRatio())
+											.divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP))
+									.intValue());
 		}
 		if (googleSelected) {
 			// googleの分配予算を算出
-			budgetAllocationDto.setGoogleBudget(budgetBigDecimal.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getGoogleDistributionRatio()).divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP)).longValue());
+			budgetAllocationDto.setGoogleBudget(budgetBigDecimal
+					.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getGoogleDistributionRatio())
+							.divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP))
+					.longValue());
 		}
 		if (facebookSelected) {
 			// facebookの分配予算を算出
-			budgetAllocationDto.setFacebookBudget(budgetBigDecimal.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getFacebookDistributionRatio()).divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP)).longValue());
+			budgetAllocationDto.setFacebookBudget(budgetBigDecimal
+					.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getFacebookDistributionRatio())
+							.divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP))
+					.longValue());
 		}
 		if (twitterSelected) {
 			// twitterの分配予算を算出
-			budgetAllocationDto.setTwitterBudget(budgetBigDecimal.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getTwitterDistributionRatio()).divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP)).longValue());
+			budgetAllocationDto.setTwitterBudget(budgetBigDecimal
+					.multiply(BigDecimal.valueOf(ContextUtil.getCurrentShop().getTwitterDistributionRatio())
+							.divide(BigDecimal.valueOf(denominator), 2, BigDecimal.ROUND_HALF_UP))
+					.longValue());
 		}
 
 		return budgetAllocationDto;
@@ -112,7 +127,9 @@ public class CalculateUtil {
 		}
 
 		// 実際予算 = 入力予算 * (100 - マージン率) / 100
-		BigDecimal realBudgetBigDecimal = BigDecimal.valueOf(inputBudget).multiply(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio())).divide(BigDecimal.valueOf(100), 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal realBudgetBigDecimal = BigDecimal.valueOf(inputBudget)
+				.multiply(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()))
+				.divide(BigDecimal.valueOf(100), 0, BigDecimal.ROUND_HALF_UP);
 		Long realBudget = realBudgetBigDecimal.longValue();
 		return realBudget;
 	}
@@ -135,7 +152,8 @@ public class CalculateUtil {
 		}
 
 		// 実際予算 = 入力予算 * (100 - マージン率) / 100
-		BigDecimal realBudgetBigDecimal = BigDecimal.valueOf(inputBudget).multiply(BigDecimal.valueOf(100 - ratio)).divide(BigDecimal.valueOf(100), 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal realBudgetBigDecimal = BigDecimal.valueOf(inputBudget).multiply(BigDecimal.valueOf(100 - ratio))
+				.divide(BigDecimal.valueOf(100), 0, BigDecimal.ROUND_HALF_UP);
 		Long realBudget = realBudgetBigDecimal.longValue();
 		return realBudget;
 	}
@@ -157,28 +175,28 @@ public class CalculateUtil {
 		price = bd.setScale(0, BigDecimal.ROUND_HALF_UP).doubleValue();
 		return price.longValue();
 	}
-	
 
 	/**
 	 * 全角文字は２桁、半角文字は１桁として文字数をカウントする
+	 * 
 	 * @param str 対象文字列
 	 * @return 文字数
 	 */
 	public static int strLenCounter(String str) {
-	  
-	  //戻り値
-	  int ret = 0;
-	  
-	  //全角半角判定
-	  char[] c = str.toCharArray();
-	  for(int i=0;i<c.length;i++) {
-	    if(String.valueOf(c[i]).getBytes().length <= 1){
-	      ret += 1; //半角文字なら＋１
-	    }else{
-	      ret += 2; //全角文字なら＋２
-	    }
-	  }
-	  
-	  return ret;
+
+		// 戻り値
+		int ret = 0;
+
+		// 全角半角判定
+		char[] c = str.toCharArray();
+		for (int i = 0; i < c.length; i++) {
+			if (String.valueOf(c[i]).getBytes().length <= 1) {
+				ret += 1; // 半角文字なら＋１
+			} else {
+				ret += 2; // 全角文字なら＋２
+			}
+		}
+
+		return ret;
 	}
 }

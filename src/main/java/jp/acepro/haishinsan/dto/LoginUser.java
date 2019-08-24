@@ -35,7 +35,7 @@ public class LoginUser extends User {
 		this.roleId = Role.of(user.getRoleId().intValue()).getValue();
 		this.roleName = Role.of(user.getRoleId().intValue()).getLabel();
 		this.email = user.getEmail();
-		//this.oldSystemEmail = user.getOldSystemEmail();
+		// this.oldSystemEmail = user.getOldSystemEmail();
 		this.oldSystemPassword = user.getOldSystemPassword();
 	}
 

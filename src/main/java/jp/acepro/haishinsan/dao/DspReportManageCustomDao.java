@@ -3,7 +3,6 @@ package jp.acepro.haishinsan.dao;
 import java.util.List;
 
 import org.seasar.doma.Dao;
-import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
 import org.seasar.doma.Suppress;
 import org.seasar.doma.message.Message;

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
 import jp.acepro.haishinsan.db.entity.Shop;
-import jp.acepro.haishinsan.dto.ShopDto;
-import jp.acepro.haishinsan.dto.UserDto;
+import jp.acepro.haishinsan.dto.account.ShopDto;
+import jp.acepro.haishinsan.dto.account.UserDto;
 import jp.acepro.haishinsan.form.ShopInputForm;
 
 @Generated(

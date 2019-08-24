@@ -73,20 +73,26 @@ public class GetLocationReport {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -100,7 +106,10 @@ public class GetLocationReport {
 			// response indicates an error occurred and the response body contains XML with
 			// further
 			// information, such as the fieldPath and trigger.
-			System.err.printf("Report was not downloaded due to a %s with errorText '%s', trigger '%s' and " + "field path '%s'%n", dre.getClass().getSimpleName(), dre.getErrorText(), dre.getTrigger(), dre.getFieldPath());
+			System.err.printf(
+					"Report was not downloaded due to a %s with errorText '%s', trigger '%s' and "
+							+ "field path '%s'%n",
+					dre.getClass().getSimpleName(), dre.getErrorText(), dre.getTrigger(), dre.getFieldPath());
 		} catch (ReportDownloadResponseException rde) {
 			// A ReportDownloadResponseException will be thrown if the HTTP status code in
 			// the response
@@ -122,34 +131,32 @@ public class GetLocationReport {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @throws DetailedReportDownloadResponseException
-	 *             if the report request failed with a detailed error from the
-	 *             reporting service.
-	 * @throws ReportDownloadResponseException
-	 *             if the report request failed with a general error from the
-	 *             reporting service.
-	 * @throws ReportException
-	 *             if the report request failed due to a transport layer error.
-	 * @throws IOException
-	 *             if the report's contents could not be read from the response.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @throws DetailedReportDownloadResponseException if the report request failed
+	 *                                                 with a detailed error from
+	 *                                                 the reporting service.
+	 * @throws ReportDownloadResponseException         if the report request failed
+	 *                                                 with a general error from the
+	 *                                                 reporting service.
+	 * @throws ReportException                         if the report request failed
+	 *                                                 due to a transport layer
+	 *                                                 error.
+	 * @throws IOException                             if the report's contents
+	 *                                                 could not be read from the
+	 *                                                 response.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session) throws ReportDownloadResponseException, ReportException, IOException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session)
+			throws ReportDownloadResponseException, ReportException, IOException {
 		// Create the query.
 		String[] arr = campaignIdList.stream().map(obj -> String.valueOf(obj)).toArray(String[]::new);
 		LocalDate today = LocalDate.now();
 		LocalDate yesterday = LocalDate.now().minusDays(1);
-		ReportQuery query = new ReportQuery
-				.Builder()
-				.fields("CampaignId", "CampaignName", "Date", "CountryCriteriaId", "CityCriteriaId", "Impressions", "Clicks", "Cost")
-				.from(ReportDefinitionReportType.GEO_PERFORMANCE_REPORT)
-				.where("CampaignId")
-				.in(arr)
-				.during(yesterday, today)
-				.build();
+		ReportQuery query = new ReportQuery.Builder()
+				.fields("CampaignId", "CampaignName", "Date", "CountryCriteriaId", "CityCriteriaId", "Impressions",
+						"Clicks", "Cost")
+				.from(ReportDefinitionReportType.GEO_PERFORMANCE_REPORT).where("CampaignId").in(arr)
+				.during(yesterday, today).build();
 
 		// Optional: Set the reporting configuration of the session to suppress header,
 		// column name, or
@@ -160,29 +167,27 @@ public class GetLocationReport {
 		// In addition, you can set whether you want to explicitly include or exclude
 		// zero impression
 		// rows.
-		ReportingConfiguration reportingConfiguration = new ReportingConfiguration
-				.Builder()
+		ReportingConfiguration reportingConfiguration = new ReportingConfiguration.Builder()
 				// Skip all header and summary lines since the loop below expects
 				// every field to be present in each line.
-				.skipReportHeader(true)
-				.skipColumnHeader(true)
-				.skipReportSummary(true)
+				.skipReportHeader(true).skipColumnHeader(true).skipReportSummary(true)
 				// Enable to include rows with zero impressions.
 				// 表示回数が０の場合：
-				// true  : 取得する
+				// true : 取得する
 				// false : 取得しない
-				.includeZeroImpressions(false)
-				.build();
+				.includeZeroImpressions(false).build();
 		session.setReportingConfiguration(reportingConfiguration);
 
-		ReportDownloaderInterface reportDownloader = adWordsServices.getUtility(session, ReportDownloaderInterface.class);
+		ReportDownloaderInterface reportDownloader = adWordsServices.getUtility(session,
+				ReportDownloaderInterface.class);
 
 		BufferedReader reader = null;
 		try {
 			// Set the property api.adwords.reportDownloadTimeout or call
 			// ReportDownloader.setReportDownloadTimeout to set a timeout (in milliseconds)
 			// for CONNECT and READ in report downloads.
-			final ReportDownloadResponse response = reportDownloader.downloadReport(query.toString(), DownloadFormat.CSV);
+			final ReportDownloadResponse response = reportDownloader.downloadReport(query.toString(),
+					DownloadFormat.CSV);
 
 			// Read the response as a BufferedReader.
 			reader = new BufferedReader(new InputStreamReader(response.getInputStream(), UTF_8));
@@ -192,7 +197,7 @@ public class GetLocationReport {
 			String line;
 			Splitter splitter = Splitter.on(',');
 			while ((line = reader.readLine()) != null) {
-				//System.out.println(line);
+				// System.out.println(line);
 
 				// Split the line into a list of field values.
 				List<String> values = splitter.splitToList(line);
@@ -206,7 +211,7 @@ public class GetLocationReport {
 				googleLocationReportDto.setImpressions(Longs.tryParse(values.get(5)));
 				googleLocationReportDto.setClicks(Longs.tryParse(values.get(6)));
 				googleLocationReportDto.setCosts(Longs.tryParse(values.get(7)).doubleValue() / 1000000);
-				
+
 				googleLocationReportDtoList.add(googleLocationReportDto);
 				log.debug("GoogleLocationReportDto : {}", googleLocationReportDto.toString());
 			}

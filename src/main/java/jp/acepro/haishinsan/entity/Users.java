@@ -2,9 +2,9 @@ package jp.acepro.haishinsan.entity;
 
 public class Users {
 
-	  Long userId;
+	Long userId;
 
-	  public Long getUserId() {
+	public Long getUserId() {
 		return userId;
 	}
 
@@ -37,11 +37,11 @@ public class Users {
 	}
 
 	String userName;
-	  
-	  String email;
-	  
-	  String password;
-	  Long roleId;
+
+	String email;
+
+	String password;
+	Long roleId;
 
 	public Long getRoleId() {
 		return roleId;

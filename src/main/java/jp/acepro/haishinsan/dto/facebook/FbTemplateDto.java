@@ -17,7 +17,7 @@ public class FbTemplateDto {
 
 	// 地域
 	List<Long> locationList;
-	
+
 //	public boolean getGeolocationLabel() {
 //		StringBuilder stringBuilder = new StringBuilder();
 //		
@@ -35,6 +35,5 @@ public class FbTemplateDto {
 //		//<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:selected="${#lists.contains(fbTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
 //		
 //	}
-	
 
 }

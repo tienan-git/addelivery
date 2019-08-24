@@ -6,7 +6,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReportingReq {
-	
+
 	String entity;
 	String entity_ids;
 	String start_time;
@@ -16,8 +16,7 @@ public class TwitterReportingReq {
 	String metric_groups;
 	String segmentation_type;
 	String country;
-	
-	
+
 	String job_ids;
-	
+
 }

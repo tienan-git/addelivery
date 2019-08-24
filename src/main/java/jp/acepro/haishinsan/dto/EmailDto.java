@@ -7,9 +7,9 @@ import lombok.Data;
 
 @Data
 public class EmailDto {
-    Long issueId;
-    List<EmailCampDetailDto> campaignList;
-    List<YahooImageDto> attachmentList; 
-    Integer templateType;
+	Long issueId;
+	List<EmailCampDetailDto> campaignList;
+	List<YahooImageDto> attachmentList;
+	Integer templateType;
 
 }

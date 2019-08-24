@@ -5,13 +5,13 @@ import lombok.Data;
 @Data
 public class FbDeviceReportDto {
 
-	 String campaign_id;;
-	 String campaign_name;
-	 String impressions;
-	 String clicks;
-	 String spend;
-	 String date_start;
-	 String date_stop;
-	 String device;
-	
+	String campaign_id;;
+	String campaign_name;
+	String impressions;
+	String clicks;
+	String spend;
+	String date_start;
+	String date_stop;
+	String device;
+
 }

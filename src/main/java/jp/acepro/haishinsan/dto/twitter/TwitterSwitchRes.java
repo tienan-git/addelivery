@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class TwitterSwitchRes {
-    private String code;
-    private String message;
+	private String code;
+	private String message;
 }

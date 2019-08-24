@@ -6,9 +6,9 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterTweet {
-	
-		String tweetId;
-		String tweetTitle;
-		String tweetBody;
-		String previewUrl;
+
+	String tweetId;
+	String tweetTitle;
+	String tweetBody;
+	String previewUrl;
 }

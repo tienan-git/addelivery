@@ -14,10 +14,10 @@ public interface GoogleLocationReportCustomDao {
 
 	@Select
 	GoogleLocationReport selectForUpdate(Long campaignId, String date, Long locationId);
-	
+
 	@Select
 	List<GoogleLocationReport> selectLocationReport(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<GoogleLocationReport> selectLocationGraph(List<Long> campaignIdList, String startDate, String endDate);
 }

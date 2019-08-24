@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
 import jp.acepro.haishinsan.db.entity.User;
-import jp.acepro.haishinsan.dto.UserDto;
+import jp.acepro.haishinsan.dto.account.UserDto;
 import jp.acepro.haishinsan.form.UserInputForm;
 
 @Generated(

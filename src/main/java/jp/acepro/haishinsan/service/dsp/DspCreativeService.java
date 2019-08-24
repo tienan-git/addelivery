@@ -18,6 +18,7 @@ public interface DspCreativeService {
 
 	/**
 	 * IDリストによるクリエイティブ情報取得
+	 * 
 	 * @param idList
 	 * @return
 	 */

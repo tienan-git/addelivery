@@ -9,7 +9,7 @@ public class GoogleTemplateDto {
 
 	// テンプレートID
 	Long templateId;
-	
+
 	// テンプレート名
 	String templateName;
 

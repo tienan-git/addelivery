@@ -15,7 +15,7 @@ import java.util.List;
 public class CharsetDetector {
 
 	public static String detectCharset(File f, List<String> charsetNames) {
-		
+
 		for (String charsetName : charsetNames) {
 			try {
 				BufferedInputStream input = new BufferedInputStream(new FileInputStream(f));

@@ -134,7 +134,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 	public List<DspSegmentListDto> segmentList() {
 
 		// ShopIdでDBにセグメント情報を取得して、リストとして返す
-		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectByShopIdWithEmptyUrl(ContextUtil.getCurrentShop().getShopId());
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao
+				.selectByShopIdWithEmptyUrl(ContextUtil.getCurrentShop().getShopId());
 		// もし、リストが空だったら、そのまま返却
 		if (segmentManageList == null || segmentManageList.size() == 0) {
 			return null;
@@ -177,7 +178,9 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
 				dspSegmentListDto.setSegmentId(dspSegmentListResult.getId());
 				dspSegmentListDto.setSegmentName(dspSegmentListResult.getName());
-				if (Objects.nonNull(dspSegmentListResult.getUrl_rules()) && !dspSegmentListResult.getUrl_rules().isEmpty() && Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
+				if (Objects.nonNull(dspSegmentListResult.getUrl_rules())
+						&& !dspSegmentListResult.getUrl_rules().isEmpty()
+						&& Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
 					dspSegmentListDto.setUrl(dspSegmentListResult.getUrl_rules().get(0).getUrl_match_rule());
 				}
 				dspSegmentListDto.setIs_enabled(dspSegmentListResult.getIs_enabled());
@@ -283,7 +286,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		// セグメントレポーティング取得
 		DspSegmentRepRes dspSegmentRepRes = null;
 		try {
-			dspSegmentRepRes = call(segmentRepResource, HttpMethod.POST, dspSegmentRepReq, null, DspSegmentRepRes.class);
+			dspSegmentRepRes = call(segmentRepResource, HttpMethod.POST, dspSegmentRepReq, null,
+					DspSegmentRepRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:セグメントレポーティングを取得エラー、リクエストボディー:{}", dspSegmentRepReq);
 			e.printStackTrace();
@@ -318,7 +322,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		DspSegmentGraphDto dspSegmentGraphDto = new DspSegmentGraphDto();
 
 		// 検索条件でシステムDBから、セグメントレポーティング情報を取得
-		List<SegmentReportManage> segmentReportManageList = dspSegmentCustomDao.selectReportForGraph(dspSegmentSearchDto);
+		List<SegmentReportManage> segmentReportManageList = dspSegmentCustomDao
+				.selectReportForGraph(dspSegmentSearchDto);
 		if (segmentReportManageList == null || segmentReportManageList.size() == 0) {
 			return dspSegmentGraphDto;
 		}
@@ -353,7 +358,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		List<SegmentReportDisplayDto> segmentReportDisplayDtoList = new ArrayList<SegmentReportDisplayDto>();
 
 		// 検索条件でシステムDBから、セグメントレポーティング情報を取得
-		List<SegmentReportManage> segmentReportManageList = dspSegmentCustomDao.selectReportForList(dspSegmentSearchDto);
+		List<SegmentReportManage> segmentReportManageList = dspSegmentCustomDao
+				.selectReportForList(dspSegmentSearchDto);
 		if (segmentReportManageList == null || segmentReportManageList.size() == 0) {
 			return null;
 		}
@@ -380,7 +386,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		SegmentReportDisplayDto segmentReportDisplayDto = new SegmentReportDisplayDto();
 
 		// 検索条件でシステムDBから、セグメントレポーティング情報を取得
-		List<SegmentReportManage> segmentReportManageList = dspSegmentCustomDao.selectReportForGraph(dspSegmentSearchDto);
+		List<SegmentReportManage> segmentReportManageList = dspSegmentCustomDao
+				.selectReportForGraph(dspSegmentSearchDto);
 		if (segmentReportManageList == null || segmentReportManageList.size() == 0) {
 			return segmentReportDisplayDto;
 		}
@@ -448,7 +455,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 	public List<DspSegmentListDto> selectUrlByDateTime(LocalDateTime dateTime) {
 
 		// 検索条件：日付、店舗ID
-		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime, ContextUtil.getCurrentShop().getShopId());
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime,
+				ContextUtil.getCurrentShop().getShopId());
 		// 検索結果がnullの場合、nullを返す
 		if (segmentManageList == null || segmentManageList.size() == 0) {
 			return null;
@@ -490,7 +498,9 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
 				dspSegmentListDto.setSegmentId(dspSegmentListResult.getId());
 				dspSegmentListDto.setSegmentName(dspSegmentListResult.getName());
-				if (Objects.nonNull(dspSegmentListResult.getUrl_rules()) && !dspSegmentListResult.getUrl_rules().isEmpty() && Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
+				if (Objects.nonNull(dspSegmentListResult.getUrl_rules())
+						&& !dspSegmentListResult.getUrl_rules().isEmpty()
+						&& Objects.nonNull(dspSegmentListResult.getUrl_rules().get(0))) {
 					dspSegmentListDto.setUrl(dspSegmentListResult.getUrl_rules().get(0).getUrl_match_rule());
 				}
 				dspSegmentListDto.setIs_enabled(dspSegmentListResult.getIs_enabled());
@@ -506,7 +516,8 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 	public List<DspSegmentListDto> selectUrlByDateTimeWithNoCheck(LocalDateTime dateTime) {
 
 		// 検索条件：日付、店舗ID
-		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime, ContextUtil.getCurrentShop().getShopId());
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime,
+				ContextUtil.getCurrentShop().getShopId());
 		// 検索結果がnullの場合、nullを返す
 		if (segmentManageList == null || segmentManageList.size() == 0) {
 			return null;
@@ -515,11 +526,11 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		// セグメントDto編集する
 		List<DspSegmentListDto> dspSegmentListDtoList = new ArrayList<DspSegmentListDto>();
 		for (SegmentManage segmentManage : segmentManageList) {
-				DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
-				dspSegmentListDto.setSegmentId(segmentManage.getSegmentId());
-				dspSegmentListDto.setSegmentName(segmentManage.getSegmentName());
-				dspSegmentListDto.setUrl(segmentManage.getUrl());
-				dspSegmentListDtoList.add(dspSegmentListDto);
+			DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
+			dspSegmentListDto.setSegmentId(segmentManage.getSegmentId());
+			dspSegmentListDto.setSegmentName(segmentManage.getSegmentName());
+			dspSegmentListDto.setUrl(segmentManage.getUrl());
+			dspSegmentListDtoList.add(dspSegmentListDto);
 		}
 
 		return dspSegmentListDtoList;

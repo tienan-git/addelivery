@@ -41,8 +41,8 @@ import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.util.Utf8BomUtil;
 
 @Controller
-@RequestMapping("/dsp")
-public class DspSegmentController {
+@RequestMapping("/link/segment")
+public class SegmentController {
 
 	@Autowired
 	DspSegmentService dspSegmentService;
@@ -151,23 +151,24 @@ public class DspSegmentController {
 
 	@PostMapping("/segmentReporting")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
-	public ModelAndView searchBySegmentId(@Validated DspSegmentSearchForm dspSegmentSearchForm, BindingResult result) throws ParseException {
+	public ModelAndView searchBySegmentId(@Validated DspSegmentSearchForm dspSegmentSearchForm, BindingResult result)
+			throws ParseException {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			Date startDate = sdf.parse(dspSegmentSearchForm.getStartDate());
 			Date endDate = sdf.parse(dspSegmentSearchForm.getEndDate());
-			
+
 			Calendar maxEndcalendar = Calendar.getInstance();
 			maxEndcalendar.setTime(startDate);
 			maxEndcalendar.add(Calendar.MONTH, 3);
-			
+
 			Calendar endcalendar = Calendar.getInstance();
 			endcalendar.setTime(endDate);
-			
+
 			if (!endcalendar.before(maxEndcalendar)) {
 				throw new BusinessException(ErrorCodeConstant.E30006);
 			}
-		} catch(BusinessException e)  {
+		} catch (BusinessException e) {
 			// 異常時レスポンスを作成
 			result.reject(e.getMessage(), e.getParams(), null);
 			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
@@ -192,10 +193,12 @@ public class DspSegmentController {
 		// 検索したレポーティングをグラフとして、画面に表示する
 		DspSegmentGraphDto dspSegmentGraphDto = dspSegmentService.getSegmentReportGraph(dspSegmentSearchDto);
 		// 検索したレポーティングをリストとして、画面に表示する
-		List<SegmentReportDisplayDto> segmentReportDisplayDtoList = dspSegmentService.getSegmentReportList(dspSegmentSearchDto);
+		List<SegmentReportDisplayDto> segmentReportDisplayDtoList = dspSegmentService
+				.getSegmentReportList(dspSegmentSearchDto);
 		if (segmentReportDisplayDtoList != null) {
 			// レポーティング情報の合計を取得、画面に表示する
-			SegmentReportDisplayDto segmentReportDisplayDto = dspSegmentService.getSegmentReportSummary(dspSegmentSearchDto);
+			SegmentReportDisplayDto segmentReportDisplayDto = dspSegmentService
+					.getSegmentReportSummary(dspSegmentSearchDto);
 			segmentReportDisplayDtoList.add(segmentReportDisplayDto);
 		}
 
@@ -217,7 +220,8 @@ public class DspSegmentController {
 
 	@PostMapping("/segment/download")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
-	public ResponseEntity<byte[]> download(@ModelAttribute DspSegmentSearchForm dspSegmentSearchForm) throws IOException {
+	public ResponseEntity<byte[]> download(@ModelAttribute DspSegmentSearchForm dspSegmentSearchForm)
+			throws IOException {
 
 		DspSegmentSearchDto dspSegmentSearchDto = new DspSegmentSearchDto();
 		dspSegmentSearchDto.setSegmentIdList(dspSegmentSearchForm.getSegmentIdList());
@@ -225,10 +229,12 @@ public class DspSegmentController {
 		dspSegmentSearchDto.setEndDate(dspSegmentSearchForm.getEndDate());
 
 		// 検索したレポーティングをリストとして、画面に表示する
-		List<SegmentReportDisplayDto> segmentReportDisplayDtoList = dspSegmentService.getSegmentReportList(dspSegmentSearchDto);
+		List<SegmentReportDisplayDto> segmentReportDisplayDtoList = dspSegmentService
+				.getSegmentReportList(dspSegmentSearchDto);
 		if (segmentReportDisplayDtoList != null) {
 			// レポーティング情報の合計を取得、画面に表示する
-			SegmentReportDisplayDto segmentReportDisplayDto = dspSegmentService.getSegmentReportSummary(dspSegmentSearchDto);
+			SegmentReportDisplayDto segmentReportDisplayDto = dspSegmentService
+					.getSegmentReportSummary(dspSegmentSearchDto);
 			segmentReportDisplayDtoList.add(segmentReportDisplayDto);
 		}
 

@@ -11,6 +11,6 @@ import lombok.ToString;
 @Data
 public class TwitterAllGroupDataRes {
 
-	 List<TwitterGroupDataRes> data;
+	List<TwitterGroupDataRes> data;
 
 }

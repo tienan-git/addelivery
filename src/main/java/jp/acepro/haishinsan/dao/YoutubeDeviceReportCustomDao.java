@@ -14,16 +14,16 @@ public interface YoutubeDeviceReportCustomDao {
 
 	@Select
 	YoutubeDeviceReport selectForUpdate(Long campaignId, String date, String deviceType);
-	
+
 	@Select
 	List<YoutubeDeviceReport> selectDeviceReport(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<YoutubeDeviceReport> selectDeviceGraph(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<YoutubeDeviceReport> selectDailyReport(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<YoutubeDeviceReport> selectDailyGraph(List<Long> campaignIdList, String startDate, String endDate);
 }

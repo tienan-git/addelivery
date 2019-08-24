@@ -80,8 +80,9 @@ public class UserDetailsServiceCustomerImpl implements UserDetailsService {
 			}
 
 			// ユーザの店舗情報を取得
-			Shop shop =shopList.stream().filter(s->s.getShopId().intValue()==user.getShopId().intValue()).findFirst().get();
-			
+			Shop shop = shopList.stream().filter(s -> s.getShopId().intValue() == user.getShopId().intValue())
+					.findFirst().get();
+
 			loginUser.changeShopList(shopList);
 			loginUser.changeCurrent(shop);
 
@@ -92,7 +93,7 @@ public class UserDetailsServiceCustomerImpl implements UserDetailsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SystemException("システムエラーが発生しました。");
-		} 
+		}
 	}
 
 }

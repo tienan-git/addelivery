@@ -6,14 +6,14 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterTargetParamsReq {
-	
-	//グループID
+
+	// グループID
 	String line_item_id;
-	
-	//ターゲットタイプ
+
+	// ターゲットタイプ
 	String targeting_type;
-	
-	//targeting_value
+
+	// targeting_value
 	String targeting_value;
-	
+
 }

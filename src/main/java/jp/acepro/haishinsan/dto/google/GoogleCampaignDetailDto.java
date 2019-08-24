@@ -7,13 +7,13 @@ import lombok.Data;
 
 @Data
 public class GoogleCampaignDetailDto {
-	
+
 	// 承認フラグ
 	String approvalFlag;
-	
+
 	// キャンペーンステータス
 	String campaignStatus;
-	
+
 	// キャンペーンID
 	Long campaignId;
 
@@ -25,19 +25,21 @@ public class GoogleCampaignDetailDto {
 
 	// 予算
 	Long budget;
-	
-    // 単価タイプ
-    String unitPriceType;
+
+	// 単価タイプ
+	String unitPriceType;
 
 	// 開始日
 	String startDate;
-    public String getStartDateSlash() {
+
+	public String getStartDateSlash() {
 		return StringFormatter.formatToSlash(startDate);
 	}
 
 	// 終了日
 	String endDate;
-    public String getEndDateSlash() {
+
+	public String getEndDateSlash() {
 		return StringFormatter.formatToSlash(endDate);
 	}
 

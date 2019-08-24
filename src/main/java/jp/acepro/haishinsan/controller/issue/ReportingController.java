@@ -57,7 +57,7 @@ import jp.acepro.haishinsan.service.yahoo.YahooService;
 import jp.acepro.haishinsan.util.ContextUtil;
 
 @Controller
-@RequestMapping("/issues")
+@RequestMapping("/issue/report")
 public class ReportingController {
 
 	@Autowired
@@ -133,7 +133,8 @@ public class ReportingController {
 		Issue issue = issueDao.selectById(issueId);
 
 		DspCampaignManage dspCampaginManage = dspCampaignManageDao.selectById(issue.getDspCampaignManageId());
-		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(dspCampaginManage.getCampaignId(), ContextUtil.getCurrentShop().getDspUserId());
+		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService
+				.getCampaignDetail(dspCampaginManage.getCampaignId(), ContextUtil.getCurrentShop().getDspUserId());
 
 		// 検索条件を集める
 		DspAdReportDto dspAdReportDto = new DspAdReportDto();
@@ -178,15 +179,20 @@ public class ReportingController {
 		twitterReportDto.setCampaignIdList(campaignIdList);
 
 		// 地域別のTable用データ取得
-		List<TwitterDisplayReportDto> twitterRegionsTableDtoList = twitterReportingService.getTwitterRegionReporting(twitterReportDto);
+		List<TwitterDisplayReportDto> twitterRegionsTableDtoList = twitterReportingService
+				.getTwitterRegionReporting(twitterReportDto);
 		// 地域別のGraph用データ取得
-		TwitterGraphReportDto twitterRegionsGraphReportDto = twitterReportingService.getTwitterRegionReportingGraph(twitterReportDto);
+		TwitterGraphReportDto twitterRegionsGraphReportDto = twitterReportingService
+				.getTwitterRegionReportingGraph(twitterReportDto);
 		// 日別のTable用データ取得
-		List<TwitterDisplayReportDto> twitterDateTableDtoList = twitterReportingService.getTwitterDayReporting(twitterReportDto);
+		List<TwitterDisplayReportDto> twitterDateTableDtoList = twitterReportingService
+				.getTwitterDayReporting(twitterReportDto);
 		// 日別のGraph用データ取得
-		TwitterGraphReportDto twitterDateGraphReportDto = twitterReportingService.getTwitterDayReportingGraph(twitterReportDto);
+		TwitterGraphReportDto twitterDateGraphReportDto = twitterReportingService
+				.getTwitterDayReportingGraph(twitterReportDto);
 		// デバイスのTable&グラフ用データ取得
-		List<TwitterDisplayReportDto> twitterDeviceTableDtoList = twitterReportingService.getTwitterDeviceReporting(twitterReportDto);
+		List<TwitterDisplayReportDto> twitterDeviceTableDtoList = twitterReportingService
+				.getTwitterDeviceReporting(twitterReportDto);
 		// viewに設定
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("twitterRegionsTableDtoList", twitterRegionsTableDtoList);
@@ -217,17 +223,23 @@ public class ReportingController {
 		String endDate = issue.getEndDate();
 
 		// 日付別のグラフレポートを取得
-		FbGraphReportDto fbDateGraphReportDto = facebookReportingService.getFacebookDateReportingGraph(campaignIdList, startDate, endDate);
+		FbGraphReportDto fbDateGraphReportDto = facebookReportingService.getFacebookDateReportingGraph(campaignIdList,
+				startDate, endDate);
 		// 日付別のリストレポートを取得
-		List<FbReportDisplayDto> fbDateReportDisplayDtoList = facebookReportingService.getDateReport(campaignIdList, startDate, endDate);
+		List<FbReportDisplayDto> fbDateReportDisplayDtoList = facebookReportingService.getDateReport(campaignIdList,
+				startDate, endDate);
 		// デバイス別のリグラフレポートを取得
-		FbGraphReportDto fbDeviceGraphReportDto = facebookReportingService.getFacebookDeviceReportingGraph(campaignIdList, startDate, endDate);
+		FbGraphReportDto fbDeviceGraphReportDto = facebookReportingService
+				.getFacebookDeviceReportingGraph(campaignIdList, startDate, endDate);
 		// デバイス別のリストレポートを取得
-		List<FbReportDisplayDto> fbDeviceReportDisplayDtoList = facebookReportingService.getDeviceReport(campaignIdList, startDate, endDate);
+		List<FbReportDisplayDto> fbDeviceReportDisplayDtoList = facebookReportingService.getDeviceReport(campaignIdList,
+				startDate, endDate);
 		// 地域別のリグラフレポートを取得
-		FbGraphReportDto fbRegionGraphReportDto = facebookReportingService.getFacebookRegionReportingGraph(campaignIdList, startDate, endDate);
+		FbGraphReportDto fbRegionGraphReportDto = facebookReportingService
+				.getFacebookRegionReportingGraph(campaignIdList, startDate, endDate);
 		// 地域別のリストレポートを取得
-		List<FbReportDisplayDto> fbRegionReportDisplayDtoList = facebookReportingService.getRegionReport(campaignIdList, startDate, endDate);
+		List<FbReportDisplayDto> fbRegionReportDisplayDtoList = facebookReportingService.getRegionReport(campaignIdList,
+				startDate, endDate);
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("reporting/facebookReporting");
@@ -292,16 +304,21 @@ public class ReportingController {
 		YahooIssueDto yahooIssueDto = yahooService.getIssueDetail(issueId);
 		// 地域詳細処理
 		List<String> locationIdListString = Arrays.asList(yahooIssueDto.getLocationIds().split(","));
-		List<Long> locationIdList = locationIdListString.stream().map(s -> Long.parseLong(s)).collect(Collectors.toList());
+		List<Long> locationIdList = locationIdListString.stream().map(s -> Long.parseLong(s))
+				.collect(Collectors.toList());
 		List<YahooLocationDto> locationList = yahooService.getLocationList(locationIdList);
 		yahooIssueDto.setLocationList(locationList);
 
 		// デバイス別レポート
-		List<YahooReportDisplayDto> yahooDeviceReportDisplayDtoList = yahooService.getDeviceReport(campaignIdList, null, null);
-		YahooGraphReportDto yahooDeviceGraphReportDto = yahooService.getYahooDeviceReportingGraph(campaignIdList, null, null);
+		List<YahooReportDisplayDto> yahooDeviceReportDisplayDtoList = yahooService.getDeviceReport(campaignIdList, null,
+				null);
+		YahooGraphReportDto yahooDeviceGraphReportDto = yahooService.getYahooDeviceReportingGraph(campaignIdList, null,
+				null);
 		// 地域別レポート
-		List<YahooReportDisplayDto> yahooRegionReportDisplayDtoList = yahooService.getRegionReport(campaignIdList, null, null);
-		YahooGraphReportDto yahooRegionGraphReportDto = yahooService.getYahooRegionReportingGraph(campaignIdList, null, null);
+		List<YahooReportDisplayDto> yahooRegionReportDisplayDtoList = yahooService.getRegionReport(campaignIdList, null,
+				null);
+		YahooGraphReportDto yahooRegionGraphReportDto = yahooService.getYahooRegionReportingGraph(campaignIdList, null,
+				null);
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();

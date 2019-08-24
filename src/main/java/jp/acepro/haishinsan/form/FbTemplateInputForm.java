@@ -12,10 +12,8 @@ public class FbTemplateInputForm {
 	Integer templatePriority;
 	String unitPriceType;
 	Long dailyBudget;
-	
+
 	// 地域
 	List<Long> locationList;
-	
-	
 
 }

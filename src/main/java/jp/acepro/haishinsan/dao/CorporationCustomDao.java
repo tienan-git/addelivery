@@ -9,20 +9,18 @@ import jp.acepro.haishinsan.db.annotation.InjectConfig;
 import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.entity.CorporationWithAgency;
 
-
 @Dao
 @InjectConfig
 public interface CorporationCustomDao {
 
-
-    @Select
+	@Select
 //    List<Corporation> selectAll();
-    List<CorporationWithAgency> selectAll();
-    
-    @Select
-    List<Shop> selectShopsByCorpId(Long corporationId);
-    
-    @Select
-    CorporationWithAgency selectById(Long corporationId);
+	List<CorporationWithAgency> selectAll();
+
+	@Select
+	List<Shop> selectShopsByCorpId(Long corporationId);
+
+	@Select
+	CorporationWithAgency selectById(Long corporationId);
 
 }

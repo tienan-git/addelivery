@@ -136,7 +136,9 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		if (youtubeDeviceReportDtoList.size() > 0) {
 			for (YoutubeDeviceReportDto youtubeDeviceReportDto : youtubeDeviceReportDtoList) {
 				YoutubeDeviceReport youtubeDeviceReportOld = new YoutubeDeviceReport();
-				youtubeDeviceReportOld = youtubeDeviceReportCustomDao.selectForUpdate(youtubeDeviceReportDto.getCampaignId(), youtubeDeviceReportDto.getDate(), youtubeDeviceReportDto.getDeviceType());
+				youtubeDeviceReportOld = youtubeDeviceReportCustomDao.selectForUpdate(
+						youtubeDeviceReportDto.getCampaignId(), youtubeDeviceReportDto.getDate(),
+						youtubeDeviceReportDto.getDeviceType());
 				if (youtubeDeviceReportOld != null) {
 					// 既存更新
 					youtubeDeviceReportOld.setCampaignName(youtubeDeviceReportDto.getCampaignName());
@@ -168,7 +170,9 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		if (youtubeLocationReportDtoList.size() > 0) {
 			for (YoutubeLocationReportDto youtubeLocationReportDto : youtubeLocationReportDtoList) {
 				YoutubeLocationReport youtubeLocationReportOld = new YoutubeLocationReport();
-				youtubeLocationReportOld = youtubeLocationReportCustomDao.selectForUpdate(youtubeLocationReportDto.getCampaignId(), youtubeLocationReportDto.getDate(), youtubeLocationReportDto.getLocationId());
+				youtubeLocationReportOld = youtubeLocationReportCustomDao.selectForUpdate(
+						youtubeLocationReportDto.getCampaignId(), youtubeLocationReportDto.getDate(),
+						youtubeLocationReportDto.getLocationId());
 				if (youtubeLocationReportOld != null) {
 					// 既存更新
 					youtubeLocationReportOld.setCampaignName(youtubeLocationReportDto.getCampaignName());
@@ -221,7 +225,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		}
 
 		// 表示対象キャンペーンのレポート情報を取得
-		List<YoutubeDeviceReport> youtubeDeviceReportList = youtubeDeviceReportCustomDao.selectDeviceReport(campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
+		List<YoutubeDeviceReport> youtubeDeviceReportList = youtubeDeviceReportCustomDao.selectDeviceReport(
+				campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのレポート情報を作成
 		List<YoutubeReportDisplayDto> youtubeReportDisplayDtoList = new ArrayList<YoutubeReportDisplayDto>();
@@ -231,17 +236,21 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				youtubeReportDisplayDto.setCampaignId(String.valueOf(youtubeDeviceReport.getCampaignId()));
 				youtubeReportDisplayDto.setCampaignName(youtubeDeviceReport.getCampaignName());
 				youtubeReportDisplayDto.setDeviceType(youtubeDeviceReport.getDeviceType());
-				youtubeReportDisplayDto.setDeviceName(GoogleDeviceType.of(youtubeDeviceReport.getDeviceType()).getLabel());
+				youtubeReportDisplayDto
+						.setDeviceName(GoogleDeviceType.of(youtubeDeviceReport.getDeviceType()).getLabel());
 				youtubeReportDisplayDto.setImpressions(youtubeDeviceReport.getImpressions());
 				youtubeReportDisplayDto.setClicks(youtubeDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(youtubeDeviceReport.getCosts());
 				youtubeReportDisplayDto.setCosts(displayCosts);
-				youtubeReportDisplayDto.setCtr(ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto.setCtr(
+						ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
 				youtubeReportDisplayDto.setCpc(ReportUtil.calCpc(youtubeDeviceReport.getClicks(), displayCosts));
 				youtubeReportDisplayDto.setCpm(ReportUtil.calCpm(youtubeDeviceReport.getImpressions(), displayCosts));
 				youtubeReportDisplayDto.setVideoViews(youtubeDeviceReport.getVideoViews());
-				youtubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
-				youtubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
+				youtubeReportDisplayDto.setVideoViewRate(ReportUtil
+						.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto
+						.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
 				youtubeReportDisplayDtoList.add(youtubeReportDisplayDto);
 			}
 		}
@@ -249,7 +258,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		youtubeReportDto.setYoutubeReportDisplayDtoList(addTotal(youtubeReportDisplayDtoList));
 
 		// 表示対象キャンペーンのグラフ情報を取得
-		List<YoutubeDeviceReport> youtubeGraphList = youtubeDeviceReportCustomDao.selectDeviceGraph(campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
+		List<YoutubeDeviceReport> youtubeGraphList = youtubeDeviceReportCustomDao.selectDeviceGraph(campaignIdList,
+				youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのグラフ情報を作成
 		List<YoutubeReportDisplayDto> youtubeReportGraphDtoList = new ArrayList<YoutubeReportDisplayDto>();
@@ -257,17 +267,21 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 			for (YoutubeDeviceReport youtubeDeviceReport : youtubeGraphList) {
 				YoutubeReportDisplayDto youtubeReportDisplayDto = new YoutubeReportDisplayDto();
 				youtubeReportDisplayDto.setDeviceType(youtubeDeviceReport.getDeviceType());
-				youtubeReportDisplayDto.setDeviceName(GoogleDeviceType.of(youtubeDeviceReport.getDeviceType()).getLabel());
+				youtubeReportDisplayDto
+						.setDeviceName(GoogleDeviceType.of(youtubeDeviceReport.getDeviceType()).getLabel());
 				youtubeReportDisplayDto.setImpressions(youtubeDeviceReport.getImpressions());
 				youtubeReportDisplayDto.setClicks(youtubeDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(youtubeDeviceReport.getCosts());
 				youtubeReportDisplayDto.setCosts(displayCosts);
-				youtubeReportDisplayDto.setCtr(ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto.setCtr(
+						ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
 				youtubeReportDisplayDto.setCpc(ReportUtil.calCpc(youtubeDeviceReport.getClicks(), displayCosts));
 				youtubeReportDisplayDto.setCpm(ReportUtil.calCpm(youtubeDeviceReport.getImpressions(), displayCosts));
 				youtubeReportDisplayDto.setVideoViews(youtubeDeviceReport.getVideoViews());
-				youtubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
-				youtubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
+				youtubeReportDisplayDto.setVideoViewRate(ReportUtil
+						.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto
+						.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
 				youtubeReportGraphDtoList.add(youtubeReportDisplayDto);
 			}
 		}
@@ -295,12 +309,14 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		}
 
 		// 選択した地域IDを取得(campaignId-locationId)
-		List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao.selectByCampaignManageIdList(campaignIdList);
+		List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao
+				.selectByCampaignManageIdList(campaignIdList);
 		List<String> locationIds = new ArrayList<String>();
 		for (YoutubeCampaignManage youtubeCampaignManage : youtubeCampaignManageList) {
 			StringTokenizer st = new StringTokenizer(youtubeCampaignManage.getArea(), ", ");
 			while (st.hasMoreTokens()) {
-				locationIds.add(youtubeCampaignManage.getCampaignId().toString() + "-" + String.valueOf(st.nextToken()));
+				locationIds
+						.add(youtubeCampaignManage.getCampaignId().toString() + "-" + String.valueOf(st.nextToken()));
 			}
 		}
 
@@ -311,7 +327,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		}
 
 		// 表示対象キャンペーンのレポート情報を取得
-		List<YoutubeLocationReport> youtubeLocationReportList = youtubeLocationReportCustomDao.selectLocationReport(campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
+		List<YoutubeLocationReport> youtubeLocationReportList = youtubeLocationReportCustomDao.selectLocationReport(
+				campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのレポート情報を作成
 		List<YoutubeReportDisplayDto> youtubeReportDisplayDtoList = new ArrayList<YoutubeReportDisplayDto>();
@@ -323,9 +340,11 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				if (CodeMasterServiceImpl.googleAreaNameList == null) {
 					codeMasterService.getGoogleAreaList();
 				}
-				Optional<Pair<Long, String>> locationPair = CodeMasterServiceImpl.googleAreaNameList.stream().filter(obj -> obj.getFirst().equals(locationId)).findFirst();
+				Optional<Pair<Long, String>> locationPair = CodeMasterServiceImpl.googleAreaNameList.stream()
+						.filter(obj -> obj.getFirst().equals(locationId)).findFirst();
 				String locationName = null;
-				if (locationPair.isPresent() && locationIds.contains(youtubeLocationReport.getCampaignId() + "-" + youtubeLocationReport.getLocationId())) {
+				if (locationPair.isPresent() && locationIds.contains(
+						youtubeLocationReport.getCampaignId() + "-" + youtubeLocationReport.getLocationId())) {
 					locationName = locationPair.get().getSecond();
 					Long displayCosts = ReportUtil.calDisplaySpend(youtubeLocationReport.getCosts());
 					YoutubeReportDisplayDto youtubeReportDisplayDto = new YoutubeReportDisplayDto();
@@ -336,15 +355,20 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 					youtubeReportDisplayDto.setImpressions(youtubeLocationReport.getImpressions());
 					youtubeReportDisplayDto.setClicks(youtubeLocationReport.getClicks());
 					youtubeReportDisplayDto.setCosts(displayCosts);
-					youtubeReportDisplayDto.setCtr(ReportUtil.calCtr(youtubeLocationReport.getClicks(), youtubeLocationReport.getImpressions()));
+					youtubeReportDisplayDto.setCtr(ReportUtil.calCtr(youtubeLocationReport.getClicks(),
+							youtubeLocationReport.getImpressions()));
 					youtubeReportDisplayDto.setCpc(ReportUtil.calCpc(youtubeLocationReport.getClicks(), displayCosts));
-					youtubeReportDisplayDto.setCpm(ReportUtil.calCpm(youtubeLocationReport.getImpressions(), displayCosts));
+					youtubeReportDisplayDto
+							.setCpm(ReportUtil.calCpm(youtubeLocationReport.getImpressions(), displayCosts));
 					youtubeReportDisplayDto.setVideoViews(youtubeLocationReport.getVideoViews());
-					youtubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeLocationReport.getVideoViews(), youtubeLocationReport.getImpressions()));
-					youtubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(youtubeLocationReport.getVideoViews(), displayCosts));
+					youtubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(
+							youtubeLocationReport.getVideoViews(), youtubeLocationReport.getImpressions()));
+					youtubeReportDisplayDto
+							.setAvgCpv(ReportUtil.calAvgCpc(youtubeLocationReport.getVideoViews(), displayCosts));
 					youtubeReportDisplayDtoList.add(youtubeReportDisplayDto);
 				} else {
-					if (otherDto == null || !otherDto.getCampaignId().equals(youtubeLocationReport.getCampaignId().toString())) {
+					if (otherDto == null
+							|| !otherDto.getCampaignId().equals(youtubeLocationReport.getCampaignId().toString())) {
 						otherDto = new YoutubeReportDisplayDto();
 						otherDto.setCampaignId(String.valueOf(youtubeLocationReport.getCampaignId()));
 						otherDto.setCampaignName(youtubeLocationReport.getCampaignName());
@@ -357,18 +381,22 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 						otherDto.setCpc(ReportUtil.calCpc(otherDto.getClicks(), otherDto.getCosts()));
 						otherDto.setCpm(ReportUtil.calCpm(otherDto.getImpressions(), otherDto.getCosts()));
 						otherDto.setVideoViews(youtubeLocationReport.getVideoViews());
-						otherDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeLocationReport.getVideoViews(), youtubeLocationReport.getImpressions()));
-						otherDto.setAvgCpv(ReportUtil.calAvgCpc(youtubeLocationReport.getVideoViews(), otherDto.getCosts()));
+						otherDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeLocationReport.getVideoViews(),
+								youtubeLocationReport.getImpressions()));
+						otherDto.setAvgCpv(
+								ReportUtil.calAvgCpc(youtubeLocationReport.getVideoViews(), otherDto.getCosts()));
 						youtubeReportDisplayDtoList.add(otherDto);
 					} else {
 						otherDto.setImpressions(otherDto.getImpressions() + youtubeLocationReport.getImpressions());
 						otherDto.setClicks(otherDto.getClicks() + youtubeLocationReport.getClicks());
-						otherDto.setCosts(otherDto.getCosts() + ReportUtil.calDisplaySpend(youtubeLocationReport.getCosts()));
+						otherDto.setCosts(
+								otherDto.getCosts() + ReportUtil.calDisplaySpend(youtubeLocationReport.getCosts()));
 						otherDto.setCtr(ReportUtil.calCtr(otherDto.getClicks(), otherDto.getImpressions()));
 						otherDto.setCpc(ReportUtil.calCpc(otherDto.getClicks(), otherDto.getCosts()));
 						otherDto.setCpm(ReportUtil.calCpm(otherDto.getImpressions(), otherDto.getCosts()));
 						otherDto.setVideoViews(otherDto.getVideoViews() + youtubeLocationReport.getVideoViews());
-						otherDto.setVideoViewRate(ReportUtil.calVideoViewRate(otherDto.getVideoViews(), otherDto.getImpressions()));
+						otherDto.setVideoViewRate(
+								ReportUtil.calVideoViewRate(otherDto.getVideoViews(), otherDto.getImpressions()));
 						otherDto.setAvgCpv(ReportUtil.calAvgCpc(otherDto.getVideoViews(), otherDto.getCosts()));
 					}
 				}
@@ -376,23 +404,33 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 			}
 		}
 
-		Map<String, List<YoutubeReportDisplayDto>> grpForGraph = youtubeReportDisplayDtoList.stream().collect(Collectors.groupingBy(YoutubeReportDisplayDto::getLocationName));
+		Map<String, List<YoutubeReportDisplayDto>> grpForGraph = youtubeReportDisplayDtoList.stream()
+				.collect(Collectors.groupingBy(YoutubeReportDisplayDto::getLocationName));
 		List<YoutubeReportDisplayDto> youtubeReportGraphDtoList = new ArrayList<YoutubeReportDisplayDto>();
 		for (String mapKey : grpForGraph.keySet()) {
 			YoutubeReportDisplayDto newYoutubeReportDisplayDto = new YoutubeReportDisplayDto();
 			newYoutubeReportDisplayDto.setLocationName(mapKey);
 			youtubeReportGraphDtoList.add(newYoutubeReportDisplayDto);
 			for (YoutubeReportDisplayDto youtubeReportDisplayDto : grpForGraph.get(mapKey)) {
-				newYoutubeReportDisplayDto.setImpressions(newYoutubeReportDisplayDto.getImpressions() + youtubeReportDisplayDto.getImpressions());
-				newYoutubeReportDisplayDto.setClicks(newYoutubeReportDisplayDto.getClicks() + youtubeReportDisplayDto.getClicks());
-				newYoutubeReportDisplayDto.setCosts(newYoutubeReportDisplayDto.getCosts() + youtubeReportDisplayDto.getCosts());
-				newYoutubeReportDisplayDto.setVideoViews(newYoutubeReportDisplayDto.getVideoViews() + youtubeReportDisplayDto.getVideoViews());
+				newYoutubeReportDisplayDto.setImpressions(
+						newYoutubeReportDisplayDto.getImpressions() + youtubeReportDisplayDto.getImpressions());
+				newYoutubeReportDisplayDto
+						.setClicks(newYoutubeReportDisplayDto.getClicks() + youtubeReportDisplayDto.getClicks());
+				newYoutubeReportDisplayDto
+						.setCosts(newYoutubeReportDisplayDto.getCosts() + youtubeReportDisplayDto.getCosts());
+				newYoutubeReportDisplayDto.setVideoViews(
+						newYoutubeReportDisplayDto.getVideoViews() + youtubeReportDisplayDto.getVideoViews());
 			}
-			newYoutubeReportDisplayDto.setCtr(ReportUtil.calCtr(newYoutubeReportDisplayDto.getClicks(), newYoutubeReportDisplayDto.getImpressions()));
-			newYoutubeReportDisplayDto.setCpc(ReportUtil.calCpc(newYoutubeReportDisplayDto.getClicks(), newYoutubeReportDisplayDto.getCosts()));
-			newYoutubeReportDisplayDto.setCpm(ReportUtil.calCpm(newYoutubeReportDisplayDto.getImpressions(), newYoutubeReportDisplayDto.getCosts()));
-			newYoutubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(newYoutubeReportDisplayDto.getVideoViews(), newYoutubeReportDisplayDto.getImpressions()));
-			newYoutubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(newYoutubeReportDisplayDto.getVideoViews(), newYoutubeReportDisplayDto.getCosts()));
+			newYoutubeReportDisplayDto.setCtr(ReportUtil.calCtr(newYoutubeReportDisplayDto.getClicks(),
+					newYoutubeReportDisplayDto.getImpressions()));
+			newYoutubeReportDisplayDto.setCpc(
+					ReportUtil.calCpc(newYoutubeReportDisplayDto.getClicks(), newYoutubeReportDisplayDto.getCosts()));
+			newYoutubeReportDisplayDto.setCpm(ReportUtil.calCpm(newYoutubeReportDisplayDto.getImpressions(),
+					newYoutubeReportDisplayDto.getCosts()));
+			newYoutubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(
+					newYoutubeReportDisplayDto.getVideoViews(), newYoutubeReportDisplayDto.getImpressions()));
+			newYoutubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(newYoutubeReportDisplayDto.getVideoViews(),
+					newYoutubeReportDisplayDto.getCosts()));
 		}
 		youtubeReportDto.setYoutubeReportDisplayDtoList(addTotal(youtubeReportDisplayDtoList));
 		youtubeReportDto.setYoutubeReportGraphDtoList(youtubeReportGraphDtoList);
@@ -423,7 +461,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		}
 
 		// 表示対象キャンペーンのレポート情報を取得
-		List<YoutubeDeviceReport> youtubeDeviceReportList = youtubeDeviceReportCustomDao.selectDailyReport(campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
+		List<YoutubeDeviceReport> youtubeDeviceReportList = youtubeDeviceReportCustomDao.selectDailyReport(
+				campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのレポート情報を作成
 		List<YoutubeReportDisplayDto> youtubeReportDisplayDtoList = new ArrayList<YoutubeReportDisplayDto>();
@@ -438,12 +477,15 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				youtubeReportDisplayDto.setClicks(youtubeDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(youtubeDeviceReport.getCosts());
 				youtubeReportDisplayDto.setCosts(displayCosts);
-				youtubeReportDisplayDto.setCtr(ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto.setCtr(
+						ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
 				youtubeReportDisplayDto.setCpc(ReportUtil.calCpc(youtubeDeviceReport.getClicks(), displayCosts));
 				youtubeReportDisplayDto.setCpm(ReportUtil.calCpm(youtubeDeviceReport.getImpressions(), displayCosts));
 				youtubeReportDisplayDto.setVideoViews(youtubeDeviceReport.getVideoViews());
-				youtubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
-				youtubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
+				youtubeReportDisplayDto.setVideoViewRate(ReportUtil
+						.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto
+						.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
 				youtubeReportDisplayDtoList.add(youtubeReportDisplayDto);
 			}
 		}
@@ -451,7 +493,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		youtubeReportDto.setYoutubeReportDisplayDtoList(addTotal(youtubeReportDisplayDtoList));
 
 		// 表示対象キャンペーンのグラフ情報を取得
-		List<YoutubeDeviceReport> youtubeGraphList = youtubeDeviceReportCustomDao.selectDailyGraph(campaignIdList, youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
+		List<YoutubeDeviceReport> youtubeGraphList = youtubeDeviceReportCustomDao.selectDailyGraph(campaignIdList,
+				youtubeReportSearchDto.getStartDate(), youtubeReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのグラフ情報を作成
 		List<YoutubeReportDisplayDto> youtubeReportGraphDtoList = new ArrayList<YoutubeReportDisplayDto>();
@@ -464,12 +507,15 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				youtubeReportDisplayDto.setClicks(youtubeDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(youtubeDeviceReport.getCosts());
 				youtubeReportDisplayDto.setCosts(displayCosts);
-				youtubeReportDisplayDto.setCtr(ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto.setCtr(
+						ReportUtil.calCtr(youtubeDeviceReport.getClicks(), youtubeDeviceReport.getImpressions()));
 				youtubeReportDisplayDto.setCpc(ReportUtil.calCpc(youtubeDeviceReport.getClicks(), displayCosts));
 				youtubeReportDisplayDto.setCpm(ReportUtil.calCpm(youtubeDeviceReport.getImpressions(), displayCosts));
 				youtubeReportDisplayDto.setVideoViews(youtubeDeviceReport.getVideoViews());
-				youtubeReportDisplayDto.setVideoViewRate(ReportUtil.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
-				youtubeReportDisplayDto.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
+				youtubeReportDisplayDto.setVideoViewRate(ReportUtil
+						.calVideoViewRate(youtubeDeviceReport.getVideoViews(), youtubeDeviceReport.getImpressions()));
+				youtubeReportDisplayDto
+						.setAvgCpv(ReportUtil.calAvgCpc(youtubeDeviceReport.getVideoViews(), displayCosts));
 				youtubeReportGraphDtoList.add(youtubeReportDisplayDto);
 			}
 		}
@@ -486,8 +532,10 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 
 		// キャンペーン情報取得（DBから）
 		List<Issue> issueList = issueCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
-		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getYoutubeCampaignManageId() != null).map(obj -> obj.getYoutubeCampaignManageId()).collect(Collectors.toList());
-		List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao.selectByCampaignManageIdList(campaignManageIdList);
+		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getYoutubeCampaignManageId() != null)
+				.map(obj -> obj.getYoutubeCampaignManageId()).collect(Collectors.toList());
+		List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao
+				.selectByCampaignManageIdList(campaignManageIdList);
 
 		// キャンペーン一覧作成
 		List<YoutubeCampaignInfoDto> youtubeCampaignInfoDtoList = new ArrayList<YoutubeCampaignInfoDto>();
@@ -514,7 +562,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		// 書き出し処理
 		switch (ReportType.of(youtubeReportSearchDto.getReportType())) {
 		case DEVICE:
-			List<YoutubeReportDisplayDto> deviceDtoList = showDeviceReport(youtubeReportSearchDto).getYoutubeReportDisplayDtoList();
+			List<YoutubeReportDisplayDto> deviceDtoList = showDeviceReport(youtubeReportSearchDto)
+					.getYoutubeReportDisplayDtoList();
 			List<YoutubeDeviceReportCsvBean> youtubeDeviceReportCsvBeanList = new ArrayList<YoutubeDeviceReportCsvBean>();
 			for (YoutubeReportDisplayDto youtubeReportDisplayDto : deviceDtoList) {
 				YoutubeDeviceReportCsvBean youtubeDeviceReportCsvBean = new YoutubeDeviceReportCsvBean();
@@ -533,7 +582,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				youtubeDeviceReportCsvBeanList.add(youtubeDeviceReportCsvBean);
 			}
 
-			BeanWriterProcessor<YoutubeDeviceReportCsvBean> deviceWriterProcessor = new BeanWriterProcessor<>(YoutubeDeviceReportCsvBean.class);
+			BeanWriterProcessor<YoutubeDeviceReportCsvBean> deviceWriterProcessor = new BeanWriterProcessor<>(
+					YoutubeDeviceReportCsvBean.class);
 			settings.setHeaders(YoutubeDeviceReportCsvBean.columnName);
 			settings.setRowWriterProcessor(deviceWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -541,7 +591,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 			writer.processRecordsAndClose(youtubeDeviceReportCsvBeanList);
 			break;
 		case REGIONS:
-			List<YoutubeReportDisplayDto> locationDtoList = showLocationReport(youtubeReportSearchDto).getYoutubeReportDisplayDtoList();
+			List<YoutubeReportDisplayDto> locationDtoList = showLocationReport(youtubeReportSearchDto)
+					.getYoutubeReportDisplayDtoList();
 			List<YoutubeLocationReportCsvBean> youtubeLocationReportCsvBeanList = new ArrayList<YoutubeLocationReportCsvBean>();
 			for (YoutubeReportDisplayDto youtubeReportDisplayDto : locationDtoList) {
 				YoutubeLocationReportCsvBean youtubeLocationReportCsvBean = new YoutubeLocationReportCsvBean();
@@ -560,7 +611,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				youtubeLocationReportCsvBeanList.add(youtubeLocationReportCsvBean);
 			}
 
-			BeanWriterProcessor<YoutubeLocationReportCsvBean> locationWriterProcessor = new BeanWriterProcessor<>(YoutubeLocationReportCsvBean.class);
+			BeanWriterProcessor<YoutubeLocationReportCsvBean> locationWriterProcessor = new BeanWriterProcessor<>(
+					YoutubeLocationReportCsvBean.class);
 			settings.setHeaders(YoutubeLocationReportCsvBean.columnName);
 			settings.setRowWriterProcessor(locationWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -568,7 +620,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 			writer.processRecordsAndClose(youtubeLocationReportCsvBeanList);
 			break;
 		case DATE:
-			List<YoutubeReportDisplayDto> dateDtoList = showDailyReport(youtubeReportSearchDto).getYoutubeReportDisplayDtoList();
+			List<YoutubeReportDisplayDto> dateDtoList = showDailyReport(youtubeReportSearchDto)
+					.getYoutubeReportDisplayDtoList();
 			List<YoutubeDateReportCsvBean> youtubeDateReportCsvBeanList = new ArrayList<YoutubeDateReportCsvBean>();
 			for (YoutubeReportDisplayDto youtubeReportDisplayDto : dateDtoList) {
 				YoutubeDateReportCsvBean youtubeDateReportCsvBean = new YoutubeDateReportCsvBean();
@@ -587,7 +640,8 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 				youtubeDateReportCsvBeanList.add(youtubeDateReportCsvBean);
 			}
 
-			BeanWriterProcessor<YoutubeDateReportCsvBean> dateWriterProcessor = new BeanWriterProcessor<>(YoutubeDateReportCsvBean.class);
+			BeanWriterProcessor<YoutubeDateReportCsvBean> dateWriterProcessor = new BeanWriterProcessor<>(
+					YoutubeDateReportCsvBean.class);
 			settings.setHeaders(YoutubeDateReportCsvBean.columnName);
 			settings.setRowWriterProcessor(dateWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -659,11 +713,14 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 		List<Issue> issueList = issueCustomDao.selectByShopId(shopId);
 		if (issueList.size() > 0) {
 			// 店舗案件存在する場合
-			List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getYoutubeCampaignManageId() != null).map(obj -> obj.getYoutubeCampaignManageId()).collect(Collectors.toList());
+			List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getYoutubeCampaignManageId() != null)
+					.map(obj -> obj.getYoutubeCampaignManageId()).collect(Collectors.toList());
 			if (campaignManageIdList.size() > 0) {
 				// Youtubeキャンペーン存在する場合
-				List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao.selectByCampaignManageIdList(campaignManageIdList);
-				campaignIdList = youtubeCampaignManageList.stream().map(obj -> obj.getCampaignId()).collect(Collectors.toList());
+				List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao
+						.selectByCampaignManageIdList(campaignManageIdList);
+				campaignIdList = youtubeCampaignManageList.stream().map(obj -> obj.getCampaignId())
+						.collect(Collectors.toList());
 			}
 		}
 		return campaignIdList;

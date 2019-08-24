@@ -13,10 +13,11 @@ import jp.acepro.haishinsan.form.YoutubeReportSearchForm;
 public interface YoutubeMapper {
 
 	YoutubeMapper INSTANCE = Mappers.getMapper(YoutubeMapper.class);
-	
+
 	// ＦＯＲＭからＤＴＯへ変換
-    @Mapping(target = "startDate", source = "startDateFormat")
-    @Mapping(target = "endDate", source = "endDateFormat")
+	@Mapping(target = "startDate", source = "startDateFormat")
+	@Mapping(target = "endDate", source = "endDateFormat")
 	YoutubeReportSearchDto map(YoutubeReportSearchForm youtubeReportSearchForm);
-    YoutubeIssueDto map(YoutubeIssueinputForm youtubeIssueinputForm);
+
+	YoutubeIssueDto map(YoutubeIssueinputForm youtubeIssueinputForm);
 }

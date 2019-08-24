@@ -1,6 +1,5 @@
 package jp.acepro.haishinsan.service;
 
-import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.Collections;

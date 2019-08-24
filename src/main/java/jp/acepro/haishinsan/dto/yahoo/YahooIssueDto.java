@@ -57,7 +57,7 @@ public class YahooIssueDto {
 
 	// 画像名
 	String imageName;
-	
+
 	// 画像名リスト
 	List<String> imageNameList;
 

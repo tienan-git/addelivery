@@ -9,28 +9,28 @@ import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
 
 public interface TwitterReportingService {
 
-    //Batch : 全レポート取得
-    void getReport(LocalDate date);
-	
-	//デバイス別
+	// Batch : 全レポート取得
+	void getReport(LocalDate date);
+
+	// デバイス別
 	List<TwitterDisplayReportDto> getTwitterDeviceReporting(TwitterReportDto twitterReportDto);
-	
-	//地域別
+
+	// 地域別
 	List<TwitterDisplayReportDto> getTwitterRegionReporting(TwitterReportDto twitterReportDto);
-	
-	//日別
+
+	// 日別
 	List<TwitterDisplayReportDto> getTwitterDayReporting(TwitterReportDto twitterReportDto);
-	
-	//デバイス別 (グラフ用)
+
+	// デバイス別 (グラフ用)
 	TwitterGraphReportDto getTwitterDeviceReportingGraph(TwitterReportDto twitterReportDto);
-	
-	//地域別 (グラフ用)
+
+	// 地域別 (グラフ用)
 	TwitterGraphReportDto getTwitterRegionReportingGraph(TwitterReportDto twitterReportDto);
-		
-	//日別 (グラフ用)
+
+	// 日別 (グラフ用)
 	TwitterGraphReportDto getTwitterDayReportingGraph(TwitterReportDto twitterReportDto);
-	
-	//レポートダウンロード
+
+	// レポートダウンロード
 	String download(TwitterReportDto twitterReportDto);
-		
+
 }

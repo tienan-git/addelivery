@@ -17,17 +17,17 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class BaseEntity {
-    @Column(name = "created_at")
-    LocalDateTime createdAt;
-    @Column(name = "created_by")
-    String createdBy;
-    @Column(name = "updated_at")
-    LocalDateTime updatedAt;
-    @Column(name = "updated_by")
-    String updatedBy;
-    @Column(name = "is_actived")
-    Integer isActived;
-    @Version
-    @Column(name = "version_no")
-    Long versionNo;
+	@Column(name = "created_at")
+	LocalDateTime createdAt;
+	@Column(name = "created_by")
+	String createdBy;
+	@Column(name = "updated_at")
+	LocalDateTime updatedAt;
+	@Column(name = "updated_by")
+	String updatedBy;
+	@Column(name = "is_actived")
+	Integer isActived;
+	@Version
+	@Column(name = "version_no")
+	Long versionNo;
 }

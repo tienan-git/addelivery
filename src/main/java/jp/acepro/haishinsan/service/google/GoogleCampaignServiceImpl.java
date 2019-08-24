@@ -24,24 +24,17 @@ import jp.acepro.haishinsan.dao.GoogleCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
-import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
-import jp.acepro.haishinsan.dto.EmailCampDetailDto;
-import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
-import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
-import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
 import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
 import jp.acepro.haishinsan.enums.DeviceType;
-import jp.acepro.haishinsan.enums.EmailTemplateType;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.GoogleAdType;
-import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.GoogleIssueInputForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
@@ -70,7 +63,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	IssueDao issueDao;
 
 	@Autowired
-    IssueCustomDao issueCustomDao;
+	IssueCustomDao issueCustomDao;
 
 	@Autowired
 	GoogleCampaignManageDao googleCampaignManageDao;
@@ -111,7 +104,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// 例外処理
 		// 配信期間チェック
-		LocalDate startDate = LocalDate.parse(googleCampaignDto.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate startDate = LocalDate.parse(googleCampaignDto.getStartDate(),
+				DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate endDate = LocalDate.parse(googleCampaignDto.getEndDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		if (startDate.isAfter(endDate)) {
 			// 配信期間の開始日と終了日を確認してください。
@@ -196,7 +190,6 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			break;
 		}
 
-
 		googleCampaignManage.setCampaignId(addCampaign.newCampaign.getId());
 		googleCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
 		googleCampaignManage.setCampaignName(addCampaign.newCampaign.getName());
@@ -207,7 +200,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			// 営業チェックが必要無しの場合
 			googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
 		}
-		googleCampaignManage.setRegions(googleCampaignDto.getLocationList().toString().replace("[", "").replace("]", ""));
+		googleCampaignManage
+				.setRegions(googleCampaignDto.getLocationList().toString().replace("[", "").replace("]", ""));
 		googleCampaignManage.setAdType(googleCampaignDto.getAdType());
 		googleCampaignManage.setBudget(googleCampaignDto.getBudget());
 		googleCampaignManageDao.insert(googleCampaignManage);
@@ -275,9 +269,12 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// キャンペーン情報取得（DBから）
 		List<Issue> issueList = issueCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
-		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null).map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
-		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao.selectByCampaignManageIdList(campaignManageIdList);
-		List<Long> campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId()).collect(Collectors.toList());
+		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null)
+				.map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao
+				.selectByCampaignManageIdList(campaignManageIdList);
+		List<Long> campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId())
+				.collect(Collectors.toList());
 
 		if (campaignIdList.size() > 0) {
 
@@ -295,7 +292,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 				GoogleCampaignInfoDto googleCampaignInfoDto = new GoogleCampaignInfoDto();
 				Campaign campaign = new Campaign();
 				if (campaignList.size() > 0) {
-					campaign = campaignList.stream().filter(obj -> obj.getId().equals(googleCampaignManage.getCampaignId())).findFirst().get();
+					campaign = campaignList.stream()
+							.filter(obj -> obj.getId().equals(googleCampaignManage.getCampaignId())).findFirst().get();
 					googleCampaignInfoDto.setStartDate(campaign.getStartDate());
 					googleCampaignInfoDto.setEndDate(campaign.getEndDate());
 					googleCampaignInfoDto.setCampaignStatus(campaign.getStatus().toString());
@@ -482,7 +480,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		// DBから該当店舗所有するキャンペーンをすべて取得して、リストとして返却
 		return googleCampaignManageCustomDao.selectByShopIdAndAdType(ContextUtil.getCurrentShop().getShopId(), adType);
 	}
-	
+
 	@Override
 	@Transactional
 	public List<GoogleCampaignDto> campaignList(List<GoogleCampaignManage> googleCampaignManageList) {
@@ -512,7 +510,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		return googleCampaignDtoList;
 
 	}
-	
+
 	@Override
 	@Transactional
 	public Issue createIssue(GoogleIssueDto googleIssueDto) {
@@ -521,7 +519,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
 		issue.setGoogleCampaignManageId(googleIssueDto.getCampaignId());
 		issue.setCampaignName(googleIssueDto.getCampaignName());
-		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), googleIssueDto.getStartDate(), googleIssueDto.getEndDate()));
+		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), googleIssueDto.getStartDate(),
+				googleIssueDto.getEndDate()));
 		issue.setStartDate(googleIssueDto.getStartDate());
 		issue.setEndDate(googleIssueDto.getEndDate());
 		issue.setGoogleOnedayBudget(googleIssueDto.getBudget());
@@ -534,23 +533,22 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	@Override
 	@Transactional
 	public GoogleIssueDto mapToIssue(GoogleIssueInputForm googleIssueInputForm) {
-        if ( googleIssueInputForm == null ) {
-            return null;
-        }
+		if (googleIssueInputForm == null) {
+			return null;
+		}
 
-        GoogleIssueDto googleIssueDto = new GoogleIssueDto();
-        googleIssueDto.setCampaignName( googleIssueInputForm.getCampaignName() );
-        googleIssueDto.setBudget( googleIssueInputForm.getBudget() );
-        googleIssueDto.setEndDate( googleIssueInputForm.getEndDate() );
-        List<Long> list = googleIssueInputForm.getLocationList();
-        if ( list != null ) {
-        	googleIssueDto.setLocationList(       new ArrayList<Long>( list )
-            );
-        }
-        googleIssueDto.setStartDate( googleIssueInputForm.getStartDate() );
-        return googleIssueDto;
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleIssueInputForm.getCampaignName());
+		googleIssueDto.setBudget(googleIssueInputForm.getBudget());
+		googleIssueDto.setEndDate(googleIssueInputForm.getEndDate());
+		List<Long> list = googleIssueInputForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleIssueInputForm.getStartDate());
+		return googleIssueDto;
 	}
-	
+
 	// 地域を組み立てる
 	private String assembleLocationString(List<Long> locationList) {
 

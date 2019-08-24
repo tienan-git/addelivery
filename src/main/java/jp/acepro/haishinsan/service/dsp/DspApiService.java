@@ -10,30 +10,30 @@ import jp.acepro.haishinsan.dto.dsp.DspTemplateDto;
 
 public interface DspApiService {
 
-    DspToken getToken();
+	DspToken getToken();
 
-    DspTemplateDto createTemplate(DspTemplateDto dspTemplateDto);
+	DspTemplateDto createTemplate(DspTemplateDto dspTemplateDto);
 
-    List<DspTemplateDto> templateList();
+	List<DspTemplateDto> templateList();
 
-    DspTemplateDto templateDetail(Long templateId);
+	DspTemplateDto templateDetail(Long templateId);
 
-    void templateUpdate(DspTemplateDto dspTemplateDto);
+	void templateUpdate(DspTemplateDto dspTemplateDto);
 
-    DspTemplateDto templateDelete(Long templateId);
+	DspTemplateDto templateDelete(Long templateId);
 
-    void getDspCampaignReporting();
+	void getDspCampaignReporting();
 
-    List<DspReportingListDto> getDspReportingList(DspAdReportDto dspAdReportDto);
+	List<DspReportingListDto> getDspReportingList(DspAdReportDto dspAdReportDto);
 
-    DspReportingGraphDto getDspReportingGraph(DspAdReportDto dspAdReportDto);
+	DspReportingGraphDto getDspReportingGraph(DspAdReportDto dspAdReportDto);
 
-    DspReportingListDto getDspReportingSummary(DspAdReportDto dspAdReportDto);
+	DspReportingListDto getDspReportingSummary(DspAdReportDto dspAdReportDto);
 
-    void createDefaultTemplate(long shopId);
+	void createDefaultTemplate(long shopId);
 
-    String download(DspAdReportDto dspAdReportDto);
-    
-    DspTemplateDto getDefaultTemplate();
+	String download(DspAdReportDto dspAdReportDto);
+
+	DspTemplateDto getDefaultTemplate();
 
 }

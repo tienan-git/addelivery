@@ -187,13 +187,15 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 	public DspTemplateDto createTemplate(DspTemplateDto dspTemplateDto) {
 
 		// テンプレート名チェック
-		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(), ContextUtil.getCurrentShopId());
+		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(),
+				ContextUtil.getCurrentShopId());
 		if (existName != null) {
 			throw new BusinessException(ErrorCodeConstant.E30001);
 		}
 
 		// テンプレート優先順チェック
-		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(), ContextUtil.getCurrentShopId());
+		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(),
+				ContextUtil.getCurrentShopId());
 		if (existPriority != null) {
 			throw new BusinessException(ErrorCodeConstant.E30002);
 		}
@@ -250,13 +252,15 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 	public void templateUpdate(DspTemplateDto dspTemplateDto) {
 
 		// テンプレート名チェック
-		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(), ContextUtil.getCurrentShopId());
+		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(),
+				ContextUtil.getCurrentShopId());
 		if (existName != null && !existName.getTemplateId().equals(dspTemplateDto.getTemplateId())) {
 			throw new BusinessException(ErrorCodeConstant.E30001);
 		}
 
 		// テンプレート優先順チェック
-		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(), ContextUtil.getCurrentShopId());
+		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(),
+				ContextUtil.getCurrentShopId());
 		if (existPriority != null && !existPriority.getTemplateId().equals(dspTemplateDto.getTemplateId())) {
 			throw new BusinessException(ErrorCodeConstant.E30002);
 		}
@@ -348,14 +352,16 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		}
 
 		// システムDBに保存しているレポーティング情報を検索条件で削除する
-		List<DspReportManage> dspReportManageListForDelete = dspReportManageCustomDao.selectByCampaignIdsAndDate(campaignIds, startDate, endDate);
+		List<DspReportManage> dspReportManageListForDelete = dspReportManageCustomDao
+				.selectByCampaignIdsAndDate(campaignIds, startDate, endDate);
 		dspReportManageDao.delete(dspReportManageListForDelete);
 		// 取得した広告レポートを編集して、システムDBに保存する
 		List<DspReportManage> dspReportManageList = new ArrayList<DspReportManage>();
 		for (DspAdReportResDto dspAdReportResDto : dspAdReportRes.getResult()) {
 			// 今回で取得したキャンペーン
 			DspAdManage dspAdManage = dspAdManageCustomDao.selectByAdId(dspAdReportResDto.getAd_id());
-			DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(dspAdReportResDto.getCampaign_id(), shop.getDspUserId());
+			DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService
+					.getCampaignDetail(dspAdReportResDto.getCampaign_id(), shop.getDspUserId());
 			CreativeManage creativeManage = dspCreativeCustomDao.selectByCreativeId(dspAdManage.getCreativeId());
 			DspReportManage dspReportManage = new DspReportManage();
 			dspReportManage.setCampaignId(dspAdManage.getCampaignId());
@@ -420,7 +426,8 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 			price.add(longPrice.toString());
 			cpc.add(ReportUtil.calCpc(dspReportManage.getClickCount().longValue(), longPrice).toString());
 			cpm.add(ReportUtil.calCpm(dspReportManage.getImpressionCount().longValue(), longPrice).toString());
-			ctr.add(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(), dspReportManage.getImpressionCount().longValue() * 100).toString());
+			ctr.add(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(),
+					dspReportManage.getImpressionCount().longValue() * 100).toString());
 
 		}
 		// リストの名を付ける
@@ -481,7 +488,8 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 			dspReportingDto.setImpressionCount(dspReportManage.getImpressionCount());
 			dspReportingDto.setClickCount(dspReportManage.getClickCount());
 			dspReportingDto.setPrice(longPrice);
-			dspReportingDto.setCtr(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(), dspReportManage.getImpressionCount().longValue()));
+			dspReportingDto.setCtr(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(),
+					dspReportManage.getImpressionCount().longValue()));
 			dspReportingDto.setCpc(ReportUtil.calCpc(dspReportManage.getClickCount().longValue(), longPrice));
 			dspReportingDto.setCpm(ReportUtil.calCpm(dspReportManage.getImpressionCount().longValue(), longPrice));
 			dspReportingDtoList.add(dspReportingDto);

@@ -16,5 +16,5 @@ public class FbReportInputForm {
 	String campaignId;
 	String startDate;
 	String endDate;
-	
+
 }

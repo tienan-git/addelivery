@@ -51,12 +51,13 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 	public List<DspCreativeDto> creativeList() {
 
 		// ShopIdでCreative情報取得
-		List<CreativeManage> creativeManageList = dspCreativeCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
+		List<CreativeManage> creativeManageList = dspCreativeCustomDao
+				.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 		// DBでクリエイティブ情報を取得できなかったの場合、NULLを返却する
 		if (creativeManageList == null || creativeManageList.size() == 0) {
 			return null;
 		}
-		
+
 		// Token取得
 		DspToken dspToken = dspApiService.getToken();
 
@@ -81,7 +82,8 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		// Creativeリスト 取得
 		DspCreativeListRes dspCreativeListResList = null;
 		try {
-			dspCreativeListResList = call(resource, HttpMethod.POST, dspCreativeListReq, null, DspCreativeListRes.class);
+			dspCreativeListResList = call(resource, HttpMethod.POST, dspCreativeListReq, null,
+					DspCreativeListRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:クリエイティブリスト取得エラー、リクエストボディー:{}", dspCreativeListReq);
 			e.printStackTrace();
@@ -129,7 +131,8 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 
 		DspCreateCreativeRes dspCreateCreativeRes = null;
 		try {
-			dspCreateCreativeRes = call(resource, HttpMethod.POST, dspCreateCreativeReq, null, DspCreateCreativeRes.class);
+			dspCreateCreativeRes = call(resource, HttpMethod.POST, dspCreateCreativeReq, null,
+					DspCreateCreativeRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:クリエイティブを作成エラー、リクエストボディー:{}", dspCreateCreativeReq);
 			e.printStackTrace();
@@ -148,7 +151,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		newDspCreativeDto.setCreativeId(dspCreateCreativeRes.getId());
 		newDspCreativeDto.setCreativeName(dspCreateCreativeRes.getName());
 		newDspCreativeDto.setUrl(dspCreateCreativeRes.getSrc());
-		
+
 		return dspCreativeDto;
 	}
 
@@ -174,7 +177,8 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		// CreativeIdで クリエイティブ情報取得
 		DspCreativeListRes dspCreativeListRes = null;
 		try {
-			dspCreativeListRes = call(creativeResource, HttpMethod.POST, dspCreativeListReq, null, DspCreativeListRes.class);
+			dspCreativeListRes = call(creativeResource, HttpMethod.POST, dspCreativeListReq, null,
+					DspCreativeListRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:クリエイティブ詳細を取得エラー、リクエストボディー:{}", dspCreativeListReq);
 			e.printStackTrace();
@@ -185,7 +189,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		dspCreativeDto.setCreativeId(dspCreativeListRes.getResult().get(0).getId());
 		dspCreativeDto.setCreativeName(dspCreativeListRes.getResult().get(0).getName());
 		dspCreativeDto.setUrl(dspCreativeListRes.getResult().get(0).getSrc());
-		
+
 		return dspCreativeDto;
 	}
 
@@ -203,7 +207,8 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 	public List<DspCreativeDto> creativeListFromDb() {
 
 		// ShopIdでDBからCreative情報取得
-		List<CreativeManage> creativeManageList = dspCreativeCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
+		List<CreativeManage> creativeManageList = dspCreativeCustomDao
+				.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 		List<DspCreativeDto> dspCreativeDtoList = new ArrayList<DspCreativeDto>();
 		for (CreativeManage dreativeManage : creativeManageList) {
 			DspCreativeDto dspCreativeDto = new DspCreativeDto();
@@ -213,15 +218,14 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 			dspCreativeDto.setUrl(dreativeManage.getUrl());
 			dspCreativeDtoList.add(dspCreativeDto);
 		}
-		
+
 		return dspCreativeDtoList;
 	}
 
 	@Override
 	@Transactional
 	public List<DspCreativeDto> selectCreativeByIdList(List<Integer> idList) {
-		
-		
+
 		return null;
 	}
 }

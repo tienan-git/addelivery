@@ -21,22 +21,22 @@ import lombok.Data;
 @Data
 public class CorporationWithAgency extends BaseEntity {
 
-    /** 法人ID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "corporation_id")
-    Long corporationId;
-    
-    /** 法人名 */
-    @Column(name = "corporation_name")
-    String corporationName;
+	/** 法人ID */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "corporation_id")
+	Long corporationId;
 
-    /** 代理店ID */
-    @Column(name = "agency_id")
-    Long agencyId;
-    
-    /** 代理店名 */
-    @Column(name = "agency_name")
-    String agencyName;
-  
+	/** 法人名 */
+	@Column(name = "corporation_name")
+	String corporationName;
+
+	/** 代理店ID */
+	@Column(name = "agency_id")
+	Long agencyId;
+
+	/** 代理店名 */
+	@Column(name = "agency_name")
+	String agencyName;
+
 }

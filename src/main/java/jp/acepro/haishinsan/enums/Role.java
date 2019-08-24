@@ -7,13 +7,7 @@ package jp.acepro.haishinsan.enums;
  */
 public enum Role implements CodeEnum<Integer> {
 
-	ADMIN(9, "管理"), 
-	CORPORATION(3, "法人"),
-	SHOP(2, "店舗"),
-	USER(1, "ユーザ"),
-	AGENCY(4, "代理店"),
-	SALES(8, "営業");
-
+	ADMIN(9, "管理"), CORPORATION(3, "法人"), SHOP(2, "店舗"), USER(1, "ユーザ"), AGENCY(4, "代理店"), SALES(8, "営業");
 
 	private Role(Integer value, String label) {
 		this.value = value;

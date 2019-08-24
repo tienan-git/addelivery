@@ -6,7 +6,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReportingJobsRes {
-	
+
 	TwitterReportingJobs data;
-	
+
 }

@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller.google;
+package jp.acepro.haishinsan.controller.template;
 
 import java.util.List;
 
@@ -31,7 +31,7 @@ import jp.acepro.haishinsan.service.google.GoogleTemplateService;
 import jp.acepro.haishinsan.util.ContextUtil;
 
 @Controller
-@RequestMapping("/google")
+@RequestMapping("/template/google")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class GoogleTemplateController {
 
@@ -102,7 +102,8 @@ public class GoogleTemplateController {
 		modelAndView.addObject("googleTemplateDto", googleTemplateDto);
 
 		// オペレーションログ記録
-		operationService.create(Operation.GOOGLE_TEMPLATE_CREATE.getValue(), String.valueOf(googleTemplateDto.getTemplateId()));
+		operationService.create(Operation.GOOGLE_TEMPLATE_CREATE.getValue(),
+				String.valueOf(googleTemplateDto.getTemplateId()));
 		return modelAndView;
 	}
 
@@ -114,7 +115,8 @@ public class GoogleTemplateController {
 		getGoogleAreaList();
 
 		// テンプレートを検索
-		List<GoogleTemplateDto> googleTemplateDtoList = googleTemplateService.getTemplateList(ContextUtil.getCurrentShop().getShopId());
+		List<GoogleTemplateDto> googleTemplateDtoList = googleTemplateService
+				.getTemplateList(ContextUtil.getCurrentShop().getShopId());
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
@@ -194,7 +196,8 @@ public class GoogleTemplateController {
 		modelAndView.addObject("googleTemplateDto", googleTemplateDto);
 
 		// オペレーションログ記録
-		operationService.create(Operation.GOOGLE_TEMPLATE_UPDATE.getValue(), String.valueOf(googleTemplateForm.getTemplateId()));
+		operationService.create(Operation.GOOGLE_TEMPLATE_UPDATE.getValue(),
+				String.valueOf(googleTemplateForm.getTemplateId()));
 		return modelAndView;
 	}
 

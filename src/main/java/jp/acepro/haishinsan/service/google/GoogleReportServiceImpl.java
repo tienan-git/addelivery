@@ -132,7 +132,9 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		if (googleDeviceReportDtoList.size() > 0) {
 			for (GoogleDeviceReportDto googleDeviceReportDto : googleDeviceReportDtoList) {
 				GoogleDeviceReport googleDeviceReportOld = new GoogleDeviceReport();
-				googleDeviceReportOld = googleDeviceReportCustomDao.selectForUpdate(googleDeviceReportDto.getCampaignId(), googleDeviceReportDto.getDate(), googleDeviceReportDto.getDeviceType());
+				googleDeviceReportOld = googleDeviceReportCustomDao.selectForUpdate(
+						googleDeviceReportDto.getCampaignId(), googleDeviceReportDto.getDate(),
+						googleDeviceReportDto.getDeviceType());
 				if (googleDeviceReportOld != null) {
 					// 既存更新
 					googleDeviceReportOld.setCampaignName(googleDeviceReportDto.getCampaignName());
@@ -158,7 +160,9 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		if (googleLocationReportDtoList.size() > 0) {
 			for (GoogleLocationReportDto googleLocationReportDto : googleLocationReportDtoList) {
 				GoogleLocationReport googleLocationReportOld = new GoogleLocationReport();
-				googleLocationReportOld = googleLocationReportCustomDao.selectForUpdate(googleLocationReportDto.getCampaignId(), googleLocationReportDto.getDate(), googleLocationReportDto.getLocationId());
+				googleLocationReportOld = googleLocationReportCustomDao.selectForUpdate(
+						googleLocationReportDto.getCampaignId(), googleLocationReportDto.getDate(),
+						googleLocationReportDto.getLocationId());
 				if (googleLocationReportOld != null) {
 					// 既存更新
 					googleLocationReportOld.setCampaignName(googleLocationReportDto.getCampaignName());
@@ -206,7 +210,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 //		}
 
 		// 表示対象キャンペーンのレポート情報を取得
-		List<GoogleDeviceReport> googleDeviceReportList = googleDeviceReportCustomDao.selectDeviceReport(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
+		List<GoogleDeviceReport> googleDeviceReportList = googleDeviceReportCustomDao.selectDeviceReport(campaignIdList,
+				googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのレポート情報を作成
 		List<GoogleReportDisplayDto> googleReportDisplayDtoList = new ArrayList<GoogleReportDisplayDto>();
@@ -216,12 +221,14 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				googleReportDisplayDto.setCampaignId(String.valueOf(googleDeviceReport.getCampaignId()));
 				googleReportDisplayDto.setCampaignName(googleDeviceReport.getCampaignName());
 				googleReportDisplayDto.setDeviceType(googleDeviceReport.getDeviceType());
-				googleReportDisplayDto.setDeviceName(GoogleDeviceType.of(googleDeviceReport.getDeviceType()).getLabel());
+				googleReportDisplayDto
+						.setDeviceName(GoogleDeviceType.of(googleDeviceReport.getDeviceType()).getLabel());
 				googleReportDisplayDto.setImpressions(googleDeviceReport.getImpressions());
 				googleReportDisplayDto.setClicks(googleDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(googleDeviceReport.getCosts());
 				googleReportDisplayDto.setCosts(displayCosts);
-				googleReportDisplayDto.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
+				googleReportDisplayDto
+						.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
 				googleReportDisplayDto.setCpc(ReportUtil.calCpc(googleDeviceReport.getClicks(), displayCosts));
 				googleReportDisplayDto.setCpm(ReportUtil.calCpm(googleDeviceReport.getImpressions(), displayCosts));
 				googleReportDisplayDtoList.add(googleReportDisplayDto);
@@ -231,7 +238,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		googleReportDto.setGoogleReportDisplayDtoList(addTotal(googleReportDisplayDtoList));
 
 		// 表示対象キャンペーンのグラフ情報を取得
-		List<GoogleDeviceReport> googleGraphList = googleDeviceReportCustomDao.selectDeviceGraph(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
+		List<GoogleDeviceReport> googleGraphList = googleDeviceReportCustomDao.selectDeviceGraph(campaignIdList,
+				googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのグラフ情報を作成
 		List<GoogleReportDisplayDto> googleReportGraphDtoList = new ArrayList<GoogleReportDisplayDto>();
@@ -239,12 +247,14 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 			for (GoogleDeviceReport googleDeviceReport : googleGraphList) {
 				GoogleReportDisplayDto googleReportDisplayDto = new GoogleReportDisplayDto();
 				googleReportDisplayDto.setDeviceType(googleDeviceReport.getDeviceType());
-				googleReportDisplayDto.setDeviceName(GoogleDeviceType.of(googleDeviceReport.getDeviceType()).getLabel());
+				googleReportDisplayDto
+						.setDeviceName(GoogleDeviceType.of(googleDeviceReport.getDeviceType()).getLabel());
 				googleReportDisplayDto.setImpressions(googleDeviceReport.getImpressions());
 				googleReportDisplayDto.setClicks(googleDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(googleDeviceReport.getCosts());
 				googleReportDisplayDto.setCosts(displayCosts);
-				googleReportDisplayDto.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
+				googleReportDisplayDto
+						.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
 				googleReportDisplayDto.setCpc(ReportUtil.calCpc(googleDeviceReport.getClicks(), displayCosts));
 				googleReportDisplayDto.setCpm(ReportUtil.calCpm(googleDeviceReport.getImpressions(), displayCosts));
 				googleReportGraphDtoList.add(googleReportDisplayDto);
@@ -273,7 +283,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		}
 
 		// 選択した地域IDを取得(campaignId-locationId)
-		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao.selectByCampaignList(campaignIdList);
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao
+				.selectByCampaignList(campaignIdList);
 		List<String> locationIds = new ArrayList<String>();
 		for (GoogleCampaignManage googleCampaignManage : googleCampaignManageList) {
 			StringTokenizer st = new StringTokenizer(googleCampaignManage.getRegions(), ", ");
@@ -290,7 +301,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 //		}
 
 		// 表示対象キャンペーンのレポート情報を取得
-		List<GoogleLocationReport> googleLocationReportList = googleLocationReportCustomDao.selectLocationReport(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
+		List<GoogleLocationReport> googleLocationReportList = googleLocationReportCustomDao.selectLocationReport(
+				campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
 		List<GoogleReportDisplayDto> googleReportDisplayDtoList = new ArrayList<GoogleReportDisplayDto>();
 		GoogleReportDisplayDto otherDto = null;
 		if (googleLocationReportList.size() > 0) {
@@ -300,9 +312,11 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				if (CodeMasterServiceImpl.googleAreaNameList == null) {
 					codeMasterService.getGoogleAreaList();
 				}
-				Optional<Pair<Long, String>> locationPair = CodeMasterServiceImpl.googleAreaNameList.stream().filter(obj -> obj.getFirst().equals(locationId)).findFirst();
+				Optional<Pair<Long, String>> locationPair = CodeMasterServiceImpl.googleAreaNameList.stream()
+						.filter(obj -> obj.getFirst().equals(locationId)).findFirst();
 				String locationName = null;
-				if (locationPair.isPresent() && locationIds.contains(googleLocationReport.getCampaignId() + "-" + googleLocationReport.getLocationId())) {
+				if (locationPair.isPresent() && locationIds
+						.contains(googleLocationReport.getCampaignId() + "-" + googleLocationReport.getLocationId())) {
 					locationName = locationPair.get().getSecond();
 					Long displayCosts = ReportUtil.calDisplaySpend(googleLocationReport.getCosts());
 					GoogleReportDisplayDto googleReportDisplayDto = new GoogleReportDisplayDto();
@@ -313,12 +327,16 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 					googleReportDisplayDto.setImpressions(googleLocationReport.getImpressions());
 					googleReportDisplayDto.setClicks(googleLocationReport.getClicks());
 					googleReportDisplayDto.setCosts(displayCosts);
-					googleReportDisplayDto.setCtr(ReportUtil.calCtr(googleReportDisplayDto.getClicks(), googleReportDisplayDto.getImpressions()));
-					googleReportDisplayDto.setCpc(ReportUtil.calCpc(googleReportDisplayDto.getClicks(), googleReportDisplayDto.getCosts()));
-					googleReportDisplayDto.setCpm(ReportUtil.calCpm(googleReportDisplayDto.getImpressions(), googleReportDisplayDto.getCosts()));
+					googleReportDisplayDto.setCtr(ReportUtil.calCtr(googleReportDisplayDto.getClicks(),
+							googleReportDisplayDto.getImpressions()));
+					googleReportDisplayDto.setCpc(
+							ReportUtil.calCpc(googleReportDisplayDto.getClicks(), googleReportDisplayDto.getCosts()));
+					googleReportDisplayDto.setCpm(ReportUtil.calCpm(googleReportDisplayDto.getImpressions(),
+							googleReportDisplayDto.getCosts()));
 					googleReportDisplayDtoList.add(googleReportDisplayDto);
 				} else {
-					if (otherDto == null || !otherDto.getCampaignId().equals(googleLocationReport.getCampaignId().toString())) {
+					if (otherDto == null
+							|| !otherDto.getCampaignId().equals(googleLocationReport.getCampaignId().toString())) {
 						otherDto = new GoogleReportDisplayDto();
 						otherDto.setCampaignId(String.valueOf(googleLocationReport.getCampaignId()));
 						otherDto.setCampaignName(googleLocationReport.getCampaignName());
@@ -334,7 +352,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 					} else {
 						otherDto.setImpressions(otherDto.getImpressions() + googleLocationReport.getImpressions());
 						otherDto.setClicks(otherDto.getClicks() + googleLocationReport.getClicks());
-						otherDto.setCosts(otherDto.getCosts() + ReportUtil.calDisplaySpend(googleLocationReport.getCosts()));
+						otherDto.setCosts(
+								otherDto.getCosts() + ReportUtil.calDisplaySpend(googleLocationReport.getCosts()));
 						otherDto.setCtr(ReportUtil.calCtr(otherDto.getClicks(), otherDto.getImpressions()));
 						otherDto.setCpc(ReportUtil.calCpc(otherDto.getClicks(), otherDto.getCosts()));
 						otherDto.setCpm(ReportUtil.calCpm(otherDto.getImpressions(), otherDto.getCosts()));
@@ -342,20 +361,27 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				}
 			}
 		}
-		Map<String, List<GoogleReportDisplayDto>> grpForGraph = googleReportDisplayDtoList.stream().collect(Collectors.groupingBy(GoogleReportDisplayDto::getLocationName));
+		Map<String, List<GoogleReportDisplayDto>> grpForGraph = googleReportDisplayDtoList.stream()
+				.collect(Collectors.groupingBy(GoogleReportDisplayDto::getLocationName));
 		List<GoogleReportDisplayDto> googleReportGraphDtoList = new ArrayList<GoogleReportDisplayDto>();
 		for (String mapKey : grpForGraph.keySet()) {
 			GoogleReportDisplayDto newGoogleReportDisplayDto = new GoogleReportDisplayDto();
 			newGoogleReportDisplayDto.setLocationName(mapKey);
 			googleReportGraphDtoList.add(newGoogleReportDisplayDto);
 			for (GoogleReportDisplayDto googleReportDisplayDto : grpForGraph.get(mapKey)) {
-				newGoogleReportDisplayDto.setImpressions(newGoogleReportDisplayDto.getImpressions() + googleReportDisplayDto.getImpressions());
-				newGoogleReportDisplayDto.setClicks(newGoogleReportDisplayDto.getClicks() + googleReportDisplayDto.getClicks());
-				newGoogleReportDisplayDto.setCosts(newGoogleReportDisplayDto.getCosts() + googleReportDisplayDto.getCosts());
+				newGoogleReportDisplayDto.setImpressions(
+						newGoogleReportDisplayDto.getImpressions() + googleReportDisplayDto.getImpressions());
+				newGoogleReportDisplayDto
+						.setClicks(newGoogleReportDisplayDto.getClicks() + googleReportDisplayDto.getClicks());
+				newGoogleReportDisplayDto
+						.setCosts(newGoogleReportDisplayDto.getCosts() + googleReportDisplayDto.getCosts());
 			}
-			newGoogleReportDisplayDto.setCtr(ReportUtil.calCtr(newGoogleReportDisplayDto.getClicks(), newGoogleReportDisplayDto.getImpressions()));
-			newGoogleReportDisplayDto.setCpc(ReportUtil.calCpc(newGoogleReportDisplayDto.getClicks(), newGoogleReportDisplayDto.getCosts()));
-			newGoogleReportDisplayDto.setCpm(ReportUtil.calCpm(newGoogleReportDisplayDto.getImpressions(), newGoogleReportDisplayDto.getCosts()));
+			newGoogleReportDisplayDto.setCtr(ReportUtil.calCtr(newGoogleReportDisplayDto.getClicks(),
+					newGoogleReportDisplayDto.getImpressions()));
+			newGoogleReportDisplayDto.setCpc(
+					ReportUtil.calCpc(newGoogleReportDisplayDto.getClicks(), newGoogleReportDisplayDto.getCosts()));
+			newGoogleReportDisplayDto.setCpm(ReportUtil.calCpm(newGoogleReportDisplayDto.getImpressions(),
+					newGoogleReportDisplayDto.getCosts()));
 		}
 
 		googleReportDto.setGoogleReportDisplayDtoList(addTotal(googleReportDisplayDtoList));
@@ -388,7 +414,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 //		}
 
 		// 表示対象キャンペーンのレポート情報を取得
-		List<GoogleDeviceReport> googleDeviceReportList = googleDeviceReportCustomDao.selectDailyReport(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
+		List<GoogleDeviceReport> googleDeviceReportList = googleDeviceReportCustomDao.selectDailyReport(campaignIdList,
+				googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのレポート情報を作成
 		List<GoogleReportDisplayDto> googleReportDisplayDtoList = new ArrayList<GoogleReportDisplayDto>();
@@ -403,7 +430,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				googleReportDisplayDto.setClicks(googleDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(googleDeviceReport.getCosts());
 				googleReportDisplayDto.setCosts(displayCosts);
-				googleReportDisplayDto.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
+				googleReportDisplayDto
+						.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
 				googleReportDisplayDto.setCpc(ReportUtil.calCpc(googleDeviceReport.getClicks(), displayCosts));
 				googleReportDisplayDto.setCpm(ReportUtil.calCpm(googleDeviceReport.getImpressions(), displayCosts));
 				googleReportDisplayDtoList.add(googleReportDisplayDto);
@@ -413,7 +441,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		googleReportDto.setGoogleReportDisplayDtoList(addTotal(googleReportDisplayDtoList));
 
 		// 表示対象キャンペーンのグラフ情報を取得
-		List<GoogleDeviceReport> googleGraphList = googleDeviceReportCustomDao.selectDailyGraph(campaignIdList, googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
+		List<GoogleDeviceReport> googleGraphList = googleDeviceReportCustomDao.selectDailyGraph(campaignIdList,
+				googleReportSearchDto.getStartDate(), googleReportSearchDto.getEndDate());
 
 		// 表示対象キャンペーンのグラフ情報を作成
 		List<GoogleReportDisplayDto> googleReportGraphDtoList = new ArrayList<GoogleReportDisplayDto>();
@@ -428,7 +457,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				googleReportDisplayDto.setClicks(googleDeviceReport.getClicks());
 				Long displayCosts = ReportUtil.calDisplaySpend(googleDeviceReport.getCosts());
 				googleReportDisplayDto.setCosts(displayCosts);
-				googleReportDisplayDto.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
+				googleReportDisplayDto
+						.setCtr(ReportUtil.calCtr(googleDeviceReport.getClicks(), googleDeviceReport.getImpressions()));
 				googleReportDisplayDto.setCpc(ReportUtil.calCpc(googleDeviceReport.getClicks(), displayCosts));
 				googleReportDisplayDto.setCpm(ReportUtil.calCpm(googleDeviceReport.getImpressions(), displayCosts));
 				googleReportGraphDtoList.add(googleReportDisplayDto);
@@ -453,7 +483,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		// 書き出し処理
 		switch (ReportType.of(googleReportSearchDto.getReportType())) {
 		case DEVICE:
-			List<GoogleReportDisplayDto> deviceDtoList = showDeviceReport(googleReportSearchDto).getGoogleReportDisplayDtoList();
+			List<GoogleReportDisplayDto> deviceDtoList = showDeviceReport(googleReportSearchDto)
+					.getGoogleReportDisplayDtoList();
 			List<GoogleDeviceReportCsvBean> googleDeviceReportCsvBeanList = new ArrayList<GoogleDeviceReportCsvBean>();
 			for (GoogleReportDisplayDto googleReportDisplayDto : deviceDtoList) {
 				GoogleDeviceReportCsvBean googleDeviceReportCsvBean = new GoogleDeviceReportCsvBean();
@@ -469,7 +500,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				googleDeviceReportCsvBeanList.add(googleDeviceReportCsvBean);
 			}
 
-			BeanWriterProcessor<GoogleDeviceReportCsvBean> deviceWriterProcessor = new BeanWriterProcessor<>(GoogleDeviceReportCsvBean.class);
+			BeanWriterProcessor<GoogleDeviceReportCsvBean> deviceWriterProcessor = new BeanWriterProcessor<>(
+					GoogleDeviceReportCsvBean.class);
 			settings.setHeaders(GoogleDeviceReportCsvBean.columnName);
 			settings.setRowWriterProcessor(deviceWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -477,7 +509,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 			writer.processRecordsAndClose(googleDeviceReportCsvBeanList);
 			break;
 		case REGIONS:
-			List<GoogleReportDisplayDto> locationDtoList = showLocationReport(googleReportSearchDto).getGoogleReportDisplayDtoList();
+			List<GoogleReportDisplayDto> locationDtoList = showLocationReport(googleReportSearchDto)
+					.getGoogleReportDisplayDtoList();
 			List<GoogleLocationReportCsvBean> googleLocationReportCsvBeanList = new ArrayList<GoogleLocationReportCsvBean>();
 			for (GoogleReportDisplayDto googleReportDisplayDto : locationDtoList) {
 				GoogleLocationReportCsvBean googleLocationReportCsvBean = new GoogleLocationReportCsvBean();
@@ -493,7 +526,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				googleLocationReportCsvBeanList.add(googleLocationReportCsvBean);
 			}
 
-			BeanWriterProcessor<GoogleLocationReportCsvBean> locationWriterProcessor = new BeanWriterProcessor<>(GoogleLocationReportCsvBean.class);
+			BeanWriterProcessor<GoogleLocationReportCsvBean> locationWriterProcessor = new BeanWriterProcessor<>(
+					GoogleLocationReportCsvBean.class);
 			settings.setHeaders(GoogleLocationReportCsvBean.columnName);
 			settings.setRowWriterProcessor(locationWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -501,7 +535,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 			writer.processRecordsAndClose(googleLocationReportCsvBeanList);
 			break;
 		case DATE:
-			List<GoogleReportDisplayDto> dateDtoList = showDailyReport(googleReportSearchDto).getGoogleReportDisplayDtoList();
+			List<GoogleReportDisplayDto> dateDtoList = showDailyReport(googleReportSearchDto)
+					.getGoogleReportDisplayDtoList();
 			List<GoogleDateReportCsvBean> googleDateReportCsvBeanList = new ArrayList<GoogleDateReportCsvBean>();
 			for (GoogleReportDisplayDto googleReportDisplayDto : dateDtoList) {
 				GoogleDateReportCsvBean googleDateReportCsvBean = new GoogleDateReportCsvBean();
@@ -517,7 +552,8 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 				googleDateReportCsvBeanList.add(googleDateReportCsvBean);
 			}
 
-			BeanWriterProcessor<GoogleDateReportCsvBean> dateWriterProcessor = new BeanWriterProcessor<>(GoogleDateReportCsvBean.class);
+			BeanWriterProcessor<GoogleDateReportCsvBean> dateWriterProcessor = new BeanWriterProcessor<>(
+					GoogleDateReportCsvBean.class);
 			settings.setHeaders(GoogleDateReportCsvBean.columnName);
 			settings.setRowWriterProcessor(dateWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -578,11 +614,14 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		List<Issue> issueList = issueCustomDao.selectByShopId(shopId);
 		if (issueList.size() > 0) {
 			// 店舗案件存在する場合
-			List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null).map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
+			List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null)
+					.map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
 			if (campaignManageIdList.size() > 0) {
 				// Googleキャンペーン存在する場合
-				List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao.selectByCampaignManageIdList(campaignManageIdList);
-				campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId()).collect(Collectors.toList());
+				List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao
+						.selectByCampaignManageIdList(campaignManageIdList);
+				campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId())
+						.collect(Collectors.toList());
 			}
 		}
 		return campaignIdList;

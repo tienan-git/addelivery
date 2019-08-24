@@ -12,15 +12,15 @@ import jp.acepro.haishinsan.db.entity.TwitterTemplate;
 @InjectConfig
 public interface TwitterTemplateCustomDao {
 
-	//すべてのテンプレートを検索
+	// すべてのテンプレートを検索
 	@Select
 	List<TwitterTemplate> selectAll(long shopId);
-	
-	//テンプレート名で検索
+
+	// テンプレート名で検索
 	@Select
-	TwitterTemplate selectByName(String templateName,long shopId);
-	
-	//テンプレート優先度で検索
+	TwitterTemplate selectByName(String templateName, long shopId);
+
+	// テンプレート優先度で検索
 	@Select
-	TwitterTemplate selectByPriority(Integer templatePriority,long shopId);
+	TwitterTemplate selectByPriority(Integer templatePriority, long shopId);
 }

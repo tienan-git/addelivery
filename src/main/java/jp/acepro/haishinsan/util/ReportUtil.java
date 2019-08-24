@@ -13,7 +13,7 @@ public class ReportUtil {
 	 * 
 	 */
 	public static String calCtr(Long clicks, Long impressions) {
-		if (clicks == null || impressions == null ) {
+		if (clicks == null || impressions == null) {
 			return "0";
 		}
 		if (impressions == 0) {
@@ -21,11 +21,12 @@ public class ReportUtil {
 		}
 		BigDecimal clicksBigDecimal = BigDecimal.valueOf(clicks);
 		BigDecimal impressionsBigDecimal = BigDecimal.valueOf(impressions);
-		BigDecimal ctr = BigDecimal.valueOf(100).multiply(clicksBigDecimal).divide(impressionsBigDecimal, 2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal ctr = BigDecimal.valueOf(100).multiply(clicksBigDecimal).divide(impressionsBigDecimal, 2,
+				BigDecimal.ROUND_HALF_UP);
 		return ctr.toPlainString();
 
 	}
-	
+
 	/**
 	 * CPC(Cost Per Click)の計算
 	 * 
@@ -35,7 +36,7 @@ public class ReportUtil {
 	 * 
 	 */
 	public static Integer calCpc(Long clicks, Long spend) {
-		if (clicks == null || spend == null ) {
+		if (clicks == null || spend == null) {
 			return 0;
 		}
 		if (clicks == 0) {
@@ -47,7 +48,7 @@ public class ReportUtil {
 		return cpc.intValue();
 
 	}
-	
+
 	/**
 	 * CPM(Cost Per Mille)の計算
 	 * 
@@ -57,7 +58,7 @@ public class ReportUtil {
 	 * 
 	 */
 	public static Integer calCpm(Long impressions, Long spend) {
-		if (impressions == null || spend == null ) {
+		if (impressions == null || spend == null) {
 			return 0;
 		}
 		if (impressions == 0) {
@@ -66,11 +67,12 @@ public class ReportUtil {
 		BigDecimal thoundBigDecimal = BigDecimal.valueOf(1000);
 		BigDecimal impressionsBigDecimal = BigDecimal.valueOf(impressions);
 		BigDecimal spendBigDecimal = BigDecimal.valueOf(spend);
-		BigDecimal cpm = thoundBigDecimal.multiply(spendBigDecimal).divide(impressionsBigDecimal, 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal cpm = thoundBigDecimal.multiply(spendBigDecimal).divide(impressionsBigDecimal, 0,
+				BigDecimal.ROUND_HALF_UP);
 		return cpm.intValue();
 
 	}
-	
+
 	/**
 	 * 視聴率の計算(%表示)
 	 * 
@@ -80,8 +82,8 @@ public class ReportUtil {
 	 * 
 	 */
 	public static String calVideoViewRate(Long videoViews, Long impressions) {
-		
-		if (videoViews == null || impressions == null ) {
+
+		if (videoViews == null || impressions == null) {
 			return "0";
 		}
 		if (impressions == 0) {
@@ -89,10 +91,11 @@ public class ReportUtil {
 		}
 		BigDecimal videoViewsBigDecimal = BigDecimal.valueOf(videoViews);
 		BigDecimal impressionsBigDecimal = BigDecimal.valueOf(impressions);
-		BigDecimal videoViewRate = BigDecimal.valueOf(100).multiply(videoViewsBigDecimal).divide(impressionsBigDecimal, 2, BigDecimal.ROUND_HALF_UP);
+		BigDecimal videoViewRate = BigDecimal.valueOf(100).multiply(videoViewsBigDecimal).divide(impressionsBigDecimal,
+				2, BigDecimal.ROUND_HALF_UP);
 		return videoViewRate.toPlainString();
 	}
-	
+
 	/**
 	 * 視聴単価の計算
 	 * 
@@ -102,8 +105,8 @@ public class ReportUtil {
 	 * 
 	 */
 	public static Integer calAvgCpc(Long videoViews, Long spend) {
-		
-		if (videoViews == null || spend == null ) {
+
+		if (videoViews == null || spend == null) {
 			return 0;
 		}
 		if (videoViews == 0) {
@@ -114,7 +117,7 @@ public class ReportUtil {
 		BigDecimal avgCpc = spendBigDecimal.divide(videoViewsBigDecimal, 0, BigDecimal.ROUND_HALF_UP);
 		return avgCpc.intValue();
 	}
-	
+
 	/**
 	 * マージン率により、APIで取得した実際費用から、レポート画面表示時の表示費用を算出
 	 * 
@@ -123,7 +126,7 @@ public class ReportUtil {
 	 * 
 	 */
 	public static Long calDisplaySpend(Double realSpend) {
-		
+
 		// レアケース対応
 		if (realSpend == null) {
 			return 0l;
@@ -133,7 +136,8 @@ public class ReportUtil {
 		}
 
 		// 表示費用 = 実際費用 * 100 / (100 - マージン率)
-		BigDecimal displaySpendBigDecimal = BigDecimal.valueOf(realSpend).multiply(BigDecimal.valueOf(100)).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()), 0, BigDecimal.ROUND_HALF_UP);
+		BigDecimal displaySpendBigDecimal = BigDecimal.valueOf(realSpend).multiply(BigDecimal.valueOf(100)).divide(
+				BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()), 0, BigDecimal.ROUND_HALF_UP);
 		Double displaySpend = displaySpendBigDecimal.doubleValue();
 		return displaySpend.longValue();
 	}

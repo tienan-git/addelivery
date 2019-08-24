@@ -10,10 +10,8 @@ public class DateUtil {
 	/**
 	 * 2つの日付の差を求めます。 日付文字列 fromDate から toDate までが何日かを返します。
 	 * 
-	 * @param fromDate
-	 *            日付文字列 yyyy-MM-dd
-	 * @param toDate
-	 *            日付文字列 yyyy-MM-dd
+	 * @param fromDate 日付文字列 yyyy-MM-dd
+	 * @param toDate   日付文字列 yyyy-MM-dd
 	 * @return 経過日数
 	 * 
 	 */
@@ -30,10 +28,8 @@ public class DateUtil {
 	/**
 	 * 2つの日付の差を求めます。 日付文字列 fromDate から toDate までが何日かを返します。
 	 * 
-	 * @param fromDate
-	 *            日付文字列 yyyyMMdd
-	 * @param toDate
-	 *            日付文字列 yyyyMMdd
+	 * @param fromDate 日付文字列 yyyyMMdd
+	 * @param toDate   日付文字列 yyyyMMdd
 	 * @return 経過日数
 	 * 
 	 */
@@ -46,8 +42,7 @@ public class DateUtil {
 	/**
 	 * 日付文字列 yyyy-MM-ddをLocalDateにフォーマット
 	 * 
-	 * @param date
-	 *            日付文字列 yyyy-MM-dd
+	 * @param date 日付文字列 yyyy-MM-dd
 	 * @return LocalDate
 	 * 
 	 */

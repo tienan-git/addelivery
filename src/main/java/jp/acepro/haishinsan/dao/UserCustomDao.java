@@ -9,22 +9,20 @@ import jp.acepro.haishinsan.db.annotation.InjectConfig;
 import jp.acepro.haishinsan.db.entity.User;
 import jp.acepro.haishinsan.entity.UserWithAgency;
 
-
-
 @Dao
 @InjectConfig
 public interface UserCustomDao {
 
-    @Select
-    User selectByEmail(String email);
+	@Select
+	User selectByEmail(String email);
 
-    @Select
-    List<UserWithAgency> selectAll();
+	@Select
+	List<UserWithAgency> selectAll();
 
-    // 権限リストを取得
-    @Select
-    List<String> selectByRoleId(String roleId);
-    
-    @Select
-    UserWithAgency selectById(Long userId);
+	// 権限リストを取得
+	@Select
+	List<String> selectByRoleId(String roleId);
+
+	@Select
+	UserWithAgency selectById(Long userId);
 }

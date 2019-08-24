@@ -25,9 +25,11 @@ public class AwsClientInitialization {
 		String region = applicationProperties.getRegion();
 
 		// 認証情報
-		AWSCredentials credentials = new BasicAWSCredentials("AKIAS7JE6REG6UEUDEWT", "WNWL1fv+mJAX657F7+g30ZZV3zmrnUaXJiHS+HfY");
+		AWSCredentials credentials = new BasicAWSCredentials("AKIAS7JE6REG6UEUDEWT",
+				"WNWL1fv+mJAX657F7+g30ZZV3zmrnUaXJiHS+HfY");
 		// awsS3Client インスタンス化
-		awsS3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials)).withRegion(region).build();
+		awsS3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
+				.withRegion(region).build();
 
 		return awsS3Client;
 	}

@@ -24,33 +24,30 @@ import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.service.EmailService;
 import jp.acepro.haishinsan.util.ContextUtil;
 
-
 @Service
 public class YoutubeServiceImpl implements YoutubeService {
 
-	
 	@Autowired
 	DspSegmentCustomDao dspSegmentCustomDao;
-	
-	
+
 	@Autowired
 	YoutubeCustomDao youtubeCustomDao;
-	
+
 	@Autowired
 	YoutubeCampaignManageDao youtubeCampaignManageDao;
-	
-	@Autowired 
+
+	@Autowired
 	IssueDao issueDao;
-	
+
 	@Autowired
 	EmailService emailService;
-	
+
 	@Override
 	public List<YoutubeIssueDto> searchYoutubeIssueList() {
-		
-		//DB Access
+
+		// DB Access
 		List<Issue> issueList = youtubeCustomDao.selectIssueByShopId(ContextUtil.getCurrentShop().getShopId());
-		
+
 		// Entity -> Dto
 		List<YoutubeIssueDto> youtubeIssueDtoList = new ArrayList<YoutubeIssueDto>();
 		for (Issue issue : issueList) {
@@ -60,10 +57,10 @@ public class YoutubeServiceImpl implements YoutubeService {
 			youtubeIssueDto.setEndDate(issue.getEndDate());
 			youtubeIssueDto.setIssueId(issue.getIssueId());
 			youtubeIssueDto.setStartDate(issue.getStartDate());
-		
+
 			youtubeIssueDtoList.add(youtubeIssueDto);
 		}
-		
+
 		return youtubeIssueDtoList;
 	}
 
@@ -80,23 +77,22 @@ public class YoutubeServiceImpl implements YoutubeService {
 		return null;
 	}
 
-	
 	@Override
 	public YoutubeIssueDto createIssue(YoutubeIssueDto youtubeIssueDto) {
 		// DTO->Entity
 		YoutubeCampaignManage youtubeCampaignManage = new YoutubeCampaignManage();
-     	youtubeCampaignManage.setCampaignName(youtubeIssueDto.getCampaignName());
-     	youtubeCampaignManage.setAdType(youtubeIssueDto.getAdType());
-     	youtubeCampaignManage.setBudget(youtubeIssueDto.getBudget());
-     	youtubeCampaignManage.setStartDate(youtubeIssueDto.getStartDate());
-     	youtubeCampaignManage.setEndDate(youtubeIssueDto.getEndDate());
-     	youtubeCampaignManage.setArea(youtubeIssueDto.getArea());
+		youtubeCampaignManage.setCampaignName(youtubeIssueDto.getCampaignName());
+		youtubeCampaignManage.setAdType(youtubeIssueDto.getAdType());
+		youtubeCampaignManage.setBudget(youtubeIssueDto.getBudget());
+		youtubeCampaignManage.setStartDate(youtubeIssueDto.getStartDate());
+		youtubeCampaignManage.setEndDate(youtubeIssueDto.getEndDate());
+		youtubeCampaignManage.setArea(youtubeIssueDto.getArea());
 		youtubeCampaignManage.setLp(youtubeIssueDto.getLp());
 		youtubeCampaignManage.setVideoUrl(youtubeIssueDto.getVideoUrl());
-		
+
 		// DB access
 		youtubeCampaignManageDao.insert(youtubeCampaignManage);
-		
+
 		// DTO->Entity
 		Issue issue = new Issue();
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
@@ -105,18 +101,18 @@ public class YoutubeServiceImpl implements YoutubeService {
 		issue.setBudget(youtubeIssueDto.getBudget());
 		issue.setEndDate(youtubeIssueDto.getEndDate());
 		issue.setStartDate(youtubeIssueDto.getStartDate());
-		
+
 		// DB access
 		issueDao.insert(issue);
 		youtubeIssueDto.setIssueId(issue.getIssueId());
-		
+
 		try {
 			// メール送信
 			EmailDto emailDto = new EmailDto();
 			emailDto.setIssueId(youtubeIssueDto.getIssueId());
 			EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
 			emailCampDetailDto.setCampaignName(youtubeIssueDto.getCampaignName());
-			//６:youtube
+			// ６:youtube
 			emailCampDetailDto.setMediaType(6);
 			List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
 			emailCampDetailDtoList.add(emailCampDetailDto);
@@ -127,26 +123,24 @@ public class YoutubeServiceImpl implements YoutubeService {
 		} catch (Exception e) {
 			throw new BusinessException(ErrorCodeConstant.E60002);
 		}
-		
-		
+
 		return youtubeIssueDto;
 	}
-	
+
 	@Override
 	public YoutubeIssueDto deleteIssue(Long issueId) {
 
 		YoutubeIssueDto YoutubeIssueDto = this.getIssueDetail(issueId);
-		
-		
+
 		// 該当キャンペーンを論理削除
 		Issue issue = issueDao.selectById(issueId);
 		issue.setIsActived(Flag.OFF.getValue());
 		issueDao.update(issue);
 
-		YoutubeCampaignManage youtubeCampaignManage = youtubeCampaignManageDao.selectById(issue.getYoutubeCampaignManageId());
+		YoutubeCampaignManage youtubeCampaignManage = youtubeCampaignManageDao
+				.selectById(issue.getYoutubeCampaignManageId());
 		youtubeCampaignManage.setIsActived(Flag.OFF.getValue());
 		youtubeCampaignManageDao.update(youtubeCampaignManage);
-		
 
 		return YoutubeIssueDto;
 
@@ -154,14 +148,14 @@ public class YoutubeServiceImpl implements YoutubeService {
 
 	@Override
 	public YoutubeIssueDto getIssueDetail(Long issueId) {
-		
+
 		// DB access
 		YoutubeIssueDetail youtubeIssueDetail = youtubeCustomDao.selectIssueDetail(issueId);
-		
+
 		// Entity -> Dto
 		YoutubeIssueDto youtubeIssueDto = new YoutubeIssueDto();
 		youtubeIssueDto.setIssueId(youtubeIssueDetail.getIssueId());
-		youtubeIssueDto.setCampaignId(youtubeIssueDetail.getCampaignId());	
+		youtubeIssueDto.setCampaignId(youtubeIssueDetail.getCampaignId());
 		youtubeIssueDto.setCampaignName(youtubeIssueDetail.getCampaignName());
 		youtubeIssueDto.setAdType(youtubeIssueDetail.getAdType());
 		youtubeIssueDto.setBudget(youtubeIssueDetail.getBudget());
@@ -170,16 +164,17 @@ public class YoutubeServiceImpl implements YoutubeService {
 		youtubeIssueDto.setArea(youtubeIssueDetail.getArea());
 		youtubeIssueDto.setLp(youtubeIssueDetail.getLp());
 		youtubeIssueDto.setVideoUrl(youtubeIssueDetail.getVideoUrl());
-		
+
 		return youtubeIssueDto;
 	}
 
 	@Override
 	public void updateIssue(Long issueId, Long campaignId) {
-		
+
 		Issue issue = issueDao.selectById(issueId);
-		YoutubeCampaignManage youtubeCampaignManage = youtubeCampaignManageDao.selectById(issue.getYoutubeCampaignManageId());
-		
+		YoutubeCampaignManage youtubeCampaignManage = youtubeCampaignManageDao
+				.selectById(issue.getYoutubeCampaignManageId());
+
 		// キャンペーンIDを更新する
 		youtubeCampaignManage.setCampaignId(campaignId);
 		youtubeCampaignManageDao.update(youtubeCampaignManage);

@@ -15,5 +15,4 @@ public class DspCreateCreativeReq {
 
 	private String body;
 
-
 }

@@ -125,13 +125,16 @@ public class GoogleTemplateServiceImpl implements GoogleTemplateService {
 
 		// 例外処理
 		// テンプレート名チェック
-		if (googleTemplateCustomDao.selectByTemplateName(ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplateName()).size() > 0) {
+		if (googleTemplateCustomDao
+				.selectByTemplateName(ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplateName())
+				.size() > 0) {
 			// 該当テンプレート名が既に登録されたため、修正してください。
 			throw new BusinessException(ErrorCodeConstant.E70004);
 		}
 
 		// テンプレート優先度チェック
-		if (googleTemplateCustomDao.selectByTemplatePriority(ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplatePriority()).size() > 0) {
+		if (googleTemplateCustomDao.selectByTemplatePriority(ContextUtil.getCurrentShop().getShopId(),
+				googleTemplateDto.getTemplatePriority()).size() > 0) {
 			// 該当テンプレート優先度が既に登録されたため、修正してください。
 			throw new BusinessException(ErrorCodeConstant.E70007);
 		}
@@ -143,7 +146,8 @@ public class GoogleTemplateServiceImpl implements GoogleTemplateService {
 		googleTemplate.setShopId(ContextUtil.getCurrentShop().getShopId());
 
 		// 地域設定
-		List<String> strList = googleTemplateDto.getLocationList().stream().map(String::valueOf).collect(Collectors.toList());
+		List<String> strList = googleTemplateDto.getLocationList().stream().map(String::valueOf)
+				.collect(Collectors.toList());
 		String strText = String.join(",", strList);
 		googleTemplate.setLocationList(strText);
 
@@ -159,15 +163,19 @@ public class GoogleTemplateServiceImpl implements GoogleTemplateService {
 
 		// 例外処理
 		// テンプレート名チェック
-		List<GoogleTemplate> googleTemplateListOld1 = googleTemplateCustomDao.selectByTemplateName(ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplateName());
-		if (googleTemplateListOld1.stream().filter(obj -> !obj.getTemplateId().equals(googleTemplateDto.getTemplateId())).count() > 0) {
+		List<GoogleTemplate> googleTemplateListOld1 = googleTemplateCustomDao
+				.selectByTemplateName(ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplateName());
+		if (googleTemplateListOld1.stream()
+				.filter(obj -> !obj.getTemplateId().equals(googleTemplateDto.getTemplateId())).count() > 0) {
 			// 該当テンプレート名が既に登録されたため、修正してください。
 			throw new BusinessException(ErrorCodeConstant.E70004);
 		}
 
 		// テンプレート名チェック
-		List<GoogleTemplate> googleTemplateListOld2 = googleTemplateCustomDao.selectByTemplatePriority(ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplatePriority());
-		if (googleTemplateListOld2.stream().filter(obj -> !obj.getTemplateId().equals(googleTemplateDto.getTemplateId())).count() > 0) {
+		List<GoogleTemplate> googleTemplateListOld2 = googleTemplateCustomDao.selectByTemplatePriority(
+				ContextUtil.getCurrentShop().getShopId(), googleTemplateDto.getTemplatePriority());
+		if (googleTemplateListOld2.stream()
+				.filter(obj -> !obj.getTemplateId().equals(googleTemplateDto.getTemplateId())).count() > 0) {
 			// 該当テンプレート優先度が既に登録されたため、修正してください。
 			throw new BusinessException(ErrorCodeConstant.E70007);
 		}
@@ -179,7 +187,8 @@ public class GoogleTemplateServiceImpl implements GoogleTemplateService {
 		googleTemplateNew.setShopId(ContextUtil.getCurrentShop().getShopId());
 
 		// 地域設定
-		List<String> strList = googleTemplateDto.getLocationList().stream().map(String::valueOf).collect(Collectors.toList());
+		List<String> strList = googleTemplateDto.getLocationList().stream().map(String::valueOf)
+				.collect(Collectors.toList());
 		String strText = String.join(",", strList);
 		googleTemplateNew.setLocationList(strText);
 

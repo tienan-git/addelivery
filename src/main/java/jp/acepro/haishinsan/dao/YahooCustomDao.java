@@ -13,46 +13,46 @@ import jp.acepro.haishinsan.db.entity.YahooCampaignManage;
 import jp.acepro.haishinsan.db.entity.YahooReportManage;
 import jp.acepro.haishinsan.entity.YahooIssueDetail;
 
-
 @Dao
 @InjectConfig
 public interface YahooCustomDao {
 
+	@Select
+	List<YahooCampaignManage> selectByShopId(Long shopId);
 
-    @Select
-    List<YahooCampaignManage> selectByShopId(Long shopId);
-    
-    @Select
-    List<YahooReportManage> selectRegionReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
-    
-    @Select
-    List<YahooReportManage> selectDeviceReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+	@Select
+	List<YahooReportManage> selectRegionReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
 
-    @Select
-    List<YahooReportManage> selectDateReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+	@Select
+	List<YahooReportManage> selectDeviceReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
 
-    @Select
-    List<YahooArea> selectAllArea();
-    
-    @Select
-    List<YahooArea> selectAreaByAreaId(List<Long> locationIdList);
-    
-    @Select
-    List<Issue> selectIssueByShopId(Long shopId);
-    
-    @Select
-    YahooIssueDetail selectIssueDetail(Long issueId);
-    
-    // グラフ用
-    @Select
-    List<YahooReportManage> selectDeviceReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
-    
-    // グラフ用
-    @Select
-    List<YahooReportManage> selectDateReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
-    
-    // グラフ用
-    @Select
-    List<YahooReportManage> selectRegionReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
-    
+	@Select
+	List<YahooReportManage> selectDateReport(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+
+	@Select
+	List<YahooArea> selectAllArea();
+
+	@Select
+	List<YahooArea> selectAreaByAreaId(List<Long> locationIdList);
+
+	@Select
+	List<Issue> selectIssueByShopId(Long shopId);
+
+	@Select
+	YahooIssueDetail selectIssueDetail(Long issueId);
+
+	// グラフ用
+	@Select
+	List<YahooReportManage> selectDeviceReportGraph(List<String> campaignIdList, LocalDate startDate,
+			LocalDate endDate);
+
+	// グラフ用
+	@Select
+	List<YahooReportManage> selectDateReportGraph(List<String> campaignIdList, LocalDate startDate, LocalDate endDate);
+
+	// グラフ用
+	@Select
+	List<YahooReportManage> selectRegionReportGraph(List<String> campaignIdList, LocalDate startDate,
+			LocalDate endDate);
+
 }

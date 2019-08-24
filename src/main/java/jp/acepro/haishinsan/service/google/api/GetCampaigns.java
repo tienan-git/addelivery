@@ -72,20 +72,26 @@ public class GetCampaigns {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -99,7 +105,7 @@ public class GetCampaigns {
 				runExample2(adWordsServices, session);
 				// キャンペーン予算情報取得
 				runExample3(adWordsServices, session);
-			} 
+			}
 			if (runOption.equals("INFO")) {
 				// キャンペーン情報取得
 				runExample1(adWordsServices, session);
@@ -131,14 +137,11 @@ public class GetCampaigns {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
 	// キャンペーン基本情報取得
 	public void runExample1(AdWordsServicesInterface adWordsServices, AdWordsSession session) throws RemoteException {
@@ -151,13 +154,10 @@ public class GetCampaigns {
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
-				.fields(CampaignField.Status, CampaignField.Id, CampaignField.Name, CampaignField.StartDate, CampaignField.EndDate, CampaignField.BudgetId)
-				.orderDescBy(CampaignField.Id)
-				.offset(offset)
-				.limit(PAGE_SIZE)
-				.in(CampaignField.Id, arr)
-				.in(CampaignField.Status, "ENABLED", "PAUSED")
-				.build();
+				.fields(CampaignField.Status, CampaignField.Id, CampaignField.Name, CampaignField.StartDate,
+						CampaignField.EndDate, CampaignField.BudgetId)
+				.orderDescBy(CampaignField.Id).offset(offset).limit(PAGE_SIZE).in(CampaignField.Id, arr)
+				.in(CampaignField.Status, "ENABLED", "PAUSED").build();
 
 		CampaignPage page;
 		do {
@@ -173,7 +173,7 @@ public class GetCampaigns {
 					campaignList.add(campaign);
 				}
 			} else {
-				//System.out.println("No campaigns were found.");
+				// System.out.println("No campaigns were found.");
 			}
 
 			offset += PAGE_SIZE;
@@ -184,19 +184,19 @@ public class GetCampaigns {
 	// キャンペーンターゲット情報取得（地域、デバイス）
 	public void runExample2(AdWordsServicesInterface adWordsServices, AdWordsSession session) throws RemoteException {
 		// Get the CampaignService.
-		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session, CampaignCriterionServiceInterface.class);
+		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session,
+				CampaignCriterionServiceInterface.class);
 
 		int offset = 0;
 		String[] arr = campaignIdList.stream().map(obj -> String.valueOf(obj)).toArray(String[]::new);
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
-				.fields(CampaignCriterionField.CampaignId, CampaignCriterionField.Id, CampaignCriterionField.CriteriaType, CampaignCriterionField.PlatformName, CampaignCriterionField.LocationName, CampaignCriterionField.BidModifier)
+				.fields(CampaignCriterionField.CampaignId, CampaignCriterionField.Id,
+						CampaignCriterionField.CriteriaType, CampaignCriterionField.PlatformName,
+						CampaignCriterionField.LocationName, CampaignCriterionField.BidModifier)
 				.in(CampaignCriterionField.CriteriaType, "LOCATION", "PLATFORM")
-				.in(CampaignCriterionField.CampaignId, arr)
-				.offset(0)
-				.limit(PAGE_SIZE)
-				.build();
+				.in(CampaignCriterionField.CampaignId, arr).offset(0).limit(PAGE_SIZE).build();
 
 		CampaignCriterionPage page = null;
 		do {
@@ -213,7 +213,7 @@ public class GetCampaigns {
 					campaignCriterionList.add(campaignCriterion);
 				}
 			} else {
-				//System.out.println("No campaign criteria were found.");
+				// System.out.println("No campaign criteria were found.");
 			}
 			offset += PAGE_SIZE;
 			selector = builder.increaseOffsetBy(PAGE_SIZE).build();
@@ -230,13 +230,8 @@ public class GetCampaigns {
 		String budgetId = String.valueOf(campaignList.get(0).getBudget().getBudgetId());
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
-		Selector selector = builder
-				.fields(BudgetField.BudgetId, BudgetField.Amount)
-				.orderAscBy(BudgetField.BudgetId)
-				.offset(offset)
-				.limit(PAGE_SIZE)
-				.in(BudgetField.BudgetId, budgetId)
-				.build();
+		Selector selector = builder.fields(BudgetField.BudgetId, BudgetField.Amount).orderAscBy(BudgetField.BudgetId)
+				.offset(offset).limit(PAGE_SIZE).in(BudgetField.BudgetId, budgetId).build();
 
 		BudgetPage page;
 		do {
@@ -253,7 +248,7 @@ public class GetCampaigns {
 					budgetList.add(budget);
 				}
 			} else {
-				//System.out.println("No budgets were found.");
+				// System.out.println("No budgets were found.");
 			}
 
 			offset += PAGE_SIZE;

@@ -16,12 +16,12 @@ import jp.acepro.haishinsan.entity.UserWithAgency;
 public interface ShopCustomDao {
 
 	@Select
-	//List<Shop> selectAll();
+	// List<Shop> selectAll();
 	List<ShopWithAgency> selectAll();
-	
+
 	@Select
 	List<UserWithAgency> selectUsersByShopId(Long shopId);
-	    
+
 	@Select
 	ShopWithCorporation selectById(Long shopId);
 
@@ -36,9 +36,8 @@ public interface ShopCustomDao {
 
 	@Select
 	List<Shop> selectCorporationShops(Long shopId);
-	
+
 	@Select
 	List<Shop> selectByIssueId(Long issueId);
-
 
 }

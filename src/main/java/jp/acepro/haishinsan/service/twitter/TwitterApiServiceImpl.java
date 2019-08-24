@@ -129,7 +129,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 	public void saveTweetList(List<TwitterTweet> websiteTweetList, List<TwitterTweet> followersTweetList) {
 
 		// ツイートリストをaccountIDで検索する
-		List<TwitterTweetList> twitterList = twitterTweetListCustomDao.selectByAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
+		List<TwitterTweetList> twitterList = twitterTweetListCustomDao
+				.selectByAccountId(ContextUtil.getCurrentShop().getTwitterAccountId());
 		// DBにaccountIDに当たるツイートリストがなければそのままInsertする
 		if (twitterList.size() == 0 || twitterList.isEmpty() == true) {
 //			for (TwitterTweet twitterTweet : followersTweetList) {
@@ -209,13 +210,14 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		}
 
 		// 都道府県非空チェック
-		if (TwitterLocationType.REGION.getValue() == twitterAdsDto.getLocation() && twitterAdsDto.getRegions().isEmpty() == true) {
+		if (TwitterLocationType.REGION.getValue() == twitterAdsDto.getLocation()
+				&& twitterAdsDto.getRegions().isEmpty() == true) {
 			// 配信都道府県を選択してください。
 			throw new BusinessException(ErrorCodeConstant.E20006);
 		}
 		Long averagePrice = getAveragePrice(twitterAdsDto);
 		if (averagePrice > twitterAdsDto.getDailyBudget()) {
-			throw new BusinessException(ErrorCodeConstant.E20007,String.valueOf(averagePrice));
+			throw new BusinessException(ErrorCodeConstant.E20007, String.valueOf(averagePrice));
 		}
 		// 支払い方法IDを取得する
 		fundingInstrumentId = getFundingInstrumentId();
@@ -252,7 +254,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		twitterCampaignManage.setGroupId(lineItemId);
 		twitterCampaignManage.setTweetIds(tweetIds);
 		twitterCampaignManage.setDailyBudget(Long.valueOf(twitterAdsDto.getDailyBudget()));
-		twitterCampaignManage.setTotalBudget(twitterAdsDto.getTotalBudget() == 0 ? null : twitterAdsDto.getTotalBudget());
+		twitterCampaignManage
+				.setTotalBudget(twitterAdsDto.getTotalBudget() == 0 ? null : twitterAdsDto.getTotalBudget());
 		twitterCampaignManageDao.insert(twitterCampaignManage);
 
 		// 案件追加
@@ -260,7 +263,9 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		if (issueDto == null) {
 			issue.setTwitterCampaignManageId(Long.valueOf(twitterCampaignManage.getTwitterCampaignManageId()));
 			issue.setCampaignName(twitterAdsDto.getCampaignName());
-			issue.setBudget(twitterAdsDto.getTotalBudget() == 0 ? CalculateUtil.calTotalBudget(twitterAdsDto.getDailyBudget(), twitterAdsDto.getStartTime(), twitterAdsDto.getEndTime()) : twitterAdsDto.getTotalBudget());
+			issue.setBudget(
+					twitterAdsDto.getTotalBudget() == 0 ? CalculateUtil.calTotalBudget(twitterAdsDto.getDailyBudget(),
+							twitterAdsDto.getStartTime(), twitterAdsDto.getEndTime()) : twitterAdsDto.getTotalBudget());
 			issue.setStartDate(twitterAdsDto.getStartTime());
 			issue.setEndDate(twitterAdsDto.getEndTime());
 			issue.setShopId(ContextUtil.getCurrentShop().getShopId());
@@ -293,14 +298,16 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 
 		try {
 			// Http request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + "/funding_instruments";
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ "/funding_instruments";
 			String method = "GET";
 			// パラメーター
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
 			// oauth Header
 			String auth = getHeader(method, url, parameters);
 			// Call API
-			TwitterFundingInstrumentRes twitterFundingInstrumentRes = call(url, HttpMethod.GET, null, auth, TwitterFundingInstrumentRes.class);
+			TwitterFundingInstrumentRes twitterFundingInstrumentRes = call(url, HttpMethod.GET, null, auth,
+					TwitterFundingInstrumentRes.class);
 			// 支払い方法ID
 			fundingInstrumentId = twitterFundingInstrumentRes.getData().get(0).getId();
 
@@ -344,19 +351,27 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 				parameters.put("end_time", TwitterUtil.urlEncode(twitterAdsDto.getEndTime()));
 				body.setEnd_time(twitterAdsDto.getEndTime());
 			}
-			parameters.put("daily_budget_amount_local_micro", TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000)));// 10円
+			parameters.put("daily_budget_amount_local_micro",
+					TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000)));// 10円
 			if (twitterAdsDto.getTotalBudget() != 0) {
-				parameters.put("total_budget_amount_local_micro", TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getTotalBudget() * 1000000)));// 2000円
+				parameters.put("total_budget_amount_local_micro",
+						TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getTotalBudget() * 1000000)));// 2000円
 				body.setTotal_budget_amount_local_micro(String.valueOf(twitterAdsDto.getTotalBudget() * 1000000));
 			}
 			parameters.put("entity_status", TwitterUtil.urlEncode(campaignStatus));
 
 			// URLの設定
-			url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatCampaign() + "?funding_instrument_id=" + TwitterUtil.urlEncode(fundingInstrumentId) + "&name=" + TwitterUtil.urlEncode(twitterAdsDto.getCampaignName())
-					+ "&start_time=" + TwitterUtil.urlEncode(twitterAdsDto.getStartTime()) + "&daily_budget_amount_local_micro=" + TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000)) + "&entity_status=" + TwitterUtil.urlEncode(campaignStatus);
+			url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterCreatCampaign() + "?funding_instrument_id="
+					+ TwitterUtil.urlEncode(fundingInstrumentId) + "&name="
+					+ TwitterUtil.urlEncode(twitterAdsDto.getCampaignName()) + "&start_time="
+					+ TwitterUtil.urlEncode(twitterAdsDto.getStartTime()) + "&daily_budget_amount_local_micro="
+					+ TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000))
+					+ "&entity_status=" + TwitterUtil.urlEncode(campaignStatus);
 
 			String endTimeUrl = "&end_time=" + TwitterUtil.urlEncode(twitterAdsDto.getEndTime());
-			String totalBudgetUrl = "&total_budget_amount_local_micro=" + TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getTotalBudget() * 1000000));
+			String totalBudgetUrl = "&total_budget_amount_local_micro="
+					+ TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getTotalBudget() * 1000000));
 
 			// URL：配信終了日と総予算の非空判断
 			if (twitterAdsDto.getEndTime() == null && twitterAdsDto.getTotalBudget() == 0) {
@@ -371,9 +386,13 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 
 			String method = "POST";
 			// oauth Header
-			String auth = getHeader(method, applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatCampaign(), parameters);
+			String auth = getHeader(method,
+					applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+							+ applicationProperties.getTwitterCreatCampaign(),
+					parameters);
 			// Call API
-			TwitterCampaignRes twitterCampaignRes = call(url_after, HttpMethod.POST, body, auth, TwitterCampaignRes.class);
+			TwitterCampaignRes twitterCampaignRes = call(url_after, HttpMethod.POST, body, auth,
+					TwitterCampaignRes.class);
 			// キャンペーンIDを取得
 			campaignId = twitterCampaignRes.getData().getId();
 
@@ -391,26 +410,34 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		switch (TwitterLocationType.of(twitterAdsDto.getLocation())) {
 		case ALLCITY:
 			if (twitterAdsDto.getObjective() == TwitterObjective.WEBSITE.getValue()) {
-				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceLinkClickList.stream().mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceLinkClickList.stream()
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 			} else {
-				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceFollowsList.stream().mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceFollowsList.stream()
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 			}
 			averagePrice = Math.round(clickPrice);
 			break;
 		case JAPAN:
 			if (twitterAdsDto.getObjective() == TwitterObjective.WEBSITE.getValue()) {
-				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceLinkClickList.stream().mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceLinkClickList.stream()
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 			} else {
-				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceFollowsList.stream().mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceFollowsList.stream()
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 			}
 
 			averagePrice = Math.round(clickPrice);
 			break;
 		case REGION:
 			if (twitterAdsDto.getObjective() == TwitterObjective.WEBSITE.getValue()) {
-				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceLinkClickList.stream().filter(obj -> twitterAdsDto.getRegions().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceLinkClickList.stream()
+						.filter(obj -> twitterAdsDto.getRegions().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 			} else {
-				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceFollowsList.stream().filter(obj -> twitterAdsDto.getRegions().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				clickPrice = CodeMasterServiceImpl.twitterRegionUnitPriceFollowsList.stream()
+						.filter(obj -> twitterAdsDto.getRegions().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 			}
 			averagePrice = Math.round(clickPrice);
 			break;
@@ -437,11 +464,18 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 				parameters.put("bid_type", TwitterUtil.urlEncode("MAX"));
 				parameters.put("bid_amount_local_micro", TwitterUtil.urlEncode(String.valueOf(averagePrice * 1000000)));
 
-				String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup() + "?campaign_id=" + TwitterUtil.urlEncode(campaignId) + "&objective=" + TwitterUtil.urlEncode("WEBSITE_CLICKS") + "&placements="
-						+ TwitterUtil.urlEncode("ALL_ON_TWITTER") + "&product_type=" + TwitterUtil.urlEncode("PROMOTED_TWEETS") + "&bid_type=" + TwitterUtil.urlEncode("MAX") + "&bid_amount_local_micro=" + TwitterUtil.urlEncode(String.valueOf(averagePrice * 1000000));
+				String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+						+ applicationProperties.getTwitterCreatgroup() + "?campaign_id="
+						+ TwitterUtil.urlEncode(campaignId) + "&objective=" + TwitterUtil.urlEncode("WEBSITE_CLICKS")
+						+ "&placements=" + TwitterUtil.urlEncode("ALL_ON_TWITTER") + "&product_type="
+						+ TwitterUtil.urlEncode("PROMOTED_TWEETS") + "&bid_type=" + TwitterUtil.urlEncode("MAX")
+						+ "&bid_amount_local_micro=" + TwitterUtil.urlEncode(String.valueOf(averagePrice * 1000000));
 
 				String method = "POST";
-				String auth = getHeader(method, applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup(), parameters);
+				String auth = getHeader(method,
+						applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+								+ applicationProperties.getTwitterCreatgroup(),
+						parameters);
 				// create Campaign request body
 				TwitterGroupReq body = new TwitterGroupReq();
 				body.setCampaign_id(campaignId);
@@ -466,11 +500,18 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 				parameters.put("bid_type", TwitterUtil.urlEncode("TARGET"));
 				parameters.put("bid_amount_local_micro", TwitterUtil.urlEncode(String.valueOf(averagePrice * 1000000)));
 				// Http Request URL
-				String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup() + "?campaign_id=" + TwitterUtil.urlEncode(campaignId) + "&objective=" + TwitterUtil.urlEncode("FOLLOWERS") + "&placements="
-						+ TwitterUtil.urlEncode("ALL_ON_TWITTER") + "&product_type=" + TwitterUtil.urlEncode("PROMOTED_ACCOUNT") + "&bid_type=" + TwitterUtil.urlEncode("TARGET") + "&bid_amount_local_micro=" + TwitterUtil.urlEncode(String.valueOf(averagePrice * 1000000));
+				String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+						+ applicationProperties.getTwitterCreatgroup() + "?campaign_id="
+						+ TwitterUtil.urlEncode(campaignId) + "&objective=" + TwitterUtil.urlEncode("FOLLOWERS")
+						+ "&placements=" + TwitterUtil.urlEncode("ALL_ON_TWITTER") + "&product_type="
+						+ TwitterUtil.urlEncode("PROMOTED_ACCOUNT") + "&bid_type=" + TwitterUtil.urlEncode("TARGET")
+						+ "&bid_amount_local_micro=" + TwitterUtil.urlEncode(String.valueOf(averagePrice * 1000000));
 				String method = "POST";
 				// oauth Header
-				String auth = getHeader(method, applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup(), parameters);
+				String auth = getHeader(method,
+						applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+								+ applicationProperties.getTwitterCreatgroup(),
+						parameters);
 				// Request body
 				TwitterGroupReq body = new TwitterGroupReq();
 				body.setCampaign_id(campaignId);
@@ -503,10 +544,15 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 			parameters.put("line_item_id", TwitterUtil.urlEncode(lineItemId));
 			parameters.put("tweet_ids", TwitterUtil.urlEncode(tweetIds));
 			// Http request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterPromoteTweets() + "?line_item_id=" + TwitterUtil.urlEncode(lineItemId) + "&tweet_ids=" + TwitterUtil.urlEncode(tweetIds);
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterPromoteTweets() + "?line_item_id="
+					+ TwitterUtil.urlEncode(lineItemId) + "&tweet_ids=" + TwitterUtil.urlEncode(tweetIds);
 			String method = "POST";
 			// oauth Header
-			String auth = getHeader(method, applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterPromoteTweets(), parameters);
+			String auth = getHeader(method,
+					applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+							+ applicationProperties.getTwitterPromoteTweets(),
+					parameters);
 			// Rquest Body
 			TwitterPromotTweetsReq body = new TwitterPromotTweetsReq();
 			body.setLine_item_id(lineItemId);
@@ -528,10 +574,12 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 			// 署名用パラメータ
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
 			//// Http request URL
-			String url = "https://ads-api.twitter.com/4/batch/accounts/" + ContextUtil.getCurrentShop().getTwitterAccountId() + "/targeting_criteria";
+			String url = "https://ads-api.twitter.com/4/batch/accounts/"
+					+ ContextUtil.getCurrentShop().getTwitterAccountId() + "/targeting_criteria";
 			String method = "POST";
 			// oauth Header
-			String auth = getHeader(method, "https://ads-api.twitter.com/4/batch/accounts/" + ContextUtil.getCurrentShop().getTwitterAccountId() + "/targeting_criteria", parameters);
+			String auth = getHeader(method, "https://ads-api.twitter.com/4/batch/accounts/"
+					+ ContextUtil.getCurrentShop().getTwitterAccountId() + "/targeting_criteria", parameters);
 			List<TwitterTargetObjReq> twitterTargetList = new ArrayList<>();
 			// ターゲット : 地域
 			switch (TwitterLocationType.of(twitterAdsDto.getLocation())) {
@@ -608,7 +656,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 
 		List<TwitterCampaignData> adsList = new ArrayList<>();
 		// DBからキャンペーンリストを取得
-		List<TwitterCampaignManage> twitterCampaignManageList = twitterCampaignManageCustomDao.selectAll(ContextUtil.getCurrentShopId());
+		List<TwitterCampaignManage> twitterCampaignManageList = twitterCampaignManageCustomDao
+				.selectAll(ContextUtil.getCurrentShopId());
 		if (twitterCampaignManageList.isEmpty()) {
 			return adsList;
 		}
@@ -643,27 +692,40 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 			for (TwitterCampaignData campaignData : campaignList) {
 				if (twitterCampaignManage.getCampaignId().equals(campaignData.getId())) {
 					adsData.setStart_time(campaignData.getStart_time().substring(0, 10));
-					adsData.setEnd_time(campaignData.getEnd_time() == null ? "" : campaignData.getEnd_time().substring(0, 10));
+					adsData.setEnd_time(
+							campaignData.getEnd_time() == null ? "" : campaignData.getEnd_time().substring(0, 10));
 					adsData.setServable(campaignData.getServable());
 					adsData.setEntity_status(campaignData.getEntity_status());
 					// 実行中の場合
 					if (campaignData.getReasons_not_servable().isEmpty() == true
-							|| campaignData.getReasons_not_servable().isEmpty() == false && (TwitterCampaignStatus.RESERVATION.getLabel()).equals(campaignData.getReasons_not_servable().get(0)) && campaignData.getEntity_status().equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+							|| campaignData.getReasons_not_servable().isEmpty() == false
+									&& (TwitterCampaignStatus.RESERVATION.getLabel())
+											.equals(campaignData.getReasons_not_servable().get(0))
+									&& campaignData.getEntity_status()
+											.equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
 						adsData.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
 					}
 					// 停止の場合
-					if (campaignData.getReasons_not_servable().isEmpty() == false && (TwitterCampaignStatus.RESERVATION.getLabel()).equals(campaignData.getReasons_not_servable().get(0)) && campaignData.getEntity_status().equals(TwitterCampaignStatus.PAUSED.getLabel())) {
+					if (campaignData.getReasons_not_servable().isEmpty() == false
+							&& (TwitterCampaignStatus.RESERVATION.getLabel())
+									.equals(campaignData.getReasons_not_servable().get(0))
+							&& campaignData.getEntity_status().equals(TwitterCampaignStatus.PAUSED.getLabel())) {
 						adsData.setCampaignStatus(TwitterCampaignStatus.PAUSED.getLabel());
 					}
 
-					if (campaignData.getReasons_not_servable().isEmpty() == false && (TwitterCampaignStatus.PAUSEDBYADVERTISER.getLabel()).equals(campaignData.getReasons_not_servable().get(0))) {
+					if (campaignData.getReasons_not_servable().isEmpty() == false
+							&& (TwitterCampaignStatus.PAUSEDBYADVERTISER.getLabel())
+									.equals(campaignData.getReasons_not_servable().get(0))) {
 						adsData.setCampaignStatus(TwitterCampaignStatus.PAUSED.getLabel());
 					}
 					// 終了の場合
-					if (campaignData.getReasons_not_servable().isEmpty() == false && (TwitterCampaignStatus.EXPIRED.getLabel()).equals(campaignData.getReasons_not_servable().get(0))) {
+					if (campaignData.getReasons_not_servable().isEmpty() == false
+							&& (TwitterCampaignStatus.EXPIRED.getLabel())
+									.equals(campaignData.getReasons_not_servable().get(0))) {
 						adsData.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
 					}
-					adsData.setApprovalFlag(twitterCampaignManageCustomDao.selectByCampaignId(campaignData.getId()).getApprovalFlag());
+					adsData.setApprovalFlag(
+							twitterCampaignManageCustomDao.selectByCampaignId(campaignData.getId()).getApprovalFlag());
 					adsList.add(adsData);
 				}
 			}
@@ -682,9 +744,14 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
 			parameters.put("entity_status", TwitterUtil.urlEncode(switchFlag));
 			// call_url
-			String call_url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterChangeCampaignStatus() + campaignId + "?entity_status=" + switchFlag;
+			String call_url = applicationProperties.getTwitterhost()
+					+ ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterChangeCampaignStatus() + campaignId + "?entity_status="
+					+ switchFlag;
 			// auth_url
-			String auth_url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterChangeCampaignStatus() + campaignId;
+			String auth_url = applicationProperties.getTwitterhost()
+					+ ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterChangeCampaignStatus() + campaignId;
 			// Request body
 			TwitterCampaignReq body = new TwitterCampaignReq();
 			body.setEntity_status(switchFlag);
@@ -732,7 +799,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 			if (tweetIdList.size() != 0 || tweetIdList.isEmpty() == false) {
 				for (String tweetId : tweetIdList) {
 					TwitterTweet twitterTweet = new TwitterTweet();
-					TwitterTweetList tweet = twitterTweetListCustomDao.selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
+					TwitterTweetList tweet = twitterTweetListCustomDao
+							.selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
 					// Twitterが見つからなかった場合（削除されたり...）
 					if (tweet.getTweetId() == null) {
 						twitterTweet.setTweetId("");
@@ -754,7 +822,9 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 
 			// 広告詳細
 			adsDetail.setLine_item_id(group.getId());
-			adsDetail.setObjective(group.getObjective().equals("FOLLOWERS") ? TwitterObjective.FOLLOWER.getValue().toString() : TwitterObjective.WEBSITE.getValue().toString());
+			adsDetail.setObjective(
+					group.getObjective().equals("FOLLOWERS") ? TwitterObjective.FOLLOWER.getValue().toString()
+							: TwitterObjective.WEBSITE.getValue().toString());
 			adsDetail.setId(campaign.getId());
 			adsDetail.setName(campaign.getName());
 			adsDetail.setStart_time(campaign.getStart_time().substring(0, 10));
@@ -793,7 +863,10 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		// API：広告を削除(停止の状態にする)
 		TwitterCampaignData campaignData = getCampaignById(campaignId);
 		if (campaignData.getReasons_not_servable().isEmpty() == true
-				|| campaignData.getReasons_not_servable().isEmpty() == false && (TwitterCampaignStatus.RESERVATION.getLabel()).equals(campaignData.getReasons_not_servable().get(0)) && campaignData.getEntity_status().equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+				|| campaignData.getReasons_not_servable().isEmpty() == false
+						&& (TwitterCampaignStatus.RESERVATION.getLabel())
+								.equals(campaignData.getReasons_not_servable().get(0))
+						&& campaignData.getEntity_status().equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
 			changeAdsStatus(campaignId, TwitterCampaignStatus.PAUSED.getLabel());
 		}
 		// DB更新
@@ -823,9 +896,11 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		TwitterAllGroupDataRes twitterAllGroupDataRes = new TwitterAllGroupDataRes();
 		try {
 			// Http request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup() + "?line_item_ids=" + groupId;
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterCreatgroup() + "?line_item_ids=" + groupId;
 			// oauth URL
-			String url_oauth = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup();
+			String url_oauth = applicationProperties.getTwitterhost()
+					+ ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatgroup();
 			String method = "GET";
 			// oauth用 パラメータ
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
@@ -882,9 +957,12 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		TwitterCampaignDataRes twitterCampaignDataRes = new TwitterCampaignDataRes();
 		try {
 			// Http request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatCampaign() + "?campaign_ids=" + campaignIds;
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterCreatCampaign() + "?campaign_ids=" + campaignIds;
 			// oauth URL
-			String url_oauth = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterCreatCampaign();
+			String url_oauth = applicationProperties.getTwitterhost()
+					+ ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterCreatCampaign();
 			String method = "GET";
 			// oauth用 パラメータ
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
@@ -910,9 +988,11 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		// グループIDでターゲットリストを取得する
 		try {
 			// Http Request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSetTarget() + "?line_item_id=" + groupId;
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterSetTarget() + "?line_item_id=" + groupId;
 			// oauth URL
-			String url_oauth = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSetTarget();
+			String url_oauth = applicationProperties.getTwitterhost()
+					+ ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSetTarget();
 			String method = "GET";
 			// パラーメター
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
@@ -946,9 +1026,11 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		List<TwitterTweet> tweetList = new ArrayList<>();
 		try {
 			// Http Request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSearchTimeline() + "?objective=WEBSITE_CLICKS&count=50";
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterSearchTimeline() + "?objective=WEBSITE_CLICKS&count=50";
 			// oauth URL
-			String url1 = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSearchTimeline();
+			String url1 = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterSearchTimeline();
 			String method = "GET";
 			// パラーメター
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
@@ -972,9 +1054,13 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 				}
 				TwitterTweet tweet = new TwitterTweet();
 				tweet.setTweetId(twitterTweet.getId_str());
-				tweet.setTweetTitle(twitterTweet.getUser().getName() + "  " + "@" + twitterTweet.getUser().getScreen_name() + " ・ " + TwitterUtil.getTwitterDate(twitterTweet.getCreated_at()));
+				tweet.setTweetTitle(
+						twitterTweet.getUser().getName() + "  " + "@" + twitterTweet.getUser().getScreen_name() + " ・ "
+								+ TwitterUtil.getTwitterDate(twitterTweet.getCreated_at()));
 				tweet.setTweetBody(tweetBody);
-				tweet.setPreviewUrl(applicationProperties.getTwitterPreviewHost() + twitterTweet.getUser().getScreen_name() + applicationProperties.getTwitterPreviewPath() + twitterTweet.getId_str());
+				tweet.setPreviewUrl(
+						applicationProperties.getTwitterPreviewHost() + twitterTweet.getUser().getScreen_name()
+								+ applicationProperties.getTwitterPreviewPath() + twitterTweet.getId_str());
 				tweetList.add(tweet);
 			}
 
@@ -996,9 +1082,11 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 
 		try {
 			// Http Request URL
-			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSearchTimeline() + "?objective=FOLLOWERS&count=50";
+			String url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterSearchTimeline() + "?objective=FOLLOWERS&count=50";
 			// oauth URL
-			String url1 = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId() + applicationProperties.getTwitterSearchTimeline();
+			String url1 = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
+					+ applicationProperties.getTwitterSearchTimeline();
 			String method = "GET";
 			// パラメーター
 			SortedMap<String, String> parameters = new TreeMap<String, String>();
@@ -1011,7 +1099,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 			body.setObjective("FOLLOWERS");
 			body.setCount("50");
 			// Call API
-			TwitterTweetListRes followersTweetListRes = call(url, HttpMethod.GET, body, auth, TwitterTweetListRes.class);
+			TwitterTweetListRes followersTweetListRes = call(url, HttpMethod.GET, body, auth,
+					TwitterTweetListRes.class);
 			List<TwitterTweets> twitterTweetList = followersTweetListRes.getData();
 			String tweetBody;
 			// ツイート内容の処理
@@ -1022,9 +1111,13 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 				}
 				TwitterTweet tweet = new TwitterTweet();
 				tweet.setTweetId(twitterTweet.getId_str());
-				tweet.setTweetTitle(twitterTweet.getUser().getName() + "  " + "@" + twitterTweet.getUser().getScreen_name() + " ・ " + TwitterUtil.getTwitterDate(twitterTweet.getCreated_at()));
+				tweet.setTweetTitle(
+						twitterTweet.getUser().getName() + "  " + "@" + twitterTweet.getUser().getScreen_name() + " ・ "
+								+ TwitterUtil.getTwitterDate(twitterTweet.getCreated_at()));
 				tweet.setTweetBody(tweetBody);
-				tweet.setPreviewUrl(applicationProperties.getTwitterPreviewHost() + twitterTweet.getUser().getScreen_name() + applicationProperties.getTwitterPreviewPath() + twitterTweet.getId_str());
+				tweet.setPreviewUrl(
+						applicationProperties.getTwitterPreviewHost() + twitterTweet.getUser().getScreen_name()
+								+ applicationProperties.getTwitterPreviewPath() + twitterTweet.getId_str());
 				tweetList.add(tweet);
 
 			}
@@ -1045,7 +1138,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		List<TwitterTweet> selectedWebsiteTweetList = new ArrayList<>();
 		// 選択したwebsiteTweetList
 		for (String tweetId : twitterAdsDto.getTweetIdList()) {
-			TwitterTweetList tweet = twitterTweetListCustomDao.selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
+			TwitterTweetList tweet = twitterTweetListCustomDao
+					.selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
 			TwitterTweet twitterTweet = new TwitterTweet();
 			twitterTweet.setTweetTitle(tweet.getTweetTitle());
 			twitterTweet.setTweetBody(tweet.getTweetBody());
@@ -1063,7 +1157,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		List<TwitterTweet> selectedfollowersTweetList = new ArrayList<>();
 		// 選択したfollowersTweetList
 		for (String tweetId : twitterAdsDto.getTweetIdList()) {
-			TwitterTweetList tweet = twitterTweetListCustomDao.selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
+			TwitterTweetList tweet = twitterTweetListCustomDao
+					.selectByAccountIdAndTweetId(ContextUtil.getCurrentShop().getTwitterAccountId(), tweetId);
 			TwitterTweet twitterTweet = new TwitterTweet();
 			twitterTweet.setTweetTitle(tweet.getTweetTitle());
 			twitterTweet.setTweetBody(tweet.getTweetBody());
@@ -1135,7 +1230,7 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 		paramStr = paramStr.substring(2);
 		String authorizationHeader = "OAuth " + paramStr;
 
-		//System.out.println("header : " + authorizationHeader);
+		// System.out.println("header : " + authorizationHeader);
 
 		return authorizationHeader;
 	}
@@ -1179,7 +1274,8 @@ public class TwitterApiServiceImpl extends BaseService implements TwitterApiServ
 	/**
 	 * Map差分
 	 **/
-	private static SortedMap<String, String> getDifferenceSetByGuava(SortedMap<String, String> bigMap, SortedMap<String, String> smallMap) {
+	private static SortedMap<String, String> getDifferenceSetByGuava(SortedMap<String, String> bigMap,
+			SortedMap<String, String> smallMap) {
 		Set<String> bigMapKey = bigMap.keySet();
 		Set<String> smallMapKey = smallMap.keySet();
 		Set<String> differenceSet = Sets.difference(bigMapKey, smallMapKey);

@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import jp.acepro.haishinsan.db.entity.Shop;
-import jp.acepro.haishinsan.dto.ShopDto;
+import jp.acepro.haishinsan.dto.account.ShopDto;
 import jp.acepro.haishinsan.form.ShopInputForm;
 
 @Mapper

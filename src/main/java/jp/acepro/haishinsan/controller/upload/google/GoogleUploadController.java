@@ -72,29 +72,35 @@ public class GoogleUploadController {
 	}
 
 	@PostMapping("/bannerAd/confirm")
-	public ModelAndView bannerAdConfirm(@Validated UploadGoogleBannerAdCreateForm form, BindingResult result) throws IOException {
+	public ModelAndView bannerAdConfirm(@Validated UploadGoogleBannerAdCreateForm form, BindingResult result)
+			throws IOException {
 		try {
 			if (!form.getImageFile01().isEmpty()) {
 				form.setImageFileName01(form.getImageFile01().getOriginalFilename());
-				form.setImageData01("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLEIMG.getValue()));
+				form.setImageData01("data:image/jpeg;base64,"
+						+ imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLEIMG.getValue()));
 				form.setImageBytes01(getByteArrayFromStream(form.getImageFile01().getInputStream()));
 			}
 			if (!form.getImageFile02().isEmpty()) {
 				form.setImageFileName02(form.getImageFile02().getOriginalFilename());
-				form.setImageData02("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLEIMG.getValue()));
+				form.setImageData02("data:image/jpeg;base64,"
+						+ imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLEIMG.getValue()));
 				form.setImageBytes02(getByteArrayFromStream(form.getImageFile02().getInputStream()));
 			}
 			if (!form.getImageFile03().isEmpty()) {
 				form.setImageFileName03(form.getImageFile03().getOriginalFilename());
-				form.setImageData03("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile03(), MediaType.GOOGLEIMG.getValue()));
+				form.setImageData03("data:image/jpeg;base64,"
+						+ imageUtil.getImageBytes(form.getImageFile03(), MediaType.GOOGLEIMG.getValue()));
 				form.setImageBytes03(getByteArrayFromStream(form.getImageFile03().getInputStream()));
 			}
 			if (!form.getImageFile04().isEmpty()) {
 				form.setImageFileName04(form.getImageFile04().getOriginalFilename());
-				form.setImageData04("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile04(), MediaType.GOOGLEIMG.getValue()));
+				form.setImageData04("data:image/jpeg;base64,"
+						+ imageUtil.getImageBytes(form.getImageFile04(), MediaType.GOOGLEIMG.getValue()));
 				form.setImageBytes04(getByteArrayFromStream(form.getImageFile04().getInputStream()));
 			}
-			if (form.getImageFile01().isEmpty() && form.getImageFile02().isEmpty() && form.getImageFile03().isEmpty() && form.getImageFile04().isEmpty()) {
+			if (form.getImageFile01().isEmpty() && form.getImageFile02().isEmpty() && form.getImageFile03().isEmpty()
+					&& form.getImageFile04().isEmpty()) {
 				// バナーを少なくとも１枚アップロードしてください。
 				throw new BusinessException(ErrorCodeConstant.E70009);
 			}
@@ -172,7 +178,8 @@ public class GoogleUploadController {
 					//
 					urlCount++;
 					// 広告名（画面入力＋セグメントID）※キャンペーン名重複不可のため、セグメントIDで区別
-					googleCampaignDto.setCampaignName(form.getImgAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
+					googleCampaignDto.setCampaignName(
+							form.getImgAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
 					// 最終ページURL（セグメントURL）
 					googleCampaignDto.setImageAdFinalPageUrl(dto.getUrl());
 					// 広告作成
@@ -204,12 +211,14 @@ public class GoogleUploadController {
 		try {
 			if (!form.getImageFile01().isEmpty()) {
 				form.setImageFileName01(form.getImageFile01().getOriginalFilename());
-				form.setImageData01("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLERES.getValue()));
+				form.setImageData01("data:image/jpeg;base64,"
+						+ imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLERES.getValue()));
 				form.setImageBytes01(getByteArrayFromStream(form.getImageFile01().getInputStream()));
 			}
 			if (!form.getImageFile02().isEmpty()) {
 				form.setImageFileName02(form.getImageFile02().getOriginalFilename());
-				form.setImageData02("data:image/jpeg;base64," + imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLERES.getValue()));
+				form.setImageData02("data:image/jpeg;base64,"
+						+ imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLERES.getValue()));
 				form.setImageBytes02(getByteArrayFromStream(form.getImageFile02().getInputStream()));
 			}
 		} catch (BusinessException e) {
@@ -224,7 +233,8 @@ public class GoogleUploadController {
 
 	@PostMapping("/bannerTextAd/complete")
 	public ModelAndView bannerTextAdComplete() {
-		UploadGoogleBannerTextAdCreateForm form = (UploadGoogleBannerTextAdCreateForm) session.getAttribute("bannerTextAdForm");
+		UploadGoogleBannerTextAdCreateForm form = (UploadGoogleBannerTextAdCreateForm) session
+				.getAttribute("bannerTextAdForm");
 		log.debug(form.toString());
 		ModelAndView mv = new ModelAndView();
 		mv.setViewName("upload/google/bannerTextAd/complete");
@@ -281,7 +291,8 @@ public class GoogleUploadController {
 					//
 					urlCount++;
 					// 広告名（画面入力＋セグメントID）※キャンペーン名重複不可のため、セグメントIDで区別
-					googleCampaignDto.setCampaignName(form.getResAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
+					googleCampaignDto.setCampaignName(
+							form.getResAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
 					// 最終ページURL（セグメントURL）
 					googleCampaignDto.setResAdFinalPageUrl(dto.getUrl());
 					// 広告作成
@@ -365,7 +376,8 @@ public class GoogleUploadController {
 					//
 					urlCount++;
 					// 広告名（画面入力＋セグメントID）※キャンペーン名重複不可のため、セグメントIDで区別
-					googleCampaignDto.setCampaignName(form.getTextAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
+					googleCampaignDto.setCampaignName(
+							form.getTextAdName().concat(new String("(" + dto.getSegmentId().toString() + ")")));
 					// 最終ページURL（セグメントURL）
 					googleCampaignDto.setTextAdFinalPageUrl(dto.getUrl());
 					// 広告作成

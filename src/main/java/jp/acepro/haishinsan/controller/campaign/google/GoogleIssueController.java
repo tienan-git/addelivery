@@ -1,12 +1,10 @@
 package jp.acepro.haishinsan.controller.campaign.google;
 
-import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,33 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.google.common.io.ByteSource;
 
-import jp.acepro.haishinsan.constant.ErrorCodeConstant;
-import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
-import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
-import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
-import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
-import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
-import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
-import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
 import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleTemplateDto;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
-import jp.acepro.haishinsan.exception.BusinessException;
-import jp.acepro.haishinsan.form.FbIssueInputForm;
-import jp.acepro.haishinsan.form.GoogleCampaignForm;
 import jp.acepro.haishinsan.form.GoogleIssueInputForm;
-import jp.acepro.haishinsan.mapper.FacebookMapper;
-import jp.acepro.haishinsan.mapper.GoogleMapper;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
@@ -56,7 +39,7 @@ import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.ImageUtil;
 
 @Controller
-@RequestMapping("/google")
+@RequestMapping("/campaign/google")
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class GoogleIssueController {
 
@@ -94,7 +77,8 @@ public class GoogleIssueController {
 
 		session.setAttribute("adType", GoogleAdType.IMAGE);
 
-		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.IMAGE.getValue());
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService
+				.searchGoogleCampaignManageList(GoogleAdType.IMAGE.getValue());
 
 		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
 
@@ -111,7 +95,8 @@ public class GoogleIssueController {
 
 		session.setAttribute("adType", GoogleAdType.RESPONSIVE);
 
-		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.RESPONSIVE.getValue());
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService
+				.searchGoogleCampaignManageList(GoogleAdType.RESPONSIVE.getValue());
 
 		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
 
@@ -128,7 +113,8 @@ public class GoogleIssueController {
 
 		session.setAttribute("adType", GoogleAdType.TEXT);
 
-		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService.searchGoogleCampaignManageList(GoogleAdType.TEXT.getValue());
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignService
+				.searchGoogleCampaignManageList(GoogleAdType.TEXT.getValue());
 
 		List<GoogleCampaignDto> googleCampaignDtoList = googleCampaignService.campaignList(googleCampaignManageList);
 
@@ -154,7 +140,7 @@ public class GoogleIssueController {
 			case TEXT:
 				return textCampaignList(googleIssueInputForm);
 			default:
-			    return bannerCampaignList(googleIssueInputForm);
+				return bannerCampaignList(googleIssueInputForm);
 			}
 		}
 		if (googleIssueInputForm.getIdList().size() > 1) {
@@ -168,7 +154,7 @@ public class GoogleIssueController {
 			case TEXT:
 				return textCampaignList(googleIssueInputForm);
 			default:
-			    return bannerCampaignList(googleIssueInputForm);
+				return bannerCampaignList(googleIssueInputForm);
 			}
 		}
 
@@ -181,13 +167,12 @@ public class GoogleIssueController {
 		// -------- 優先度一番高いテンプレートで初期値を設定 --------
 		if (googleTemplateDtoList != null && googleTemplateDtoList.size() > 0) {
 			GoogleTemplateDto googleTemplateDto = googleTemplateDtoList.get(0);
-			googleIssueInputForm.setBudget( googleTemplateDto.getBudget() );
-			googleIssueInputForm.setCampaignName( googleTemplateDto.getCampaignName() );
-	        List<Long> list = googleTemplateDto.getLocationList();
-	        if ( list != null ) {
-	        	googleIssueInputForm.setLocationList(       new ArrayList<Long>( list )
-	            );
-	        }
+			googleIssueInputForm.setBudget(googleTemplateDto.getBudget());
+			googleIssueInputForm.setCampaignName(googleTemplateDto.getCampaignName());
+			List<Long> list = googleTemplateDto.getLocationList();
+			if (list != null) {
+				googleIssueInputForm.setLocationList(new ArrayList<Long>(list));
+			}
 //	        googleIssueInputForm.setResAdDescription( googleTemplateDto.getResAdDescription() );
 //	        googleIssueInputForm.setResAdShortTitle( googleTemplateDto.getResAdShortTitle() );
 //	        googleIssueInputForm.setTextAdDescription( googleTemplateDto.getTextAdDescription() );
@@ -205,12 +190,13 @@ public class GoogleIssueController {
 
 	@PostMapping("/confirmIssue")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
-	public ModelAndView confirmIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result) throws IOException {
+	public ModelAndView confirmIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result)
+			throws IOException {
 
 		String campaignId = (String) session.getAttribute("campaignId");
 		GoogleIssueDto googleIssueDto = googleCampaignService.mapToIssue(googleIssueInputForm);
 		googleIssueDto.setCampaignId(Long.valueOf(campaignId));
-		
+
 		session.setAttribute("googleIssueDto", googleIssueDto);
 		ModelAndView mv = new ModelAndView("campaign/google/confirmIssue");
 		mv.addObject("googleIssueDto", googleIssueDto);
@@ -428,7 +414,8 @@ public class GoogleIssueController {
 	}
 
 	private List<GoogleTemplateDto> getGoogleTemplateList() {
-		List<GoogleTemplateDto> googleTemplateDtoList = googleTemplateService.getTemplateList(ContextUtil.getCurrentShop().getShopId());
+		List<GoogleTemplateDto> googleTemplateDtoList = googleTemplateService
+				.getTemplateList(ContextUtil.getCurrentShop().getShopId());
 		return googleTemplateDtoList;
 	}
 

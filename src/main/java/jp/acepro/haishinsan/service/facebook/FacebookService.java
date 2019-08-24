@@ -2,34 +2,30 @@ package jp.acepro.haishinsan.service.facebook;
 
 import java.util.List;
 
-import com.facebook.ads.sdk.AdsInsights.EnumDatePreset;
-
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.IssueDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
 import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
-import jp.acepro.haishinsan.dto.facebook.FbGraphReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
-import jp.acepro.haishinsan.dto.facebook.FbReportDisplayDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 
 public interface FacebookService {
-    // 初期テンプレートを作成
+	// 初期テンプレートを作成
 	void createDefaultTemplate(long shopId);
-	
+
 	FbTemplateDto create(FbTemplateDto fbTempleteDto);
-	
+
 	FbTemplateDto templateDetail(Long templateId);
 
 	void templateUpdate(FbTemplateDto fbTemplateDto);
-	
+
 	List<FbTemplateDto> searchList();
 
 	FbTemplateDto templateDelete(Long templateId);
 
-    void createCreative(FbCreativeDto fbCreativeDto, List<DspSegmentListDto> dspSegmentDtoList);
+	void createCreative(FbCreativeDto fbCreativeDto, List<DspSegmentListDto> dspSegmentDtoList);
 
 	FbCampaignDto createCampaign(FbCampaignDto fbCampaignDto, IssueDto issueDto);
 
@@ -47,10 +43,8 @@ public interface FacebookService {
 	// キャンペーンの審査ステータスを更新
 	void updateCampaignCheckStatus(String campaignId, String checkStatus);
 
-
 	void createFacebookCampaign(FbCampaignDto fbCampaignDto, IssueDto issueDto);
-	
-	Issue createIssue(FbIssueDto fbIssueDto);
 
+	Issue createIssue(FbIssueDto fbIssueDto);
 
 }

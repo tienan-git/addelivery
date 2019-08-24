@@ -17,26 +17,23 @@ public interface TwitterMapper {
 
 	TwitterMapper INSTANCE = Mappers.getMapper(TwitterMapper.class);
 
-	
-	//TemplateDto →　From
+	// TemplateDto → From
 	TwitterTemplateDto tempFormToDto(TwitterTemplateInputForm twittertemplateInputForm);
-	
-	@Mapping(target = "startTime" , expression = "java( jp.acepro.haishinsan.util.StringFormatter.dateFormat(twitterTemplateDto.getStartTime()))")
-	@Mapping(target = "endTime" , expression = "java( jp.acepro.haishinsan.util.StringFormatter.dateFormat(twitterTemplateDto.getEndTime()))")
-	@Mapping(target = "regions" , expression = "java( jp.acepro.haishinsan.util.TwitterUtil.formatToOneString(twitterTemplateDto.getRegions()))")
+
+	@Mapping(target = "startTime", expression = "java( jp.acepro.haishinsan.util.StringFormatter.dateFormat(twitterTemplateDto.getStartTime()))")
+	@Mapping(target = "endTime", expression = "java( jp.acepro.haishinsan.util.StringFormatter.dateFormat(twitterTemplateDto.getEndTime()))")
+	@Mapping(target = "regions", expression = "java( jp.acepro.haishinsan.util.TwitterUtil.formatToOneString(twitterTemplateDto.getRegions()))")
 	TwitterTemplate tempDtoToEntity(TwitterTemplateDto twitterTemplateDto);
-	
-	
-	@Mapping(target = "startTime" , expression = "java( jp.acepro.haishinsan.util.StringFormatter.formatToHyphen(twitterTemplate.getStartTime()))")
-	@Mapping(target = "endTime" , expression = "java( jp.acepro.haishinsan.util.StringFormatter.formatToHyphen(twitterTemplate.getEndTime()))")
-	@Mapping(target = "regions" , expression = "java( jp.acepro.haishinsan.util.TwitterUtil.formatStringToList(twitterTemplate.getRegions()))")
+
+	@Mapping(target = "startTime", expression = "java( jp.acepro.haishinsan.util.StringFormatter.formatToHyphen(twitterTemplate.getStartTime()))")
+	@Mapping(target = "endTime", expression = "java( jp.acepro.haishinsan.util.StringFormatter.formatToHyphen(twitterTemplate.getEndTime()))")
+	@Mapping(target = "regions", expression = "java( jp.acepro.haishinsan.util.TwitterUtil.formatStringToList(twitterTemplate.getRegions()))")
 	TwitterTemplateDto tempEntityToDto(TwitterTemplate twitterTemplate);
-	
-	
+
 	List<TwitterTemplateDto> tempListEntityToDto(List<TwitterTemplate> twitterTemplateList);
 
 	TwitterTemplateInputForm tempDtoToForm(TwitterTemplateDto twitterTemplateDto);
-	
-	//AdsDto →　From
+
+	// AdsDto → From
 	TwitterAdsDto adsFormToDto(TwitterAdsInputForm twitterAdsInputForm);
 }

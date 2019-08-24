@@ -1,8 +1,5 @@
-package jp.acepro.haishinsan.service;
+package jp.acepro.haishinsan.service.api;
 
-import static com.google.api.ads.common.lib.utils.Builder.DEFAULT_CONFIGURATION_FILENAME;
-
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -17,17 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.facebook.ads.sdk.APIContext;
 import com.facebook.ads.sdk.APIException;
 import com.facebook.ads.sdk.APINodeList;
-import com.facebook.ads.sdk.AdAccount;
 import com.facebook.ads.sdk.AdSet;
-import com.facebook.ads.sdk.AdsInsights.EnumDatePreset;
-import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
-import com.google.api.ads.adwords.lib.client.AdWordsSession;
-import com.google.api.ads.common.lib.auth.OfflineCredentials;
-import com.google.api.ads.common.lib.auth.OfflineCredentials.Api;
-import com.google.api.ads.common.lib.conf.ConfigurationLoadException;
-import com.google.api.ads.common.lib.exception.OAuthException;
-import com.google.api.ads.common.lib.exception.ValidationException;
-import com.google.api.client.auth.oauth2.Credential;
 import com.facebook.ads.sdk.Campaign;
 import com.facebook.ads.sdk.IDName;
 import com.facebook.ads.sdk.Targeting;
@@ -36,19 +23,18 @@ import com.facebook.ads.sdk.TargetingGeoLocationCity;
 
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageCustomDao;
-import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
-import jp.acepro.haishinsan.db.entity.DspCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
-import jp.acepro.haishinsan.enums.ApprovalFlag;
-import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.enums.UnitPriceType;
 import jp.acepro.haishinsan.exception.SystemException;
+import jp.acepro.haishinsan.service.CodeMasterService;
+import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
+import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.service.facebook.FacebookService;
@@ -61,7 +47,6 @@ import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
 import jp.acepro.haishinsan.service.youtube.YoutubeReportService;
 import jp.acepro.haishinsan.util.CalculateUtil;
-import jp.acepro.haishinsan.util.ContextUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -120,7 +105,8 @@ public class IssueApiServiceImpl implements IssueApiService {
 		String dateString = df.format(dateTime);
 		List<Issue> issueList = issueCustomDao.selectFacebookIssueNeededStart(dateString);
 
-		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
+		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
+				applicationProperties.getFacebookAppSecret());
 		// AdAccount account = new
 		// AdAccount(applicationProperties.getFacebookAccountId(), context);
 
@@ -145,13 +131,16 @@ public class IssueApiServiceImpl implements IssueApiService {
 
 				// 最大入札価格を設定（地域の価格の平均値を算出）
 				Long bidAmount = 200l;
-				Double averageUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceClickList.stream().filter(obj -> locationLongList.contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				Double averageUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceClickList.stream()
+						.filter(obj -> locationLongList.contains(obj.getFirst())).mapToInt(obj -> obj.getSecond())
+						.average().getAsDouble();
 				bidAmount = Math.round(averageUnitPriceDouble);
 
 				// 1日の予算
 				Long dailyBudget = issue.getFacebookOnedayBudget();
 				// マージン率をかけた1日の予算
-				Long realDailyBudget = CalculateUtil.calRealBudgetWithShopRatio(dailyBudget, shopList.get(0).getMarginRatio());
+				Long realDailyBudget = CalculateUtil.calRealBudgetWithShopRatio(dailyBudget,
+						shopList.get(0).getMarginRatio());
 
 				// 趣味設定
 				List<IDName> idNameList = new ArrayList<IDName>();
@@ -164,15 +153,19 @@ public class IssueApiServiceImpl implements IssueApiService {
 				// 配置場所はfacebookのフィードのみ
 				Targeting targeting = new Targeting().setFieldAgeMin(18L) // 最小年齢
 						.setFieldInterests(idNameList)// 趣味
-						.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList)).setFieldPublisherPlatforms(Arrays.asList("facebook")).setFieldFacebookPositions(Arrays.asList("feed"));
+						.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList))
+						.setFieldPublisherPlatforms(Arrays.asList("facebook"))
+						.setFieldFacebookPositions(Arrays.asList("feed"));
 				APINodeList<AdSet> adSets = new Campaign(issue.getFacebookCampaignManageId(), context).getAdSets()
 						// .requestNameField()
 						// .requestConfiguredStatusField()
 						// .requestEffectiveStatusField()
 						.execute();
-				adSets.get(0).update().setDailyBudget(realDailyBudget).setBidAmount(bidAmount).setTargeting(targeting).execute();
+				adSets.get(0).update().setDailyBudget(realDailyBudget).setBidAmount(bidAmount).setTargeting(targeting)
+						.execute();
 
-				Campaign campaign = new Campaign(issue.getFacebookCampaignManageId(), context).update().setStatus(Campaign.EnumStatus.VALUE_ACTIVE).execute();
+				Campaign campaign = new Campaign(issue.getFacebookCampaignManageId(), context).update()
+						.setStatus(Campaign.EnumStatus.VALUE_ACTIVE).execute();
 
 				issue.setStartTimestamp(dateTime);
 				issueDao.update(issue);
@@ -194,14 +187,14 @@ public class IssueApiServiceImpl implements IssueApiService {
 		String dateString = df.format(dateTime);
 		List<Issue> issueList = issueCustomDao.selectFacebookIssueNeededStop(dateString);
 
-		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
+		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
+				applicationProperties.getFacebookAppSecret());
 
 		for (Issue issue : issueList) {
 			try {
 
 				Campaign campaign = new Campaign(issue.getFacebookCampaignManageId(), context).update()
-						.setStatus(Campaign.EnumStatus.VALUE_PAUSED)
-						.execute();
+						.setStatus(Campaign.EnumStatus.VALUE_PAUSED).execute();
 				issue.setEndTimestamp(dateTime);
 				issueDao.update(issue);
 			} catch (APIException e) {
@@ -231,18 +224,19 @@ public class IssueApiServiceImpl implements IssueApiService {
 		for (Issue issue : issueList) {
 			// 店舗情報取得
 			List<Shop> shopList = shopCustomDao.selectByIssueId(issue.getIssueId());
-			GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(issue.getGoogleCampaignManageId());
+			GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao
+					.selectByCampaignId(issue.getGoogleCampaignManageId());
 			GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
 			googleCampaignDto.setUnitPriceType(UnitPriceType.DISPLAY.getValue());
 			googleCampaignDto.setAdType(googleCampaignManage.getAdType());
 			List<String> locationStringList = Arrays.asList(issue.getGoogleRegions().split(","));
 			List<Long> locationLongList = new ArrayList<Long>();
 			for (String location : locationStringList) {
-                locationLongList.add(Long.valueOf(location));
+				locationLongList.add(Long.valueOf(location));
 			}
 			googleCampaignDto.setLocationList(locationLongList);
 			googleCampaignDto.setBudget(issue.getGoogleOnedayBudget());
-			
+
 			// ---------広告グループ取得API実行
 			GetAdGroups getAdGroups = new GetAdGroups();
 			getAdGroups.propFileName = propFileName;
@@ -258,7 +252,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 				updateAdGroup.adGroupId = adGroupId;
 				updateAdGroup.run();
 			}
-			
+
 			UpdateCampaign updateCampaign = new UpdateCampaign();
 			updateCampaign.propFileName = propFileName;
 			updateCampaign.googleAccountId = shopList.get(0).getGoogleAccountId();
@@ -270,7 +264,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			issueDao.update(issue);
 		}
 	}
-	
+
 	@Async
 	@Override
 	@Transactional
@@ -288,7 +282,8 @@ public class IssueApiServiceImpl implements IssueApiService {
 
 			UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
 			updateCampaignStatus.propFileName = propFileName;
-			updateCampaignStatus.googleAccountId = shopList.get(0).getGoogleAccountId();;
+			updateCampaignStatus.googleAccountId = shopList.get(0).getGoogleAccountId();
+			;
 			updateCampaignStatus.run(issue.getGoogleCampaignManageId(), "OFF");
 
 			issue.setEndTimestamp(dateTime);

@@ -61,7 +61,7 @@ public class S3ServiceImpl implements S3Service {
 	 * 
 	 * @param imageName
 	 * @return String
-	 * @throws IOException 
+	 * @throws IOException
 	 * 
 	 *************/
 	public String getFileFromS3(String imageName) throws IOException {
@@ -69,8 +69,9 @@ public class S3ServiceImpl implements S3Service {
 		// AWSアカウント情報を取得する
 		AmazonS3 awsS3Client = awsClient.getAwsS3Client();
 
-        /************* リクエストを取得 *************/
-		GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(applicationProperties.getBucket(), imageName);
+		/************* リクエストを取得 *************/
+		GeneratePresignedUrlRequest urlRequest = new GeneratePresignedUrlRequest(applicationProperties.getBucket(),
+				imageName);
 		/************* S3から保存した部品のURLを取得 *************/
 		URL url = awsS3Client.generatePresignedUrl(urlRequest);
 		return String.valueOf(url);

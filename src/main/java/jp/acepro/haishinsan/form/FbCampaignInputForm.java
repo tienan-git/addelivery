@@ -21,7 +21,7 @@ public class FbCampaignInputForm {
 	String arrangePlace;
 	Long bidAmount;
 	String pageId;
-	
+
 	// 地域
 	List<Long> locationList;
 
@@ -29,7 +29,5 @@ public class FbCampaignInputForm {
 	String linkMessage;
 	Integer segmentId;
 	String linkUrl;
-	
-	
-	
+
 }

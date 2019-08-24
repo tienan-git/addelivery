@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterTargetReq {
-	
+
 	List<TwitterTargetObjReq> request;
-	
+
 }

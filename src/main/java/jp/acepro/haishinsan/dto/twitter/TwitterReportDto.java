@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 public class TwitterReportDto {
-	
+
 	List<String> campaignIdList;
 	String campaignId;
 	String startDate;

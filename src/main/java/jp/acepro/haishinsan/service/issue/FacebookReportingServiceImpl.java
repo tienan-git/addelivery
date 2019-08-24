@@ -2,48 +2,22 @@ package jp.acepro.haishinsan.service.issue;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.facebook.ads.sdk.APIContext;
 import com.facebook.ads.sdk.APIException;
 import com.facebook.ads.sdk.APINodeList;
-import com.facebook.ads.sdk.Ad;
 import com.facebook.ads.sdk.AdAccount;
-import com.facebook.ads.sdk.AdCreative;
-import com.facebook.ads.sdk.AdCreativeLinkData;
-import com.facebook.ads.sdk.AdCreativeObjectStorySpec;
-import com.facebook.ads.sdk.AdImage;
-import com.facebook.ads.sdk.AdSet;
-import com.facebook.ads.sdk.AdSet.EnumBidStrategy;
-import com.facebook.ads.sdk.AdSet.EnumBillingEvent;
-import com.facebook.ads.sdk.AdSet.EnumOptimizationGoal;
 import com.facebook.ads.sdk.AdsInsights;
 import com.facebook.ads.sdk.AdsInsights.EnumBreakdowns;
 import com.facebook.ads.sdk.AdsInsights.EnumDatePreset;
-import com.facebook.ads.sdk.Campaign;
-import com.facebook.ads.sdk.Campaign.EnumObjective;
-import com.facebook.ads.sdk.Campaign.EnumStatus;
-import com.facebook.ads.sdk.FlexibleTargeting;
-import com.facebook.ads.sdk.IDName;
-import com.facebook.ads.sdk.Targeting;
-import com.facebook.ads.sdk.TargetingGeoLocation;
-import com.facebook.ads.sdk.TargetingGeoLocationCity;
 import com.google.gson.Gson;
 import com.univocity.parsers.common.processor.BeanWriterProcessor;
 import com.univocity.parsers.csv.CsvWriter;
@@ -53,7 +27,6 @@ import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.bean.FacebookDateReportCsvBean;
 import jp.acepro.haishinsan.bean.FacebookDeviceReportCsvBean;
 import jp.acepro.haishinsan.bean.FacebookRegionReportCsvBean;
-import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dao.DspSegmentCustomDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
@@ -64,42 +37,16 @@ import jp.acepro.haishinsan.dao.FacebookRegionReportDao;
 import jp.acepro.haishinsan.dao.FacebookTemplateCustomDao;
 import jp.acepro.haishinsan.dao.FacebookTemplateDao;
 import jp.acepro.haishinsan.dao.IssueDao;
-import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.FacebookDeviceReport;
 import jp.acepro.haishinsan.db.entity.FacebookRegionReport;
-import jp.acepro.haishinsan.db.entity.FacebookTemplate;
-import jp.acepro.haishinsan.db.entity.Issue;
-import jp.acepro.haishinsan.db.entity.SegmentManage;
-import jp.acepro.haishinsan.dto.EmailCampDetailDto;
-import jp.acepro.haishinsan.dto.EmailDto;
-import jp.acepro.haishinsan.dto.IssueDto;
-import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
-import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
-import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
 import jp.acepro.haishinsan.dto.facebook.FbDeviceReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbGraphReportDto;
-import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbRegionReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbReportDisplayDto;
-import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
-import jp.acepro.haishinsan.dto.facebook.InstagramAccountRes;
-import jp.acepro.haishinsan.enums.ApprovalFlag;
-import jp.acepro.haishinsan.enums.DateFormatter;
-import jp.acepro.haishinsan.enums.EmailTemplateType;
-import jp.acepro.haishinsan.enums.FacebookArrangePlace;
-import jp.acepro.haishinsan.enums.FacebookCampaignStatus;
-import jp.acepro.haishinsan.enums.Flag;
-import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.enums.ReportType;
-import jp.acepro.haishinsan.enums.UnitPriceType;
-import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.exception.SystemException;
-import jp.acepro.haishinsan.mapper.FacebookMapper;
 import jp.acepro.haishinsan.service.BaseService;
-import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.EmailService;
-import jp.acepro.haishinsan.util.CalculateUtil;
-import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.DateUtil;
 import jp.acepro.haishinsan.util.ReportUtil;
 
@@ -142,12 +89,12 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 	@Autowired
 	EmailService emailService;
 
-
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
 	public void getReportDetails(EnumDatePreset enumDatePreset) {
 
-		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
+		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
+				applicationProperties.getFacebookAppSecret());
 		Gson gson = new Gson();
 		LocalDate localDate = LocalDate.now();
 		;
@@ -157,30 +104,36 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 		try {
 			// String idList = "[\"23843032433030277\",\"23843046668180277\"]}]";
 
-			APINodeList<AdsInsights> requestGetRegionInsights = new AdAccount(applicationProperties.getFacebookAccountId(), context).getInsights().setLevel(AdsInsights.EnumLevel.VALUE_CAMPAIGN)
+			APINodeList<AdsInsights> requestGetRegionInsights = new AdAccount(
+					applicationProperties.getFacebookAccountId(), context).getInsights()
+							.setLevel(AdsInsights.EnumLevel.VALUE_CAMPAIGN)
 
-					// .setFiltering("[]")
-					.setTimeIncrement("1").setBreakdowns(Arrays.asList(EnumBreakdowns.VALUE_REGION))
-					// .setFiltering("[{\"field\":\"campaign.id\",\"operator\":\"IN\",\"value\":[\"ARCHIVED\",\"DELETED\"]}]")
-					// .setFiltering("[{\"field\":\"campaign.id\",\"operator\":\"IN\",\"value\":" +
-					// idList)
-					.setDatePreset(enumDatePreset)
-					// .setActionReportTime(EnumActionReportTime.VALUE_IMPRESSION)
-					// .setDatePreset(AdsInsights.EnumDatePreset.VALUE_LIFETIME)
-					// .setTimeRange("{\"since\":\"2018-08-08\",\"until\":\"2018-11-07\"}")
-					// .requestField("actions:link_click")
-					// .requestField("actions:photo_view")
-					// .requestField("cost_per_result")
-					.requestField("campaign_id").requestField("campaign_name").requestField("impressions").requestField("clicks").requestField("spend")
-					// .requestAllFields()
-					.execute();
+							// .setFiltering("[]")
+							.setTimeIncrement("1").setBreakdowns(Arrays.asList(EnumBreakdowns.VALUE_REGION))
+							// .setFiltering("[{\"field\":\"campaign.id\",\"operator\":\"IN\",\"value\":[\"ARCHIVED\",\"DELETED\"]}]")
+							// .setFiltering("[{\"field\":\"campaign.id\",\"operator\":\"IN\",\"value\":" +
+							// idList)
+							.setDatePreset(enumDatePreset)
+							// .setActionReportTime(EnumActionReportTime.VALUE_IMPRESSION)
+							// .setDatePreset(AdsInsights.EnumDatePreset.VALUE_LIFETIME)
+							// .setTimeRange("{\"since\":\"2018-08-08\",\"until\":\"2018-11-07\"}")
+							// .requestField("actions:link_click")
+							// .requestField("actions:photo_view")
+							// .requestField("cost_per_result")
+							.requestField("campaign_id").requestField("campaign_name").requestField("impressions")
+							.requestField("clicks").requestField("spend")
+							// .requestAllFields()
+							.execute();
 			// List<FacebookRegionReport> facebookRegionReportList = new
 			// ArrayList<FacebookRegionReport>();
 			for (AdsInsights requestGetRegionInsight : requestGetRegionInsights) {
 
-				FbRegionReportDto fbRegionReportDto = gson.fromJson(requestGetRegionInsight.getRawValue(), FbRegionReportDto.class);
+				FbRegionReportDto fbRegionReportDto = gson.fromJson(requestGetRegionInsight.getRawValue(),
+						FbRegionReportDto.class);
 
-				FacebookRegionReport facebookRegionReportOld = facebookRegionReportCustomDao.selectByCampaignIdDateRegion(fbRegionReportDto.getCampaign_id(), DateUtil.toLocalDate(fbRegionReportDto.getDate_start()), fbRegionReportDto.getRegion());
+				FacebookRegionReport facebookRegionReportOld = facebookRegionReportCustomDao
+						.selectByCampaignIdDateRegion(fbRegionReportDto.getCampaign_id(),
+								DateUtil.toLocalDate(fbRegionReportDto.getDate_start()), fbRegionReportDto.getRegion());
 				if (facebookRegionReportOld != null && facebookRegionReportOld.getCampaignId() != null) {
 					facebookRegionReportOld.setImpressions(Long.parseLong(fbRegionReportDto.getImpressions()));
 					facebookRegionReportOld.setClicks(Long.parseLong(fbRegionReportDto.getClicks()));
@@ -201,23 +154,30 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 				// facebookRegionReportList.add(facebookRegionReport);
 			}
 
-			APINodeList<AdsInsights> requestGetDeviceInsights = new AdAccount(applicationProperties.getFacebookAccountId(), context).getInsights().setLevel(AdsInsights.EnumLevel.VALUE_CAMPAIGN).setTimeIncrement("1")
-					// .setDatePreset(AdsInsights.EnumDatePreset.VALUE_LIFETIME)
-					.setBreakdowns(Arrays.asList(EnumBreakdowns.VALUE_DEVICE_PLATFORM)).setDatePreset(enumDatePreset)
-					// .setTimeRange("{\"since\":\"2018-08-08\",\"until\":\"2018-11-07\"}")
-					// .requestField("actions:link_click")
-					// .requestField("actions:photo_view")
-					// .requestField("cost_per_result")
-					.requestField("campaign_id").requestField("campaign_name").requestField("impressions").requestField("clicks").requestField("spend")
-					// .requestAllFields()
-					.execute();
+			APINodeList<AdsInsights> requestGetDeviceInsights = new AdAccount(
+					applicationProperties.getFacebookAccountId(), context).getInsights()
+							.setLevel(AdsInsights.EnumLevel.VALUE_CAMPAIGN).setTimeIncrement("1")
+							// .setDatePreset(AdsInsights.EnumDatePreset.VALUE_LIFETIME)
+							.setBreakdowns(Arrays.asList(EnumBreakdowns.VALUE_DEVICE_PLATFORM))
+							.setDatePreset(enumDatePreset)
+							// .setTimeRange("{\"since\":\"2018-08-08\",\"until\":\"2018-11-07\"}")
+							// .requestField("actions:link_click")
+							// .requestField("actions:photo_view")
+							// .requestField("cost_per_result")
+							.requestField("campaign_id").requestField("campaign_name").requestField("impressions")
+							.requestField("clicks").requestField("spend")
+							// .requestAllFields()
+							.execute();
 			// List<FacebookDeviceReport> facebookDeviceReportList = new
 			// ArrayList<FacebookDeviceReport>();
 			for (AdsInsights requestGetDeviceInsight : requestGetDeviceInsights) {
 
-				FbDeviceReportDto fbDeviceReportDto = gson.fromJson(requestGetDeviceInsight.getRawValue(), FbDeviceReportDto.class);
+				FbDeviceReportDto fbDeviceReportDto = gson.fromJson(requestGetDeviceInsight.getRawValue(),
+						FbDeviceReportDto.class);
 
-				FacebookDeviceReport facebookDeviceReportOld = facebookDeviceReportCustomDao.selectByCampaignIdDateDevice(fbDeviceReportDto.getCampaign_id(), DateUtil.toLocalDate(fbDeviceReportDto.getDate_start()), fbDeviceReportDto.getDevice());
+				FacebookDeviceReport facebookDeviceReportOld = facebookDeviceReportCustomDao
+						.selectByCampaignIdDateDevice(fbDeviceReportDto.getCampaign_id(),
+								DateUtil.toLocalDate(fbDeviceReportDto.getDate_start()), fbDeviceReportDto.getDevice());
 				if (facebookDeviceReportOld != null && facebookDeviceReportOld.getCampaignId() != null) {
 					facebookDeviceReportOld.setImpressions(Long.parseLong(fbDeviceReportDto.getImpressions()));
 					facebookDeviceReportOld.setClicks(Long.parseLong(fbDeviceReportDto.getClicks()));
@@ -229,7 +189,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 					facebookDeviceReportNew.setCampaignId(fbDeviceReportDto.getCampaign_id());
 					facebookDeviceReportNew.setCampaignName(fbDeviceReportDto.getCampaign_name());
 					facebookDeviceReportNew.setDate(DateUtil.toLocalDate(fbDeviceReportDto.getDate_start()));
-					facebookDeviceReportNew.setDevice(fbDeviceReportDto.getDevice() == null ? "不明" : fbDeviceReportDto.getDevice());
+					facebookDeviceReportNew
+							.setDevice(fbDeviceReportDto.getDevice() == null ? "不明" : fbDeviceReportDto.getDevice());
 					facebookDeviceReportNew.setImpressions(Long.parseLong(fbDeviceReportDto.getImpressions()));
 					facebookDeviceReportNew.setClicks(Long.parseLong(fbDeviceReportDto.getClicks()));
 					facebookDeviceReportNew.setSpend(Long.parseLong(fbDeviceReportDto.getSpend()));
@@ -250,7 +211,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
 		List<FbReportDisplayDto> fbReportDisplayDtoList = new ArrayList<FbReportDisplayDto>();
 
-		List<FacebookDeviceReport> facebookDeviceReportList = facebookDeviceReportCustomDao.selectDeviceReport(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<FacebookDeviceReport> facebookDeviceReportList = facebookDeviceReportCustomDao
+				.selectDeviceReport(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 		for (FacebookDeviceReport facebookDeviceReport : facebookDeviceReportList) {
 			FbReportDisplayDto fbReportDisplayDto = new FbReportDisplayDto();
 			fbReportDisplayDto.setCampaignId(facebookDeviceReport.getCampaignId());
@@ -260,7 +222,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 			fbReportDisplayDto.setClicks(facebookDeviceReport.getClicks());
 			Long displayCosts = ReportUtil.calDisplaySpend((double) facebookDeviceReport.getSpend());
 			fbReportDisplayDto.setSpend(displayCosts.longValue());
-			fbReportDisplayDto.setCtr(ReportUtil.calCtr(facebookDeviceReport.getClicks(), facebookDeviceReport.getImpressions()));
+			fbReportDisplayDto
+					.setCtr(ReportUtil.calCtr(facebookDeviceReport.getClicks(), facebookDeviceReport.getImpressions()));
 			fbReportDisplayDto.setCpc(ReportUtil.calCpc(facebookDeviceReport.getClicks(), displayCosts));
 			fbReportDisplayDto.setCpm(ReportUtil.calCpm(facebookDeviceReport.getImpressions(), displayCosts));
 
@@ -277,7 +240,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
 		List<FbReportDisplayDto> fbReportDisplayDtoList = new ArrayList<FbReportDisplayDto>();
 
-		List<FacebookRegionReport> facebookRegionReportList = facebookRegionReportCustomDao.selectRegionReport(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<FacebookRegionReport> facebookRegionReportList = facebookRegionReportCustomDao
+				.selectRegionReport(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 		for (FacebookRegionReport facebookRegionReport : facebookRegionReportList) {
 			FbReportDisplayDto fbReportDisplayDto = new FbReportDisplayDto();
 			fbReportDisplayDto.setCampaignId(facebookRegionReport.getCampaignId());
@@ -287,7 +251,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 			fbReportDisplayDto.setClicks(facebookRegionReport.getClicks());
 			Long displayCosts = ReportUtil.calDisplaySpend((double) facebookRegionReport.getSpend());
 			fbReportDisplayDto.setSpend(displayCosts.longValue());
-			fbReportDisplayDto.setCtr(ReportUtil.calCtr(facebookRegionReport.getClicks(), facebookRegionReport.getImpressions()));
+			fbReportDisplayDto
+					.setCtr(ReportUtil.calCtr(facebookRegionReport.getClicks(), facebookRegionReport.getImpressions()));
 			fbReportDisplayDto.setCpc(ReportUtil.calCpc(facebookRegionReport.getClicks(), displayCosts));
 			fbReportDisplayDto.setCpm(ReportUtil.calCpm(facebookRegionReport.getImpressions(), displayCosts));
 
@@ -304,7 +269,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
 		List<FbReportDisplayDto> fbReportDisplayDtoList = new ArrayList<FbReportDisplayDto>();
 
-		List<FacebookDeviceReport> facebookDeviceReportList = facebookDeviceReportCustomDao.selectDateReport(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<FacebookDeviceReport> facebookDeviceReportList = facebookDeviceReportCustomDao
+				.selectDateReport(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 		for (FacebookDeviceReport facebookDeviceReport : facebookDeviceReportList) {
 			FbReportDisplayDto fbReportDisplayDto = new FbReportDisplayDto();
 			fbReportDisplayDto.setCampaignId(facebookDeviceReport.getCampaignId());
@@ -314,7 +280,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 			fbReportDisplayDto.setClicks(facebookDeviceReport.getClicks());
 			Long displayCosts = ReportUtil.calDisplaySpend((double) facebookDeviceReport.getSpend());
 			fbReportDisplayDto.setSpend(displayCosts.longValue());
-			fbReportDisplayDto.setCtr(ReportUtil.calCtr(facebookDeviceReport.getClicks(), facebookDeviceReport.getImpressions()));
+			fbReportDisplayDto
+					.setCtr(ReportUtil.calCtr(facebookDeviceReport.getClicks(), facebookDeviceReport.getImpressions()));
 			fbReportDisplayDto.setCpc(ReportUtil.calCpc(facebookDeviceReport.getClicks(), displayCosts));
 			fbReportDisplayDto.setCpm(ReportUtil.calCpm(facebookDeviceReport.getImpressions(), displayCosts));
 
@@ -328,7 +295,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 	// DB : デバイス別レポート（グラフ用）
 	@Override
 	@Transactional
-	public FbGraphReportDto getFacebookDeviceReportingGraph(List<String> campaignIdList, String startDate, String endDate) {
+	public FbGraphReportDto getFacebookDeviceReportingGraph(List<String> campaignIdList, String startDate,
+			String endDate) {
 
 		List<String> reportTypeList = new ArrayList<>(Arrays.asList("x"));
 		List<String> impressionList = new ArrayList<>(Arrays.asList("impressions"));
@@ -338,7 +306,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 		List<String> CPCList = new ArrayList<>(Arrays.asList("cpc"));
 		List<String> CPMList = new ArrayList<>(Arrays.asList("cpm"));
 
-		List<FacebookDeviceReport> facebookDeviceReportList = facebookDeviceReportCustomDao.selectDeviceReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<FacebookDeviceReport> facebookDeviceReportList = facebookDeviceReportCustomDao.selectDeviceReportGraph(
+				campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 
 		for (FacebookDeviceReport facebookDeviceReport : facebookDeviceReportList) {
 			reportTypeList.add(facebookDeviceReport.getDevice());
@@ -346,7 +315,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 			clicksList.add(facebookDeviceReport.getClicks().toString());
 			Long displayCosts = ReportUtil.calDisplaySpend((double) facebookDeviceReport.getSpend()).longValue();
 			spendList.add(displayCosts.toString());
-			CTRList.add(ReportUtil.calCtr(facebookDeviceReport.getClicks(), facebookDeviceReport.getImpressions()).toString());
+			CTRList.add(ReportUtil.calCtr(facebookDeviceReport.getClicks(), facebookDeviceReport.getImpressions())
+					.toString());
 			CPCList.add(ReportUtil.calCpc(facebookDeviceReport.getClicks(), displayCosts).toString());
 			CPMList.add(ReportUtil.calCpm(facebookDeviceReport.getImpressions(), displayCosts).toString());
 		}
@@ -366,7 +336,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 	// DB : 日別レポート（グラフ用）
 	@Override
 	@Transactional
-	public FbGraphReportDto getFacebookDateReportingGraph(List<String> campaignIdList, String startDate, String endDate) {
+	public FbGraphReportDto getFacebookDateReportingGraph(List<String> campaignIdList, String startDate,
+			String endDate) {
 
 		List<String> reportTypeList = new ArrayList<>(Arrays.asList("x"));
 		List<String> impressionList = new ArrayList<>(Arrays.asList("impressions"));
@@ -376,7 +347,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 		List<String> CPCList = new ArrayList<>(Arrays.asList("cpc"));
 		List<String> CPMList = new ArrayList<>(Arrays.asList("cpm"));
 
-		List<FacebookDeviceReport> facebookDateReportList = facebookDeviceReportCustomDao.selectDateReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<FacebookDeviceReport> facebookDateReportList = facebookDeviceReportCustomDao
+				.selectDateReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 
 		for (FacebookDeviceReport facebookDateReport : facebookDateReportList) {
 			reportTypeList.add(facebookDateReport.getDate().toString());
@@ -384,7 +356,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 			clicksList.add(facebookDateReport.getClicks().toString());
 			Long displayCosts = ReportUtil.calDisplaySpend((double) facebookDateReport.getSpend()).longValue();
 			spendList.add(displayCosts.toString());
-			CTRList.add(ReportUtil.calCtr(facebookDateReport.getClicks(), facebookDateReport.getImpressions()).toString());
+			CTRList.add(
+					ReportUtil.calCtr(facebookDateReport.getClicks(), facebookDateReport.getImpressions()).toString());
 			CPCList.add(ReportUtil.calCpc(facebookDateReport.getClicks(), displayCosts).toString());
 			CPMList.add(ReportUtil.calCpm(facebookDateReport.getImpressions(), displayCosts).toString());
 		}
@@ -404,7 +377,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 	// DB : 地域別レポート（グラフ用）
 	@Override
 	@Transactional
-	public FbGraphReportDto getFacebookRegionReportingGraph(List<String> campaignIdList, String startDate, String endDate) {
+	public FbGraphReportDto getFacebookRegionReportingGraph(List<String> campaignIdList, String startDate,
+			String endDate) {
 
 		List<String> reportTypeList = new ArrayList<>(Arrays.asList("x"));
 		List<String> impressionList = new ArrayList<>(Arrays.asList("impressions"));
@@ -414,7 +388,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 		List<String> CPCList = new ArrayList<>(Arrays.asList("cpc"));
 		List<String> CPMList = new ArrayList<>(Arrays.asList("cpm"));
 
-		List<FacebookRegionReport> facebookRegionReportList = facebookRegionReportCustomDao.selectRegionReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<FacebookRegionReport> facebookRegionReportList = facebookRegionReportCustomDao.selectRegionReportGraph(
+				campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 
 		for (FacebookRegionReport facebookRegionReport : facebookRegionReportList) {
 			reportTypeList.add(facebookRegionReport.getRegion());
@@ -422,7 +397,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 			clicksList.add(facebookRegionReport.getClicks().toString());
 			Long displayCosts = ReportUtil.calDisplaySpend((double) facebookRegionReport.getSpend()).longValue();
 			spendList.add(displayCosts.toString());
-			CTRList.add(ReportUtil.calCtr(facebookRegionReport.getClicks(), facebookRegionReport.getImpressions()).toString());
+			CTRList.add(ReportUtil.calCtr(facebookRegionReport.getClicks(), facebookRegionReport.getImpressions())
+					.toString());
 			CPCList.add(ReportUtil.calCpc(facebookRegionReport.getClicks(), displayCosts).toString());
 			CPMList.add(ReportUtil.calCpm(facebookRegionReport.getImpressions(), displayCosts).toString());
 		}
@@ -545,7 +521,8 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 		sumReportDto.setDevice("-");
 		sumReportDto.setRegion("-");
 		sumReportDto.setDate("-");
-		sumReportDto.setImpressions(fbReportDisplayDtoList.stream().mapToLong(FbReportDisplayDto::getImpressions).sum());
+		sumReportDto
+				.setImpressions(fbReportDisplayDtoList.stream().mapToLong(FbReportDisplayDto::getImpressions).sum());
 		sumReportDto.setClicks(fbReportDisplayDtoList.stream().mapToLong(FbReportDisplayDto::getClicks).sum());
 		sumReportDto.setSpend(fbReportDisplayDtoList.stream().mapToLong(FbReportDisplayDto::getSpend).sum());
 		sumReportDto.setCtr(ReportUtil.calCtr(sumReportDto.getClicks(), sumReportDto.getImpressions()));
@@ -556,6 +533,5 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
 		return fbReportDisplayDtoList;
 	}
-
 
 }

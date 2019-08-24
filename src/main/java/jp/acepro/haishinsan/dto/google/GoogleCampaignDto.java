@@ -81,7 +81,7 @@ public class GoogleCampaignDto {
 
 	// イメージ１URL
 	String image1Url;
-	
+
 	// イメージ２URL
 	String image2Url;
 
@@ -90,7 +90,7 @@ public class GoogleCampaignDto {
 
 	// イメージ４URL
 	String image4Url;
-	
+
 	// 見出し１
 	String adTitle1;
 

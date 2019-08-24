@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.account;
 
 import java.util.List;
 
@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.acepro.haishinsan.dto.AgencyDto;
-import jp.acepro.haishinsan.dto.CorporationDto;
+import jp.acepro.haishinsan.dto.account.AgencyDto;
+import jp.acepro.haishinsan.dto.account.CorporationDto;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.AgencyInputForm;
@@ -24,9 +24,8 @@ import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.account.AgencyService;
 import jp.acepro.haishinsan.service.account.CorporationService;
 
-
 @Controller
-@RequestMapping("/agency")
+@RequestMapping("/account/agency")
 public class AgencyController {
 
 	@Autowired
@@ -34,7 +33,7 @@ public class AgencyController {
 
 	@Autowired
 	AgencyService agencyService;
-	
+
 	@Autowired
 	CorporationService corporationService;
 
@@ -46,7 +45,7 @@ public class AgencyController {
 	public ModelAndView list(ModelAndView mv) {
 
 		List<AgencyDto> agencyDtoList = agencyService.search();
-		
+
 		mv.addObject("agencyDtoList", agencyDtoList);
 		mv.setViewName("agency/list");
 		return mv;
@@ -61,11 +60,12 @@ public class AgencyController {
 
 	@PostMapping("/createComplete")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_MANAGE + "')")
-	public ModelAndView createComplete(@Validated AgencyInputForm agencyInputForm, BindingResult result, ModelAndView mv) {
+	public ModelAndView createComplete(@Validated AgencyInputForm agencyInputForm, BindingResult result,
+			ModelAndView mv) {
 
 		AgencyDto agencyDto = AgencyMapper.INSTANCE.map(agencyInputForm);
 		agencyDto = agencyService.create(agencyDto);
-		
+
 		agencyInputForm = AgencyMapper.INSTANCE.mapToForm(agencyDto);
 		mv.addObject("agencyInputForm", agencyInputForm);
 		mv.setViewName("agency/createComplete");
@@ -80,10 +80,10 @@ public class AgencyController {
 	public ModelAndView detail(Long agencyId, ModelAndView mv) {
 
 		AgencyDto agencyDto = agencyService.getById(agencyId);
-		
+
 		List<CorporationDto> corporationDtoList = agencyService.searchCorpsByAgencyId(agencyId);
 		agencyDto.setCorporationDtoList(corporationDtoList);
-		
+
 		AgencyInputForm agencyInputForm = AgencyMapper.INSTANCE.mapToForm(agencyDto);
 		mv.addObject("agencyInputForm", agencyInputForm);
 		mv.setViewName("agency/detail");
@@ -91,8 +91,8 @@ public class AgencyController {
 	}
 
 	@GetMapping("/update")
-	public ModelAndView update(@Validated AgencyInputForm agencyInputForm, ModelAndView mv,
-			BindingResult result, Long agencyId) {
+	public ModelAndView update(@Validated AgencyInputForm agencyInputForm, ModelAndView mv, BindingResult result,
+			Long agencyId) {
 
 		AgencyDto agencyDto = agencyService.getById(agencyId);
 		agencyInputForm = AgencyMapper.INSTANCE.mapToForm(agencyDto);
@@ -103,12 +103,12 @@ public class AgencyController {
 
 	@PostMapping("/updateComplete")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_MANAGE + "')")
-	public ModelAndView updateComplete(@Validated AgencyInputForm agencyInputForm, BindingResult result, ModelAndView mv) {
+	public ModelAndView updateComplete(@Validated AgencyInputForm agencyInputForm, BindingResult result,
+			ModelAndView mv) {
 
 		AgencyDto agencyDto = AgencyMapper.INSTANCE.map(agencyInputForm);
 		agencyService.update(agencyDto);
 
-		
 		mv.addObject("agencyInputForm", agencyInputForm);
 		mv.setViewName("agency/updateComplete");
 		return mv;
@@ -116,28 +116,26 @@ public class AgencyController {
 
 	@PostMapping("/delete")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_MANAGE + "')")
-	public ModelAndView delete(@Validated AgencyInputForm agencyInputForm,
-			BindingResult result, ModelAndView mv) {
-		
+	public ModelAndView delete(@Validated AgencyInputForm agencyInputForm, BindingResult result, ModelAndView mv) {
+
 		try {
 			agencyService.delete(agencyInputForm.getAgencyId());
 		} catch (BusinessException be) {
 			result.reject(be.getMessage());
 			mv.setViewName("agency/detail");
-			List<CorporationDto> corporationDtoList = agencyService.searchCorpsByAgencyId(agencyInputForm.getAgencyId());
+			List<CorporationDto> corporationDtoList = agencyService
+					.searchCorpsByAgencyId(agencyInputForm.getAgencyId());
 			agencyInputForm.setCorporationDtoList(corporationDtoList);
-			
+
 			mv.addObject("agencyInputForm", agencyInputForm);
 //			session.setAttribute("agencyDto", agencyDto);
 			return mv;
 		}
-		
+
 		mv.addObject("agencyInputForm", agencyInputForm);
 		mv.setViewName("agency/deleteComplete");
 		return mv;
 
 	}
-
-
 
 }

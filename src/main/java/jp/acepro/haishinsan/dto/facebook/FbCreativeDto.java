@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import jp.acepro.haishinsan.enums.Flag;
 import lombok.Data;
 
 @Data
@@ -22,12 +21,10 @@ public class FbCreativeDto {
 	String linkMessage;
 	Integer segmentId;
 	String linkUrl;
-	
+
 	// image
 	byte[] bytes;
 	String Base64Str;
 	File imageFile;
 
-
-	
 }

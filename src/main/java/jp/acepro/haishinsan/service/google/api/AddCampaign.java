@@ -88,19 +88,25 @@ public class AddCampaign {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -139,14 +145,11 @@ public class AddCampaign {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
 	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session) throws RemoteException {
 		// Get the BudgetService.
@@ -170,7 +173,7 @@ public class AddCampaign {
 		// Add the budget
 		Long budgetId = budgetService.mutate(new BudgetOperation[] { budgetOperation }).getValue(0).getBudgetId();
 
-		//System.out.printf("budget with ID %d was added.%n", budgetId);
+		// System.out.printf("budget with ID %d was added.%n", budgetId);
 
 		// Get the CampaignService.
 		CampaignServiceInterface campaignService = adWordsServices.get(session, CampaignServiceInterface.class);
@@ -200,18 +203,21 @@ public class AddCampaign {
 		case RESPONSIVE:
 		case IMAGE:
 			// クリック重視
-			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue()) || googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
+			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue())
+					|| googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
 				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 				biddingStrategyConfiguration.setBiddingStrategyType(BiddingStrategyType.TARGET_SPEND);
 				TargetSpendBiddingScheme targetSpendBiddingScheme = new TargetSpendBiddingScheme();
-				
+
 				// 単価設定
-				Double averageClickUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceClickList.stream().filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				Double averageClickUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceClickList.stream()
+						.filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 				Long averageUnitPrice = Math.round(averageClickUnitPriceDouble);
 				Money cpcBidMoney = new Money();
 				cpcBidMoney.setMicroAmount(averageUnitPrice * 1000000);
 				targetSpendBiddingScheme.setBidCeiling(cpcBidMoney);
-				
+
 				biddingStrategyConfiguration.setBiddingScheme(targetSpendBiddingScheme);
 				campaign.setBiddingStrategyConfiguration(biddingStrategyConfiguration);
 				break;
@@ -221,7 +227,7 @@ public class AddCampaign {
 				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 				biddingStrategyConfiguration.setBiddingStrategyType(BiddingStrategyType.MANUAL_CPM);
 				ManualCpmBiddingScheme manualCpmBiddingScheme = new ManualCpmBiddingScheme();
-				
+
 				biddingStrategyConfiguration.setBiddingScheme(manualCpmBiddingScheme);
 				campaign.setBiddingStrategyConfiguration(biddingStrategyConfiguration);
 				break;
@@ -298,7 +304,8 @@ public class AddCampaign {
 
 		// Display the results.
 		for (Campaign newCampaign : result.getValue()) {
-			//System.out.printf("campaign with name '%s' and ID %d was added.%n", newCampaign.getName(), newCampaign.getId());
+			// System.out.printf("campaign with name '%s' and ID %d was added.%n",
+			// newCampaign.getName(), newCampaign.getId());
 			this.newCampaign = newCampaign;
 
 			// Optional: Set the campaign's location and language and device targeting
@@ -307,9 +314,11 @@ public class AddCampaign {
 	}
 
 	/** Sets the campaign's targeting criteria. */
-	private void setCampaignTargetingCriteria(Campaign campaign, AdWordsServicesInterface adWordsServices, AdWordsSession session) throws ApiException, RemoteException {
+	private void setCampaignTargetingCriteria(Campaign campaign, AdWordsServicesInterface adWordsServices,
+			AdWordsSession session) throws ApiException, RemoteException {
 		// Get the CampaignCriterionService.
-		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session, CampaignCriterionServiceInterface.class);
+		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session,
+				CampaignCriterionServiceInterface.class);
 		List<CampaignCriterionOperation> operations = new ArrayList<>();
 
 		// 地域設定
@@ -393,7 +402,8 @@ public class AddCampaign {
 		}
 
 		// Set the campaign targets.
-		CampaignCriterionReturnValue returnValue = campaignCriterionService.mutate(operations.toArray(new CampaignCriterionOperation[operations.size()]));
+		CampaignCriterionReturnValue returnValue = campaignCriterionService
+				.mutate(operations.toArray(new CampaignCriterionOperation[operations.size()]));
 
 //		if (returnValue != null && returnValue.getValue() != null) {
 //			// Display added campaign targets.

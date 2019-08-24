@@ -12,9 +12,9 @@ import jp.acepro.haishinsan.db.entity.YoutubeCampaignManage;
 @InjectConfig
 public interface YoutubeCampaignManageCustomDao {
 
-    @Select
-    List<YoutubeCampaignManage> selectByIssueIdList(List<Long> issueIdList);
-    
-    @Select
-    List<YoutubeCampaignManage> selectByCampaignManageIdList(List<Long> campaignManageIdList);
+	@Select
+	List<YoutubeCampaignManage> selectByIssueIdList(List<Long> issueIdList);
+
+	@Select
+	List<YoutubeCampaignManage> selectByCampaignManageIdList(List<Long> campaignManageIdList);
 }

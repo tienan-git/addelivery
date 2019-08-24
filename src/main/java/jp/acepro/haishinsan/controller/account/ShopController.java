@@ -1,4 +1,4 @@
-package jp.acepro.haishinsan.controller;
+package jp.acepro.haishinsan.controller.account;
 
 import java.util.List;
 
@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.acepro.haishinsan.dto.CorporationDto;
-import jp.acepro.haishinsan.dto.ShopDto;
-import jp.acepro.haishinsan.dto.UserDto;
+import jp.acepro.haishinsan.dto.account.CorporationDto;
+import jp.acepro.haishinsan.dto.account.ShopDto;
+import jp.acepro.haishinsan.dto.account.UserDto;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.ShopInputForm;
 import jp.acepro.haishinsan.mapper.ShopMapper;
@@ -25,7 +25,7 @@ import jp.acepro.haishinsan.service.account.CorporationService;
 import jp.acepro.haishinsan.service.account.ShopService;
 
 @Controller
-@RequestMapping("/shop")
+@RequestMapping("/account/shop")
 public class ShopController {
 
 	@Autowired
@@ -33,7 +33,7 @@ public class ShopController {
 
 	@Autowired
 	ShopService shopService;
-	
+
 	@Autowired
 	CorporationService corporationService;
 
@@ -54,7 +54,7 @@ public class ShopController {
 	public ModelAndView toCreate(ModelAndView mv, @RequestParam Long corporationId) {
 
 		CorporationDto corporationDto = corporationService.getById(corporationId);
-				
+
 		ShopInputForm shopInputForm = new ShopInputForm();
 		shopInputForm.setCorporationId(corporationId);
 		shopInputForm.setCorporationName(corporationDto.getCorporationName());
@@ -67,20 +67,17 @@ public class ShopController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_MANAGE + "')")
 	public ModelAndView create(ModelAndView mv, @Validated ShopInputForm shopInputForm, BindingResult result) {
 
-		
 		ShopDto shopDto = ShopMapper.INSTANCE.map(shopInputForm);
 
 		try {
 			shopDto = shopService.create(shopDto);
 		} catch (BusinessException be) {
-            result.reject(be.getMessage(), be.getParams(), null);
-            
-            mv.addObject("shopInputForm", shopInputForm);
-            mv.setViewName("shop/create");
-            return mv;
-		}
-		
+			result.reject(be.getMessage(), be.getParams(), null);
 
+			mv.addObject("shopInputForm", shopInputForm);
+			mv.setViewName("shop/create");
+			return mv;
+		}
 
 		mv.setViewName("shop/createComplete");
 		mv.addObject("shopDto", shopDto);
@@ -92,7 +89,7 @@ public class ShopController {
 	public ModelAndView detail(@Validated ShopInputForm shopInputForm, Long shopId, ModelAndView mv) {
 
 		ShopDto shopDto = shopService.getById(shopId);
-		
+
 		shopInputForm = ShopMapper.INSTANCE.mapToForm(shopDto);
 
 		List<UserDto> userDtoList = shopService.searchUsersByShopId(shopId);
@@ -104,8 +101,8 @@ public class ShopController {
 	}
 
 	@GetMapping("/update")
-	public ModelAndView update(@Validated ShopInputForm shopInputForm, ModelAndView mv,
-			BindingResult result, Long shopId) {
+	public ModelAndView update(@Validated ShopInputForm shopInputForm, ModelAndView mv, BindingResult result,
+			Long shopId) {
 
 		ShopDto shopDto = shopService.getById(shopId);
 
@@ -120,17 +117,17 @@ public class ShopController {
 	public ModelAndView updateComplete(@Validated ShopInputForm shopInputForm, BindingResult result, ModelAndView mv) {
 
 		ShopDto shopDto = ShopMapper.INSTANCE.map(shopInputForm);
-		
+
 		try {
 			shopService.update(shopDto);
 		} catch (BusinessException be) {
-            result.reject(be.getMessage(), be.getParams(), null);
-            
-            mv.addObject("shopInputForm", shopInputForm);
-            mv.setViewName("shop/update");
-            return mv;
+			result.reject(be.getMessage(), be.getParams(), null);
+
+			mv.addObject("shopInputForm", shopInputForm);
+			mv.setViewName("shop/update");
+			return mv;
 		}
-		
+
 		mv.addObject("shopDto", shopDto);
 		mv.setViewName("shop/updateComplete");
 		return mv;
@@ -139,14 +136,14 @@ public class ShopController {
 	@PostMapping("/delete")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_MANAGE + "')")
 	public ModelAndView delete(@Validated ShopInputForm shopInputForm, BindingResult result, ModelAndView mv) {
-		
+
 		try {
 			shopService.delete(shopInputForm.getShopId());
 		} catch (BusinessException be) {
 			result.reject(be.getMessage());
 			List<UserDto> userDtoList = shopService.searchUsersByShopId(shopInputForm.getShopId());
 			shopInputForm.setUserDtoList(userDtoList);
-			
+
 			mv.addObject("shopInputForm", shopInputForm);
 			mv.setViewName("shop/detail");
 			return mv;

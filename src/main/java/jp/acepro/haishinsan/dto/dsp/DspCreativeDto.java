@@ -10,7 +10,7 @@ public class DspCreativeDto {
 	Integer creativeId;
 	String creativeName;
 	byte[] bytes;
-	
+
 	String url;
 	String Base64Str;
 	Integer screening;

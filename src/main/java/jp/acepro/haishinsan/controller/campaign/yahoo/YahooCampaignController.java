@@ -39,7 +39,7 @@ import jp.acepro.haishinsan.service.yahoo.YahooService;
 import jp.acepro.haishinsan.util.ImageUtil;
 
 @Controller
-@RequestMapping("/yahoo")
+@RequestMapping("/campaign/yahoo")
 public class YahooCampaignController {
 
 	@Autowired

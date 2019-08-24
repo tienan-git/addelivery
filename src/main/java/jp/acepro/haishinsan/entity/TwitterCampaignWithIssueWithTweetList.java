@@ -18,44 +18,44 @@ import lombok.Data;
 @Data
 public class TwitterCampaignWithIssueWithTweetList extends BaseEntity {
 
-    /** キャンペーンID */
-    @Column(name = "campaign_id")
-    String campaignId;
+	/** キャンペーンID */
+	@Column(name = "campaign_id")
+	String campaignId;
 
-    /** キャンペーン名 */
-    @Column(name = "campaign_name")
-    String campaignName;
+	/** キャンペーン名 */
+	@Column(name = "campaign_name")
+	String campaignName;
 
-    /** 日別予算 */
-    @Column(name = "daily_budget")
-    Long dailyBudget;
+	/** 日別予算 */
+	@Column(name = "daily_budget")
+	Long dailyBudget;
 
-    /** 総予算 */
-    @Column(name = "total_budget")
-    Long totalBudget;
+	/** 総予算 */
+	@Column(name = "total_budget")
+	Long totalBudget;
 
-    /** 配信開始日 */
-    @Column(name = "start_date")
-    String startDate;
+	/** 配信開始日 */
+	@Column(name = "start_date")
+	String startDate;
 
-    /** 配信終了日 */
-    @Column(name = "end_date")
-    String endDate;
+	/** 配信終了日 */
+	@Column(name = "end_date")
+	String endDate;
 
-    /** ツイートID */
-    @Column(name = "tweet_id")
-    String tweetId;
+	/** ツイートID */
+	@Column(name = "tweet_id")
+	String tweetId;
 
-    /** ツイートタイトル */
-    @Column(name = "tweet_title")
-    String tweetTitle;
+	/** ツイートタイトル */
+	@Column(name = "tweet_title")
+	String tweetTitle;
 
-    /**  */
-    @Column(name = "tweet_body")
-    String tweetBody;
+	/**  */
+	@Column(name = "tweet_body")
+	String tweetBody;
 
-    /** プレビューURL */
-    @Column(name = "preview_url")
-    String previewUrl;
+	/** プレビューURL */
+	@Column(name = "preview_url")
+	String previewUrl;
 
 }

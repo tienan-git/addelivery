@@ -14,12 +14,11 @@ public interface DspCampaignCustomDao {
 
 	@Select
 	List<DspCampaignManage> selectAll();
-	
+
 	@Select
 	List<DspCampaignManage> selectByShopId(Long shopId);
 
 	@Select
 	DspCampaignManage selectByCampaignId(Integer campaignId);
-
 
 }

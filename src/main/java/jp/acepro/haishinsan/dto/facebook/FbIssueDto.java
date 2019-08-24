@@ -18,7 +18,7 @@ public class FbIssueDto {
 	String checkStatus;
 
 	// キャンペーンの上限予算（一万円以上）
-    Long spendCap;
+	Long spendCap;
 	String startDate;
 	String endDate;
 	String createdDate;
@@ -30,7 +30,7 @@ public class FbIssueDto {
 	String pageId;
 	// 地域
 	List<Long> locationList;
-	
+
 	// image
 	byte[] bytes;
 	String Base64Str;
@@ -39,7 +39,8 @@ public class FbIssueDto {
 	String linkMessage;
 	Integer segmentId;
 	String linkUrl;
-	String imageUrl;	
+	String imageUrl;
+
 	public boolean getSelected() {
 		if (Flag.ON.getValue().equals(campaignStatus)) {
 			return true;
@@ -47,5 +48,5 @@ public class FbIssueDto {
 			return false;
 		}
 	}
-	
+
 }

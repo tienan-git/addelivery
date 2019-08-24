@@ -6,8 +6,8 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReportSegment {
-	
+
 	String segment_name;
 	String segment_value;
-	
+
 }

@@ -9,6 +9,6 @@ import lombok.ToString;
 @Data
 public class TwitterFundingInstrumentRes {
 
-	 ArrayList<TwitterDataRes> data;
+	ArrayList<TwitterDataRes> data;
 
 }

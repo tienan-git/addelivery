@@ -11,13 +11,13 @@ import jp.acepro.haishinsan.db.entity.GoogleTemplate;
 @Dao
 @InjectConfig
 public interface GoogleTemplateCustomDao {
-	
-    @Select
-    List<GoogleTemplate> selectByShopId(Long shopId);
-    
-    @Select
-    List<GoogleTemplate> selectByTemplateName(Long shopId, String templateName);
-    
-    @Select
-    List<GoogleTemplate> selectByTemplatePriority(Long shopId, Integer templatePriority);
+
+	@Select
+	List<GoogleTemplate> selectByShopId(Long shopId);
+
+	@Select
+	List<GoogleTemplate> selectByTemplateName(Long shopId, String templateName);
+
+	@Select
+	List<GoogleTemplate> selectByTemplatePriority(Long shopId, Integer templatePriority);
 }

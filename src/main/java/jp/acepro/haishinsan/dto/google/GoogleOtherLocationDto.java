@@ -8,5 +8,5 @@ import lombok.Data;
 public class GoogleOtherLocationDto {
 
 	Long campaignId;
-	HashMap<String,GoogleReportDisplayDto> locationMap = new HashMap<String,GoogleReportDisplayDto>();
+	HashMap<String, GoogleReportDisplayDto> locationMap = new HashMap<String, GoogleReportDisplayDto>();
 }

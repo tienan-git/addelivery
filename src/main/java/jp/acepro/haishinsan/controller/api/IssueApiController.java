@@ -5,27 +5,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jp.acepro.haishinsan.service.IssueApiService;
-import jp.acepro.haishinsan.service.ReportApiService;
+import jp.acepro.haishinsan.service.api.IssueApiService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/issue")
 public class IssueApiController {
 
 	@Autowired
 	IssueApiService issueApiService;
 
-	@GetMapping("/updateFacebookIssue")
-	public void updateFacebookIssue() {
-		issueApiService.startFacebookIssueAsync();
-		
-		issueApiService.stopFacebookIssueAsync();
-	}
+	@GetMapping("/triggerIssues")
+	public void triggerIssues() {
 
-	@GetMapping("/updateGoogleIssue")
-	public void updateGoogleIssue() {
+		// Facebook
+		issueApiService.startFacebookIssueAsync();
+
+		issueApiService.stopFacebookIssueAsync();
+
+		// Google
 		issueApiService.startGoogleIssueAsync();
-		
+
 		issueApiService.stopGoogleIssueAsync();
 	}
 

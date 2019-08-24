@@ -14,7 +14,7 @@ public class GoogleIssueInputForm {
 
 	// テンプレートID
 	Long templateId;
-	
+
 	// テンプレート名
 	String templateName;
 
@@ -26,19 +26,21 @@ public class GoogleIssueInputForm {
 
 	// 予算
 	Long budget;
-	
-    // 単価タイプ
-    String unitPriceType;
+
+	// 単価タイプ
+	String unitPriceType;
 
 	// 開始日
 	String startDate;
-    public String getStartDateSlash() {
+
+	public String getStartDateSlash() {
 		return StringFormatter.dateHyphenToSlash(startDate);
 	}
 
 	// 終了日
 	String endDate;
-    public String getEndDateSlash() {
+
+	public String getEndDateSlash() {
 		return StringFormatter.dateHyphenToSlash(endDate);
 	}
 

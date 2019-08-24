@@ -21,66 +21,66 @@ import lombok.Data;
 @Data
 public class IssueWithShopWithCorporation extends BaseEntity {
 
-    /** 店舗ID */
-    @Column(name = "shop_id")
-    Long shopId;
+	/** 店舗ID */
+	@Column(name = "shop_id")
+	Long shopId;
 
-    /** 店舗名 */
-    @Column(name = "shop_name")
-    String shopName;
+	/** 店舗名 */
+	@Column(name = "shop_name")
+	String shopName;
 
-    /** 法人ID */
-    @Column(name = "corporation_id")
-    Long corporationId;
+	/** 法人ID */
+	@Column(name = "corporation_id")
+	Long corporationId;
 
-    /** 法人名 */
-    @Column(name = "corporation_name")
-    String corporationName;
+	/** 法人名 */
+	@Column(name = "corporation_name")
+	String corporationName;
 
-    /** 案件ID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "issue_id")
-    Long issueId;
+	/** 案件ID */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "issue_id")
+	Long issueId;
 
-    /** DSPキャンペーン管理ID */
-    @Column(name = "dsp_campaign_manage_id")
-    Long dspCampaignManageId;
+	/** DSPキャンペーン管理ID */
+	@Column(name = "dsp_campaign_manage_id")
+	Long dspCampaignManageId;
 
-    /** Googleキャンペーン管理ID */
-    @Column(name = "google_campaign_manage_id")
-    Long googleCampaignManageId;
+	/** Googleキャンペーン管理ID */
+	@Column(name = "google_campaign_manage_id")
+	Long googleCampaignManageId;
 
-    /** Facebookキャンペーン管理ID */
-    @Column(name = "facebook_campaign_manage_id")
-    Long facebookCampaignManageId;
+	/** Facebookキャンペーン管理ID */
+	@Column(name = "facebook_campaign_manage_id")
+	Long facebookCampaignManageId;
 
-    /** Twitterキャンペーン管理ID */
-    @Column(name = "twitter_campaign_manage_id")
-    Long twitterCampaignManageId;
+	/** Twitterキャンペーン管理ID */
+	@Column(name = "twitter_campaign_manage_id")
+	Long twitterCampaignManageId;
 
-    /** Yahooキャンペーン管理ID */
-    @Column(name = "yahoo_campaign_manage_id")
-    Long yahooCampaignManageId;
+	/** Yahooキャンペーン管理ID */
+	@Column(name = "yahoo_campaign_manage_id")
+	Long yahooCampaignManageId;
 
-    /** Youtubeキャンペーン管理ID */
-    @Column(name = "youtube_campaign_manage_id")
-    Long youtubeCampaignManageId;
+	/** Youtubeキャンペーン管理ID */
+	@Column(name = "youtube_campaign_manage_id")
+	Long youtubeCampaignManageId;
 
-    /** キャンペーン名 */
-    @Column(name = "campaign_name")
-    String campaignName;
+	/** キャンペーン名 */
+	@Column(name = "campaign_name")
+	String campaignName;
 
-    /** 全体予算 */
-    @Column(name = "budget")
-    Long budget;
+	/** 全体予算 */
+	@Column(name = "budget")
+	Long budget;
 
-    /** 配信開始日 */
-    @Column(name = "start_date")
-    String startDate;
+	/** 配信開始日 */
+	@Column(name = "start_date")
+	String startDate;
 
-    /** 配信終了日 */
-    @Column(name = "end_date")
-    String endDate;
+	/** 配信終了日 */
+	@Column(name = "end_date")
+	String endDate;
 
 }

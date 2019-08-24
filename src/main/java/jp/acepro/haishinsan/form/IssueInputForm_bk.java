@@ -24,16 +24,15 @@ public class IssueInputForm_bk {
 
 	String linkUrl;
 	String url;
-	
+
 	// -------- Facebook関連 --------
 	MultipartFile facebookImage;
-	
-	
+
 	// -------- DSP関連 --------
 	List<DspCampaignCreInputForm> dspCampaignCreInputFormList;
 	List<Integer> idList;
 	Integer segmentId;
-	
+
 	// -------- Google関連 --------
 	// 広告タイプ
 	String adType;
@@ -63,7 +62,7 @@ public class IssueInputForm_bk {
 
 	// 説明文
 	String textAdDescription;
-	
+
 	// -------- Twitter関連 --------
 	List<String> tweetIdList;
 	List<TwitterTweet> websiteTweetList;

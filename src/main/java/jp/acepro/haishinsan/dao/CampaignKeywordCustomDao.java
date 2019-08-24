@@ -11,7 +11,7 @@ import jp.acepro.haishinsan.db.entity.CampaignKeyword;
 @Dao
 @InjectConfig
 public interface CampaignKeywordCustomDao {
-	
-    @Select
-    List<CampaignKeyword> selectAll();
+
+	@Select
+	List<CampaignKeyword> selectAll();
 }

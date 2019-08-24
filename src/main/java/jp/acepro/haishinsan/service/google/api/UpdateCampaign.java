@@ -40,14 +40,11 @@ import com.google.api.ads.adwords.axis.v201809.cm.CampaignOperation;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignReturnValue;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.CampaignStatus;
-import com.google.api.ads.adwords.axis.v201809.cm.GeoTargetTypeSetting;
-import com.google.api.ads.adwords.axis.v201809.cm.GeoTargetTypeSettingPositiveGeoTargetType;
 import com.google.api.ads.adwords.axis.v201809.cm.Location;
 import com.google.api.ads.adwords.axis.v201809.cm.ManualCpmBiddingScheme;
 import com.google.api.ads.adwords.axis.v201809.cm.Money;
 import com.google.api.ads.adwords.axis.v201809.cm.Operator;
 import com.google.api.ads.adwords.axis.v201809.cm.Selector;
-import com.google.api.ads.adwords.axis.v201809.cm.Setting;
 import com.google.api.ads.adwords.axis.v201809.cm.TargetSpendBiddingScheme;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
@@ -64,7 +61,6 @@ import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.UnitPriceType;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.util.CalculateUtil;
-import jp.acepro.haishinsan.util.ContextUtil;
 
 /**
  * This example updates a campaign by setting the status to PAUSED. To get
@@ -88,20 +84,26 @@ public class UpdateCampaign {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -136,32 +138,29 @@ public class UpdateCampaign {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param campaignId
-	 *            the ID of the campaign to update.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param campaignId      the ID of the campaign to update.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long campaignId, String switchFlag) throws RemoteException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long campaignId,
+			String switchFlag) throws RemoteException {
 		// Get the CampaignService.
-		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session, CampaignCriterionServiceInterface.class);
+		CampaignCriterionServiceInterface campaignCriterionService = adWordsServices.get(session,
+				CampaignCriterionServiceInterface.class);
 
 		int offset = 0;
 		String[] arr = { String.valueOf(campaignId) };
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
-				.fields(CampaignCriterionField.CampaignId, CampaignCriterionField.Id, CampaignCriterionField.CriteriaType, CampaignCriterionField.LocationName, CampaignCriterionField.BidModifier)
-				.in(CampaignCriterionField.CriteriaType, "LOCATION")
-				.in(CampaignCriterionField.CampaignId, arr)
-				.offset(0)
-				.limit(PAGE_SIZE)
-				.build();
+				.fields(CampaignCriterionField.CampaignId, CampaignCriterionField.Id,
+						CampaignCriterionField.CriteriaType, CampaignCriterionField.LocationName,
+						CampaignCriterionField.BidModifier)
+				.in(CampaignCriterionField.CriteriaType, "LOCATION").in(CampaignCriterionField.CampaignId, arr)
+				.offset(0).limit(PAGE_SIZE).build();
 
 		CampaignCriterionPage page = null;
 		do {
@@ -177,21 +176,23 @@ public class UpdateCampaign {
 					campaignCriterionList.add(campaignCriterion);
 				}
 			} else {
-				//System.out.println("No campaign criteria were found.");
+				// System.out.println("No campaign criteria were found.");
 			}
 			offset += PAGE_SIZE;
 			selector = builder.increaseOffsetBy(PAGE_SIZE).build();
 		} while (offset < page.getTotalNumEntries());
-		
+
 		List<CampaignCriterionOperation> campaignCriterionOperations = new ArrayList<>();
-        for(CampaignCriterion campaignCriterion : campaignCriterionList) {
-    		CampaignCriterionOperation campaignCriterionOperation = new CampaignCriterionOperation();
-    		campaignCriterionOperation.setOperand(campaignCriterion);
-    		campaignCriterionOperation.setOperator(Operator.REMOVE);
-    		campaignCriterionOperations.add(campaignCriterionOperation);      	
-        }
+		for (CampaignCriterion campaignCriterion : campaignCriterionList) {
+			CampaignCriterionOperation campaignCriterionOperation = new CampaignCriterionOperation();
+			campaignCriterionOperation.setOperand(campaignCriterion);
+			campaignCriterionOperation.setOperator(Operator.REMOVE);
+			campaignCriterionOperations.add(campaignCriterionOperation);
+		}
 		// REMOVE the campaign targets.
-		CampaignCriterionReturnValue returnRemoveTargetsValue = campaignCriterionService.mutate(campaignCriterionOperations.toArray(new CampaignCriterionOperation[campaignCriterionOperations.size()]));
+		CampaignCriterionReturnValue returnRemoveTargetsValue = campaignCriterionService
+				.mutate(campaignCriterionOperations
+						.toArray(new CampaignCriterionOperation[campaignCriterionOperations.size()]));
 
 		// 地域設定
 		List<CampaignCriterionOperation> campaignCriterionOperationsNew = new ArrayList<>();
@@ -211,8 +212,9 @@ public class UpdateCampaign {
 			campaignCriterionOperationsNew.add(campaignCriterionOperation);
 		}
 		// Set the campaign targets.
-		CampaignCriterionReturnValue returnSetTargetsValue = campaignCriterionService.mutate(campaignCriterionOperationsNew.toArray(new CampaignCriterionOperation[campaignCriterionOperationsNew.size()]));
-
+		CampaignCriterionReturnValue returnSetTargetsValue = campaignCriterionService
+				.mutate(campaignCriterionOperationsNew
+						.toArray(new CampaignCriterionOperation[campaignCriterionOperationsNew.size()]));
 
 		// Get the CampaignService.
 		CampaignServiceInterface campaignService = adWordsServices.get(session, CampaignServiceInterface.class);
@@ -230,18 +232,21 @@ public class UpdateCampaign {
 		case RESPONSIVE:
 		case IMAGE:
 			// クリック重視
-			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue()) || googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
+			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue())
+					|| googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
 				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 				biddingStrategyConfiguration.setBiddingStrategyType(BiddingStrategyType.TARGET_SPEND);
 				TargetSpendBiddingScheme targetSpendBiddingScheme = new TargetSpendBiddingScheme();
-				
+
 				// 単価設定
-				Double averageClickUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceClickList.stream().filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				Double averageClickUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceClickList.stream()
+						.filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 				Long averageUnitPrice = Math.round(averageClickUnitPriceDouble);
 				Money cpcBidMoney = new Money();
 				cpcBidMoney.setMicroAmount(averageUnitPrice * 1000000);
 				targetSpendBiddingScheme.setBidCeiling(cpcBidMoney);
-				
+
 				biddingStrategyConfiguration.setBiddingScheme(targetSpendBiddingScheme);
 				campaign.setBiddingStrategyConfiguration(biddingStrategyConfiguration);
 				break;
@@ -251,7 +256,7 @@ public class UpdateCampaign {
 				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 				biddingStrategyConfiguration.setBiddingStrategyType(BiddingStrategyType.MANUAL_CPM);
 				ManualCpmBiddingScheme manualCpmBiddingScheme = new ManualCpmBiddingScheme();
-				
+
 				biddingStrategyConfiguration.setBiddingScheme(manualCpmBiddingScheme);
 				campaign.setBiddingStrategyConfiguration(biddingStrategyConfiguration);
 				break;

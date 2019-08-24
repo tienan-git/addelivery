@@ -21,92 +21,90 @@ import lombok.Data;
 @Data
 public class ShopWithAgency extends BaseEntity {
 
-    /** 店舗ID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "shop_id")
-    Long shopId;
+	/** 店舗ID */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "shop_id")
+	Long shopId;
 
-    /** 店舗名 */
-    @Column(name = "shop_name")
-    String shopName;
+	/** 店舗名 */
+	@Column(name = "shop_name")
+	String shopName;
 
-    /** 法人ID */
-    @Column(name = "corporation_id")
-    Long corporationId;
-    
-    /** 法人名 */
-    @Column(name = "corporation_name")
-    String corporationName;
+	/** 法人ID */
+	@Column(name = "corporation_id")
+	Long corporationId;
 
-    /** 代理店ID */
-    @Column(name = "agency_id")
-    Long agencyId;
-    
-    /** 代理店名 */
-    @Column(name = "agency_name")
-    String agencyName;
+	/** 法人名 */
+	@Column(name = "corporation_name")
+	String corporationName;
 
+	/** 代理店ID */
+	@Column(name = "agency_id")
+	Long agencyId;
 
-    /** DSPアカウントID */
-    @Column(name = "dsp_account_id")
-    String dspAccountId;
+	/** 代理店名 */
+	@Column(name = "agency_name")
+	String agencyName;
 
-    /** DSPパスワード */
-    @Column(name = "dsp_password")
-    String dspPassword;
+	/** DSPアカウントID */
+	@Column(name = "dsp_account_id")
+	String dspAccountId;
 
-    /** GoogleアカウントID */
-    @Column(name = "google_account_id")
-    String googleAccountId;
+	/** DSPパスワード */
+	@Column(name = "dsp_password")
+	String dspPassword;
 
-    /** TwitterアカウントID */
-    @Column(name = "twitter_account_id")
-    String twitterAccountId;
+	/** GoogleアカウントID */
+	@Column(name = "google_account_id")
+	String googleAccountId;
 
-    /** TwitterAPIキー */
-    @Column(name = "twitter_api_key")
-    String twitterApiKey;
+	/** TwitterアカウントID */
+	@Column(name = "twitter_account_id")
+	String twitterAccountId;
 
-    /** TwitterAPIシークレットキー */
-    @Column(name = "twitter_api_secret_key")
-    String twitterApiSecretKey;
+	/** TwitterAPIキー */
+	@Column(name = "twitter_api_key")
+	String twitterApiKey;
 
-    /** Twitterアクセストークン */
-    @Column(name = "twitter_access_token")
-    String twitterAccessToken;
+	/** TwitterAPIシークレットキー */
+	@Column(name = "twitter_api_secret_key")
+	String twitterApiSecretKey;
 
-    /** Twitterアクセストークンシークレット */
-    @Column(name = "twitter_access_token_secret")
-    String twitterAccessTokenSecret;
+	/** Twitterアクセストークン */
+	@Column(name = "twitter_access_token")
+	String twitterAccessToken;
 
-    /** DSP分配率 */
-    @Column(name = "dsp_distribution_ratio")
-    Integer dspDistributionRatio;
+	/** Twitterアクセストークンシークレット */
+	@Column(name = "twitter_access_token_secret")
+	String twitterAccessTokenSecret;
 
-    /** Google分配率 */
-    @Column(name = "google_distribution_ratio")
-    Integer googleDistributionRatio;
+	/** DSP分配率 */
+	@Column(name = "dsp_distribution_ratio")
+	Integer dspDistributionRatio;
 
-    /** Facebook分配率 */
-    @Column(name = "facebook_distribution_ratio")
-    Integer facebookDistributionRatio;
+	/** Google分配率 */
+	@Column(name = "google_distribution_ratio")
+	Integer googleDistributionRatio;
 
-    /** Twitter分配率 */
-    @Column(name = "twitter_distribution_ratio")
-    Integer twitterDistributionRatio;
+	/** Facebook分配率 */
+	@Column(name = "facebook_distribution_ratio")
+	Integer facebookDistributionRatio;
 
-    /** 営業審査フラグ */
-    @Column(name = "sales_check_flag")
-    String salesCheckFlag;
+	/** Twitter分配率 */
+	@Column(name = "twitter_distribution_ratio")
+	Integer twitterDistributionRatio;
 
-    /** 課金方式 */
-    @Column(name = "billing_type")
-    String billingType;
+	/** 営業審査フラグ */
+	@Column(name = "sales_check_flag")
+	String salesCheckFlag;
 
-    /** マージン率 */
-    @Column(name = "margin_ratio")
-    Integer marginRatio;
+	/** 課金方式 */
+	@Column(name = "billing_type")
+	String billingType;
 
-  
+	/** マージン率 */
+	@Column(name = "margin_ratio")
+	Integer marginRatio;
+
 }

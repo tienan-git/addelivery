@@ -11,7 +11,7 @@ import jp.acepro.haishinsan.db.entity.Regions;
 @Dao
 @InjectConfig
 public interface TwitterRegionPriceCustomDao {
-	
-    @Select
-    List<Regions> selectAll();
+
+	@Select
+	List<Regions> selectAll();
 }

@@ -23,7 +23,7 @@ public class FbIssueInputForm {
 	String arrangePlace;
 	Long bidAmount;
 	String pageId;
-	
+
 	// 地域
 	List<Long> locationList;
 
@@ -31,7 +31,5 @@ public class FbIssueInputForm {
 	String linkMessage;
 	Integer segmentId;
 	String linkUrl;
-	
-	
-	
+
 }

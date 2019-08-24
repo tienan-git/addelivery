@@ -27,7 +27,7 @@ public class MDCAspect {
 	HttpSession session;
 
 	@Before("execution(* jp.acepro.haishinsan.controller..*.*(..))"
-			+ " && !execution(* jp.acepro.haishinsan.controller.ReportApiController.*(..))")
+			+ " && !execution(* jp.acepro.haishinsan.controller.api..*.*(..))")
 	public void before(JoinPoint joinPoint) {
 
 		String userAgent = null;

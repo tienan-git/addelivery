@@ -65,12 +65,13 @@ public class GetRefreshToken {
 	private static final String CALLBACK_URL = "urn:ietf:wg:oauth:2.0:oob";
 
 	private static Credential getOAuth2Credential(GoogleClientSecrets clientSecrets) throws IOException {
-		GoogleAuthorizationCodeFlow authorizationFlow = new GoogleAuthorizationCodeFlow.Builder(new NetHttpTransport(), new JacksonFactory(), clientSecrets, SCOPES)
-				// Set the access type to offline so that the token can be refreshed.
-				// By default, the library will automatically refresh tokens when it
-				// can, but this can be turned off by setting
-				// api.adwords.refreshOAuth2Token=false in your ads.properties file.
-				.setAccessType("offline").build();
+		GoogleAuthorizationCodeFlow authorizationFlow = new GoogleAuthorizationCodeFlow.Builder(new NetHttpTransport(),
+				new JacksonFactory(), clientSecrets, SCOPES)
+						// Set the access type to offline so that the token can be refreshed.
+						// By default, the library will automatically refresh tokens when it
+						// can, but this can be turned off by setting
+						// api.adwords.refreshOAuth2Token=false in your ads.properties file.
+						.setAccessType("offline").build();
 
 		String authorizeUrl = authorizationFlow.newAuthorizationUrl().setRedirectUri(CALLBACK_URL).build();
 		System.out.printf("Paste this url in your browser:%n%s%n", authorizeUrl);
@@ -86,7 +87,8 @@ public class GetRefreshToken {
 		GoogleTokenResponse tokenResponse = tokenRequest.execute();
 
 		// Create the OAuth2 credential.
-		GoogleCredential credential = new GoogleCredential.Builder().setTransport(new NetHttpTransport()).setJsonFactory(new JacksonFactory()).setClientSecrets(clientSecrets).build();
+		GoogleCredential credential = new GoogleCredential.Builder().setTransport(new NetHttpTransport())
+				.setJsonFactory(new JacksonFactory()).setClientSecrets(clientSecrets).build();
 
 		// Set authorized credentials.
 		credential.setFromTokenResponse(tokenResponse);
@@ -106,11 +108,14 @@ public class GetRefreshToken {
 //			String propFileName = "ads-honban.properties";
 			clientSecrets = new GoogleClientSecretsBuilder().forApi(Api.ADWORDS).fromFile(propFileName).build();
 		} catch (ValidationException e) {
-			System.err.println("Please input your client ID and secret into your ads.properties file, which is either " + "located in your home directory, in your src/main/resources directory, or " + "on your classpath. If you do not have a client ID or secret, please create one in "
+			System.err.println("Please input your client ID and secret into your ads.properties file, which is either "
+					+ "located in your home directory, in your src/main/resources directory, or "
+					+ "on your classpath. If you do not have a client ID or secret, please create one in "
 					+ "the API console: https://console.developers.google.com/project");
 			return;
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		}
 
@@ -126,6 +131,7 @@ public class GetRefreshToken {
 		System.out.printf("Your refresh token is: %s%n", credential.getRefreshToken());
 
 		// Enter the refresh token into your ads.properties file.
-		System.out.printf("In your ads.properties file, modify:%n%napi.adwords.refreshToken=%s%n", credential.getRefreshToken());
+		System.out.printf("In your ads.properties file, modify:%n%napi.adwords.refreshToken=%s%n",
+				credential.getRefreshToken());
 	}
 }

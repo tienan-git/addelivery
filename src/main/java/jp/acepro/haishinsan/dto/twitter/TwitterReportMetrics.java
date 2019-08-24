@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReportMetrics {
-	
+
 	List<String> impressions;
 	List<String> billed_charge_local_micro;
 	List<String> follows;
@@ -18,5 +18,5 @@ public class TwitterReportMetrics {
 	List<String> clicks;
 	List<String> url_clicks;
 	List<String> billed_engagements;
-	
+
 }

@@ -15,13 +15,13 @@ import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
 public interface TwitterRegionReportCustomDao {
 
 	@Select
-	List<TwitterRegionReport> selectByDay(LocalDate day,String campaignId);
-	
-	//地域別レポート
+	List<TwitterRegionReport> selectByDay(LocalDate day, String campaignId);
+
+	// 地域別レポート
 	@Select
 	List<TwitterRegionReport> selectRegionReport(TwitterReportDto twitterReportDto);
-	
-	//地域別レポート（グラフ用）
+
+	// 地域別レポート（グラフ用）
 	@Select
 	List<TwitterRegionReport> selectRegionReportGraph(TwitterReportDto twitterReportDto);
 }
