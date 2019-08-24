@@ -21,7 +21,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/twitterTemplate/updateTemplateComplete}" method="Post" th:object="${twitterTemplateInputForm}" onsubmit="return check('')">
+		<form th:action="@{/template/twitter/updateTemplateComplete}" method="Post" th:object="${twitterTemplateInputForm}" onsubmit="return check('')">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
@@ -114,8 +114,8 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/twitterTemplate/updateTemplateComplete}" th:formmethod="Post">更新</button>
-						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/twitterTemplate/templateList}" th:formmethod="get">一覧へ</button>
+						<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')" th:formaction="@{/template/twitter/updateTemplateComplete}" th:formmethod="Post">更新</button>
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:formaction="@{/template/twitter/templateList}" th:formmethod="get">一覧へ</button>
 					</div>
 				</div>
 			</div>
