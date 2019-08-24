@@ -245,6 +245,27 @@ task zipAndCopy(type: Copy, dependsOn: zip) {
 }
 
 /******************************
+*********　 PRE本番用   ***********
+*******************************/
+//デプロイ用ZIPファイル作成
+task zip4PreHonban(type: Zip, dependsOn: bootJar) {
+    from('build/libs') {
+        include '*.jar'
+    }
+    from('release-pre-honban') {
+        include 'Dockerfile'
+        include 'Dockerrun.aws.json'
+    } 
+}
+//デプロイ用ZIPファイル作成してから、releaseフォルダにコピーする
+task zipAndCopy4PreHonban(type: Copy, dependsOn: zip4Production) {
+    from 'build/distributions'
+    into 'release-pre-honban'
+    include '*.zip'    
+}
+
+
+/******************************
 *********　 本番用   ***********
 *******************************/
 //デプロイ用ZIPファイル作成
