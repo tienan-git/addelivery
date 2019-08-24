@@ -258,7 +258,7 @@ task zip4PreHonban(type: Zip, dependsOn: bootJar) {
     } 
 }
 //デプロイ用ZIPファイル作成してから、releaseフォルダにコピーする
-task zipAndCopy4PreHonban(type: Copy, dependsOn: zip4Production) {
+task zipAndCopy4PreHonban(type: Copy, dependsOn: zip4PreHonban) {
     from 'build/distributions'
     into 'release-pre-honban'
     include '*.zip'    
