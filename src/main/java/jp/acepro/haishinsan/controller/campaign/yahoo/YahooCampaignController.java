@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.controller.campaign.yahoo;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -13,6 +14,7 @@ import org.springframework.data.util.Pair;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.acepro.haishinsan.bean.YahooCsvBean;
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
+import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooImageDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
@@ -30,11 +34,13 @@ import jp.acepro.haishinsan.enums.DeviceType;
 import jp.acepro.haishinsan.enums.MediaType;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
+import jp.acepro.haishinsan.form.YahooCsvInputForm;
 import jp.acepro.haishinsan.form.YahooIssueinputForm;
 import jp.acepro.haishinsan.mapper.YahooMapper;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
+import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.yahoo.YahooService;
 import jp.acepro.haishinsan.util.ImageUtil;
 
@@ -56,6 +62,9 @@ public class YahooCampaignController {
 
 	@Autowired
 	CodeMasterService codeMasterService;
+
+	@Autowired
+	IssuesService issuesService;
 
 	// Yahoo広告作成
 	@GetMapping("/issueCreate")
@@ -84,8 +93,7 @@ public class YahooCampaignController {
 	// Yahoo広告作成確認
 	@PostMapping("/issueCreateConfirm")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CAMPAIGN_REQUEST + "')")
-	public ModelAndView createIssueComplete(@ModelAttribute YahooIssueinputForm yahooIssueinputForm,
-			BindingResult result, ModelAndView mv) throws Exception {
+	public ModelAndView createIssueComplete(@ModelAttribute YahooIssueinputForm yahooIssueinputForm, BindingResult result, ModelAndView mv) throws Exception {
 
 		List<MultipartFile> imageList = null;
 		String imaBase64 = null;
@@ -108,8 +116,7 @@ public class YahooCampaignController {
 				imageList = yahooIssueinputForm.getInfeedAdImageFileList();
 				for (MultipartFile multipartFile : imageList) {
 					imaBase64 = imageUtil.getImageBytes(multipartFile, MediaType.YAHOORESPONSIVE.getValue());
-					YahooImageDto yahooImageDto = new YahooImageDto(multipartFile.getOriginalFilename(), imaBase64,
-							multipartFile.getContentType());
+					YahooImageDto yahooImageDto = new YahooImageDto(multipartFile.getOriginalFilename(), imaBase64, multipartFile.getContentType());
 					imaBase64List.add(yahooImageDto);
 				}
 				break;
@@ -124,8 +131,7 @@ public class YahooCampaignController {
 				imageList = yahooIssueinputForm.getTargetAdImageFileList();
 				for (MultipartFile multipartFile : imageList) {
 					imaBase64 = imageUtil.getImageBytes(multipartFile, MediaType.YAHOOIMAGE.getValue());
-					YahooImageDto yahooImageDto = new YahooImageDto(multipartFile.getOriginalFilename(), imaBase64,
-							multipartFile.getContentType());
+					YahooImageDto yahooImageDto = new YahooImageDto(multipartFile.getOriginalFilename(), imaBase64, multipartFile.getContentType());
 					imaBase64List.add(yahooImageDto);
 				}
 				break;
@@ -161,8 +167,7 @@ public class YahooCampaignController {
 
 			// 画像名を','で連接する
 			if (Objects.nonNull(imageList)) {
-				imageName = imageList.stream().map(image -> image.getOriginalFilename())
-						.collect(Collectors.joining(","));
+				imageName = imageList.stream().map(image -> image.getOriginalFilename()).collect(Collectors.joining(","));
 			}
 			yahooIssueDto.setLocationIds(sb.toString());
 			yahooIssueDto.setImageName(imageName);
@@ -214,10 +219,73 @@ public class YahooCampaignController {
 		yahooIssueDto = yahooService.createIssue(yahooIssueDto, imaBase64List);
 
 		// オペレーションログ記録
-		operationService.create(Operation.YAHOO_CAMPAIGN_REQUEST.getValue(),
-				"案件ID：" + String.valueOf(yahooIssueDto.getIssueId()));
+		operationService.create(Operation.YAHOO_CAMPAIGN_REQUEST.getValue(), "案件ID：" + String.valueOf(yahooIssueDto.getIssueId()));
 
 		mv.setViewName("campaign/yahoo/issueSuccess");
+		return mv;
+	}
+
+	@PostMapping("/issueUpdateComplete")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CAMPAIGN_MANAGE + "')")
+	public ModelAndView issueUpdateComplete(@Validated YahooIssueinputForm yahooIssueinputForm) {
+
+		String campaignId = yahooIssueinputForm.getCampaignId();
+		Long issueId = yahooIssueinputForm.getIssueId();
+		yahooService.updateIssue(issueId, campaignId);
+
+		YahooIssueDto yahooIssueDto = yahooService.getIssueDetail(issueId);
+
+		IssuesDto issuesDto = new IssuesDto();
+		List<IssuesDto> issuesDtoList = issuesService.searchIssuesList(issuesDto);
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject(issuesDtoList);
+		mv.setViewName("issue/issueList");
+
+		// オペレーションログ記録
+		operationService.create(Operation.YAHOO_CAMPAIGN_UPDATE.getValue(), "案件ID：" + String.valueOf(yahooIssueDto.getIssueId()));
+
+		return mv;
+	}
+
+	@PostMapping("/csvUploadConfirm")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")
+	public ModelAndView csvUploadConfirm(@Validated YahooCsvInputForm yahooCsvInputForm, BindingResult result, ModelAndView mv) {
+
+		List<YahooCsvBean> yahooCsvBeanList = new ArrayList<YahooCsvBean>();
+		try {
+
+			yahooCsvBeanList = yahooService.readCsv(yahooCsvInputForm.getCsvFile());
+		} catch (BusinessException be) {
+			result.reject(be.getMessage(), be.getParams(), null);
+			mv.addObject("yahooCsvInputForm", yahooCsvInputForm);
+			mv.setViewName("yahoo/csvUpload");
+			return mv;
+		}
+
+		yahooCsvInputForm.setFileName(yahooCsvInputForm.getCsvFile().getOriginalFilename());
+		yahooCsvInputForm.setYahooCsvBeanList(yahooCsvBeanList);
+
+		session.setAttribute("yahooCsvBeanList", yahooCsvBeanList);
+
+		mv.addObject("yahooCsvInputForm", yahooCsvInputForm);
+		mv.setViewName("issue/yahoo/csvUploadConfirm");
+
+		return mv;
+	}
+
+	@PostMapping("/csvUploadComplete")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")
+	public ModelAndView csvUploadComplete(@ModelAttribute YahooCsvInputForm yahooCsvInputForm, ModelAndView mv) throws IOException {
+
+		List<YahooCsvBean> yahooCsvBeanList = (List<YahooCsvBean>) session.getAttribute("yahooCsvBeanList");
+		yahooService.uploadData(yahooCsvBeanList);
+
+		session.removeAttribute("yahooCsvBeanList");
+		mv.setViewName("issue/yahoo/csvUploadComplete");
+
+		// オペレーションログ記録
+		operationService.create(Operation.YAHOO_CSV_UPLOAD.getValue(), "ファイル名：" + yahooCsvInputForm.getFileName());
 		return mv;
 	}
 

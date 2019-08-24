@@ -44,6 +44,7 @@ import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.enums.ReportType;
+import jp.acepro.haishinsan.form.YahooCsvInputForm;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
@@ -323,6 +324,7 @@ public class ReportingController {
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("reporting/yahooReporting");
+		modelAndView.addObject("yahooCsvInputForm", new YahooCsvInputForm());
 		modelAndView.addObject("yahooDeviceReportDisplayDtoList", yahooDeviceReportDisplayDtoList);
 		modelAndView.addObject("yahooDeviceGraphReportDto", yahooDeviceGraphReportDto);
 		modelAndView.addObject("yahooRegionReportDisplayDtoList", yahooRegionReportDisplayDtoList);
