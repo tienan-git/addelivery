@@ -505,7 +505,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		// システムDBを審査フラグを更新する
 		if (Flag.ON.getLabel().equals(status)) {
 			DspCampaignManage dspCampaignManage = dspCampaignCustomDao.selectByCampaignId(campaignId);
-			dspCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+			//dspCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
 			dspCampaignManageDao.update(dspCampaignManage);
 		}
 	}
@@ -717,7 +717,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		// DBに案件情報登録
 		Issue issue = new Issue();
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-		issue.setDspCampaignManageId(dspCampaignManage.getDspCampaignManageId());
+		issue.setDspCampaignId(dspCampaignManage.getCampaignId());
 		issue.setCampaignName(dspCampaignDto.getCampaignName());
 		issue.setBudget(dspCampaignDto.getBudget().longValue());
 		issue.setStartDate(dspCampaignDto.getStartDatetime());

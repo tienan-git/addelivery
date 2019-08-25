@@ -31,21 +31,17 @@ public class Issue extends BaseEntity {
     @Column(name = "shop_id")
     Long shopId;
 
-    /** DSPキャンペーン管理ID */
-    @Column(name = "dsp_campaign_manage_id")
-    Long dspCampaignManageId;
+    /** 審査フラグ */
+    @Column(name = "approval_flag")
+    String approvalFlag;
 
-    /** Twitterキャンペーン管理ID */
-    @Column(name = "twitter_campaign_manage_id")
-    Long twitterCampaignManageId;
+    /** DSPキャンペーンID */
+    @Column(name = "dsp_campaign_id")
+    Integer dspCampaignId;
 
-    /** Yahooキャンペーン管理ID */
-    @Column(name = "yahoo_campaign_manage_id")
-    Long yahooCampaignManageId;
-
-    /** Youtubeキャンペーン管理ID */
-    @Column(name = "youtube_campaign_manage_id")
-    Long youtubeCampaignManageId;
+    /** TwitterキャンペーンID */
+    @Column(name = "twitter_campaign_id")
+    String twitterCampaignId;
 
     /** GoogleキャンペーンID */
     @Column(name = "google_campaign_id")
@@ -58,6 +54,14 @@ public class Issue extends BaseEntity {
     /** InstagramキャンペーンID */
     @Column(name = "instagram_campaign_id")
     String instagramCampaignId;
+
+    /** Yahooキャンペーン管理ID */
+    @Column(name = "yahoo_campaign_manage_id")
+    Long yahooCampaignManageId;
+
+    /** Youtubeキャンペーン管理ID */
+    @Column(name = "youtube_campaign_manage_id")
+    Long youtubeCampaignManageId;
 
     /** キャンペーン名 */
     @Column(name = "campaign_name")
@@ -161,75 +165,57 @@ public class Issue extends BaseEntity {
     }
 
     /** 
-     * Returns the dspCampaignManageId.
+     * Returns the approvalFlag.
      * 
-     * @return the dspCampaignManageId
+     * @return the approvalFlag
      */
-    public Long getDspCampaignManageId() {
-        return dspCampaignManageId;
+    public String getApprovalFlag() {
+        return approvalFlag;
     }
 
     /** 
-     * Sets the dspCampaignManageId.
+     * Sets the approvalFlag.
      * 
-     * @param dspCampaignManageId the dspCampaignManageId
+     * @param approvalFlag the approvalFlag
      */
-    public void setDspCampaignManageId(Long dspCampaignManageId) {
-        this.dspCampaignManageId = dspCampaignManageId;
+    public void setApprovalFlag(String approvalFlag) {
+        this.approvalFlag = approvalFlag;
     }
 
     /** 
-     * Returns the twitterCampaignManageId.
+     * Returns the dspCampaignId.
      * 
-     * @return the twitterCampaignManageId
+     * @return the dspCampaignId
      */
-    public Long getTwitterCampaignManageId() {
-        return twitterCampaignManageId;
+    public Integer getDspCampaignId() {
+        return dspCampaignId;
     }
 
     /** 
-     * Sets the twitterCampaignManageId.
+     * Sets the dspCampaignId.
      * 
-     * @param twitterCampaignManageId the twitterCampaignManageId
+     * @param dspCampaignId the dspCampaignId
      */
-    public void setTwitterCampaignManageId(Long twitterCampaignManageId) {
-        this.twitterCampaignManageId = twitterCampaignManageId;
+    public void setDspCampaignId(Integer dspCampaignId) {
+        this.dspCampaignId = dspCampaignId;
     }
 
     /** 
-     * Returns the yahooCampaignManageId.
+     * Returns the twitterCampaignId.
      * 
-     * @return the yahooCampaignManageId
+     * @return the twitterCampaignId
      */
-    public Long getYahooCampaignManageId() {
-        return yahooCampaignManageId;
+    public String getTwitterCampaignId() {
+        return twitterCampaignId;
     }
 
     /** 
-     * Sets the yahooCampaignManageId.
+     * Sets the twitterCampaignId.
      * 
-     * @param yahooCampaignManageId the yahooCampaignManageId
+     * @param twitterCampaignId the twitterCampaignId
      */
-    public void setYahooCampaignManageId(Long yahooCampaignManageId) {
-        this.yahooCampaignManageId = yahooCampaignManageId;
-    }
-
-    /** 
-     * Returns the youtubeCampaignManageId.
-     * 
-     * @return the youtubeCampaignManageId
-     */
-    public Long getYoutubeCampaignManageId() {
-        return youtubeCampaignManageId;
-    }
-
-    /** 
-     * Sets the youtubeCampaignManageId.
-     * 
-     * @param youtubeCampaignManageId the youtubeCampaignManageId
-     */
-    public void setYoutubeCampaignManageId(Long youtubeCampaignManageId) {
-        this.youtubeCampaignManageId = youtubeCampaignManageId;
+    public void setTwitterCampaignId(String twitterCampaignId) {
+        this.twitterCampaignId = twitterCampaignId;
     }
 
     /** 
@@ -284,6 +270,42 @@ public class Issue extends BaseEntity {
      */
     public void setInstagramCampaignId(String instagramCampaignId) {
         this.instagramCampaignId = instagramCampaignId;
+    }
+
+    /** 
+     * Returns the yahooCampaignManageId.
+     * 
+     * @return the yahooCampaignManageId
+     */
+    public Long getYahooCampaignManageId() {
+        return yahooCampaignManageId;
+    }
+
+    /** 
+     * Sets the yahooCampaignManageId.
+     * 
+     * @param yahooCampaignManageId the yahooCampaignManageId
+     */
+    public void setYahooCampaignManageId(Long yahooCampaignManageId) {
+        this.yahooCampaignManageId = yahooCampaignManageId;
+    }
+
+    /** 
+     * Returns the youtubeCampaignManageId.
+     * 
+     * @return the youtubeCampaignManageId
+     */
+    public Long getYoutubeCampaignManageId() {
+        return youtubeCampaignManageId;
+    }
+
+    /** 
+     * Sets the youtubeCampaignManageId.
+     * 
+     * @param youtubeCampaignManageId the youtubeCampaignManageId
+     */
+    public void setYoutubeCampaignManageId(Long youtubeCampaignManageId) {
+        this.youtubeCampaignManageId = youtubeCampaignManageId;
     }
 
     /** 

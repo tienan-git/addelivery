@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.acepro.haishinsan.dao.DspCampaignCustomDao;
 import jp.acepro.haishinsan.dao.DspCampaignManageDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
@@ -77,7 +78,7 @@ public class ReportingController {
 	OperationService operationService;
 
 	@Autowired
-	DspCampaignManageDao dspCampaignManageDao;
+	DspCampaignCustomDao dspCampaignCustomDao;
 
 	@Autowired
 	DspCampaignService dspCampaignService;
@@ -133,7 +134,7 @@ public class ReportingController {
 
 		Issue issue = issueDao.selectById(issueId);
 
-		DspCampaignManage dspCampaginManage = dspCampaignManageDao.selectById(issue.getDspCampaignManageId());
+		DspCampaignManage dspCampaginManage = dspCampaignCustomDao.selectByCampaignId(issue.getDspCampaignId());
 		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService
 				.getCampaignDetail(dspCampaginManage.getCampaignId(), ContextUtil.getCurrentShop().getDspUserId());
 

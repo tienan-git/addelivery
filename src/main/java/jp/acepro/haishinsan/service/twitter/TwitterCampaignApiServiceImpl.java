@@ -306,10 +306,10 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 		twitterCampaignManage.setCampaignName(twitterAdsDto.getCampaignName());
 		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
 			// 営業チェックが必要有りの場合
-			twitterCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
+			//twitterCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
 		} else {
 			// 営業チェックが必要無しの場合
-			twitterCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+			//twitterCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
 		}
 		twitterCampaignManage.setGroupId(lineItemId);
 		twitterCampaignManage.setTweetIds(tweetIds);
@@ -338,7 +338,7 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 		// 案件追加
 		Issue issue = new Issue();
 		if (issueDto == null) {
-			issue.setTwitterCampaignManageId(Long.valueOf(twitterCampaignManage.getTwitterCampaignManageId()));
+			issue.setTwitterCampaignId(twitterCampaignManage.getCampaignId());
 			issue.setCampaignName(twitterAdsDto.getCampaignName());
 			issue.setBudget(
 					twitterAdsDto.getTotalBudget() == 0 ? CalculateUtil.calTotalBudget(twitterAdsDto.getDailyBudget(),
@@ -840,13 +840,13 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 			call(call_url, HttpMethod.PUT, body, auth, TwitterCampaignRes.class);
 			// キャンペーン情報更新（DB）
 			TwitterCampaignManage twitterCampaignManage = twitterCampaignManageCustomDao.selectByCampaignId(campaignId);
-			if (twitterCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
-				// 承認フラグ設定
-				if (switchFlag.equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
-					twitterCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-					twitterCampaignManageDao.update(twitterCampaignManage);
-				}
-			}
+//			if (twitterCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+//				// 承認フラグ設定
+//				if (switchFlag.equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+//					twitterCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+//					twitterCampaignManageDao.update(twitterCampaignManage);
+//				}
+//			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			throw new SystemException("システムエラー発生しました");

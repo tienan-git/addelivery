@@ -47,10 +47,6 @@ public class DspCampaignManage extends BaseEntity {
     @Column(name = "device_type")
     Integer deviceType;
 
-    /** 審査フラグ */
-    @Column(name = "approval_flag")
-    String approvalFlag;
-
     /** バージョン番号 */
     @Version
     @Column(name = "version_no")
@@ -182,24 +178,6 @@ public class DspCampaignManage extends BaseEntity {
      */
     public void setDeviceType(Integer deviceType) {
         this.deviceType = deviceType;
-    }
-
-    /** 
-     * Returns the approvalFlag.
-     * 
-     * @return the approvalFlag
-     */
-    public String getApprovalFlag() {
-        return approvalFlag;
-    }
-
-    /** 
-     * Sets the approvalFlag.
-     * 
-     * @param approvalFlag the approvalFlag
-     */
-    public void setApprovalFlag(String approvalFlag) {
-        this.approvalFlag = approvalFlag;
     }
 
     /** 

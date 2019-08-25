@@ -432,7 +432,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 				facebookCampaignManage.setCampaignName(campaignName);
 				facebookCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
 				facebookCampaignManage.setBudget(totalBudget);
-				facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
+				//facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
 				facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
 				facebookCampaignManage.setLinkUrl(linkUrl);
 				facebookCampaignManageDao.insert(facebookCampaignManage);
@@ -641,7 +641,7 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			facebookCampaignManage.setCampaignName(campaignName);
 			facebookCampaignManage.setSegmentId(fbCampaignDto.getSegmentId());
 			facebookCampaignManage.setBudget(totalBudget);
-			facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
+			//facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
 			facebookCampaignManageDao.insert(facebookCampaignManage);
 
 			Issue issue = new Issue();
@@ -837,10 +837,10 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		// DBからキャンペーンを取得する
 		FacebookCampaignManage facebookCampaignManage = facebookCampaignManageCustomDao.selectByCampaignId(campaignId);
 		// 審査状態が不一致の場合、更新する
-		if (!checkStatus.equals(facebookCampaignManage.getApprovalFlag())) {
-			facebookCampaignManage.setApprovalFlag(checkStatus);
-			facebookCampaignManageDao.update(facebookCampaignManage);
-		}
+//		if (!checkStatus.equals(facebookCampaignManage.getApprovalFlag())) {
+//			facebookCampaignManage.setApprovalFlag(checkStatus);
+//			facebookCampaignManageDao.update(facebookCampaignManage);
+//		}
 	}
 
 	@Override
