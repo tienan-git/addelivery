@@ -67,12 +67,12 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
 				issuesDto.setMediaIcon(IssueAdtype.INSTAGRAM.getValue());
 			}
 			// twitter
-			if (Objects.nonNull(issue.getTwitterCampaignManageId())) {
+			if (Objects.nonNull(issue.getTwitterCampaignId())) {
 				issuesDto.setMedia(IssueAdtype.TWITTER.getLabel());
 				issuesDto.setMediaIcon(IssueAdtype.TWITTER.getValue());
 			}
 			// dsp
-			if (Objects.nonNull(issue.getDspCampaignManageId())) {
+			if (Objects.nonNull(issue.getDspCampaignId())) {
 				issuesDto.setMedia(IssueAdtype.DSP.getLabel());
 				issuesDto.setMediaIcon(IssueAdtype.DSP.getValue());
 			}

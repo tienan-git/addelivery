@@ -43,9 +43,9 @@ public class IssueWithShopWithCorporation extends BaseEntity {
 	@Column(name = "issue_id")
 	Long issueId;
 
-	/** DSPキャンペーン管理ID */
-	@Column(name = "dsp_campaign_manage_id")
-	Long dspCampaignManageId;
+	/** DSPキャンペーンID */
+	@Column(name = "dsp_campaign_id")
+	Long dspCampaignId;
 
 	/** GoogleキャンペーンID */
 	@Column(name = "google_campaign_id")
@@ -59,9 +59,9 @@ public class IssueWithShopWithCorporation extends BaseEntity {
 	@Column(name = "instagram_campaign_id")
 	Long instagramCampaignId;
 
-	/** Twitterキャンペーン管理ID */
-	@Column(name = "twitter_campaign_manage_id")
-	Long twitterCampaignManageId;
+	/** TwitterキャンペーンID */
+	@Column(name = "twitter_campaign_id")
+	Long twitterCampaignId;
 
 	/** Yahooキャンペーン管理ID */
 	@Column(name = "yahoo_campaign_manage_id")

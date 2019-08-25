@@ -155,8 +155,8 @@ Domain=視聴率=@DOUBLE
 DomainInfo="視聴率","@DOUBLE",""
 Domain=視聴単価=@DOUBLE
 DomainInfo="視聴単価","@DOUBLE",""
-Domain=文字列日付=@VARCHAR(10)
-DomainInfo="文字列日付","@VARCHAR(10)",""
+Domain=文字列日付=@VARCHAR(20)
+DomainInfo="文字列日付","@VARCHAR(20)",""
 Domain=日付=@CHAR(8)
 DomainInfo="日付","@CHAR(8)",""
 Domain=キーワード名=@VARCHAR(120)
@@ -1353,13 +1353,14 @@ Left=2050
 Top=1050
 Field="案件ID","issue_id","*ID採番あり","NOT NULL",0,"","",$00FF0000,""
 Field="店舗ID","shop_id","*ID採番なし","NOT NULL",,"","",$FFFFFFFF,""
-Field="DSPキャンペーン管理ID","dsp_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
-Field="Twitterキャンペーン管理ID","twitter_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
-Field="Yahooキャンペーン管理ID","yahoo_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
-Field="Youtubeキャンペーン管理ID","youtube_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
+Field="審査フラグ","approval_flag","*フラグ",,,"","",$FFFFFFFF,""
+Field="DSPキャンペーンID","dsp_campaign_id","*整数",,,"","",$FFFFFFFF,""
+Field="TwitterキャンペーンID","twitter_campaign_id","*ID",,,"","",$FFFFFFFF,""
 Field="GoogleキャンペーンID","google_campaign_id","*ID採番なし",,,"","",$FFFFFFFF,""
 Field="FacebookキャンペーンID","facebook_campaign_id","*ID",,,"","",$FFFFFFFF,""
 Field="InstagramキャンペーンID","instagram_campaign_id","*ID",,,"","",$FFFFFFFF,""
+Field="Yahooキャンペーン管理ID","yahoo_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
+Field="Youtubeキャンペーン管理ID","youtube_campaign_manage_id","*ID採番なし",,,"","",$FFFFFFFF,""
 Field="キャンペーン名","campaign_name","*キャンペーン名",,,"","",$FFFFFFFF,""
 Field="全体予算","budget","*予算",,,"","",$FFFFFFFF,""
 Field="配信開始日","start_date","*文字列日付",,,"","",$FFFFFFFF,""
@@ -1373,7 +1374,7 @@ Field="配信終了タイムスタンプ","end_timestamp","*日時",,,"","",$FFF
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190824150155
+ModifiedDateTime=20190825103347
 Position="MAIN",2050,1050,669,934
 ZOrder=27
 
@@ -1478,13 +1479,12 @@ Field="キャンペーン名","campaign_name","*キャンペーン名",,,"","",$
 Field="予算","budget","*予算",,,"","",$FFFFFFFF,""
 Field="セグメントID","segment_id","*整数",,,"","",$FFFFFFFF,""
 Field="地域コード","regions","*地域",,,"","",$FFFFFFFF,""
-Field="審査フラグ","approval_flag","*フラグ","NOT NULL",,"","",$FFFFFFFF,""
 Field="イメージURL","image_url","*URL",,,"","",$FFFFFFFF,""
 Field="リンク先URL","link_url","*URL",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190811211057
+ModifiedDateTime=20190825102909
 Position="FACEBOOK",1250,250,468,487
 ZOrder=22
 
@@ -1573,11 +1573,10 @@ Field="日別予算","daily_budget","*予算","NOT NULL",,"","",$FFFFFFFF,""
 Field="総予算","total_budget","*予算",,,"","",$FFFFFFFF,""
 Field="グループID","group_id","*ID","NOT NULL",,"","",$FFFFFFFF,""
 Field="ツイートIDS","tweet_ids","@VARCHAR(500)","NOT NULL",,"","",$FFFFFFFF,""
-Field="審査フラグ","approval_flag","*フラグ","NOT NULL",,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20181023182235
+ModifiedDateTime=20190825102928
 Position="TWITTER",1450,950,524,378
 ZOrder=18
 
@@ -1702,11 +1701,10 @@ Field="クリエイティブID","creative_id","@VARCHAR(200)","NOT NULL",,"","",
 Field="セグメントID","segment_id","*整数","NOT NULL",,"","",$FFFFFFFF,""
 Field="予算","budget","*整数","NOT NULL",,"","",$FFFFFFFF,""
 Field="デバイスタイプ","device_type","*整数","NOT NULL",,"","",$FFFFFFFF,""
-Field="審査フラグ","approval_flag","*フラグ",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190811212122
+ModifiedDateTime=20190825102811
 Position="DSP",1350,650,460,347
 ZOrder=13
 
@@ -1849,7 +1847,6 @@ Field="Googleキャンペーン管理ID","google_campaign_manage_id","*ID採番�
 Field="キャンペーンID","campaign_id","*ID採番なし","NOT NULL",,"","",$FFFFFFFF,""
 Field="店舗ID","shop_id","*ID採番なし",,,"","",$FFFFFFFF,""
 Field="キャンペーン名","campaign_name","*キャンペーン名","NOT NULL",,"","",$FFFFFFFF,""
-Field="審査フラグ","approval_flag","*フラグ","NOT NULL",,"","0:承認待ち 1:承認済み",$FFFFFFFF,""
 Field="予算","budget","*予算",,,"","",$FFFFFFFF,""
 Field="地域コード","regions","*地域",,,"","",$FFFFFFFF,""
 Field="広告タイプ","ad_type","*広告タイプ","NOT NULL",,"","01:レスポンシブ広告 02:イメージ広告 03:拡張テキスト広告",$FFFFFFFF,""
@@ -1864,7 +1861,7 @@ Field="リンク先","link_url","*URL",,,"","",$FFFFFFFF,""
 EffectMode=None
 Color=$000000
 BkColor=$FFFFFF
-ModifiedDateTime=20190811212255
+ModifiedDateTime=20190825102857
 Position="GOOGLE",1000,100,511,720
 ZOrder=7
 

@@ -39,10 +39,6 @@ public class GoogleCampaignManage extends BaseEntity {
     @Column(name = "campaign_name")
     String campaignName;
 
-    /** 審査フラグ:0:承認待ち 1:承認済み */
-    @Column(name = "approval_flag")
-    String approvalFlag;
-
     /** 予算 */
     @Column(name = "budget")
     Long budget;
@@ -182,24 +178,6 @@ public class GoogleCampaignManage extends BaseEntity {
      */
     public void setCampaignName(String campaignName) {
         this.campaignName = campaignName;
-    }
-
-    /** 
-     * Returns the approvalFlag.
-     * 
-     * @return the approvalFlag
-     */
-    public String getApprovalFlag() {
-        return approvalFlag;
-    }
-
-    /** 
-     * Sets the approvalFlag.
-     * 
-     * @param approvalFlag the approvalFlag
-     */
-    public void setApprovalFlag(String approvalFlag) {
-        this.approvalFlag = approvalFlag;
     }
 
     /** 
