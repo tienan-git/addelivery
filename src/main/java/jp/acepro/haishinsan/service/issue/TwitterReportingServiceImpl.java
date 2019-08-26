@@ -251,6 +251,9 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         // DBからレポートデータ取得
         List<TwitterDeviceReport> twitterDeviceReportList = twitterDeviceReportCustomtDao
                 .selectDeviceReport(twitterReportDto);
+        // campaignIdからcampaignNameを取得する
+        TwitterCampaignManage twitterCampaign = twitterCampaignManageCustomDao
+                .selectByCampaignId(twitterReportDto.getCampaignIdList().get(0));
 
         List<TwitterDisplayReportDto> twitterDeviceReportDtoList = new ArrayList<>();
 
@@ -261,6 +264,7 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
                         .getRoundedPrice(Double.valueOf(deviceReport.getBilledChargeLoaclMicro()));
                 TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
                 twitterDisplayReportDto.setCampaignId(deviceReport.getCampaignId());
+                twitterDisplayReportDto.setCampaignName(twitterCampaign.getCampaignName());
                 twitterDisplayReportDto.setDeviceName(deviceReport.getDevice());
                 twitterDisplayReportDto.setImpressions(Integer.valueOf(deviceReport.getImpressions()));
                 twitterDisplayReportDto.setCosts(longPrice);
@@ -286,6 +290,9 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         // DBからレポートデータ取得
         List<TwitterRegionReport> twitterRegionReportList = twitterRegionReportCustomtDao
                 .selectRegionReport(twitterReportDto);
+        // campaignIdからcampaignNameを取得する
+        TwitterCampaignManage twitterCampaign = twitterCampaignManageCustomDao
+                .selectByCampaignId(twitterReportDto.getCampaignIdList().get(0));
 
         List<TwitterDisplayReportDto> twitterRegionReportDtoList = new ArrayList<>();
 
@@ -295,6 +302,7 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
                         .getRoundedPrice(Double.valueOf(regionReport.getBilledChargeLoaclMicro()));
                 TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
                 twitterDisplayReportDto.setCampaignId(regionReport.getCampaignId());
+                twitterDisplayReportDto.setCampaignName(twitterCampaign.getCampaignName());
                 twitterDisplayReportDto.setLocationName((regionReport.getRegion()));
                 twitterDisplayReportDto.setImpressions(Integer.valueOf(regionReport.getImpressions()));
                 twitterDisplayReportDto.setCosts(longPrice);
@@ -319,6 +327,9 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         // DBからレポートデータ取得
         List<TwitterDeviceReport> twitterDayReportList = twitterDeviceReportCustomtDao
                 .selectDayReport(twitterReportDto);
+        // campaignIdからcampaignNameを取得する
+        TwitterCampaignManage twitterCampaign = twitterCampaignManageCustomDao
+                .selectByCampaignId(twitterReportDto.getCampaignIdList().get(0));
 
         List<TwitterDisplayReportDto> twitterDayReportDtoList = new ArrayList<>();
 
@@ -329,6 +340,7 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
                         .getRoundedPrice(Double.valueOf(deviceReport.getBilledChargeLoaclMicro()));
                 TwitterDisplayReportDto twitterDisplayReportDto = new TwitterDisplayReportDto();
                 twitterDisplayReportDto.setCampaignId(deviceReport.getCampaignId());
+                twitterDisplayReportDto.setCampaignName(twitterCampaign.getCampaignName());
                 twitterDisplayReportDto.setDay(DateUtil.fromLocalDate(deviceReport.getDay()));
                 twitterDisplayReportDto.setImpressions(Integer.valueOf(deviceReport.getImpressions()));
                 twitterDisplayReportDto.setCosts(longPrice);
