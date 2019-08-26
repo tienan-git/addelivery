@@ -43,6 +43,10 @@ public class IssueWithShopWithCorporation extends BaseEntity {
     @Column(name = "issue_id")
     Long issueId;
 
+    /** 審査フラグ */
+    @Column(name = "approval_flag")
+    String approvalFlag;
+
     /** DSPキャンペーンID */
     @Column(name = "dsp_campaign_id")
     Long dspCampaignId;

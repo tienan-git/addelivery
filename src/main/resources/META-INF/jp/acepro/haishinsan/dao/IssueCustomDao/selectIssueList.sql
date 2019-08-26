@@ -1,6 +1,7 @@
 select
   i.issue_id,
   i.shop_id,
+  i.approval_flag,
   s.shop_name,
   c.corporation_id,
   c.corporation_name,

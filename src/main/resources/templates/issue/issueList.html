@@ -133,6 +133,8 @@
 									<th>費用</th>
 									<th>配信開始日</th>
 									<th>配信終了日</th>
+									<th>on/off</th>
+									<th>承認</th>
 									<th>アクション</th>
 								</tr>
 							</thead>
@@ -146,6 +148,8 @@
 									<th>費用</th>
 									<th>配信開始日</th>
 									<th>配信終了日</th>
+									<th>on/off</th>
+									<th>承認</th>
 									<th>アクション</th>
 								</tr>
 							</tfoot>
@@ -161,6 +165,16 @@
 									<td th:text="${issue.budget}">予算</td>
 									<td th:text="${issue.startDate}">配信開始日</td>
 									<td th:text="${issue.endDate}">配信終了日</td>
+									<!-- yahoo,youtube switch -->
+									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
+									<!-- other switch -->
+									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"><label hidden="hidden" th:text="${issue.issueId}"></label> 
+										<input type="checkbox" class="js-switch" th:checked="false">
+									</td>
+									<!-- yahoo,youtube approal -->
+									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
+									<!-- other approal -->
+									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}" th:text="${T(jp.acepro.haishinsan.enums.ApprovalFlag).of(issue.approvalFlag).getLabel()}">承認待ち</td>
 									<td>
 										<button class="label detail" type="submit"
 											th:formmethod="post"
