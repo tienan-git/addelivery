@@ -1,5 +1,7 @@
 package jp.acepro.haishinsan.controller.issue;
 
+import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,6 +10,9 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.dao.DspCampaignCustomDao;
-import jp.acepro.haishinsan.dao.DspCampaignManageDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueDao;
@@ -43,6 +48,7 @@ import jp.acepro.haishinsan.dto.yahoo.YahooGraphReportDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
+import jp.acepro.haishinsan.enums.DateFormatter;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.form.YahooCsvInputForm;
@@ -57,284 +63,321 @@ import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
 import jp.acepro.haishinsan.service.yahoo.YahooService;
 import jp.acepro.haishinsan.util.ContextUtil;
+import jp.acepro.haishinsan.util.TwitterUtil;
+import jp.acepro.haishinsan.util.Utf8BomUtil;
 
 @Controller
 @RequestMapping("/issue/report")
 public class ReportingController {
 
-	@Autowired
-	TwitterReportingService twitterReportingService;
+    @Autowired
+    ApplicationProperties applicationProperties;
 
-	@Autowired
-	IssuesService issuesService;
+    @Autowired
+    TwitterReportingService twitterReportingService;
 
-	@Autowired
-	HttpSession session;
+    @Autowired
+    IssuesService issuesService;
 
-	@Autowired
-	DspApiService dspApiService;
+    @Autowired
+    HttpSession session;
 
-	@Autowired
-	OperationService operationService;
+    @Autowired
+    DspApiService dspApiService;
 
-	@Autowired
-	DspCampaignCustomDao dspCampaignCustomDao;
+    @Autowired
+    OperationService operationService;
 
-	@Autowired
-	DspCampaignService dspCampaignService;
+    @Autowired
+    DspCampaignCustomDao dspCampaignCustomDao;
 
-	@Autowired
-	FacebookCampaignManageDao facebookCampaignManageDao;
+    @Autowired
+    DspCampaignService dspCampaignService;
 
-	@Autowired
-	FacebookService facebookService;
+    @Autowired
+    FacebookCampaignManageDao facebookCampaignManageDao;
 
-	@Autowired
-	FacebookReportingService facebookReportingService;
+    @Autowired
+    FacebookService facebookService;
 
-	@Autowired
-	GoogleCampaignManageDao googleCampaignManageDao;
+    @Autowired
+    FacebookReportingService facebookReportingService;
 
-	@Autowired
-	GoogleReportService googleReportService;
+    @Autowired
+    GoogleCampaignManageDao googleCampaignManageDao;
 
-	@Autowired
-	GoogleCampaignService googleCampaignService;
+    @Autowired
+    GoogleReportService googleReportService;
 
-	@Autowired
-	IssueDao issueDao;
+    @Autowired
+    GoogleCampaignService googleCampaignService;
 
-	@Autowired
-	YahooService yahooService;
+    @Autowired
+    IssueDao issueDao;
 
-	@Autowired
-	YahooCampaignManageDao yahooCampaignManageDao;
+    @Autowired
+    YahooService yahooService;
 
-	@PostMapping("/allReporting")
-	public ModelAndView allReporting(@RequestParam Long issueId, @RequestParam String media) {
-		switch (media) {
-		case "FreakOut":
-			return getDspReporting(issueId);
-		case "Twitter":
-			return getTwitterReporting(issueId);
-		case "FaceBook":
-			return getFacebookReporting(issueId);
-		case "Google":
-			return getGoogleReporting(issueId);
-		case "Yahoo":
-			return getYahooReporting(issueId);
-		}
+    @Autowired
+    YahooCampaignManageDao yahooCampaignManageDao;
 
-		return null;
-	}
+    @PostMapping("/allReporting")
+    public ModelAndView allReporting(@RequestParam Long issueId, @RequestParam String media) {
+        switch (media) {
+        case "FreakOut":
+            return getDspReporting(issueId);
+        case "Twitter":
+            return getTwitterReporting(issueId);
+        case "FaceBook":
+            return getFacebookReporting(issueId);
+        case "Google":
+            return getGoogleReporting(issueId);
+        case "Yahoo":
+            return getYahooReporting(issueId);
+        }
 
-	@GetMapping("/dspReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
-	public ModelAndView getDspReporting(@RequestParam Long issueId) {
+        return null;
+    }
 
-		Issue issue = issueDao.selectById(issueId);
+    @GetMapping("/dspReporting")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
+    public ModelAndView getDspReporting(@RequestParam Long issueId) {
 
-		DspCampaignManage dspCampaginManage = dspCampaignCustomDao.selectByCampaignId(issue.getDspCampaignId());
-		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService
-				.getCampaignDetail(dspCampaginManage.getCampaignId(), ContextUtil.getCurrentShop().getDspUserId());
+        Issue issue = issueDao.selectById(issueId);
 
-		// 検索条件を集める
-		DspAdReportDto dspAdReportDto = new DspAdReportDto();
-		dspAdReportDto.setCampaignId(dspCampaginManage.getCampaignId());
+        DspCampaignManage dspCampaginManage = dspCampaignCustomDao.selectByCampaignId(issue.getDspCampaignId());
+        DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService
+                .getCampaignDetail(dspCampaginManage.getCampaignId(), ContextUtil.getCurrentShop().getDspUserId());
 
-		// 日付別のグラフレポートを取得
-		dspAdReportDto.setReportType(ReportType.DATE.getValue());
-		DspReportingGraphDto dspDateReportingGraphDto = dspApiService.getDspReportingGraph(dspAdReportDto);
-		// 日付別のリストレポートを取得
-		List<DspReportingListDto> dspDateReportingDtoList = dspApiService.getDspReportingList(dspAdReportDto);
-		// デバイス別のリストレポートを取得
-		dspAdReportDto.setReportType(ReportType.DEVICE.getValue());
-		List<DspReportingListDto> dspDeviceReportingDtoList = dspApiService.getDspReportingList(dspAdReportDto);
-		// クリエイティブ別のグラフレポートを取得
-		dspAdReportDto.setReportType(ReportType.CREATIVE.getValue());
-		DspReportingGraphDto dspCreativeReportingGraphDto = dspApiService.getDspReportingGraph(dspAdReportDto);
-		// クリエイティブ別のリストレポートを取得
-		List<DspReportingListDto> dspCreativeReportingDtoList = dspApiService.getDspReportingList(dspAdReportDto);
+        // 検索条件を集める
+        DspAdReportDto dspAdReportDto = new DspAdReportDto();
+        dspAdReportDto.setCampaignId(dspCampaginManage.getCampaignId());
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("reporting/dspReporting");
-		modelAndView.addObject("dspDateReportingGraphDto", dspDateReportingGraphDto);
-		modelAndView.addObject("dspDateReportingDtoList", dspDateReportingDtoList);
-		modelAndView.addObject("dspDeviceReportingDtoList", dspDeviceReportingDtoList);
-		modelAndView.addObject("dspCreativeReportingGraphDto", dspCreativeReportingGraphDto);
-		modelAndView.addObject("dspCreativeReportingDtoList", dspCreativeReportingDtoList);
-		modelAndView.addObject("dspCampaignDetailDto", dspCampaignDetailDto);
+        // 日付別のグラフレポートを取得
+        dspAdReportDto.setReportType(ReportType.DATE.getValue());
+        DspReportingGraphDto dspDateReportingGraphDto = dspApiService.getDspReportingGraph(dspAdReportDto);
+        // 日付別のリストレポートを取得
+        List<DspReportingListDto> dspDateReportingDtoList = dspApiService.getDspReportingList(dspAdReportDto);
+        // デバイス別のリストレポートを取得
+        dspAdReportDto.setReportType(ReportType.DEVICE.getValue());
+        List<DspReportingListDto> dspDeviceReportingDtoList = dspApiService.getDspReportingList(dspAdReportDto);
+        // クリエイティブ別のグラフレポートを取得
+        dspAdReportDto.setReportType(ReportType.CREATIVE.getValue());
+        DspReportingGraphDto dspCreativeReportingGraphDto = dspApiService.getDspReportingGraph(dspAdReportDto);
+        // クリエイティブ別のリストレポートを取得
+        List<DspReportingListDto> dspCreativeReportingDtoList = dspApiService.getDspReportingList(dspAdReportDto);
 
-		// オペレーションログ記録
-		operationService.create(Operation.DSP_REPORT_VIEW.getValue(), null);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("reporting/dspReporting");
+        modelAndView.addObject("dspDateReportingGraphDto", dspDateReportingGraphDto);
+        modelAndView.addObject("dspDateReportingDtoList", dspDateReportingDtoList);
+        modelAndView.addObject("dspDeviceReportingDtoList", dspDeviceReportingDtoList);
+        modelAndView.addObject("dspCreativeReportingGraphDto", dspCreativeReportingGraphDto);
+        modelAndView.addObject("dspCreativeReportingDtoList", dspCreativeReportingDtoList);
+        modelAndView.addObject("dspCampaignDetailDto", dspCampaignDetailDto);
 
-		return modelAndView;
-	}
+        // オペレーションログ記録
+        operationService.create(Operation.DSP_REPORT_VIEW.getValue(), null);
 
-	@GetMapping("/twitterReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_REPORT_VIEW + "')")
-	public ModelAndView getTwitterReporting(@RequestParam Long issueId) {
+        return modelAndView;
+    }
 
-		TwitterReportDto twitterReportDto = new TwitterReportDto();
-		TwitterCampaignData twitterCampaignData = issuesService.selectCampaignIdByIssueId(issueId);
-		List<String> campaignIdList = new ArrayList<>(Arrays.asList(twitterCampaignData.getId()));
-		twitterReportDto.setCampaignIdList(campaignIdList);
+    @GetMapping("/twitterReporting")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_REPORT_VIEW + "')")
+    public ModelAndView getTwitterReporting(@RequestParam Long issueId) {
 
-		// 地域別のTable用データ取得
-		List<TwitterDisplayReportDto> twitterRegionsTableDtoList = twitterReportingService
-				.getTwitterRegionReporting(twitterReportDto);
-		// 地域別のGraph用データ取得
-		TwitterGraphReportDto twitterRegionsGraphReportDto = twitterReportingService
-				.getTwitterRegionReportingGraph(twitterReportDto);
-		// 日別のTable用データ取得
-		List<TwitterDisplayReportDto> twitterDateTableDtoList = twitterReportingService
-				.getTwitterDayReporting(twitterReportDto);
-		// 日別のGraph用データ取得
-		TwitterGraphReportDto twitterDateGraphReportDto = twitterReportingService
-				.getTwitterDayReportingGraph(twitterReportDto);
-		// デバイスのTable&グラフ用データ取得
-		List<TwitterDisplayReportDto> twitterDeviceTableDtoList = twitterReportingService
-				.getTwitterDeviceReporting(twitterReportDto);
-		// viewに設定
-		ModelAndView mv = new ModelAndView();
-		mv.addObject("twitterRegionsTableDtoList", twitterRegionsTableDtoList);
-		mv.addObject("twitterRegionsGraphReportDto", twitterRegionsGraphReportDto);
-		mv.addObject("twitterDateTableDtoList", twitterDateTableDtoList);
-		mv.addObject("twitterDateGraphReportDto", twitterDateGraphReportDto);
-		mv.addObject("twitterDeviceTableDtoList", twitterDeviceTableDtoList);
-		mv.addObject("twitterCampaignData", twitterCampaignData);
-		mv.setViewName("reporting/twitterReporting");
+        TwitterReportDto twitterReportDto = new TwitterReportDto();
+        TwitterCampaignData twitterCampaignData = issuesService.selectCampaignIdByIssueId(issueId);
+        List<String> campaignIdList = new ArrayList<>(Arrays.asList(twitterCampaignData.getId()));
+        twitterReportDto.setCampaignIdList(campaignIdList);
 
-		// オペレーションログ記録
-		operationService.create(Operation.TWITTER_REPORT_VIEW.getValue(), null);
+        // 地域別のTable用データ取得
+        List<TwitterDisplayReportDto> twitterRegionsTableDtoList = twitterReportingService
+                .getTwitterRegionReporting(twitterReportDto);
+        // 地域別のGraph用データ取得
+        TwitterGraphReportDto twitterRegionsGraphReportDto = twitterReportingService
+                .getTwitterRegionReportingGraph(twitterReportDto);
+        // 日別のTable用データ取得
+        List<TwitterDisplayReportDto> twitterDateTableDtoList = twitterReportingService
+                .getTwitterDayReporting(twitterReportDto);
+        // 日別のGraph用データ取得
+        TwitterGraphReportDto twitterDateGraphReportDto = twitterReportingService
+                .getTwitterDayReportingGraph(twitterReportDto);
+        // デバイスのTable&グラフ用データ取得
+        List<TwitterDisplayReportDto> twitterDeviceTableDtoList = twitterReportingService
+                .getTwitterDeviceReporting(twitterReportDto);
+        // viewに設定
+        ModelAndView mv = new ModelAndView();
+        mv.addObject("twitterRegionsTableDtoList", twitterRegionsTableDtoList);
+        mv.addObject("twitterRegionsGraphReportDto", twitterRegionsGraphReportDto);
+        mv.addObject("twitterDateTableDtoList", twitterDateTableDtoList);
+        mv.addObject("twitterDateGraphReportDto", twitterDateGraphReportDto);
+        mv.addObject("twitterDeviceTableDtoList", twitterDeviceTableDtoList);
+        mv.addObject("twitterCampaignData", twitterCampaignData);
+        mv.setViewName("reporting/twitterReporting");
 
-		return mv;
-	}
+        // オペレーションログ記録
+        operationService.create(Operation.TWITTER_REPORT_VIEW.getValue(), null);
 
-	@GetMapping("/facebookReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_REPORT_VIEW + "')")
-	public ModelAndView getFacebookReporting(@RequestParam Long issueId) {
+        return mv;
+    }
 
-		Issue issue = issueDao.selectById(issueId);
-		FbCampaignDto fbCampaignDto = facebookService.campaignDetail(issue.getFacebookCampaignId().toString());
+    @GetMapping("/facebookReporting")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_REPORT_VIEW + "')")
+    public ModelAndView getFacebookReporting(@RequestParam Long issueId) {
 
-		// 検索条件を集める
-		List<String> campaignIdList = new ArrayList<String>();
-		campaignIdList.add(fbCampaignDto.getCampaignId());
-		String startDate = issue.getStartDate();
-		String endDate = issue.getEndDate();
+        Issue issue = issueDao.selectById(issueId);
+        FbCampaignDto fbCampaignDto = facebookService.campaignDetail(issue.getFacebookCampaignId().toString());
 
-		// 日付別のグラフレポートを取得
-		FbGraphReportDto fbDateGraphReportDto = facebookReportingService.getFacebookDateReportingGraph(campaignIdList,
-				startDate, endDate);
-		// 日付別のリストレポートを取得
-		List<FbReportDisplayDto> fbDateReportDisplayDtoList = facebookReportingService.getDateReport(campaignIdList,
-				startDate, endDate);
-		// デバイス別のリグラフレポートを取得
-		FbGraphReportDto fbDeviceGraphReportDto = facebookReportingService
-				.getFacebookDeviceReportingGraph(campaignIdList, startDate, endDate);
-		// デバイス別のリストレポートを取得
-		List<FbReportDisplayDto> fbDeviceReportDisplayDtoList = facebookReportingService.getDeviceReport(campaignIdList,
-				startDate, endDate);
-		// 地域別のリグラフレポートを取得
-		FbGraphReportDto fbRegionGraphReportDto = facebookReportingService
-				.getFacebookRegionReportingGraph(campaignIdList, startDate, endDate);
-		// 地域別のリストレポートを取得
-		List<FbReportDisplayDto> fbRegionReportDisplayDtoList = facebookReportingService.getRegionReport(campaignIdList,
-				startDate, endDate);
+        // 検索条件を集める
+        List<String> campaignIdList = new ArrayList<String>();
+        campaignIdList.add(fbCampaignDto.getCampaignId());
+        String startDate = issue.getStartDate();
+        String endDate = issue.getEndDate();
 
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("reporting/facebookReporting");
-		modelAndView.addObject("issue", issue);
-		modelAndView.addObject("fbCampaignDto", fbCampaignDto);
-		modelAndView.addObject("fbDateGraphReportDto", fbDateGraphReportDto);
-		modelAndView.addObject("fbDateReportDisplayDtoList", fbDateReportDisplayDtoList);
-		modelAndView.addObject("fbDeviceGraphReportDto", fbDeviceGraphReportDto);
-		modelAndView.addObject("fbDeviceReportDisplayDtoList", fbDeviceReportDisplayDtoList);
-		modelAndView.addObject("fbRegionGraphReportDto", fbRegionGraphReportDto);
-		modelAndView.addObject("fbRegionReportDisplayDtoList", fbRegionReportDisplayDtoList);
+        // 日付別のグラフレポートを取得
+        FbGraphReportDto fbDateGraphReportDto = facebookReportingService.getFacebookDateReportingGraph(campaignIdList,
+                startDate, endDate);
+        // 日付別のリストレポートを取得
+        List<FbReportDisplayDto> fbDateReportDisplayDtoList = facebookReportingService.getDateReport(campaignIdList,
+                startDate, endDate);
+        // デバイス別のリグラフレポートを取得
+        FbGraphReportDto fbDeviceGraphReportDto = facebookReportingService
+                .getFacebookDeviceReportingGraph(campaignIdList, startDate, endDate);
+        // デバイス別のリストレポートを取得
+        List<FbReportDisplayDto> fbDeviceReportDisplayDtoList = facebookReportingService.getDeviceReport(campaignIdList,
+                startDate, endDate);
+        // 地域別のリグラフレポートを取得
+        FbGraphReportDto fbRegionGraphReportDto = facebookReportingService
+                .getFacebookRegionReportingGraph(campaignIdList, startDate, endDate);
+        // 地域別のリストレポートを取得
+        List<FbReportDisplayDto> fbRegionReportDisplayDtoList = facebookReportingService.getRegionReport(campaignIdList,
+                startDate, endDate);
 
-		// オペレーションログ記録
-		operationService.create(Operation.FACEBOOK_REPORT_VIEW.getValue(), null);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("reporting/facebookReporting");
+        modelAndView.addObject("issue", issue);
+        modelAndView.addObject("fbCampaignDto", fbCampaignDto);
+        modelAndView.addObject("fbDateGraphReportDto", fbDateGraphReportDto);
+        modelAndView.addObject("fbDateReportDisplayDtoList", fbDateReportDisplayDtoList);
+        modelAndView.addObject("fbDeviceGraphReportDto", fbDeviceGraphReportDto);
+        modelAndView.addObject("fbDeviceReportDisplayDtoList", fbDeviceReportDisplayDtoList);
+        modelAndView.addObject("fbRegionGraphReportDto", fbRegionGraphReportDto);
+        modelAndView.addObject("fbRegionReportDisplayDtoList", fbRegionReportDisplayDtoList);
 
-		return modelAndView;
-	}
+        // オペレーションログ記録
+        operationService.create(Operation.FACEBOOK_REPORT_VIEW.getValue(), null);
 
-	@GetMapping("/googleReporting")
-	public ModelAndView getGoogleReporting(@RequestParam Long issueId) {
+        return modelAndView;
+    }
 
-		// 検索条件を集める
-		GoogleReportSearchDto googleReportSearchDto = new GoogleReportSearchDto();
-		Issue issue = issueDao.selectById(issueId);
-		List<Long> ids = new ArrayList<Long>();
-		ids.add(issue.getGoogleCampaignId());
-		googleReportSearchDto.setCampaignIdList(ids);
+    @GetMapping("/googleReporting")
+    public ModelAndView getGoogleReporting(@RequestParam Long issueId) {
 
-		// レポート表示（地域別）
-		GoogleReportDto googleLocationReportDto = googleReportService.showLocationReport(googleReportSearchDto);
-		// レポート表示（日付別）
-		GoogleReportDto googleDailyReportDto = googleReportService.showDailyReport(googleReportSearchDto);
-		// レポート表示（デバイス別）
-		GoogleReportDto googleDeviceReportDto = googleReportService.showDeviceReport(googleReportSearchDto);
-		// キャンプーン詳細取得
-		GoogleCampaignDetailDto googleCampaignDetailDto = new GoogleCampaignDetailDto();
-		googleCampaignDetailDto = googleCampaignService.getCampaign(issue.getGoogleCampaignId());
+        // 検索条件を集める
+        GoogleReportSearchDto googleReportSearchDto = new GoogleReportSearchDto();
+        Issue issue = issueDao.selectById(issueId);
+        List<Long> ids = new ArrayList<Long>();
+        ids.add(issue.getGoogleCampaignId());
+        googleReportSearchDto.setCampaignIdList(ids);
 
-		// 正常時レスポンスを作成
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("reporting/googleReporting");
-		modelAndView.addObject("googleLocationReportDto", googleLocationReportDto);
-		modelAndView.addObject("googleDailyReportDto", googleDailyReportDto);
-		modelAndView.addObject("googleDeviceReportDto", googleDeviceReportDto);
-		modelAndView.addObject("googleCampaignDetailDto", googleCampaignDetailDto);
+        // レポート表示（地域別）
+        GoogleReportDto googleLocationReportDto = googleReportService.showLocationReport(googleReportSearchDto);
+        // レポート表示（日付別）
+        GoogleReportDto googleDailyReportDto = googleReportService.showDailyReport(googleReportSearchDto);
+        // レポート表示（デバイス別）
+        GoogleReportDto googleDeviceReportDto = googleReportService.showDeviceReport(googleReportSearchDto);
+        // キャンプーン詳細取得
+        GoogleCampaignDetailDto googleCampaignDetailDto = new GoogleCampaignDetailDto();
+        googleCampaignDetailDto = googleCampaignService.getCampaign(issue.getGoogleCampaignId());
 
-		// オペレーションログ記録
-		operationService.create(Operation.GOOGLE_REGION_REPORT_VIEW.getValue(), null);
-		return modelAndView;
-	}
+        // 正常時レスポンスを作成
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("reporting/googleReporting");
+        modelAndView.addObject("googleLocationReportDto", googleLocationReportDto);
+        modelAndView.addObject("googleDailyReportDto", googleDailyReportDto);
+        modelAndView.addObject("googleDeviceReportDto", googleDeviceReportDto);
+        modelAndView.addObject("googleCampaignDetailDto", googleCampaignDetailDto);
 
-	@GetMapping("/yahooReporting")
-	public ModelAndView getYahooReporting(@RequestParam Long issueId) {
+        // オペレーションログ記録
+        operationService.create(Operation.GOOGLE_REGION_REPORT_VIEW.getValue(), null);
+        return modelAndView;
+    }
 
-		// 検索条件を集める
-		List<String> campaignIdList = new ArrayList<String>();
-		Issue issue = issueDao.selectById(issueId);
-		YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao.selectById(issue.getYahooCampaignManageId());
-		campaignIdList.add(yahooCampaignManage.getCampaignId());
+    @GetMapping("/yahooReporting")
+    public ModelAndView getYahooReporting(@RequestParam Long issueId) {
 
-		// Yahoo広告詳細取得
-		YahooIssueDto yahooIssueDto = yahooService.getIssueDetail(issueId);
-		// 地域詳細処理
-		List<String> locationIdListString = Arrays.asList(yahooIssueDto.getLocationIds().split(","));
-		List<Long> locationIdList = locationIdListString.stream().map(s -> Long.parseLong(s))
-				.collect(Collectors.toList());
-		List<YahooLocationDto> locationList = yahooService.getLocationList(locationIdList);
-		yahooIssueDto.setLocationList(locationList);
+        // 検索条件を集める
+        List<String> campaignIdList = new ArrayList<String>();
+        Issue issue = issueDao.selectById(issueId);
+        YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao.selectById(issue.getYahooCampaignManageId());
+        campaignIdList.add(yahooCampaignManage.getCampaignId());
 
-		// デバイス別レポート
-		List<YahooReportDisplayDto> yahooDeviceReportDisplayDtoList = yahooService.getDeviceReport(campaignIdList, null,
-				null);
-		YahooGraphReportDto yahooDeviceGraphReportDto = yahooService.getYahooDeviceReportingGraph(campaignIdList, null,
-				null);
-		// 地域別レポート
-		List<YahooReportDisplayDto> yahooRegionReportDisplayDtoList = yahooService.getRegionReport(campaignIdList, null,
-				null);
-		YahooGraphReportDto yahooRegionGraphReportDto = yahooService.getYahooRegionReportingGraph(campaignIdList, null,
-				null);
+        // Yahoo広告詳細取得
+        YahooIssueDto yahooIssueDto = yahooService.getIssueDetail(issueId);
+        // 地域詳細処理
+        List<String> locationIdListString = Arrays.asList(yahooIssueDto.getLocationIds().split(","));
+        List<Long> locationIdList = locationIdListString.stream().map(s -> Long.parseLong(s))
+                .collect(Collectors.toList());
+        List<YahooLocationDto> locationList = yahooService.getLocationList(locationIdList);
+        yahooIssueDto.setLocationList(locationList);
 
-		// 正常時レスポンスを作成
-		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("reporting/yahooReporting");
-		modelAndView.addObject("yahooCsvInputForm", new YahooCsvInputForm());
-		modelAndView.addObject("yahooDeviceReportDisplayDtoList", yahooDeviceReportDisplayDtoList);
-		modelAndView.addObject("yahooDeviceGraphReportDto", yahooDeviceGraphReportDto);
-		modelAndView.addObject("yahooRegionReportDisplayDtoList", yahooRegionReportDisplayDtoList);
-		modelAndView.addObject("yahooRegionGraphReportDto", yahooRegionGraphReportDto);
-		modelAndView.addObject("yahooIssueDto", yahooIssueDto);
+        // デバイス別レポート
+        List<YahooReportDisplayDto> yahooDeviceReportDisplayDtoList = yahooService.getDeviceReport(campaignIdList, null,
+                null);
+        YahooGraphReportDto yahooDeviceGraphReportDto = yahooService.getYahooDeviceReportingGraph(campaignIdList, null,
+                null);
+        // 地域別レポート
+        List<YahooReportDisplayDto> yahooRegionReportDisplayDtoList = yahooService.getRegionReport(campaignIdList, null,
+                null);
+        YahooGraphReportDto yahooRegionGraphReportDto = yahooService.getYahooRegionReportingGraph(campaignIdList, null,
+                null);
 
-		// オペレーションログ記録
-		operationService.create(Operation.GOOGLE_REGION_REPORT_VIEW.getValue(), null);
-		return modelAndView;
-	}
+        // 正常時レスポンスを作成
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("reporting/yahooReporting");
+        modelAndView.addObject("yahooCsvInputForm", new YahooCsvInputForm());
+        modelAndView.addObject("yahooDeviceReportDisplayDtoList", yahooDeviceReportDisplayDtoList);
+        modelAndView.addObject("yahooDeviceGraphReportDto", yahooDeviceGraphReportDto);
+        modelAndView.addObject("yahooRegionReportDisplayDtoList", yahooRegionReportDisplayDtoList);
+        modelAndView.addObject("yahooRegionGraphReportDto", yahooRegionGraphReportDto);
+        modelAndView.addObject("yahooIssueDto", yahooIssueDto);
+
+        // オペレーションログ記録
+        operationService.create(Operation.GOOGLE_REGION_REPORT_VIEW.getValue(), null);
+        return modelAndView;
+    }
+
+    // CSVダウンロード
+    @PostMapping("/twitterDownload")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_REPORT_VIEW + "')")
+    public ResponseEntity<byte[]> download(@RequestParam String campaignId, @RequestParam Integer reportType)
+            throws IOException {
+
+        // 検索条件を集める
+        TwitterReportDto twitterReportDto = new TwitterReportDto();
+        twitterReportDto.setCampaignIdList(TwitterUtil.formatStringToList(campaignId));
+        twitterReportDto.setReportType(reportType);
+        // CSVファイル中身を取得し、文字列にする
+        String file = twitterReportingService.download(twitterReportDto);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
+        String fimeName = "Twitter_REPORT" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+        httpHeaders.setContentDispositionFormData("filename", fimeName);
+
+        // オペレーションログ記録
+        switch (ReportType.of(reportType)) {
+        case DEVICE:
+            operationService.create(Operation.TWITTER_DEVICE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+            break;
+        case REGIONS:
+            operationService.create(Operation.TWITTER_REGION_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+            break;
+        case DATE:
+            operationService.create(Operation.TWITTER_DATE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+            break;
+        }
+        return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
+    }
 
 }
