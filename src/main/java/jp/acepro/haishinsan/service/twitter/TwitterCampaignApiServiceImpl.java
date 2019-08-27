@@ -27,6 +27,7 @@ import com.google.common.collect.Sets;
 
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.dao.ShopDao;
 import jp.acepro.haishinsan.dao.TwitterCampaignManageCustomDao;
@@ -565,7 +566,8 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
                 body.setBid_type("MAX");
                 body.setBid_amount_local_micro(String.valueOf(averagePrice * 1000000));
                 // Call API
-                TwitterGroupRes twitterGroupRes = call(url, HttpMethod.POST, body, auth, TwitterGroupRes.class);
+                TwitterGroupRes twitterGroupRes = callForNonJson(url, HttpMethod.POST, body, auth,
+                        TwitterGroupRes.class);
                 lineItemId = twitterGroupRes.getData().getId();
 
                 // キャンペーン目的がfollowersの場合
@@ -601,7 +603,8 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
                 body.setBid_type("TARGET");
                 body.setBid_amount_local_micro(String.valueOf(averagePrice * 1000000));
                 // Call API
-                TwitterGroupRes twitterGroupRes = call(url, HttpMethod.POST, body, auth, TwitterGroupRes.class);
+                TwitterGroupRes twitterGroupRes = callForNonJson(url, HttpMethod.POST, body, auth,
+                        TwitterGroupRes.class);
                 lineItemId = twitterGroupRes.getData().getId();
             }
 
@@ -654,11 +657,11 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             // 署名用パラメータ
             SortedMap<String, String> parameters = new TreeMap<String, String>();
             //// Http request URL
-            String url = "https://ads-api.twitter.com/4/batch/accounts/"
+            String url = "https://ads-api.twitter.com/5/batch/accounts/"
                     + ContextUtil.getCurrentShop().getTwitterAccountId() + "/targeting_criteria";
             String method = "POST";
             // oauth Header
-            String auth = getHeader(method, "https://ads-api.twitter.com/4/batch/accounts/"
+            String auth = getHeader(method, "https://ads-api.twitter.com/5/batch/accounts/"
                     + ContextUtil.getCurrentShop().getTwitterAccountId() + "/targeting_criteria", parameters);
             List<TwitterTargetObjReq> twitterTargetList = new ArrayList<>();
             // ターゲット : 地域
