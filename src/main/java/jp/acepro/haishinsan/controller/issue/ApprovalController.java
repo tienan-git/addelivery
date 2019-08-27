@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleSwitchRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterSwitchRes;
@@ -17,6 +18,7 @@ import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
 import jp.acepro.haishinsan.service.google.GoogleCampaignService;
+import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,13 +28,17 @@ import lombok.extern.slf4j.Slf4j;
 public class ApprovalController {
 
     @Autowired
+    IssuesService issueService;
+
+    @Autowired
     TwitterCampaignApiService twitterCampaignApiService;
 
-    @GetMapping("/twitter/{campaignId}/{switchFlag}")
-    public TwitterSwitchRes switchCampaignStatus(@PathVariable String campaignId, @PathVariable String switchFlag) {
+    @GetMapping("/twitter/{issueId}/{switchFlag}")
+    public TwitterSwitchRes switchCampaignStatus(@PathVariable String issueId, @PathVariable String switchFlag) {
 
+        IssuesDto issuesDto = issueService.selectIssuesById(issueId);
         // キャンペーンステータスを更新
-        twitterCampaignApiService.changeAdsStatus(campaignId, switchFlag);
+        twitterCampaignApiService.changeAdsStatus(issuesDto.getCampaignId(), switchFlag);
 
         // 正常時レスポンスを作成
         TwitterSwitchRes res = new TwitterSwitchRes();

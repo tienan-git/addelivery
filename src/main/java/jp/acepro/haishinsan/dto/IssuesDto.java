@@ -11,6 +11,8 @@ public class IssuesDto {
     String corporationName;
     // 店舗
     String shopName;
+    // キャンペーンID
+    String campaignId;
     // キャンペーン名
     String campaignName;
     // 配信媒体（アイコン）
@@ -29,5 +31,7 @@ public class IssuesDto {
     String endDate;
     // Switch Status
     String approvalFlag;
+    //
+    String campaignStatus;
 
 }

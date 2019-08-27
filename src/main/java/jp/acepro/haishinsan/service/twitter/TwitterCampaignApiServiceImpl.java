@@ -92,6 +92,9 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
     @Autowired
     IssueDao issueDao;
 
+    @Autowired
+    IssueCustomDao issueCustomDao;
+
     // tweetリスト
     @Autowired
     TwitterTweetListDao twitterTweetListDao;
@@ -821,6 +824,11 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
     public void changeAdsStatus(String campaignId, String switchFlag) {
 
         try {
+            if (switchFlag.equals("ON")) {
+                switchFlag = TwitterCampaignStatus.ACTIVE.getLabel();
+            } else {
+                switchFlag = TwitterCampaignStatus.PAUSED.getLabel();
+            }
             // パラメーターの設定
             SortedMap<String, String> parameters = new TreeMap<String, String>();
             parameters.put("entity_status", TwitterUtil.urlEncode(switchFlag));
@@ -842,14 +850,15 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             // Call API
             call(call_url, HttpMethod.PUT, body, auth, TwitterCampaignRes.class);
             // キャンペーン情報更新（DB）
-            TwitterCampaignManage twitterCampaignManage = twitterCampaignManageCustomDao.selectByCampaignId(campaignId);
-//			if (twitterCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
-//				// 承認フラグ設定
-//				if (switchFlag.equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
-//					twitterCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-//					twitterCampaignManageDao.update(twitterCampaignManage);
-//				}
-//			}
+            Issue issue = issueCustomDao.selectByTwitterCampaignId(ContextUtil.getCurrentShop().getShopId(),
+                    campaignId);
+            if (issue.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+                // 承認フラグ設定
+                if (switchFlag.equals(TwitterCampaignStatus.ACTIVE.getLabel())) {
+                    issue.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+                    issueDao.update(issue);
+                }
+            }
         } catch (Exception e1) {
             e1.printStackTrace();
             throw new SystemException("システムエラー発生しました");

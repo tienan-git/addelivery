@@ -168,8 +168,9 @@
 									<!-- yahoo,youtube switch -->
 									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
 									<!-- other switch -->
-									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"><label hidden="hidden" th:text="${issue.issueId}"></label> 
-										<input type="checkbox" class="js-switch" th:checked="false">
+									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}">
+										<label hidden="hidden" th:text="${issue.issueId}"></label> 
+										<input type="checkbox" class="js-switch">
 									</td>
 									<!-- yahoo,youtube approal -->
 									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
@@ -198,22 +199,93 @@
 	</div>
 	<!-- Page body end -->
 	<div layout:fragment="custom_resource_body">
-		<script type="text/javascript">
-			$(function() {
-				$('#tableForIssueList').DataTable({
-					scrollY : true,
-					scrollX : true,
-					paging : false,
-					autoFill : true,
-					lengthChange : false,
-					searching : false,
-					'language' : {
-						"sEmptyTable" : "テーブルにデータがありません",
-						"sInfo" : " _TOTAL_ 件中 _START_ から _END_ まで表示",
-						"sInfoEmpty" : " 0 件中 0 から 0 まで表示"
+		<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		$(document).ready(function() {
+			var apiError = false;
+			$(":checkbox").change(function() {
+				// 異常発生しない場合、処理を続ける
+				// 異常発生した場合は、異常フラグをリセット
+				if (apiError) {
+					apiError = false;
+					return;
+				}
+				var issueId = $(this).prev().text();
+				var urlStr = "/issue/approval";
+				var media = "Twitter";
+				var mediaUrlStr = null;
+				var checkedStatus = $(this).prop('checked');
+				// 動作フラグを設定
+			    var switchFlag = "";
+				if ($(this).prop('checked')) {
+			        switchFlag = "ON"; 　　// OFFにする
+				} else {
+					switchFlag = "OFF"; // ONにする
+				}
+				switch (media) {
+				case "Google":
+					mediaUrlStr = urlStr + "/google/"　+ issueId + "/"　+ switchFlag;
+					break;
+				case "FaceBook":
+					mediaUrlStr = urlStr + "/facebook/updateCampaignStatus/" + issueId + "/" + switchFlag;
+					break;
+				case "Instagram":
+					break
+				case "FreakOut":
+					mediaUrlStr = urlStr +  "/dsp/" + issueId + "/" + switchFlag;
+					break;
+				case "Twitter":
+					mediaUrlStr = urlStr + "/twitter/" + issueId + "/" + switchFlag;
+					break;
+				}
+				// 審査状況Elementを取得
+				var approval = $(this).parent().next();
+				// スイッチElementを取得
+				var checkBox = $(this);
+				//alert(urlStr);
+	            $.ajax({
+					url: mediaUrlStr, // 自分のURLに変更
+					success: function( result ) {
+						console.log(approval.text());
+						if (approval.text() == "承認待ち" && switchFlag == "ON") {
+							approval.text("承認済み");
+					    }
+						$("#tableForIssueList").DataTable();
+					    alert(media + "広告のステータスが更新されました！");
+					    console.log(result);
 					},
+					error:function(XMLHttpRequest, textStatus, errorThrown){
+						// Change Functionの無限ループをしないために、、
+						//　異常発生時に異常フラグ設定
+                    	apiError = true;	
+						
+						// 異常終了時にアラート表示
+						alert("異常発生したため、" + media + "広告のステータスが更新できませんでした！");
+						
+						// スイッチの状態をクリック前に戻すとともに、
+						//　Change Functionを再度発火するため、無限ループになる
+						checkBox.click();
+				   }
 				});
 			});
+		});
+		
+		$(function() {
+			$('#tableForIssueList').DataTable({
+				scrollY : true,
+				scrollX : true,
+				paging : false,
+				autoFill : true,
+				lengthChange : false,
+				searching : false,
+				'language' : {
+					"sEmptyTable" : "テーブルにデータがありません",
+					"sInfo" : " _TOTAL_ 件中 _START_ から _END_ まで表示",
+					"sInfoEmpty" : " 0 件中 0 から 0 まで表示"
+				},
+			});
+		});
+		/*]]>*/
 		</script>
 	</div>
 </body>
