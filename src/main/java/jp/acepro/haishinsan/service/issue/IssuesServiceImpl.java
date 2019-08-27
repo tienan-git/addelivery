@@ -17,9 +17,11 @@ import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
 import jp.acepro.haishinsan.dto.twitter.TwitterTweet;
 import jp.acepro.haishinsan.entity.IssueWithShopWithCorporation;
 import jp.acepro.haishinsan.entity.TwitterCampaignWithIssueWithTweetList;
+import jp.acepro.haishinsan.enums.ApprovalFlag;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.IssueAdStatus;
 import jp.acepro.haishinsan.enums.IssueAdtype;
+import jp.acepro.haishinsan.enums.TwitterCampaignStatus;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.util.ContextUtil;
 
@@ -100,7 +102,15 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             if (today.isAfter(endDate)) {
                 issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
                 issuesDto.setStatus(IssueAdStatus.END.getLabel());
+                issuesDto.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
+            } else {
+                if (issue.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+                    issuesDto.setCampaignStatus(TwitterCampaignStatus.PAUSED.getLabel());
+                } else {
+                    issuesDto.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
+                }
             }
+
             // 配信中
             if ((today.isAfter(startDate) || today.isEqual(startDate))
                     && (today.isBefore(endDate) || today.isEqual(endDate))) {
@@ -150,6 +160,34 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             twitterCampaignData.setTweetList(TwitterTweetList);
         }
         return twitterCampaignData;
+    }
+
+    @Override
+    public IssuesDto selectIssuesById(String issueId) {
+        Issue issue = issueDao.selectById(Long.valueOf(issueId));
+        IssuesDto issuesDto = new IssuesDto();
+        // campaignIdの有無で媒体を判別
+        // Google
+        if (Objects.nonNull(issue.getGoogleCampaignId())) {
+            issuesDto.setCampaignId(String.valueOf(issue.getGoogleCampaignId()));
+        }
+        // Facebook
+        if (Objects.nonNull(issue.getFacebookCampaignId())) {
+            issuesDto.setCampaignId(issue.getFacebookCampaignId());
+        }
+        // Instagram
+        if (Objects.nonNull(issue.getInstagramCampaignId())) {
+            issuesDto.setCampaignId(issue.getInstagramCampaignId());
+        }
+        // twitter
+        if (Objects.nonNull(issue.getTwitterCampaignId())) {
+            issuesDto.setCampaignId(issue.getTwitterCampaignId());
+        }
+        // dsp
+        if (Objects.nonNull(issue.getDspCampaignId())) {
+            issuesDto.setCampaignId(String.valueOf(issue.getDspCampaignId()));
+        }
+        return issuesDto;
     }
 
 }

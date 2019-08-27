@@ -15,25 +15,29 @@ import jp.acepro.haishinsan.entity.TwitterCampaignWithIssueWithTweetList;
 @InjectConfig
 public interface IssueCustomDao {
 
-	@Select
-	List<Issue> selectByShopId(Long shopId);
+    @Select
+    List<Issue> selectByShopId(Long shopId);
 
-	@Select
-	List<IssueWithShopWithCorporation> selectIssueList(Long shopId, IssuesDto issueSearchDto);
+    @Select
+    List<IssueWithShopWithCorporation> selectIssueList(Long shopId, IssuesDto issueSearchDto);
 
-	@Select
-	List<TwitterCampaignWithIssueWithTweetList> selectCampaignIdByIssueId(Long shopId, String accountId, Long issueId);
+    @Select
+    List<TwitterCampaignWithIssueWithTweetList> selectCampaignIdByIssueId(Long shopId, String accountId, Long issueId);
 
-	@Select
-	List<Issue> selectFacebookIssueNeededStart(String date);
+    @Select
+    List<Issue> selectFacebookIssueNeededStart(String date);
 
-	@Select
-	List<Issue> selectFacebookIssueNeededStop(String date);
+    @Select
+    List<Issue> selectFacebookIssueNeededStop(String date);
 
-	@Select
-	List<Issue> selectGoogleIssueNeededStart(String date);
+    @Select
+    List<Issue> selectGoogleIssueNeededStart(String date);
 
-	@Select
-	List<Issue> selectGoogleIssueNeededStop(String date);
+    @Select
+    List<Issue> selectGoogleIssueNeededStop(String date);
+
+    // twitterCampaignIdで検索する
+    @Select
+    Issue selectByTwitterCampaignId(Long shopId, String campaignId);
 
 }
