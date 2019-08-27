@@ -16,6 +16,4 @@ public interface IssuesService {
     // 案件IdでcampaignIdを検索
     TwitterCampaignData selectCampaignIdByIssueId(Long issueId);
 
-    IssuesDto selectIssuesById(String issueId);
-
 }
