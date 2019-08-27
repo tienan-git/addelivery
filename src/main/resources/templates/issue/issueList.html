@@ -169,7 +169,7 @@
 									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
 									<!-- other switch -->
 									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}">
-										<label hidden="hidden" th:text="${issue.issueId}"></label> 
+										<label hidden="hidden" th:text="${issue.campaignId}"></label> 
 										<input type="checkbox" class="js-switch">
 									</td>
 									<!-- yahoo,youtube approal -->
@@ -210,7 +210,7 @@
 					apiError = false;
 					return;
 				}
-				var issueId = $(this).prev().text();
+				var campaignId = $(this).prev().text();
 				var urlStr = "/issue/approval";
 				var media = "Twitter";
 				var mediaUrlStr = null;
@@ -224,18 +224,18 @@
 				}
 				switch (media) {
 				case "Google":
-					mediaUrlStr = urlStr + "/google/"　+ issueId + "/"　+ switchFlag;
+					mediaUrlStr = urlStr + "/google/"　+ campaignId + "/"　+ switchFlag;
 					break;
 				case "FaceBook":
-					mediaUrlStr = urlStr + "/facebook/updateCampaignStatus/" + issueId + "/" + switchFlag;
+					mediaUrlStr = urlStr + "/facebook/updateCampaignStatus/" + campaignId + "/" + switchFlag;
 					break;
 				case "Instagram":
 					break
 				case "FreakOut":
-					mediaUrlStr = urlStr +  "/dsp/" + issueId + "/" + switchFlag;
+					mediaUrlStr = urlStr +  "/dsp/" + campaignId + "/" + switchFlag;
 					break;
 				case "Twitter":
-					mediaUrlStr = urlStr + "/twitter/" + issueId + "/" + switchFlag;
+					mediaUrlStr = urlStr + "/twitter/" + campaignId + "/" + switchFlag;
 					break;
 				}
 				// 審査状況Elementを取得

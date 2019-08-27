@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleSwitchRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterSwitchRes;
@@ -33,12 +32,11 @@ public class ApprovalController {
     @Autowired
     TwitterCampaignApiService twitterCampaignApiService;
 
-    @GetMapping("/twitter/{issueId}/{switchFlag}")
-    public TwitterSwitchRes switchCampaignStatus(@PathVariable String issueId, @PathVariable String switchFlag) {
+    @GetMapping("/twitter/{campaignId}/{switchFlag}")
+    public TwitterSwitchRes switchCampaignStatus(@PathVariable String campaignId, @PathVariable String switchFlag) {
 
-        IssuesDto issuesDto = issueService.selectIssuesById(issueId);
         // キャンペーンステータスを更新
-        twitterCampaignApiService.changeAdsStatus(issuesDto.getCampaignId(), switchFlag);
+        twitterCampaignApiService.changeAdsStatus(campaignId, switchFlag);
 
         // 正常時レスポンスを作成
         TwitterSwitchRes res = new TwitterSwitchRes();

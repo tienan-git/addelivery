@@ -58,26 +58,31 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             if (Objects.nonNull(issue.getGoogleCampaignId())) {
                 issuesDto.setMedia(IssueAdtype.GOOGLE.getLabel());
                 issuesDto.setMediaIcon(IssueAdtype.GOOGLE.getValue());
+                issuesDto.setCampaignId(String.valueOf(issue.getGoogleCampaignId()));
             }
             // Facebook
             if (Objects.nonNull(issue.getFacebookCampaignId())) {
                 issuesDto.setMedia(IssueAdtype.FACEBOOK.getLabel());
                 issuesDto.setMediaIcon(IssueAdtype.FACEBOOK.getValue());
+                issuesDto.setCampaignId(String.valueOf(issue.getFacebookCampaignId()));
             }
             // Instagram
             if (Objects.nonNull(issue.getInstagramCampaignId())) {
                 issuesDto.setMedia(IssueAdtype.INSTAGRAM.getLabel());
                 issuesDto.setMediaIcon(IssueAdtype.INSTAGRAM.getValue());
+                issuesDto.setCampaignId(String.valueOf(issue.getInstagramCampaignId()));
             }
             // twitter
             if (Objects.nonNull(issue.getTwitterCampaignId())) {
                 issuesDto.setMedia(IssueAdtype.TWITTER.getLabel());
                 issuesDto.setMediaIcon(IssueAdtype.TWITTER.getValue());
+                issuesDto.setCampaignId(issue.getTwitterCampaignId());
             }
             // dsp
             if (Objects.nonNull(issue.getDspCampaignId())) {
                 issuesDto.setMedia(IssueAdtype.DSP.getLabel());
                 issuesDto.setMediaIcon(IssueAdtype.DSP.getValue());
+                issuesDto.setCampaignId(String.valueOf(issue.getDspCampaignId()));
             }
             // yahoo
             if (Objects.nonNull(issue.getYahooCampaignManageId())) {
@@ -160,34 +165,6 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
             twitterCampaignData.setTweetList(TwitterTweetList);
         }
         return twitterCampaignData;
-    }
-
-    @Override
-    public IssuesDto selectIssuesById(String issueId) {
-        Issue issue = issueDao.selectById(Long.valueOf(issueId));
-        IssuesDto issuesDto = new IssuesDto();
-        // campaignIdの有無で媒体を判別
-        // Google
-        if (Objects.nonNull(issue.getGoogleCampaignId())) {
-            issuesDto.setCampaignId(String.valueOf(issue.getGoogleCampaignId()));
-        }
-        // Facebook
-        if (Objects.nonNull(issue.getFacebookCampaignId())) {
-            issuesDto.setCampaignId(issue.getFacebookCampaignId());
-        }
-        // Instagram
-        if (Objects.nonNull(issue.getInstagramCampaignId())) {
-            issuesDto.setCampaignId(issue.getInstagramCampaignId());
-        }
-        // twitter
-        if (Objects.nonNull(issue.getTwitterCampaignId())) {
-            issuesDto.setCampaignId(issue.getTwitterCampaignId());
-        }
-        // dsp
-        if (Objects.nonNull(issue.getDspCampaignId())) {
-            issuesDto.setCampaignId(String.valueOf(issue.getDspCampaignId()));
-        }
-        return issuesDto;
     }
 
 }
