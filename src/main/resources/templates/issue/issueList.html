@@ -169,8 +169,12 @@
 									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
 									<!-- other switch -->
 									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}">
+										<label id="media" hidden="hidden" th:text="${issue.media}"></label>
 										<label hidden="hidden" th:text="${issue.campaignId}"></label> 
-										<input type="checkbox" class="js-switch">
+										<input type="checkbox" class="js-switch" 
+											th:checked="${issue.campaignStatus} == 'ACTIVE'" 
+											th:disabled="${(issue.campaignStatus == T(jp.acepro.haishinsan.enums.TwitterCampaignStatus).EXPIRED.getLabel())
+											 || !(T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}">
 									</td>
 									<!-- yahoo,youtube approal -->
 									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
@@ -199,8 +203,7 @@
 	</div>
 	<!-- Page body end -->
 	<div layout:fragment="custom_resource_body">
-		<script type="text/javascript" th:inline="javascript">
-		/*<![CDATA[*/
+		<script type="text/javascript">
 		$(document).ready(function() {
 			var apiError = false;
 			$(":checkbox").change(function() {
@@ -211,8 +214,8 @@
 					return;
 				}
 				var campaignId = $(this).prev().text();
+				var media = $("#media").text();
 				var urlStr = "/issue/approval";
-				var media = "Twitter";
 				var mediaUrlStr = null;
 				var checkedStatus = $(this).prop('checked');
 				// 動作フラグを設定
@@ -285,7 +288,6 @@
 				},
 			});
 		});
-		/*]]>*/
 		</script>
 	</div>
 </body>
