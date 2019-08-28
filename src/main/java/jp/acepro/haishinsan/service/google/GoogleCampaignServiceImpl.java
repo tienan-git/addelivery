@@ -195,10 +195,10 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		googleCampaignManage.setCampaignName(addCampaign.newCampaign.getName());
 		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
 			// 営業チェックが必要有りの場合
-			googleCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
+			//googleCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
 		} else {
 			// 営業チェックが必要無しの場合
-			googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+			//googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
 		}
 		googleCampaignManage
 				.setRegions(googleCampaignDto.getLocationList().toString().replace("[", "").replace("]", ""));
@@ -250,13 +250,13 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// キャンペーン情報更新（DB）
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
-		if (googleCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
-			// 承認フラグ設定
-			if (switchFlag.equals("ON")) {
-				googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-				googleCampaignManageDao.update(googleCampaignManage);
-			}
-		}
+//		if (googleCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+//			// 承認フラグ設定
+//			if (switchFlag.equals("ON")) {
+//				//googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+//				googleCampaignManageDao.update(googleCampaignManage);
+//			}
+//		}
 
 	}
 
@@ -299,7 +299,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 					googleCampaignInfoDto.setCampaignStatus(campaign.getStatus().toString());
 					googleCampaignInfoDto.setCampaignName(campaign.getName());
 					googleCampaignInfoDto.setAdType(googleCampaignManage.getAdType());
-					googleCampaignInfoDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
+					//googleCampaignInfoDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
 					googleCampaignInfoDto.setCampaignId(googleCampaignManage.getCampaignId());
 					googleCampaignInfoDtoList.add(googleCampaignInfoDto);
 				}
@@ -335,7 +335,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		campaignCriterionList = getCampaigns.campaignCriterionList;
 
 		// 承認フラグ設定
-		googleCampaignDetailDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
+		//googleCampaignDetailDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
 		// キャンペーンステータス
 		googleCampaignDetailDto.setCampaignStatus(campaign.getStatus().getValue());
 		// キャンペーンスID設定

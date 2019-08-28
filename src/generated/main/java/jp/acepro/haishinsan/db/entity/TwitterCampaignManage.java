@@ -51,10 +51,6 @@ public class TwitterCampaignManage extends BaseEntity {
     @Column(name = "tweet_ids")
     String tweetIds;
 
-    /** 審査フラグ */
-    @Column(name = "approval_flag")
-    String approvalFlag;
-
     /** バージョン番号 */
     @Version
     @Column(name = "version_no")
@@ -204,24 +200,6 @@ public class TwitterCampaignManage extends BaseEntity {
      */
     public void setTweetIds(String tweetIds) {
         this.tweetIds = tweetIds;
-    }
-
-    /** 
-     * Returns the approvalFlag.
-     * 
-     * @return the approvalFlag
-     */
-    public String getApprovalFlag() {
-        return approvalFlag;
-    }
-
-    /** 
-     * Sets the approvalFlag.
-     * 
-     * @param approvalFlag the approvalFlag
-     */
-    public void setApprovalFlag(String approvalFlag) {
-        this.approvalFlag = approvalFlag;
     }
 
     /** 

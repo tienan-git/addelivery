@@ -17,6 +17,7 @@ import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
 import jp.acepro.haishinsan.service.google.GoogleCampaignService;
+import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 import lombok.extern.slf4j.Slf4j;
 
@@ -24,6 +25,9 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/issue/approval")
 public class ApprovalController {
+
+    @Autowired
+    IssuesService issueService;
 
     @Autowired
     TwitterCampaignApiService twitterCampaignApiService;

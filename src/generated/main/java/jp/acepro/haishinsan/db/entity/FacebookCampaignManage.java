@@ -51,10 +51,6 @@ public class FacebookCampaignManage extends BaseEntity {
     @Column(name = "regions")
     String regions;
 
-    /** 審査フラグ */
-    @Column(name = "approval_flag")
-    String approvalFlag;
-
     /** イメージURL */
     @Column(name = "image_url")
     String imageUrl;
@@ -212,24 +208,6 @@ public class FacebookCampaignManage extends BaseEntity {
      */
     public void setRegions(String regions) {
         this.regions = regions;
-    }
-
-    /** 
-     * Returns the approvalFlag.
-     * 
-     * @return the approvalFlag
-     */
-    public String getApprovalFlag() {
-        return approvalFlag;
-    }
-
-    /** 
-     * Sets the approvalFlag.
-     * 
-     * @param approvalFlag the approvalFlag
-     */
-    public void setApprovalFlag(String approvalFlag) {
-        this.approvalFlag = approvalFlag;
     }
 
     /** 
