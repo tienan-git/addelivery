@@ -41,7 +41,7 @@ dsp:
   dspPassword: HYJHWPnBCpFNG
 
 twitter:
-  host: https://ads-api.twitter.com/4/accounts/
+  host: https://ads-api.twitter.com/5/accounts/
   previewHost: https://twitter.com/
   previewPath: /status/
   api:
@@ -52,7 +52,7 @@ twitter:
    promoteTweets: /promoted_tweets
    setTarget: /targeting_criteria
    searchTweetsTimline: /scoped_timeline
-   reporting: https://ads-api.twitter.com/4/stats/jobs/accounts/
+   reporting: https://ads-api.twitter.com/5/stats/jobs/accounts/
    
 image:
   dsp:
