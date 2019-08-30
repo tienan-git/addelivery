@@ -117,6 +117,9 @@ public class ErrorCodeConstant {
 	// レポート取得期間を３ヶ月以内に指定してください。
 	public static final String E30006 = "E30006";
 
+	// DSPユーザーIDが設定されていません。
+	public static final String E30007 = "E30007";
+
 	/************* Yahooエラーコード *************/
 	// 配信地域を選択してください。。
 	public static final String E60001 = "E60001";
