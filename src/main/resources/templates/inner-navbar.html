@@ -140,7 +140,7 @@
 									class="fa fa-envira" style="color: #73993a"></i><b>F</b></span><span
 								class="pcoded-mtext">ファンへの配信</span><span class="pcoded-mcaret"></span></a>
 							<ul class="pcoded-submenu">
-								<li sec:authorize="hasAuthority('TEMPLATE_LIST')"
+								<li sec:authorize="hasAuthority('TEMPLATE_CREATE')"
 									class=" "><a th:href="@{/template/dsp/createTemplate}"><span
 										class="pcoded-micon"><i class="icon-chart"　></i></span><span
 										class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
@@ -157,12 +157,12 @@
 									class="fa fa-google" style="color: #DD4B39"></i><b>F</b></span> <span
 								class="pcoded-mtext">Google</span> <span class="pcoded-mcaret"></span></a>
 							<ul class="pcoded-submenu">
-								<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')"
+								<li sec:authorize="hasAuthority('TEMPLATE_CREATE')"
 									class=" "><a th:href="@{/template/google/createTemplate}">
 										<span class="pcoded-micon"><i class="icon-chart"></i></span> <span
 										class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 								</a></li>
-								<li sec:authorize="hasAuthority('GOOGLE_TEMPLATE_VIEW')"
+								<li sec:authorize="hasAuthority('TEMPLATE_LIST')"
 									class=" "><a th:href="@{/template/google/listTemplate}">
 										<span class="pcoded-micon"><i class="icon-chart"></i></span> <span
 										class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
@@ -175,13 +175,13 @@
 								class="pcoded-mtext" data-i18n="nav.to-do.main">Facebook</span>
 								<span class="pcoded-mcaret"></span></a>
 							<ul class="pcoded-submenu">
-								<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')"
+								<li sec:authorize="hasAuthority('TEMPLATE_CREATE')"
 									class=" "><a
 									th:href="@{/template/facebook/createTemplate}"> <span
 										class="pcoded-micon"><i class="icon-chart"></i></span> <span
 										class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 								</a></li>
-								<li sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')"
+								<li sec:authorize="hasAuthority('TEMPLATE_LIST')"
 									class=" "><a th:href="@{/template/facebook/templateList}">
 										<span class="pcoded-micon"><i class="icon-chart"></i></span> <span
 										class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
@@ -193,12 +193,12 @@
 									class="ti-twitter-alt" style="color: #41abe1"></i></span> <span
 								class="pcoded-mtext">Twitter</span> <span class="pcoded-mcaret"></span></a>
 							<ul class="pcoded-submenu">
-								<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_MANAGE')"
+								<li sec:authorize="hasAuthority('TEMPLATE_CREATE')"
 									class=" "><a th:href="@{/template/twitter/createTemplate}">
 										<span class="pcoded-micon"><i class="icon-chart"></i></span> <span
 										class="pcoded-mtext">新規作成</span><span class="pcoded-mcaret"></span>
 								</a></li>
-								<li sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')"
+								<li sec:authorize="hasAuthority('TEMPLATE_LIST')"
 									class=" "><a th:href="@{/template/twitter/templateList}">
 										<span class="pcoded-micon"><i class="icon-chart"></i></span> <span
 										class="pcoded-mtext">一覧</span><span class="pcoded-mcaret"></span>
