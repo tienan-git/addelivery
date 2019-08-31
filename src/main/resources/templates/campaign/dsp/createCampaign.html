@@ -116,11 +116,9 @@
 			<div class="form-group row">
 				<label class="col-sm-2 col-form-label"></label>
 				<div class="col-sm-12 text-center">
-					<button class="btn btn-warning" type="submit"
-						sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
+					<button class="btn btn-warning" type="submit" 
 						th:formaction="@{/campaign/dsp/selectCampaign}" th:formmethod="get">戻る</button>
-					<button class="btn btn-success" type="submit"
-						sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
+					<button class="btn btn-success" type="submit" 
 						th:formaction="@{/campaign/dsp/confirmCampaign}" th:formmethod="post">次へ</button>
 				</div>
 			</div>

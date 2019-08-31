@@ -51,7 +51,7 @@
 									<td><input type="checkbox"
 										th:field="${dspCampaignInputForm.idList}"
 										th:value="${dspCreativeDto.creativeId}" /></td>
-									<td><a sec:authorize="hasAuthority('DSP_CREATIVE_VIEW')"
+									<td><a  
 										th:href="@{/dsp/creativeDetail(creativeId=${dspCreativeDto.creativeId})}"
 										th:text="${dspCreativeDto.creativeId}">0001</a></td>
 									<td><a href="#" th:onclick="|show((${stat.index}))|"

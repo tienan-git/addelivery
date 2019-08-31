@@ -143,13 +143,13 @@
 								<tr th:each="fbCampaignDto,stat : ${fbCampaignDtoList}">
 									<td><input type="checkbox" th:field="${fbIssueInputForm.idList}"
 										th:value="${fbCampaignDto.campaignId}"/></td>
-									<td><a sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" 
+									<td><a  
 										th:text="${fbCampaignDto.campaignId}">0001</a></td>
 									<td><a href="#" th:onclick="|show((${stat.index}))|"
 										th:text="${fbCampaignDto.campaignName}">0001</a><img
 										th:src="${fbCampaignDto.imageUrl}" style='display: none'
 										th:id="${stat.index}"></td>
-									<td><a sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_VIEW')" 
+									<td><a  
 										th:text="${fbCampaignDto.linkUrl}">0001</a></td>
 								</tr>
 							</tbody>
@@ -159,7 +159,7 @@
 						<label class="col-sm-2 col-form-label"></label>
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success" type="submit"
-								sec:authorize="hasAuthority('FACEBOOK_CAMPAIGN_MANAGE')"
+						 
 								th:formaction="@{/campaign/facebook/createIssue}" th:formmethod="post">次へ</button>
 						</div>
 					</div>

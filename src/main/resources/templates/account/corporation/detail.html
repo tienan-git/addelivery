@@ -47,7 +47,7 @@
 							<label class="col-form-label">代理店ID</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label"><a href="#" sec:authorize="hasAuthority('AGENCY_VIEW')" th:href="@{/account/agency/detail(agencyId=*{agencyId})}" th:method="get" th:text="*{agencyId}">0001</a></label>
+							<label class="col-form-label"><a href="#"  th:href="@{/account/agency/detail(agencyId=*{agencyId})}" th:method="get" th:text="*{agencyId}">0001</a></label>
 						</div>
 					</div>
 					<div class="form-group row">
