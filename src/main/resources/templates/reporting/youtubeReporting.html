@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+<style>
+/* スマートフォンで見たときは"sp"のclassがついたグラフは非表示 */
+@media only screen and (max-width: 750px) {
+	.sp {
+		display: none !important;
+	}
+}
+</style>
+</head>
+<body>
+	<!-- Page title start -->
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title ">
+						<i class="fa fa-bar-chart-o bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>レポーティング一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page title end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form action="#" method="post">
+			<div class="card" id="youtubeReporting">
+				<div th:if="${youtubeDailyReportDto != null}">
+					<div class="card-block">
+						<h4 class="sub-title">Youtube-日付別</h4>
+					</div>
+					<div class="card-block">
+						<div id="youtubeDaily" class="c3"></div>
+					</div>
+					<div class="card-block col-lg-12">
+						<table class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>日次サマリ</th>
+									<th>表示回数</th>
+									<th>クリック数</th>
+									<th>ご利用金額</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+									<th>視聴回数</th>
+									<th>視聴率</th>
+									<th>視聴単価</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="dateDto : ${youtubeDailyReportDto.youtubeReportDisplayDtoList}">
+									<td th:text="${dateDto.dateSlash}">2019/1/1</td>
+									<td th:text="${dateDto.impressions}">130092</td>
+									<td th:text="${dateDto.clicks}">136</td>
+									<td th:text="${dateDto.costs}">¥7,570</td>
+									<td th:text="${dateDto.ctr}">0.10%</td>
+									<td th:text="${dateDto.cpc}">¥56</td>
+									<td th:text="${dateDto.cpm}">¥58</td>
+									<td th:text="${dateDto.videoViews}"></td>
+									<td th:text="${dateDto.videoViewRate} + '%'">"></td>
+									<td th:text="${dateDto.avgCpv}"></td>
+									
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div th:if="${youtubeDeviceReportDto != null}">
+					<div class="card-block">
+						<h4 class="sub-title">Youtubeーデバイス別</h4>
+					</div>
+					<div class="card-block col-lg-12"
+						style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+						<div id="youtubeDeviceClick"
+							style="width: 33%; display: inline-block;" class="c3"></div>
+						<div id="youtubeDeviceImpression"
+							style="width: 33%; display: inline-block;"></div>
+						<div id="youtubeDeviceSum" style="width: 33%; display: inline-block;"></div>
+					</div>
+					<div class="card-block col-lg-12">
+						<table class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>デバイス</th>
+									<th>表示回数</th>
+									<th>クリック数</th>
+									<th>ご利用金額</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+									<th>視聴回数</th>
+									<th>視聴率</th>
+									<th>視聴単価</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="deviceDto : ${youtubeDeviceReportDto.youtubeReportDisplayDtoList}">
+									<td th:text="${deviceDto.campaignId}"></td>
+									<td th:text="${deviceDto.campaignName}"></td>
+									<td th:text="${deviceDto.deviceName}"></td>
+									<td th:text="${deviceDto.impressions}+'回'"></td>
+									<td th:text="${deviceDto.clicks}+'回'"></td>
+									<td th:text="${deviceDto.costs} + '円'"></td>
+									<td th:text="${deviceDto.ctr} + '%'">"></td>
+									<td th:text="${deviceDto.cpc}"></td>
+									<td th:text="${deviceDto.cpm}"></td>
+									<td th:text="${deviceDto.videoViews}"></td>
+									<td th:text="${deviceDto.videoViewRate} + '%'">"></td>
+									<td th:text="${deviceDto.avgCpv}"></td>
+
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div th:if="${youtubeLocationReportDto != null}">
+					<div class="card-block">
+						<h4 class="sub-title">Youtubeー地域別</h4>
+					</div>
+					<div class="card-block col-lg-12"
+						style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+						<div id="youtubeLocation" class="c3"></div>
+					</div>
+					<div class="card-block col-lg-12">
+						<table class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>地域</th>
+									<th>表示回数</th>
+									<th>クリック数</th>
+									<th>ご利用金額</th>
+									<th>CTR</th>
+									<th>CPC</th>
+									<th>CPM</th>
+									<th>視聴回数</th>
+									<th>視聴率</th>
+									<th>視聴単価</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="locationDto : ${youtubeLocationReportDto.youtubeReportDisplayDtoList}">
+									<td th:text="${locationDto.campaignId}"></td>
+									<td th:text="${locationDto.campaignName}"></td>
+									<td th:text="${locationDto.locationName}"></td>
+									<td th:text="${locationDto.impressions}+'回'"></td>
+									<td th:text="${locationDto.clicks}+'回'"></td>
+									<td th:text="${locationDto.costs} + '円'"></td>
+									<td th:text="${locationDto.ctr} + '%'">"></td>
+									<td th:text="${locationDto.cpc}"></td>
+									<td th:text="${locationDto.cpm}"></td>
+									<td th:text="${locationDto.videoViews}"></td>
+									<td th:text="${locationDto.videoViewRate} + '%'">"></td>
+									<td th:text="${locationDto.avgCpv}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+</body>
+<div layout:fragment="custom_resource_body">
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[*/
+		// 日付別グラフデータ作成
+		var dailyReportGraphDtoList = /*[[${youtubeDailyReportDto.youtubeReportGraphDtoList}]]*/;
+		var dailyArr = new Array("x");
+		var dailyImpressionsArr = new Array("impressions");
+		var dailyClicksArr = new Array("clicks");
+		var dailyCostsArr = new Array("costs");
+		var dailyCtrArr = new Array("ctr");
+		var dailyCpcArr = new Array("cpc");
+		var dailyCpmArr = new Array("cpm");
+		var dailyVideoViewsArr = new Array("videoViews");
+		var dailyVideoViewRateArr = new Array("videoViewRate");
+		var dailyAvgCpvArr = new Array("avgCpv");
+		dailyReportGraphDtoList.forEach(
+		    function(obj) {
+		    	dailyArr.push(obj.dateSlash);
+		    	dailyImpressionsArr.push(obj.impressions);
+		    	dailyClicksArr.push(obj.clicks);
+		    	dailyCostsArr.push(obj.costs);
+		    	dailyCtrArr.push(obj.ctr);
+		    	dailyCpcArr.push(obj.cpc);
+		    	dailyCpmArr.push(obj.cpm);
+		    	dailyVideoViewsArr.push(obj.videoViews);
+		    	dailyVideoViewRateArr.push(obj.videoViewRate);
+		    	dailyAvgCpvArr.push(obj.avgCpv);
+		    }
+	    );
+		// 地域別グラフデータ作成
+		var locationReportGraphDtoList = /*[[${youtubeLocationReportDto.youtubeReportGraphDtoList}]]*/;
+		var locationArr = new Array("x");
+		var locationImpressionsArr = new Array("impressions");
+		var locationClicksArr = new Array("clicks");
+		var locationCostsArr = new Array("costs");
+		var locationCtrArr = new Array("ctr");
+		var locationCpcArr = new Array("cpc");
+		var locationCpmArr = new Array("cpm");
+		var locationVideoViewsArr = new Array("videoViews");
+		var locationVideoViewRateArr = new Array("videoViewRate");
+		var locationAvgCpvArr = new Array("avgCpv");
+		locationReportGraphDtoList.forEach(
+		    function(obj) {
+		    	locationArr.push(obj.locationName);
+		    	locationImpressionsArr.push(obj.impressions);
+		    	locationClicksArr.push(obj.clicks);
+		    	locationCostsArr.push(obj.costs);
+		    	locationCtrArr.push(obj.ctr);
+		    	locationCpcArr.push(obj.cpc);
+		    	locationCpmArr.push(obj.cpm);
+		    	locationVideoViewsArr.push(obj.videoViews);
+		    	locationVideoViewRateArr.push(obj.videoViewRate);
+		    	locationAvgCpvArr.push(obj.avgCpv);
+		    }
+	    );
+		/*Youtube日付 Chart*/
+		var chart = c3.generate({
+			bindto : '#youtubeDaily',
+			data : {
+				x : 'x',
+				columns : [
+					dailyArr,
+					dailyImpressionsArr,
+					dailyClicksArr,
+					dailyCostsArr,
+					dailyCtrArr,
+					dailyCpcArr,
+					dailyCpmArr,
+					dailyVideoViewsArr,
+					dailyVideoViewRateArr,
+					dailyAvgCpvArr
+				],
+				names : {
+					impressionCount : '表示回数',
+					clickCount : 'クリック回数',
+					price : 'ご利用金額',
+					cpc : 'CPC',
+					cpm : 'CPM',
+					ctr : 'CTR',
+					videoViews : '視聴回数',
+					videoViewRate : '視聴率',
+					avgCpv : '視聴単価'
+				},
+				colors : {
+					表示回数 : '#00C292',
+					クリック数 : '#4C5667',
+					ご利用金額 : '#03A9F3',
+					CTR : '#AB8CE4',
+					CPC : '#a3aebd',
+					CPM : '#FEC107',
+					videoViews : '#34eb9e',
+					videoViewRate : '#954fb8',
+					avgCpv : '#cee344'
+				},
+				types : {
+					impressionCount : 'bar',
+					clickCount : 'bar',
+					price : 'bar',
+					CTR : 'line',
+					CPC : 'line',
+					CPM : 'line',
+					videoViews : 'bar',
+					videoViewRate : 'bar',
+					avgCpv : 'bar'
+				},
+				groups : [ [ '表示回数', 'クリック数' ] ]
+			},
+			axis : {
+				x : {
+					type : 'category'
+				}
+			}
+		});
+		/*dspDeviceClick*/
+		var chart = c3
+				.generate({
+					bindto : '#youtubeDeviceClick',
+					data : {
+						columns : [
+							[ 'PC', /*[[${youtubeDeviceReportDto.youtubeReportGraphDtoList[0].clicks}]]*/],
+							[ 'SP', /*[[${youtubeDeviceReportDto.youtubeReportGraphDtoList[1].clicks}]]*/], ],
+						type : 'donut',
+						onclick : function(d, i) {
+							console.log("onclick", d, i);
+						},
+						onmouseover : function(d, i) {
+							console.log("onmouseover", d, i);
+						},
+						onmouseout : function(d, i) {
+							console.log("onmouseout", d, i);
+						}
+					},
+					color : {
+						pattern : [ '#4C5667', '#1ABC9C' ]
+					},
+					donut : {
+						title : "クリック回数"
+					}
+				});
+
+		/*dspDeviceSum*/
+		var chart = c3
+				.generate({
+					bindto : '#youtubeDeviceSum',
+					data : {
+						columns : [
+								[ 'PC', /*[[${youtubeDeviceReportDto.youtubeReportGraphDtoList[0].costs}]]*/],
+								[ 'SP', /*[[${youtubeDeviceReportDto.youtubeReportGraphDtoList[1].costs}]]*/], ],
+						type : 'donut',
+						onclick : function(d, i) {
+							console.log("onclick", d, i);
+						},
+						onmouseover : function(d, i) {
+							console.log("onmouseover", d, i);
+						},
+						onmouseout : function(d, i) {
+							console.log("onmouseout", d, i);
+						}
+					},
+					color : {
+						pattern : [ '#4C5667', '#1ABC9C' ]
+					},
+					donut : {
+						title : "ご利用金額"
+					}
+				});
+		/*dspDeviceImpression*/
+		var chart = c3
+				.generate({
+					bindto : '#youtubeDeviceImpression',
+					data : {
+						columns : [
+							[ 'PC', /*[[${youtubeDeviceReportDto.youtubeReportGraphDtoList[0].impressions}]]*/],
+							[ 'SP', /*[[${youtubeDeviceReportDto.youtubeReportGraphDtoList[1].impressions}]]*/], ],
+						type : 'donut',
+						onclick : function(d, i) {
+							console.log("onclick", d, i);
+						},
+						onmouseover : function(d, i) {
+							console.log("onmouseover", d, i);
+						},
+						onmouseout : function(d, i) {
+							console.log("onmouseout", d, i);
+						}
+					},
+					color : {
+						pattern : [ '#4C5667', '#1ABC9C' ]
+					},
+					donut : {
+						title : "表示回数"
+					}
+				});
+		/*youtubeLocation*/
+		var chart = c3.generate({
+			bindto : '#youtubeLocation',
+			data : {
+				x : 'x',
+				columns : [
+			    	locationArr,
+			    	locationImpressionsAr,
+			    	locationClicksArr,
+			    	locationCostsArr,
+			    	locationCtrArr,
+			    	locationCpcArr,
+			    	locationCpmArr,
+			    	locationVideoViewsArr,
+			    	locationVideoViewRateArr,
+			    	locationAvgCpvArr
+				],
+				names : {
+					impressionCount : '表示回数',
+					clickCount : 'クリック回数',
+					price : 'ご利用金額',
+					cpc : 'CPC',
+					cpm : 'CPM',
+					ctr : 'CTR',
+					videoViews : '視聴回数',
+					videoViewRate : '視聴率',
+					avgCpv : '視聴単価'
+				},
+				colors : {
+					表示回数 : '#00C292',
+					クリック数 : '#4C5667',
+					ご利用金額 : '#03A9F3',
+					CTR : '#AB8CE4',
+					CPC : '#a3aebd',
+					CPM : '#FEC107',
+					videoViews : '#34eb9e',
+					videoViewRate : '#954fb8',
+					avgCpv : '#cee344'
+				},
+				types : {
+					impressionCount : 'bar',
+					clickCount : 'bar',
+					price : 'bar',
+					CTR : 'line',
+					CPC : 'line',
+					CPM : 'line',
+					videoViews : 'bar',
+					videoViewRate : 'bar',
+					avgCpv : 'bar'
+				},
+				groups : [ [ '表示回数', 'クリック数' ] ]
+			},
+			axis : {
+				x : {
+					type : 'category'
+				}
+			}
+		});
+		/*]]>*/
+	</script>
+</div>
+</html>

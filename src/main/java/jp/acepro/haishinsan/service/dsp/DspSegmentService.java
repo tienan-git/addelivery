@@ -30,7 +30,8 @@ public interface DspSegmentService {
 	/**
 	 * URL検索
 	 * 
-	 * @param LocalDateTime today
+	 * @param LocalDateTime
+	 *            today
 	 * @return
 	 */
 	List<DspSegmentListDto> selectUrlByDateTime(LocalDateTime dateTim);
@@ -38,9 +39,17 @@ public interface DspSegmentService {
 	/**
 	 * URL検索
 	 * 
-	 * @param LocalDateTime today
+	 * @param LocalDateTime
+	 *            today
 	 * @return
 	 */
 	List<DspSegmentListDto> selectUrlByDateTimeWithNoCheck(LocalDateTime dateTim);
+
+	/**
+	 * URL一覧
+	 * 
+	 * @return
+	 */
+	List<DspSegmentListDto> selectUrlList();
 
 }
