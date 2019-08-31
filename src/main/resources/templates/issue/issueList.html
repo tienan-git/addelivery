@@ -40,84 +40,7 @@
 			<div class="card-block">
 				<form th:action="@{/issues/issueList}" method="post"
 					th:object="${issueSearchForm}">
-					<!-- <h4 class="sub-title">
-						<a class="accordion-msg" data-toggle="collapse"
-							data-parent="#accordion" href="#collapseOne" aria-expanded="true"
-							aria-controls="collapseOne"> <i class="ti-search"></i>検索
-						</a>
-					</h4>
-					<div id="collapseOne" class="panel-collapse collapse in"
-						role="tabpanel" aria-labelledby="headingOne">
-						<div class="accordion-content accordion-desc">
-							<div class="form-group row">
-								<div class="col text-right">
-									<label class="col-form-label">店舗名</label>
-								</div>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" th:field="*{shopName}"/>
-								</div>
-								<div class="col text-right">
-									<label class="col-form-label">ステータス</label>
-								</div>
-								<div class="col-sm-2">
-									<select class="form-control select">
-										<option value="0">すべて</option>
-										<option value="1">受付待ち</option>
-										<option value="2">配信中</option>
-										<option value="3">配信終了</option>
-									</select>
-								</div>
-								<div class="col text-right">
-									<label class="col-form-label">配信媒体</label>
-								</div>
-								<div class="col-sm-2">
-									<select class="form-control select">
-										<option value="0">すべて</option>
-										<option value="1">Facebook</option>
-										<option value="2">Google</option>
-										<option value="3">Twitter</option>
-										<option value="4">Dsp</option>
-									</select>
-								</div>
-							</div>
-							<div class="form-group row">
-								<div class="col text-right">
-									<label class="col-form-label">キャンペーン名</label>
-								</div>
-								<div class="col-sm-3">
-									<input type="text" class="form-control" th:field="*{campaignName}"/>
-								</div>
-								<div class="col text-right">
-									<label class="col-form-label">配信開始月</label>
-								</div>
-								<div class="col-sm-2">
-									<select class="form-control select">
-										<option value="0">すべて</option>
-										<option value="1">1月</option>
-										<option value="2">2月</option>
-										<option value="3">3月</option>
-										<option value="4">4月</option>
-										<option value="5">5月</option>
-										<option value="6">6月</option>
-										<option value="7">7月</option>
-										<option value="8">8月</option>
-										<option value="9">9月</option>
-										<option value="10">10月</option>
-										<option value="11">11月</option>
-										<option value="12">12月</option>
-									</select>
-								</div>
-								<div class="col text-right"></div>
-								<div class="col-sm-2"></div>
-							</div>
-							<div class="form-group row">
-								<div class="col-sm-12 text-center">
-									<button class="btn btn-primary" type="submit" th:formmethod="post" th:formaction="@{/issues/issueSearch}" style="margin: 10px 0">検索</button>
-									<button class="btn btn-warning" type="submit">入力リセット</button>
-								</div>
-							</div>
-						</div>
-					</div> -->
+				
 					<div class="dt-responsive table-responsive">
 						<input type="hidden" class="js-single">
 						<table id="tableForIssueList"
@@ -183,7 +106,7 @@
 									<td>
 										<button class="label detail" type="submit"
 											th:formmethod="post"
-											sec:authorize="hasAuthority('DSP_CAMPAIGN_MANAGE')"
+											sec:authorize="hasAuthority('ISSUE_DETAIL')"
 											th:formaction="@{/issue/report/allReporting(issueId=${issue.issueId}, media=${issue.media})}">
 											<i class="ti-bar-chart"></i>詳細
 										</button>

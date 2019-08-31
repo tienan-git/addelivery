@@ -60,7 +60,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">表示別</label>
 						<div class="col-sm-10">
-							<button class="btn btn-info" type="submit" sec:authorize="hasAuthority('DSP_REPORT_VIEW')" th:formmethod="Post" th:formaction="@{/link/segment/segmentReporting}">日付</button>
+							<button class="btn btn-info" type="submit" sec:authorize="hasAuthority('SEGMENT_REPORT_VIEW')" th:formmethod="Post" th:formaction="@{/link/segment/segmentReporting}">日付</button>
 						</div>
 					</div>
 				</div>
@@ -111,7 +111,7 @@
 						</div>
 						<div class="form-group row">
 							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" sec:authorize="hasAuthority('DSP_REPORT_VIEW')" th:formaction="@{/link/segment/segment/download}" th:formmethod="post">CSVダウンロード</button>
+								<button class="btn btn-success" sec:authorize="hasAuthority('SEGMENT_REPORT_VIEW')" th:formaction="@{/link/segment/segment/download}" th:formmethod="post">CSVダウンロード</button>
 							</div>
 						</div>
 					</div>
