@@ -63,9 +63,9 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" type="submit" class="btn btn-info" th:formaction="@{/template/facebook/updateTemplate(templateId=*{templateId})}" th:formmethod="post">更新</button>
-							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" type="submit" onclick="return check('Facebookテンポレートを削除してよろしいでしょうか？')" class="btn btn-danger" th:formaction="@{/template/facebook/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">削除</button>
-							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_VIEW')" type="submit" class="btn btn-warning" th:formaction="@{/template/facebook/templateList}" th:formmethod="get">戻る</button>
+							<button sec:authorize="hasAuthority('TEMPLATE_CREATE')" type="submit" class="btn btn-info" th:formaction="@{/template/facebook/updateTemplate(templateId=*{templateId})}" th:formmethod="post">更新</button>
+							<button sec:authorize="hasAuthority('TEMPLATE_CREATE')" type="submit" onclick="return check('Facebookテンポレートを削除してよろしいでしょうか？')" class="btn btn-danger" th:formaction="@{/template/facebook/deleteTemplate(templateId=*{templateId})}" th:formmethod="post">削除</button>
+							<button sec:authorize="hasAuthority('TEMPLATE_LIST')" type="submit" class="btn btn-warning" th:formaction="@{/template/facebook/templateList}" th:formmethod="get">戻る</button>
 						</div>
 					</div>
 				</form>
