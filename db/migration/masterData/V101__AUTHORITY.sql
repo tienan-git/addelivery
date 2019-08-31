@@ -1,214 +1,75 @@
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CORPORATION_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CORPORATION_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SHOP_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SHOP_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'USER_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'USER_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'AGENCY_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'AGENCY_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CHANGE_SHOP', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'AGENCY_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'AGENCY_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'AGENCY_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CORPORATION_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CORPORATION_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CORPORATION_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SHOP_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SHOP_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SHOP_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'USER_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'USER_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'USER_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CAMPAIGN_CREATE_NEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CAMPAIGN_CREATE_EXIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'UPLOAD_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_DETAIL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_AUTO_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CAMPAIGN_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SEGMENT_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SETTING_MANUAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SETTING_PROVISION', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SEGMENT_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SEGMENT_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TEMPLATE_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TEMPLATE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CORPORATION_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CORPORATION_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CORPORATION_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SHOP_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SHOP_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SHOP_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'USER_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'USER_UPDATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'USER_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CAMPAIGN_CREATE_NEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CAMPAIGN_CREATE_EXIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'UPLOAD_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_DETAIL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_AUTO_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CAMPAIGN_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SEGMENT_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SETTING_MANUAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SETTING_PROVISION', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SEGMENT_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SEGMENT_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'TEMPLATE_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'TEMPLATE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
 
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CAMPAIGN_APPROVAL', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'CAMPAIGN_APPROVAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'CHANGE_SHOP', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'CAMPAIGN_CREATE_NEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'CAMPAIGN_CREATE_EXIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'UPLOAD_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'ISSUE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'ISSUE_DETAIL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SEGMENT_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SETTING_MANUAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SETTING_PROVISION', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SEGMENT_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SEGMENT_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
 
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SIMPLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SIMPLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SIMPLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SIMPLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SIMPLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SIMPLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'SIMPLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'SIMPLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SIMPLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SIMPLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'SIMPLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'SIMPLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_SEGMENT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_CREATIVE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_CREATIVE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_TEMPLATE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'DSP_TEMPLATE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'DSP_SEGMENT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'DSP_CREATIVE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'DSP_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'DSP_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'DSP_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_SEGMENT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_CREATIVE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_CREATIVE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'DSP_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_SEGMENT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_CREATIVE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_CREATIVE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'DSP_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_SEGMENT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_CREATIVE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_CREATIVE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'DSP_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_SEGMENT_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_SEGMENT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_CREATIVE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_CREATIVE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'DSP_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'GOOGLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'GOOGLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'GOOGLE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'GOOGLE_TEMPLATE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'GOOGLE_TEMPLATE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'GOOGLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'GOOGLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'GOOGLE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'GOOGLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'GOOGLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'GOOGLE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'GOOGLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'GOOGLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'GOOGLE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'GOOGLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'GOOGLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'GOOGLE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'GOOGLE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'GOOGLE_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'GOOGLE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'FACEBOOK_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'FACEBOOK_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'FACEBOOK_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'FACEBOOK_TEMPLATE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'FACEBOOK_TEMPLATE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'FACEBOOK_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'FACEBOOK_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'FACEBOOK_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'FACEBOOK_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'FACEBOOK_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'FACEBOOK_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'FACEBOOK_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'FACEBOOK_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'FACEBOOK_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'FACEBOOK_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'FACEBOOK_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'FACEBOOK_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'FACEBOOK_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'FACEBOOK_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'FACEBOOK_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TWITTER_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TWITTER_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TWITTER_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TWITTER_TEMPLATE_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'TWITTER_TEMPLATE_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'TWITTER_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'TWITTER_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'TWITTER_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'TWITTER_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'TWITTER_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'TWITTER_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'TWITTER_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'TWITTER_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'TWITTER_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'TWITTER_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'TWITTER_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'TWITTER_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'TWITTER_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'TWITTER_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'TWITTER_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YOUTUBE_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YOUTUBE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YOUTUBE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'YOUTUBE_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'YOUTUBE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'YOUTUBE_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'YOUTUBE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'YOUTUBE_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'YOUTUBE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'YOUTUBE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'YOUTUBE_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'YOUTUBE_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YAHOO_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YAHOO_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YAHOO_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YAHOO_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'YAHOO_CSV_UPLOAD', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'YAHOO_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'YAHOO_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'YAHOO_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'YAHOO_CSV_UPLOAD', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'YAHOO_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'YAHOO_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'YAHOO_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'YAHOO_CAMPAIGN_REQUEST', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'YAHOO_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'YAHOO_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'YAHOO_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'YAHOO_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'YAHOO_CSV_UPLOAD', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'YAHOO_CAMPAIGN_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'YAHOO_CAMPAIGN_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'YAHOO_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'YAHOO_CSV_UPLOAD', NOW(), 'init', NOW(), 'init', '1', '1');
-
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SHOPLIST_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SHOPLIST_AGENCY', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (3, 'SHOPLIST_CORPORATION', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SHOPLIST_SHOP', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (1, 'SHOPLIST_SHOP', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (8, 'SHOPLIST_MANAGE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'CAMPAIGN_CREATE_NEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'CAMPAIGN_CREATE_EXIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'UPLOAD_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'ISSUE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'ISSUE_DETAIL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SEGMENT_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SETTING_MANUAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SETTING_PROVISION', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SEGMENT_CREATE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (2, 'SEGMENT_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
