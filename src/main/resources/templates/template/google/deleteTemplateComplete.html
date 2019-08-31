@@ -149,7 +149,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('GOOGLE_TEMPLATE_MANAGE')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/template/google/listTemplate}">一覧へ</button>
+							<button sec:authorize="hasAuthority('TEMPLATE_LIST')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/template/google/listTemplate}">一覧へ</button>
 						</div>
 					</div>
 				</div>
