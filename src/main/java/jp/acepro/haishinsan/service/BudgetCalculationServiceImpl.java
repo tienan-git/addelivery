@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,14 +20,21 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 
 	@Value("${time-weight.weight}")
 	private List<Float> weights;
-
-	public List<Hour> hours = new ArrayList<Hour>();
+	private List<Hour> hours = new ArrayList<Hour>();
 
 	@PostConstruct
 	void initHours() {
 		for (int i = 0; i < weights.size(); i++) {
 			hours.add(new Hour(i, weights.get(i)));
 		}
+	}
+
+	@Override
+	public int calculateBudget(String startDateTime, String endDateTime, int budget, int costFee,
+			LocalDateTime currentDateTime) {
+
+		// TODO 一旦元予算+1のダミーデータ返す
+		return budget + 1;
 	}
 
 	/**

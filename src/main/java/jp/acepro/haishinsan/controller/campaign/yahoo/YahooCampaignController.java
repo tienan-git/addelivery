@@ -247,48 +247,6 @@ public class YahooCampaignController {
 
 		return mv;
 	}
-
-	@PostMapping("/csvUploadConfirm")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")
-	public ModelAndView csvUploadConfirm(@Validated YahooCsvInputForm yahooCsvInputForm, BindingResult result, ModelAndView mv) {
-
-		List<YahooCsvBean> yahooCsvBeanList = new ArrayList<YahooCsvBean>();
-		try {
-
-			yahooCsvBeanList = yahooService.readCsv(yahooCsvInputForm.getCsvFile());
-		} catch (BusinessException be) {
-			result.reject(be.getMessage(), be.getParams(), null);
-			mv.addObject("yahooCsvInputForm", yahooCsvInputForm);
-			mv.setViewName("yahoo/csvUpload");
-			return mv;
-		}
-
-		yahooCsvInputForm.setFileName(yahooCsvInputForm.getCsvFile().getOriginalFilename());
-		yahooCsvInputForm.setYahooCsvBeanList(yahooCsvBeanList);
-
-		session.setAttribute("yahooCsvBeanList", yahooCsvBeanList);
-
-		mv.addObject("yahooCsvInputForm", yahooCsvInputForm);
-		mv.setViewName("issue/yahoo/csvUploadConfirm");
-
-		return mv;
-	}
-
-	@PostMapping("/csvUploadComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")
-	public ModelAndView csvUploadComplete(@ModelAttribute YahooCsvInputForm yahooCsvInputForm, ModelAndView mv) throws IOException {
-
-		List<YahooCsvBean> yahooCsvBeanList = (List<YahooCsvBean>) session.getAttribute("yahooCsvBeanList");
-		yahooService.uploadData(yahooCsvBeanList);
-
-		session.removeAttribute("yahooCsvBeanList");
-		mv.setViewName("issue/yahoo/csvUploadComplete");
-
-		// オペレーションログ記録
-		operationService.create(Operation.YAHOO_CSV_UPLOAD.getValue(), "ファイル名：" + yahooCsvInputForm.getFileName());
-		return mv;
-	}
-
 	private void getYahooAreaList() {
 		if (CodeMasterServiceImpl.yahooAreaNameList == null) {
 			codeMasterService.getYahooAreaList();
