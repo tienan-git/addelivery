@@ -119,7 +119,7 @@ public class DspCampaignController {
 		}
 
 		// 日付によるセグメント情報を取得
-		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlByDateTime(dateTime);
+		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(dateTime);
 		dspCampaignInputForm.setDeviceType(9);
 
 		ModelAndView modelAndView = new ModelAndView();
