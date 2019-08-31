@@ -141,10 +141,9 @@
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-primary" type="button"
-								sec:authorize="hasAuthority('SHOP_MANAGE')"
+								sec:authorize="hasAuthority('SHOP_CREATE')"
 								th:onclick="'window.location.href = \'' + @{/account/shop/create(corporationId=${shopDto.corporationId})} + '\''">新規の継続</button>
-							<button class="btn btn-warning" type="submit"
-								sec:authorize="hasAuthority('SHOP_VIEW')"
+							<button class="btn btn-warning" type="submit" 
 								th:formaction="@{/account/shop/list}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>

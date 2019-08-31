@@ -51,7 +51,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="agencyDto : ${agencyDtoList}">
-									<td><a sec:authorize="hasAuthority('AGENCY_VIEW')"  href="#" th:href="@{/account/agency/detail(agencyId=${agencyDto.agencyId})}" th:method="get" th:text="${agencyDto.agencyId}">0001</a></td>
+									<td><a  href="#" th:href="@{/account/agency/detail(agencyId=${agencyDto.agencyId})}" th:method="get" th:text="${agencyDto.agencyId}">0001</a></td>
 									<td th:text="${agencyDto.agencyName}">代理店名</td>
 								</tr>
 							</tbody>

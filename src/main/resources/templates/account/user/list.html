@@ -48,9 +48,9 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="userDto : ${userDtoList}">
-									<td><a href="#" sec:authorize="hasAuthority('USER_VIEW')" th:href="@{/account/user/detail(userId=${userDto.userId})}" th:method="get" th:text="${userDto.userId}">0001</a></td>
+									<td><a href="#"   th:href="@{/account/user/detail(userId=${userDto.userId})}" th:method="get" th:text="${userDto.userId}">0001</a></td>
 									<td th:text="${userDto.userName}">ユーザー名</td>
-									<td><a href="#" sec:authorize="hasAuthority('SHOP_VIEW')" th:href="@{/account/shop/detail(shopId=${userDto.shopId})}" th:method="get" th:text="${userDto.shopId}">0001</a></td>
+									<td><a href="#"   th:href="@{/account/shop/detail(shopId=${userDto.shopId})}" th:method="get" th:text="${userDto.shopId}">0001</a></td>
 									<td th:text="${userDto.shopName}">店舗名</td>
 									<td th:text="${userDto.email}">メールアドレス</td>
 									<td th:text="${T(jp.acepro.haishinsan.enums.Role).of(__${userDto.roleId}__).label}">権限1</td>

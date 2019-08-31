@@ -65,7 +65,7 @@
 						</div>
 						<div class="col-sm-8">
 							<label class="col-form-label"><a
-								sec:authorize="hasAuthority('CORPORATION_VIEW')" href="#"
+								 href="#"
 								th:href="@{/account/corporation/detail(corporationId=*{corporationId})}"
 								th:method="get" th:text="*{corporationId}">0001</a></label>
 						</div>
@@ -148,13 +148,13 @@
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
 							<button type="button" class="btn btn-primary"
-								sec:authorize="hasAuthority('USER_MANAGE')"
+								sec:authorize="hasAuthority('USER_CREATE')"
 								th:onclick="'window.location.href = \'' + @{/account/user/create?shopId={id}(id=*{shopId})} + '\''">ユーザーの新規</button>
 							<button type="button" class="btn btn-info"
-								sec:authorize="hasAuthority('SHOP_MANAGE')"
+								sec:authorize="hasAuthority('SHOP_CREATE')"
 								th:onclick="'window.location.href = \'' + @{/account/shop/update?shopId={id}(id=*{shopId})} + '\''">編集</button>
 							<button type="submit" class="btn btn-danger"
-								sec:authorize="hasAuthority('SHOP_MANAGE')"
+								sec:authorize="hasAuthority('SHOP_CREATE')"
 								onclick="return check('店舗を削除してよろしいでしょうか？')"
 								th:formaction="@{/account/shop/delete}" th:formmethod="post">削除</button>
 						</div>
@@ -187,7 +187,7 @@
 							</tfoot>
 							<tbody>
 								<tr th:each="userDto : *{userDtoList}">
-									<td><a href="#" sec:authorize="hasAuthority('USER_VIEW')"
+									<td><a href="#"  
 										th:href="@{/account/user/detail(userId=${userDto.userId})}"
 										th:method="get" th:text="${userDto.userId}">0001</a></td>
 									<td th:text="${userDto.userName}">店舗名</td>
@@ -202,8 +202,7 @@
 			</div>
 			<div class="form-group row">
 				<div class="col-sm-12 text-center">
-					<button type="button" class="btn btn-primary"
-						sec:authorize="hasAuthority('SHOP_VIEW')"
+					<button type="button" class="btn btn-primary" 
 						th:onclick="'window.location.href = \'' + @{/shop/list} + '\''">一覧へ</button>
 				</div>
 			</div>

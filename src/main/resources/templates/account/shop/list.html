@@ -47,11 +47,11 @@
 						</tfoot>
 						<tbody>
 							<tr th:each="shopDto ,iterStat : *{shopDtoList}">
-								<td><a sec:authorize="hasAuthority('SHOP_VIEW')" href="detail.html" th:text="${shopDto.shopId}" th:href="@{/account/shop/detail(shopId=${shopDto.shopId})}">13</a></td>
+								<td><a  href="detail.html" th:text="${shopDto.shopId}" th:href="@{/account/shop/detail(shopId=${shopDto.shopId})}">13</a></td>
 								<td th:text="${shopDto.shopName}">aaa</td>
-								<td><a sec:authorize="hasAuthority('CORPORATION_VIEW')" href="detail.html" th:text="${shopDto.corporationId}" th:href="@{/account/corporation/detail(corporationId=${shopDto.corporationId})}">13</a></td>
+								<td><a  href="detail.html" th:text="${shopDto.corporationId}" th:href="@{/account/corporation/detail(corporationId=${shopDto.corporationId})}">13</a></td>
 								<td th:text="${shopDto.corporationName}">aaa</td>
-								<td><a sec:authorize="hasAuthority('AGENCY_VIEW')" href="detail.html" th:text="${shopDto.agencyId}" th:href="@{/account/agency/detail(agencyId=${shopDto.agencyId})}">13</a></td>
+								<td><a  href="detail.html" th:text="${shopDto.agencyId}" th:href="@{/account/agency/detail(agencyId=${shopDto.agencyId})}">13</a></td>
 								<td th:text="${shopDto.agencyName}">aaa</td>
 							</tr>
 						</tbody>

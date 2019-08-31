@@ -44,9 +44,9 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('CORPORATION_MANAGE')" th:onclick="'window.location.href = \'' + @{/account/corporation/create?agencyId={id}(id=*{agencyId})} + '\''">法人の新規</button>
-							<button type="button" class="btn btn-info" sec:authorize="hasAuthority('AGENCY_MANAGE')" th:onclick="'window.location.href = \'' + @{/account/agency/update?agencyId={id}(id=*{agencyId})} + '\''">編集</button>
-							<button class="btn btn-danger" onclick="return check('代理店削除してよろしいでしょうか？')" sec:authorize="hasAuthority('AGENCY_MANAGE')" type="submit" th:formaction="@{/account/agency/delete}" th:formmethod="post">削除</button>
+							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('CORPORATION_CREATE')" th:onclick="'window.location.href = \'' + @{/account/corporation/create?agencyId={id}(id=*{agencyId})} + '\''">法人の新規</button>
+							<button type="button" class="btn btn-info" sec:authorize="hasAuthority('CORPORATION_CREATE')" th:onclick="'window.location.href = \'' + @{/account/agency/update?agencyId={id}(id=*{agencyId})} + '\''">編集</button>
+							<button class="btn btn-danger" onclick="return check('代理店削除してよろしいでしょうか？')" sec:authorize="hasAuthority('CORPORATION_CREATE')" type="submit" th:formaction="@{/account/agency/delete}" th:formmethod="post">削除</button>
 						</div>
 					</div>
 				</div>
