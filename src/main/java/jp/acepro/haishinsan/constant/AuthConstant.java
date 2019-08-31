@@ -26,8 +26,8 @@ public class AuthConstant {
 	public static final String ISSUE_LIST= "ISSUE_LIST";/*案件の一覧*/
 	public static final String ISSUE_DETAIL= "ISSUE_DETAIL";/*案件詳細閲覧*/
 	public static final String ISSUE_DELETE= "ISSUE_DELETE";/*案件削除*/
-	public static final String ISSUE_AUTO_APPROVE= "ISSUE_AUTO_APPROVE";/*自動承認設定*/
-	public static final String CAMPAIGN_APPROVE= "CAMPAIGN_APPROVE";/*キャンペーン承認*/
+	public static final String ISSUE_AUTO_APPROVAL= "ISSUE_AUTO_APPROVAL";/*自動承認設定*/
+	public static final String CAMPAIGN_APPROVAL= "CAMPAIGN_APPROVAL";/*キャンペーン承認*/
 	public static final String SEGMENT_REPORT_VIEW= "SEGMENT_REPORT_VIEW";/*分析レポート分析*/
 	public static final String SETTING_MANUAL= "SETTING_MANUAL";/*マニュアル閲覧*/
 	public static final String SETTING_PROVISION= "SETTING_PROVISION";/*入稿規定閲覧*/
