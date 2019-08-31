@@ -51,7 +51,6 @@
 						<label class="col-sm-2 col-form-label"></label>
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success" type="submit"
-								sec:authorize="hasAuthority('DSP_SEGMENT_MANAGE')"
 								th:formaction="@{/link/segment/completeSegment}"
 								th:formmethod="post">作成</button>
 						</div>
