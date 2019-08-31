@@ -17,8 +17,8 @@ INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `up
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_DETAIL', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_AUTO_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CAMPAIGN_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'ISSUE_AUTO_APPROVAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'CAMPAIGN_APPROVAL', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SEGMENT_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SETTING_MANUAL', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (9, 'SETTING_PROVISION', NOW(), 'init', NOW(), 'init', '1', '1');
@@ -41,8 +41,8 @@ INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `up
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_LIST', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_DETAIL', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_DELETE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_AUTO_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
-INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CAMPAIGN_APPROVE', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'ISSUE_AUTO_APPROVAL', NOW(), 'init', NOW(), 'init', '1', '1');
+INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'CAMPAIGN_APPROVAL', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SEGMENT_REPORT_VIEW', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SETTING_MANUAL', NOW(), 'init', NOW(), 'init', '1', '1');
 INSERT INTO `authority` (`role_id`, `authority`, `created_at`, `created_by`, `updated_at`, `updated_by`, `is_actived`, `version_no`) VALUES (4, 'SETTING_PROVISION', NOW(), 'init', NOW(), 'init', '1', '1');
