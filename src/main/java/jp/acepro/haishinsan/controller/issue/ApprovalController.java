@@ -52,7 +52,7 @@ public class ApprovalController {
     OperationService operationService;
 
     @GetMapping("/dsp/{campaignId}/{switchFlag}")
-    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_APPROVE + "')")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_APPROVAL + "')")
     public ModelAndView Creative(@PathVariable Integer campaignId, @PathVariable String switchFlag) {
 
         dspCampaignService.updateCampaign(campaignId, switchFlag);
@@ -74,7 +74,7 @@ public class ApprovalController {
     GoogleCampaignService googleService;
 
     @GetMapping("/google/{campaignId}/{switchFlag}")
-    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_APPROVE + "')")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_APPROVAL + "')")
     public GoogleSwitchRes switchCampaignStatus(@PathVariable Long campaignId, @PathVariable String switchFlag) {
 
         // キャンペーンステータスを更新
