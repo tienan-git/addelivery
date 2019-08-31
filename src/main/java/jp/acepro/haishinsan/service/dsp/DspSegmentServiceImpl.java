@@ -95,7 +95,7 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		String resource = builder.build().toUri().toString();
 		// Req Body作成
 		DspCreateSegmentReq dspCreateSegmentReq = new DspCreateSegmentReq();
-		if(Objects.isNull(ContextUtil.getCurrentShop().getDspUserId())) {
+		if (Objects.isNull(ContextUtil.getCurrentShop().getDspUserId())) {
 			throw new BusinessException(ErrorCodeConstant.E30007);
 		}
 		dspCreateSegmentReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
@@ -515,6 +515,30 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		// 検索条件：日付、店舗ID
 		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectUrlByDateTime(dateTime, ContextUtil.getCurrentShop().getShopId());
 		// 検索結果がnullの場合、nullを返す
+		if (segmentManageList == null || segmentManageList.size() == 0) {
+			return null;
+		}
+
+		// セグメントDto編集する
+		List<DspSegmentListDto> dspSegmentListDtoList = new ArrayList<DspSegmentListDto>();
+		for (SegmentManage segmentManage : segmentManageList) {
+			DspSegmentListDto dspSegmentListDto = new DspSegmentListDto();
+			dspSegmentListDto.setSegmentId(segmentManage.getSegmentId());
+			dspSegmentListDto.setSegmentName(segmentManage.getSegmentName());
+			dspSegmentListDto.setUrl(segmentManage.getUrl());
+			dspSegmentListDtoList.add(dspSegmentListDto);
+		}
+
+		return dspSegmentListDtoList;
+	}
+
+	@Override
+	@Transactional
+	public List<DspSegmentListDto> selectUrlList() {
+
+		// ShopIdでDBにセグメント情報を取得して、リストとして返す
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectByShopIdWithEmptyUrl(ContextUtil.getCurrentShop().getShopId());
+		// もし、リストが空だったら、そのまま返却
 		if (segmentManageList == null || segmentManageList.size() == 0) {
 			return null;
 		}

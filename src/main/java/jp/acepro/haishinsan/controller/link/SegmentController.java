@@ -94,7 +94,7 @@ public class SegmentController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_SEGMENT_VIEW + "')")
 	public ModelAndView segmentList() {
 
-		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.segmentList();
+		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlList();
 
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("link/segmentList");

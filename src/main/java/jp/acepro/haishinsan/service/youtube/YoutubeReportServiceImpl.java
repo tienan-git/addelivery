@@ -211,7 +211,7 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 
 		// 表示対象キャンペーンを判定
 		List<Long> campaignIdList = new ArrayList<Long>();
-		if (youtubeReportSearchDto.getCampaignIdList().size() > 0) {
+		if (youtubeReportSearchDto.getCampaignIdList() != null && youtubeReportSearchDto.getCampaignIdList().size() > 0) {
 			campaignIdList = youtubeReportSearchDto.getCampaignIdList();
 		} else {
 			campaignIdList = getShopCampaignIdList(ContextUtil.getCurrentShopId());
