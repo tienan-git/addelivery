@@ -7,127 +7,33 @@ package jp.acepro.haishinsan.constant;
  */
 public class AuthConstant {
 
-	/*---------------------
-	 * アカウント体制管理
-	 ---------------------*/
-	/** 法人 法人管理 */
-	public static final String CORPORATION_MANAGE = "CORPORATION_MANAGE";
-	/** 法人 法人照会 */
-	public static final String CORPORATION_VIEW = "CORPORATION_VIEW";
-	/** 店舗 店舗管理 */
-	public static final String SHOP_MANAGE = "SHOP_MANAGE";
-	/** 店舗 店舗照会 */
-	public static final String SHOP_VIEW = "SHOP_VIEW";
-	/** ユーザー ユーザー管理 */
-	public static final String USER_MANAGE = "USER_MANAGE";
-	/** ユーザー ユーザー照会 */
-	public static final String USER_VIEW = "USER_VIEW";
-	/** 代理店 代理店管理 */
-	public static final String AGENCY_MANAGE = "AGENCY_MANAGE";
-	/** 代理店 代理店照会 */
-	public static final String AGENCY_VIEW = "AGENCY_VIEW";
-	/** キャンペーン承認 キャンペーン承認 */
-	public static final String CAMPAIGN_APPROVAL = "CAMPAIGN_APPROVAL";
-	/** 店舗管理範囲 ショップリスト_管理 */
-	public static final String SHOPLIST_MANAGE = "SHOPLIST_MANAGE";
-	/** 店舗管理範囲 ショップリスト_代理店 */
-	public static final String SHOPLIST_AGENCY = "SHOPLIST_AGENCY";
-	/** 店舗管理範囲 ショップリスト_法人 */
-	public static final String SHOPLIST_CORPORATION = "SHOPLIST_CORPORATION";
-	/** 店舗管理範囲 ショップリスト_店舗 */
-	public static final String SHOPLIST_SHOP = "SHOPLIST_SHOP";
-
-	/*---------------------
-	 * 広告作成
-	 ---------------------*/
-	/** 広告作成 新規作成 */
-	public static final String CAMPAIGN_MANAGE = "CAMPAIGN_MANAGE";
-
-	/*---------------------
-	 * 広告物アップロード
-	 ---------------------*/
-	/** 広告物アップロード 作成 */
-	public static final String CAMPAIGN_UPLOAD = "CAMPAIGN_UPLOAD";
-
-	/*---------------------
-	 * 案件一覧
-	 ---------------------*/
-	/** 案件一覧 登録更新 */
-	public static final String ISSUE_MANAGE = "ISSUE_MANAGE";
-	/** 案件一覧 閲覧 */
-	public static final String ISSUE_VIEW = "ISSUE_VIEW";
-	/** レポート 分析 */
-	public static final String CAMPAIGN_REPORT_VIEW = "CAMPAIGN_REPORT_VIEW";
-
-	/*---------------------
-	 * 分析レポート
-	 ---------------------*/
-	/** 分析レポート 分析 */
-	public static final String SEGMENT_REPORT_VIEW = "SEGMENT_REPORT_VIEW";
-
-	/*---------------------
-	 * 設定
-	 ---------------------*/
-	/** マニュアル 閲覧 */
-	public static final String SETTING_MANUAL = "SETTING_MANUAL";
-	/** 入稿規定 閲覧 */
-	public static final String SETTING_PROVISION = "SETTING_PROVISION";
-	/** リンク先管理 管理 */
-	public static final String SEGMENT_MANAGE = "SEGMENT_MANAGE";
-	/** リンク先管理 閲覧 */
-	public static final String SEGMENT_VIEW = "SEGMENT_VIEW";
-
-	/*---------------------
-	 * テンプレート設定
-	 ---------------------*/
-	/** テンプレート管理 一覧 */
-	public static final String TEMPLATE_VIEW = "TEMPLATE_VIEW";
-	/** テンプレート管理 新規作成 */
-	public static final String TEMPLATE_MANAGE = "TEMPLATE_MANAGE";
-
-	/*---------------------
-	 * 以下は不要になる予定
-	 ---------------------*/
-	public static final String SIMPLE_CAMPAIGN_MANAGE = "SIMPLE_CAMPAIGN_MANAGE";
-	public static final String SIMPLE_CAMPAIGN_VIEW = "SIMPLE_CAMPAIGN_VIEW";
-
-	public static final String DSP_SEGMENT_MANAGE = "DSP_SEGMENT_MANAGE";
-	public static final String DSP_SEGMENT_VIEW = "DSP_SEGMENT_VIEW";
-	public static final String DSP_CREATIVE_MANAGE = "DSP_CREATIVE_MANAGE";
-	public static final String DSP_CREATIVE_VIEW = "DSP_CREATIVE_VIEW";
-	public static final String DSP_CAMPAIGN_MANAGE = "DSP_CAMPAIGN_MANAGE";
-	public static final String DSP_CAMPAIGN_VIEW = "DSP_CAMPAIGN_VIEW";
-	public static final String DSP_REPORT_VIEW = "DSP_REPORT_VIEW";
-	public static final String DSP_TEMPLATE_VIEW = "DSP_TEMPLATE_VIEW";
-	public static final String DSP_TEMPLATE_MANAGE = "DSP_TEMPLATE_MANAGE";
-
-	public static final String GOOGLE_CAMPAIGN_MANAGE = "GOOGLE_CAMPAIGN_MANAGE";
-	public static final String GOOGLE_CAMPAIGN_VIEW = "GOOGLE_CAMPAIGN_VIEW";
-	public static final String GOOGLE_REPORT_VIEW = "GOOGLE_REPORT_VIEW";
-	public static final String GOOGLE_TEMPLATE_VIEW = "GOOGLE_TEMPLATE_VIEW";
-	public static final String GOOGLE_TEMPLATE_MANAGE = "GOOGLE_TEMPLATE_MANAGE";
-
-	public static final String FACEBOOK_CAMPAIGN_MANAGE = "FACEBOOK_CAMPAIGN_MANAGE";
-	public static final String FACEBOOK_CAMPAIGN_VIEW = "FACEBOOK_CAMPAIGN_VIEW";
-	public static final String FACEBOOK_REPORT_VIEW = "FACEBOOK_REPORT_VIEW";
-	public static final String FACEBOOK_TEMPLATE_VIEW = "FACEBOOK_TEMPLATE_VIEW";
-	public static final String FACEBOOK_TEMPLATE_MANAGE = "FACEBOOK_TEMPLATE_MANAGE";
-
-	public static final String TWITTER_CAMPAIGN_MANAGE = "TWITTER_CAMPAIGN_MANAGE";
-	public static final String TWITTER_CAMPAIGN_VIEW = "TWITTER_CAMPAIGN_VIEW";
-	public static final String TWITTER_REPORT_VIEW = "TWITTER_REPORT_VIEW";
-	public static final String TWITTER_TEMPLATE_VIEW = "TWITTER_TEMPLATE_VIEW";
-	public static final String TWITTER_TEMPLATE_MANAGE = "TWITTER_TEMPLATE_MANAGE";
-
-	public static final String YOUTUBE_CAMPAIGN_REQUEST = "YOUTUBE_CAMPAIGN_REQUEST";
-	public static final String YOUTUBE_CAMPAIGN_VIEW = "YOUTUBE_CAMPAIGN_VIEW";
-	public static final String YOUTUBE_CAMPAIGN_MANAGE = "YOUTUBE_CAMPAIGN_MANAGE";
-	public static final String YOUTUBE_REPORT_VIEW = "YOUTUBE_REPORT_VIEW";
-
-	public static final String YAHOO_CAMPAIGN_REQUEST = "YAHOO_CAMPAIGN_REQUEST";
-	public static final String YAHOO_CAMPAIGN_VIEW = "YAHOO_CAMPAIGN_VIEW";
-	public static final String YAHOO_CAMPAIGN_MANAGE = "YAHOO_CAMPAIGN_MANAGE";
-	public static final String YAHOO_REPORT_VIEW = "YAHOO_REPORT_VIEW";
-	public static final String YAHOO_CSV_UPLOAD = "YAHOO_CSV_UPLOAD";
+	public static final String CHANGE_SHOP= "CHANGE_SHOP";/*店舗切替*/
+	public static final String AGENCY_CREATE= "AGENCY_CREATE";/*代理店の新規*/
+	public static final String AGENCY_UPDATE= "AGENCY_UPDATE";/*代理店の編集*/
+	public static final String AGENCY_DELETE= "AGENCY_DELETE";/*代理店の削除*/
+	public static final String CORPORATION_CREATE= "CORPORATION_CREATE";/*法人の新規*/
+	public static final String CORPORATION_UPDATE= "CORPORATION_UPDATE";/*法人の編集*/
+	public static final String CORPORATION_DELETE= "CORPORATION_DELETE";/*法人の削除*/
+	public static final String SHOP_CREATE= "SHOP_CREATE";/*店舗の新規*/
+	public static final String SHOP_UPDATE= "SHOP_UPDATE";/*店舗の編集*/
+	public static final String SHOP_DELETE= "SHOP_DELETE";/*店舗の削除*/
+	public static final String USER_CREATE= "USER_CREATE";/*ユーザーの新規*/
+	public static final String USER_UPDATE= "USER_UPDATE";/*ユーザーの変種*/
+	public static final String USER_DELETE= "USER_DELETE";/*ユーザーの削除*/
+	public static final String CAMPAIGN_CREATE_NEW= "CAMPAIGN_CREATE_NEW";/*新規配信作成*/
+	public static final String CAMPAIGN_CREATE_EXIST= "CAMPAIGN_CREATE_EXIST";/*既存配信作成*/
+	public static final String UPLOAD_CREATE= "UPLOAD_CREATE";/*広告物アップロード作成*/
+	public static final String ISSUE_LIST= "ISSUE_LIST";/*案件の一覧*/
+	public static final String ISSUE_DETAIL= "ISSUE_DETAIL";/*案件詳細閲覧*/
+	public static final String ISSUE_DELETE= "ISSUE_DELETE";/*案件削除*/
+	public static final String ISSUE_AUTO_APPROVE= "ISSUE_AUTO_APPROVE";/*自動承認設定*/
+	public static final String CAMPAIGN_APPROVE= "CAMPAIGN_APPROVE";/*キャンペーン承認*/
+	public static final String SEGMENT_REPORT_VIEW= "SEGMENT_REPORT_VIEW";/*分析レポート分析*/
+	public static final String SETTING_MANUAL= "SETTING_MANUAL";/*マニュアル閲覧*/
+	public static final String SETTING_PROVISION= "SETTING_PROVISION";/*入稿規定閲覧*/
+	public static final String SEGMENT_CREATE= "SEGMENT_CREATE";/*リンク先管理新規作成*/
+	public static final String SEGMENT_LIST= "SEGMENT_LIST";/*リンク先管理一覧*/
+	public static final String TEMPLATE_CREATE= "TEMPLATE_CREATE";/*テンプレート管理新規作成*/
+	public static final String TEMPLATE_LIST= "TEMPLATE_LIST";/*テンプレート管理一覧*/
 
 }
