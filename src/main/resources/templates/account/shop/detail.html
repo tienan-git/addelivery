@@ -154,7 +154,7 @@
 								sec:authorize="hasAuthority('SHOP_CREATE')"
 								th:onclick="'window.location.href = \'' + @{/account/shop/update?shopId={id}(id=*{shopId})} + '\''">編集</button>
 							<button type="submit" class="btn btn-danger"
-								sec:authorize="hasAuthority('SHOP_CREATE')"
+								sec:authorize="hasAuthority('SHOP_DELETE')"
 								onclick="return check('店舗を削除してよろしいでしょうか？')"
 								th:formaction="@{/account/shop/delete}" th:formmethod="post">削除</button>
 						</div>
