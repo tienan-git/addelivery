@@ -23,6 +23,7 @@ import com.univocity.parsers.csv.CsvWriterSettings;
 
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.bean.DspSegmentCsvBean;
+import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dao.DspSegmentCustomDao;
 import jp.acepro.haishinsan.dao.SegmentManageDao;
 import jp.acepro.haishinsan.dao.SegmentReportManageDao;
@@ -47,6 +48,7 @@ import jp.acepro.haishinsan.dto.dsp.DspSegmentUpdateReq;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentUpdateRes;
 import jp.acepro.haishinsan.dto.dsp.SegmentReportDisplayDto;
 import jp.acepro.haishinsan.enums.Flag;
+import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.util.ContextUtil;
@@ -93,6 +95,9 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		String resource = builder.build().toUri().toString();
 		// Req Body作成
 		DspCreateSegmentReq dspCreateSegmentReq = new DspCreateSegmentReq();
+		if(Objects.isNull(ContextUtil.getCurrentShop().getDspUserId())) {
+			throw new BusinessException(ErrorCodeConstant.E30007);
+		}
 		dspCreateSegmentReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
 		dspCreateSegmentReq.setName(dspSegmentDto.getSegmentName());
 		dspCreateSegmentReq.setType("t");
