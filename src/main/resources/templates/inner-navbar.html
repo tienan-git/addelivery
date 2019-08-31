@@ -102,7 +102,7 @@
 
 			<div class="pcoded-navigatio-lavel">設定</div>
 			<ul class="pcoded-item pcoded-left-item">
-				<li sec:authorize="hasAuthority('SETTING_PROVISION')" class="active"><a
+				<li sec:authorize="hasAuthority('SETTING_MANUAL')" class="active"><a
 					href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/manual.pdf"
 					target="_blank"><span class="pcoded-micon"><i
 							class="ti-eye"></i><b>F</b></span><span class="pcoded-mtext">マニュアル</span></a></li>
@@ -117,12 +117,12 @@
 							style="color: #FC6180"></i><b>F</b></span><span class="pcoded-mtext">リンク先管理</span><span
 						class="pcoded-mcaret"></span></a>
 					<ul class="pcoded-submenu">
-						<li sec:authorize="hasAuthority('SETTING_PROVISION')" class=" "><a
+						<li sec:authorize="hasAuthority('SEGMENT_CREATE')" class=" "><a
 							th:href="@{/link/segment/createSegment}"> <span
 								class="pcoded-micon"><i class="ti-angle-right"></i></span> <span
 								class="pcoded-mtext">新規作成</span> <span class="pcoded-mcaret"></span>
 						</a></li>
-						<li sec:authorize="hasAuthority('SETTING_PROVISION')" class=" "><a
+						<li sec:authorize="hasAuthority('SEGMENT_LIST')" class=" "><a
 							th:href="@{/link/segment/segmentList}"> <span
 								class="pcoded-micon"><i class="ti-angle-right"></i></span> <span
 								class="pcoded-mtext">一覧</span> <span class="pcoded-mcaret"></span>
