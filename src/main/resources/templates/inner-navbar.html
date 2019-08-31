@@ -50,7 +50,7 @@
 					class="pcoded-mcaret"></span>
 			</a>
 				<ul class="pcoded-submenu">
-					<li  class=" "><a
+					<li sec:authorize="hasAuthority('AGENCY_CREATE')" class=" "><a
 						th:href="@{/account/agency/list}"> <span class="pcoded-micon"><i
 								class="icon-chart"></i></span> <span class="pcoded-mtext">代理店管理</span><span
 							class="pcoded-mcaret"></span>
