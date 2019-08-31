@@ -43,7 +43,6 @@ public class CorporationController {
 	AgencyService agencyService;
 
 	@GetMapping("/list")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_VIEW + "')")
 	public ModelAndView list(ModelAndView mv, BindingResult result) {
 
 		List<CorporationDto> corporationDtoList = corporationService.search();
@@ -65,7 +64,7 @@ public class CorporationController {
 	}
 
 	@PostMapping("/createComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_CREATE + "')")
 	public ModelAndView createComplete(@Validated CorporationInputForm corporationInputForm, BindingResult result,
 			ModelAndView mv) {
 
@@ -90,7 +89,6 @@ public class CorporationController {
 	}
 
 	@GetMapping("/detail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_VIEW + "')")
 	public ModelAndView detail(Long corporationId, ModelAndView mv) {
 
 		CorporationDto corporationDto = corporationService.getById(corporationId);
@@ -116,7 +114,7 @@ public class CorporationController {
 	}
 
 	@PostMapping("/updateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_UPDATE + "')")
 	public ModelAndView updateComplete(@Validated CorporationInputForm corporationInputForm, BindingResult result,
 			ModelAndView mv) {
 
@@ -129,7 +127,7 @@ public class CorporationController {
 	}
 
 	@PostMapping("/delete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CORPORATION_DELETE + "')")
 	public ModelAndView delete(@Validated CorporationInputForm corporationInputForm, BindingResult result,
 			ModelAndView mv) {
 

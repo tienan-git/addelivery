@@ -72,7 +72,7 @@ public class GoogleIssueController {
 	}
 
 	@GetMapping("/bannerCampaignList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView bannerCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
 
 		session.setAttribute("adType", GoogleAdType.IMAGE);
@@ -90,7 +90,6 @@ public class GoogleIssueController {
 	}
 
 	@GetMapping("/respCampaignList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView respCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
 
 		session.setAttribute("adType", GoogleAdType.RESPONSIVE);
@@ -108,7 +107,6 @@ public class GoogleIssueController {
 	}
 
 	@GetMapping("/textCampaignList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_VIEW + "')")
 	public ModelAndView textCampaignList(@ModelAttribute GoogleIssueInputForm googleIssueInputForm) {
 
 		session.setAttribute("adType", GoogleAdType.TEXT);
@@ -126,7 +124,7 @@ public class GoogleIssueController {
 	}
 
 	@PostMapping("/createIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView createIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result) {
 
 		if (googleIssueInputForm.getIdList() == null || googleIssueInputForm.getIdList().isEmpty()) {
@@ -189,7 +187,7 @@ public class GoogleIssueController {
 	}
 
 	@PostMapping("/confirmIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView confirmIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result)
 			throws IOException {
 
@@ -205,7 +203,7 @@ public class GoogleIssueController {
 	}
 
 	@GetMapping("/completeIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView completeIssue() {
 
 		GoogleIssueDto googleIssueDto = (GoogleIssueDto) session.getAttribute("googleIssueDto");

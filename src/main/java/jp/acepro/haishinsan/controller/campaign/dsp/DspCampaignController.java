@@ -57,7 +57,7 @@ public class DspCampaignController {
 	OperationService operationService;
 
 	@GetMapping("/selectCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView selectCreative(@ModelAttribute DspCampaignInputForm dspCampaignInputForm) {
 
 		// 作成したCreativeを取得
@@ -74,14 +74,14 @@ public class DspCampaignController {
 	}
 
 	@PostMapping("/returnToCreativeList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView returnToCreativeList(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
 
 		return null;
 	}
 
 	@PostMapping("/createCampaign")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView createCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
 
 		if (dspCampaignInputForm.getIdList().isEmpty()) {
@@ -135,7 +135,7 @@ public class DspCampaignController {
 	}
 
 	@PostMapping("/confirmCampaign")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView confirmCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
 
 		// テンプレート情報を取って、優先度一番高いの方で使う
@@ -183,7 +183,7 @@ public class DspCampaignController {
 	}
 
 	@GetMapping("/completeCampaign")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView completeCampaign() {
 
 		// sessionからdspCampaignDto対象を取得
@@ -207,7 +207,7 @@ public class DspCampaignController {
 	}
 
 	@GetMapping("/campaignList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView campaignList() {
 
 		List<DspCampaignDto> dspCampaignDtoList = dspCampaignService.getCampaignList();
@@ -226,7 +226,7 @@ public class DspCampaignController {
 	}
 
 	@GetMapping("/campaignDetail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView campaignDetail(@RequestParam Integer campaignId) {
 
 		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(campaignId, ContextUtil.getCurrentShop().getDspUserId());
@@ -242,7 +242,7 @@ public class DspCampaignController {
 	}
 
 	@PostMapping("/campaignDelete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView campaignDelete(@RequestParam Integer campaignId) {
 
 		DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.deleteCampaign(campaignId);

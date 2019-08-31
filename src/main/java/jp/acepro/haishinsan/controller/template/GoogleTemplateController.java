@@ -54,7 +54,7 @@ public class GoogleTemplateController {
 	DspSegmentService dspSegmentService;
 
 	@GetMapping("/createTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView createTemplate() {
 
 		// コードマスタを読込
@@ -74,7 +74,7 @@ public class GoogleTemplateController {
 	}
 
 	@PostMapping("/createTemplateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView createTemplateComplete(@Validated GoogleTemplateForm googleTemplateForm, BindingResult result) {
 
 		// 入力ＦＯＲＭを読込
@@ -108,7 +108,7 @@ public class GoogleTemplateController {
 	}
 
 	@GetMapping("/listTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView listTemplate() {
 
 		// コードマスタを読込
@@ -129,7 +129,7 @@ public class GoogleTemplateController {
 	}
 
 	@GetMapping("/detailTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView detailTemplate(@RequestParam Long templateId) {
 
 		// コードマスタを読込
@@ -149,7 +149,7 @@ public class GoogleTemplateController {
 	}
 
 	@PostMapping("/updateTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView updateTemplate(@RequestParam Long templateId) {
 
 		// テンプレートを検索
@@ -168,7 +168,7 @@ public class GoogleTemplateController {
 	}
 
 	@PostMapping("/updateTemplateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView updateTemplateComplete(@Validated GoogleTemplateForm googleTemplateForm, BindingResult result) {
 
 		// 入力ＦＯＲＭを読込
@@ -202,7 +202,7 @@ public class GoogleTemplateController {
 	}
 
 	@PostMapping("/deleteTemplateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.GOOGLE_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView deleteTemplateComplete(@RequestParam Long templateId) {
 
 		// テンプレートを削除

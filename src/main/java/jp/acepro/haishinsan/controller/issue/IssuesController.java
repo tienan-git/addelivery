@@ -30,7 +30,7 @@ public class IssuesController {
 	TwitterCampaignApiService twitterCampaignApiService;
 
 	@GetMapping("/issueList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
 	public ModelAndView issueList(@ModelAttribute IssueSearchForm issueSearchForm) {
 
 		IssuesDto issuesDto = new IssuesDto();
@@ -43,7 +43,7 @@ public class IssuesController {
 	}
 
 	@PostMapping("/issueSearch")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
 	public ModelAndView searchIssueList(@ModelAttribute IssueSearchForm issueSearchForm) {
 
 		// Form → dto (検索条件)
@@ -67,7 +67,7 @@ public class IssuesController {
 	}
 
 	@PostMapping("/deleteIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SIMPLE_CAMPAIGN_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DELETE + "')")
 	public ModelAndView deleteIssue(@RequestParam Long issueId, @RequestParam String media) {
 
 		if ("Twitter".equals(media)) {

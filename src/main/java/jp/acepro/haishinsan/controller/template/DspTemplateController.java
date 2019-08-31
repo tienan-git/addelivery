@@ -46,7 +46,7 @@ public class DspTemplateController {
 	OperationService operationService;
 
 	@GetMapping("/createTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView createTemplate(@ModelAttribute DspTemplateInputForm dsptemplateInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -55,7 +55,7 @@ public class DspTemplateController {
 	}
 
 	@PostMapping("/completeTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView completeTemplate(@Validated DspTemplateInputForm dsptemplateInputForm, BindingResult result) {
 
 		DspTemplateDto dspTemplateDto = DspMapper.INSTANCE.tempFormToDto(dsptemplateInputForm);
@@ -81,7 +81,7 @@ public class DspTemplateController {
 	}
 
 	@GetMapping("/templateList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView templateList() {
 
 		List<DspTemplateDto> dspTemplateDtoList = dspApiService.templateList();
@@ -96,7 +96,7 @@ public class DspTemplateController {
 	}
 
 	@GetMapping("/templateDetail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView templateDetail(@RequestParam Long templateId) {
 
 		DspTemplateDto dspTemplateDto = dspApiService.templateDetail(templateId);
@@ -113,7 +113,7 @@ public class DspTemplateController {
 	}
 
 	@PostMapping("/updateTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView updateTemplate(@RequestParam Long templateId) {
 
 		DspTemplateDto dspTemplateDto = dspApiService.templateDetail(templateId);
@@ -130,7 +130,7 @@ public class DspTemplateController {
 	}
 
 	@PostMapping("/updateTemplateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView updateTemplateComplete(@Validated DspTemplateInputForm dspTemplateInputForm,
 			BindingResult result) {
 
@@ -157,7 +157,7 @@ public class DspTemplateController {
 	}
 
 	@PostMapping("/deleteTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView deleteTemplate(@RequestParam Long templateId) {
 
 		DspTemplateDto dspTemplateDto = dspApiService.templateDelete(templateId);

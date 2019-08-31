@@ -41,7 +41,6 @@ public class AgencyController {
 	OperationService operationService;
 
 	@GetMapping("/list")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_VIEW + "')")
 	public ModelAndView list(ModelAndView mv) {
 
 		List<AgencyDto> agencyDtoList = agencyService.search();
@@ -59,7 +58,7 @@ public class AgencyController {
 	}
 
 	@PostMapping("/createComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_CREATE + "')")
 	public ModelAndView createComplete(@Validated AgencyInputForm agencyInputForm, BindingResult result,
 			ModelAndView mv) {
 
@@ -76,7 +75,6 @@ public class AgencyController {
 	}
 
 	@GetMapping("/detail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_VIEW + "')")
 	public ModelAndView detail(Long agencyId, ModelAndView mv) {
 
 		AgencyDto agencyDto = agencyService.getById(agencyId);
@@ -102,7 +100,7 @@ public class AgencyController {
 	}
 
 	@PostMapping("/updateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_UPDATE + "')")
 	public ModelAndView updateComplete(@Validated AgencyInputForm agencyInputForm, BindingResult result,
 			ModelAndView mv) {
 
@@ -115,7 +113,7 @@ public class AgencyController {
 	}
 
 	@PostMapping("/delete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.AGENCY_DELETE + "')")
 	public ModelAndView delete(@Validated AgencyInputForm agencyInputForm, BindingResult result, ModelAndView mv) {
 
 		try {

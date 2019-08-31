@@ -163,7 +163,7 @@ public class ReportingController {
 	}
 
 	@GetMapping("/dspReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DETAIL + "')")
 	public ModelAndView getDspReporting(@RequestParam Long issueId) {
 
 		Issue issue = issueDao.selectById(issueId);
@@ -205,7 +205,7 @@ public class ReportingController {
 	}
 
 	@GetMapping("/twitterReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DETAIL + "')")
 	public ModelAndView getTwitterReporting(@RequestParam Long issueId) {
 
 		TwitterReportDto twitterReportDto = new TwitterReportDto();
@@ -240,7 +240,7 @@ public class ReportingController {
 	}
 
 	@GetMapping("/facebookReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DETAIL + "')")
 	public ModelAndView getFacebookReporting(@RequestParam Long issueId) {
 
 		Issue issue = issueDao.selectById(issueId);
@@ -355,7 +355,7 @@ public class ReportingController {
 	}
 
 	@GetMapping("/youtubeReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YOUTUBE_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DETAIL + "')")
 	public ModelAndView getYoutubeReporting(@RequestParam Long issueId) {
 
 		// 検索つもりキャンペーンID取得
@@ -393,7 +393,6 @@ public class ReportingController {
 
 	// CSVダウンロード
 	@PostMapping("/twitterDownload")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_REPORT_VIEW + "')")
 	public ResponseEntity<byte[]> download(@RequestParam String campaignId, @RequestParam Integer reportType) throws IOException {
 
 		// 検索条件を集める

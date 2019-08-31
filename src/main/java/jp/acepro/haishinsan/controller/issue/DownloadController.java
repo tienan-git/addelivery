@@ -62,7 +62,7 @@ public class DownloadController {
 	OperationService operationService;
 
 	@PostMapping("/dsp")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DETAIL + "')")
 	public ResponseEntity<byte[]> download(@ModelAttribute DspAdReportInputForm dspAdReportInputForm,
 			@RequestParam Integer reportType) throws IOException {
 
@@ -96,7 +96,7 @@ public class DownloadController {
 	}
 
 	@PostMapping("/download")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DETAIL + "')")
 	public ResponseEntity<byte[]> download(@ModelAttribute FbReportInputForm fbReportInputForm,
 			@RequestParam Integer reportType) throws IOException {
 

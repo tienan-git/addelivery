@@ -60,7 +60,7 @@ public class FacebookUploadController {
 	MessageSource msg;
 
 	@GetMapping("/createFacebookCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView createFacebookCreative(@ModelAttribute FbCreativeInputForm fbCreativeInputForm) {
 
 		ModelAndView mv = new ModelAndView();
@@ -70,7 +70,7 @@ public class FacebookUploadController {
 	}
 
 	@PostMapping("/confirmFacebookCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView confirmFacebookCreative(@Validated FbCreativeInputForm fbCreativeInputForm,
 			BindingResult result) throws IOException {
 
@@ -119,7 +119,7 @@ public class FacebookUploadController {
 	}
 
 	@GetMapping("/completeFacebookCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView completeFacebookCreative() throws IOException {
 
 		String imaBase64 = (String) session.getAttribute("imaBase64");

@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TraceAspect {
 
-	@Around("within(jp.acepro.haishinsan.controller.*)")
+	@Around("within(jp.acepro.haishinsan.**.*)")
 	public Object around(final ProceedingJoinPoint pjp) throws Throwable {
 		if (!log.isTraceEnabled()) {
 			return pjp.proceed();

@@ -68,7 +68,7 @@ public class YahooCampaignController {
 
 	// Yahoo広告作成
 	@GetMapping("/issueCreate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CAMPAIGN_REQUEST + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView createIssue(@ModelAttribute YahooIssueinputForm yahooIssueinputForm, ModelAndView mv) {
 
 		// コードマスタをメモリへロード
@@ -92,7 +92,7 @@ public class YahooCampaignController {
 
 	// Yahoo広告作成確認
 	@PostMapping("/issueCreateConfirm")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CAMPAIGN_REQUEST + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView createIssueComplete(@ModelAttribute YahooIssueinputForm yahooIssueinputForm, BindingResult result, ModelAndView mv) throws Exception {
 
 		List<MultipartFile> imageList = null;
@@ -209,7 +209,7 @@ public class YahooCampaignController {
 	}
 
 	@GetMapping("/issueSuccess")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CAMPAIGN_REQUEST + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView issueSuccess(ModelAndView mv) throws Exception {
 
 		// Sessionから広告データを取得する
@@ -226,7 +226,7 @@ public class YahooCampaignController {
 	}
 
 	@PostMapping("/issueUpdateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView issueUpdateComplete(@Validated YahooIssueinputForm yahooIssueinputForm) {
 
 		String campaignId = yahooIssueinputForm.getCampaignId();

@@ -65,7 +65,6 @@ public class FacebookIssueController {
 	}
 
 	@GetMapping("/campaignList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_VIEW + "')")
 	public ModelAndView campaignList(@ModelAttribute FbIssueInputForm fbIssueInputForm) {
 
 		List<FacebookCampaignManage> facebookCampaignManageList = facebookService.searchFacebookCampaignManageList();
@@ -82,7 +81,7 @@ public class FacebookIssueController {
 	}
 
 	@PostMapping("/createIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView createIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result) {
 
 		if (fbIssueInputForm.getIdList() == null || fbIssueInputForm.getIdList().isEmpty()) {
@@ -119,7 +118,7 @@ public class FacebookIssueController {
 	}
 
 	@PostMapping("/confirmIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView confirmIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result)
 			throws IOException {
 
@@ -135,7 +134,7 @@ public class FacebookIssueController {
 	}
 
 	@GetMapping("/completeIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_CAMPAIGN_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView completeIssue() {
 
 		FbIssueDto fbIssueDto = (FbIssueDto) session.getAttribute("fbIssueDto");

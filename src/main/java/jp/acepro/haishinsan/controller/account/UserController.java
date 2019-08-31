@@ -41,7 +41,6 @@ public class UserController {
 	OperationService operationService;
 
 	@GetMapping("/list")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_VIEW + "')")
 	public ModelAndView list(ModelAndView mv, BindingResult result) {
 
 		List<UserDto> userDtoList = userService.search();
@@ -63,7 +62,7 @@ public class UserController {
 	}
 
 	@PostMapping("/createComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_CREATE + "')")
 	public ModelAndView createComplete(@Validated UserInputForm userInputForm, BindingResult result, ModelAndView mv) {
 
 		UserDto userDto = UserMapper.INSTANCE.map(userInputForm);
@@ -85,7 +84,6 @@ public class UserController {
 	}
 
 	@GetMapping("/detail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_VIEW + "')")
 	public ModelAndView detail(Long userId, ModelAndView mv) {
 
 		UserDto userDto = userService.getById(userId);
@@ -104,7 +102,7 @@ public class UserController {
 	}
 
 	@PostMapping("/updateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_UPDATE + "')")
 	public ModelAndView updateComplete(@Validated UserInputForm userInputForm, BindingResult result, ModelAndView mv) {
 
 		UserDto userDto = UserMapper.INSTANCE.map(userInputForm);
@@ -124,7 +122,7 @@ public class UserController {
 	}
 
 	@PostMapping("/delete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.USER_DELETE + "')")
 	public ModelAndView delete(@Validated UserInputForm userInputForm, ModelAndView mv, BindingResult result) {
 
 		userService.delete(userInputForm.getUserId());

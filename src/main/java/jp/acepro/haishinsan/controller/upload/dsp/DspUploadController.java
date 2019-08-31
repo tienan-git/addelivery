@@ -43,7 +43,7 @@ public class DspUploadController {
 	OperationService operationService;
 
 	@GetMapping("/createCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView createCreative(@ModelAttribute DspCreativeInputForm dspCreativeInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -52,7 +52,7 @@ public class DspUploadController {
 	}
 
 	@PostMapping("/confirmCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView confirmCreative(@Validated DspCreativeInputForm dspCreativeInputForm, BindingResult result) throws IOException {
 
 		String imaBase64 = null;
@@ -88,7 +88,7 @@ public class DspUploadController {
 	}
 
 	@GetMapping("/completeCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView completeCreative() throws IOException {
 
 		String imaBase64 = (String) session.getAttribute("imaBase64");
@@ -113,7 +113,6 @@ public class DspUploadController {
 	}
 
 	@GetMapping("/creativeList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_VIEW + "')")
 	public ModelAndView creativeList() {
 
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeList();
@@ -129,7 +128,6 @@ public class DspUploadController {
 	}
 
 	@GetMapping("/creativeDetail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
 	public ModelAndView creativeDetail(@RequestParam Integer creativeId) {
 
 		DspCreativeDto dspCreativeDto = dspCreativeService.creativeDetail(creativeId);
@@ -147,7 +145,7 @@ public class DspUploadController {
 	}
 
 	@PostMapping("/deleteCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView deleteCreative(@RequestParam Integer creativeId) {
 
 		DspCreativeDto dspCreativeDto = (DspCreativeDto) session.getAttribute("dspCreativeDto");

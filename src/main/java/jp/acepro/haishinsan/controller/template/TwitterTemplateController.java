@@ -49,7 +49,7 @@ public class TwitterTemplateController {
 
 	// テンプレート作成
 	@GetMapping("/createTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView templateaCreate(@ModelAttribute TwitterTemplateInputForm twittertemplateInputForm) {
 
 		// コードマスタをメモリへロード
@@ -67,7 +67,7 @@ public class TwitterTemplateController {
 
 	// テンプレート作成完了
 	@PostMapping("/completeTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView templateComplete(@Validated TwitterTemplateInputForm twitterTemplateInputForm,
 			BindingResult result) {
 
@@ -96,7 +96,7 @@ public class TwitterTemplateController {
 
 	// テンプレートリスト
 	@GetMapping("/templateList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView templateList() {
 
 		// コードマスタをメモリへロード
@@ -114,7 +114,7 @@ public class TwitterTemplateController {
 
 	// テンプレート詳細
 	@GetMapping("/templateDetail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView templateDetail(@RequestParam Long templateId) {
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -129,7 +129,7 @@ public class TwitterTemplateController {
 
 	// テンプレート更新
 	@PostMapping("/updateTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView templateUpdate(@RequestParam Long templateId) {
 
 		TwitterTemplateDto twitterTemplateDto = twitterTemplateService.templateDetail(templateId);
@@ -142,7 +142,7 @@ public class TwitterTemplateController {
 
 	// テンプレート更新完了
 	@PostMapping("/updateTemplateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView templateUpdateComplete(@Validated TwitterTemplateInputForm twitterTemplateInputForm,
 			BindingResult result) {
 
@@ -169,7 +169,7 @@ public class TwitterTemplateController {
 
 	// テンプレート削除
 	@PostMapping("/deleteTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TWITTER_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView templateDelete(@RequestParam Long templateId) {
 
 		TwitterTemplateDto twitterTemplateDto = twitterTemplateService.templateDelete(templateId);

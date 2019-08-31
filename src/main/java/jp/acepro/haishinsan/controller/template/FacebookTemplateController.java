@@ -69,7 +69,7 @@ public class FacebookTemplateController {
 	ImageUtil imageUtil;
 
 	@GetMapping("/templateList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView templateList() {
 
 		// コードマスタをメモリへロード
@@ -88,7 +88,7 @@ public class FacebookTemplateController {
 	}
 
 	@GetMapping("/createTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView createTemplate(@ModelAttribute FbTemplateInputForm fbTempleteInputForm) {
 
 		// コードマスタをメモリへロード
@@ -105,7 +105,7 @@ public class FacebookTemplateController {
 	}
 
 	@PostMapping("/completeTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView completeTemplate(@Validated FbTemplateInputForm fbTemplateInputForm, BindingResult result) {
 
 		FbTemplateDto fbTemplateDto = FacebookMapper.INSTANCE.map(fbTemplateInputForm);
@@ -132,7 +132,7 @@ public class FacebookTemplateController {
 	}
 
 	@GetMapping("/templateDetail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_LIST + "')")
 	public ModelAndView templateDetail(@RequestParam Long templateId) {
 
 		FbTemplateDto fbTemplateDto = facebookService.templateDetail(templateId);
@@ -148,7 +148,7 @@ public class FacebookTemplateController {
 	}
 
 	@PostMapping("/updateTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView updateTemplate(@RequestParam Long templateId) {
 
 		FbTemplateDto fbTemplateDto = facebookService.templateDetail(templateId);
@@ -161,7 +161,7 @@ public class FacebookTemplateController {
 	}
 
 	@PostMapping("/updateTemplateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView updateTemplateComplete(@Validated FbTemplateInputForm fbTemplateInputForm,
 			BindingResult result) {
 
@@ -190,7 +190,7 @@ public class FacebookTemplateController {
 	}
 
 	@PostMapping("/deleteTemplate")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_TEMPLATE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.TEMPLATE_CREATE + "')")
 	public ModelAndView deleteTemplate(@RequestParam Long templateId) {
 
 		FbTemplateDto fbTemplateDto = facebookService.templateDelete(templateId);
@@ -206,7 +206,6 @@ public class FacebookTemplateController {
 	}
 
 	@PostMapping("/download")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.FACEBOOK_REPORT_VIEW + "')")
 	public ResponseEntity<byte[]> download(@ModelAttribute FbReportInputForm fbReportInputForm,
 			@RequestParam Integer reportType) throws IOException {
 

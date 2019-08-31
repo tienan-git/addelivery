@@ -54,7 +54,7 @@ public class SegmentController {
 	OperationService operationService;
 
 	@GetMapping("/createSegment")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_SEGMENT_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_CREATE + "')")
 	public ModelAndView createSegment(@ModelAttribute DspSegmentInputForm dspSegmentInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
@@ -63,7 +63,7 @@ public class SegmentController {
 	}
 
 	@PostMapping("/completeSegment")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_SEGMENT_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_CREATE + "')")
 	public ModelAndView completeSegment(@Validated DspSegmentInputForm dspSegmentInputForm, BindingResult result) {
 
 		DspSegmentDto dspSegmentDto = new DspSegmentDto();
@@ -91,7 +91,7 @@ public class SegmentController {
 	}
 
 	@GetMapping("/segmentList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_SEGMENT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_LIST + "')")
 	public ModelAndView segmentList() {
 
 		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlList();
@@ -107,7 +107,7 @@ public class SegmentController {
 	}
 
 	@PostMapping("/segmentDelete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_SEGMENT_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_CREATE + "')")
 	public ModelAndView deleteSegment(@RequestParam Long segmentManageId) {
 
 		DspSegmentDto dspSegmentDto = dspSegmentService.deleteSegment(segmentManageId);
@@ -130,7 +130,7 @@ public class SegmentController {
 	}
 
 	@GetMapping("/segmentReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_CREATE + "')")
 	public ModelAndView segmentReporting(@ModelAttribute DspSegmentSearchForm dspSegmentSearchForm) {
 
 		// DBから ShopIdでセグメント情報取得
@@ -158,7 +158,7 @@ public class SegmentController {
 	}
 
 	@PostMapping("/segmentReporting")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_CREATE + "')")
 	public ModelAndView searchBySegmentId(@Validated DspSegmentSearchForm dspSegmentSearchForm, BindingResult result) throws ParseException {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -224,7 +224,7 @@ public class SegmentController {
 	}
 
 	@PostMapping("/segment/download")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_REPORT_VIEW + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SEGMENT_CREATE + "')")
 	public ResponseEntity<byte[]> download(@ModelAttribute DspSegmentSearchForm dspSegmentSearchForm) throws IOException {
 
 		DspSegmentSearchDto dspSegmentSearchDto = new DspSegmentSearchDto();

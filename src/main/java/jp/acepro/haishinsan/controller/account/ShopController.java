@@ -38,7 +38,6 @@ public class ShopController {
 	CorporationService corporationService;
 
 	@GetMapping("/list")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_VIEW + "')")
 	public ModelAndView list(ModelAndView mv, BindingResult result) {
 
 		List<ShopDto> shopDtoList = shopService.search();
@@ -64,7 +63,7 @@ public class ShopController {
 	}
 
 	@PostMapping("/createComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_CREATE + "')")
 	public ModelAndView create(ModelAndView mv, @Validated ShopInputForm shopInputForm, BindingResult result) {
 
 		ShopDto shopDto = ShopMapper.INSTANCE.map(shopInputForm);
@@ -85,7 +84,6 @@ public class ShopController {
 	}
 
 	@GetMapping("/detail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_VIEW + "')")
 	public ModelAndView detail(@Validated ShopInputForm shopInputForm, Long shopId, ModelAndView mv) {
 
 		ShopDto shopDto = shopService.getById(shopId);
@@ -113,7 +111,7 @@ public class ShopController {
 	}
 
 	@PostMapping("/updateComplete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_UPDATE + "')")
 	public ModelAndView updateComplete(@Validated ShopInputForm shopInputForm, BindingResult result, ModelAndView mv) {
 
 		ShopDto shopDto = ShopMapper.INSTANCE.map(shopInputForm);
@@ -134,7 +132,7 @@ public class ShopController {
 	}
 
 	@PostMapping("/delete")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.SHOP_DELETE + "')")
 	public ModelAndView delete(@Validated ShopInputForm shopInputForm, BindingResult result, ModelAndView mv) {
 
 		try {
