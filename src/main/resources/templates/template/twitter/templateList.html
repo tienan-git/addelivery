@@ -40,7 +40,7 @@
 						</tfoot>
 						<tbody>
 							<tr th:each="twitterTemplateDto : ${twitterTemplateDtoList}">
-								<td><a sec:authorize="hasAuthority('TWITTER_TEMPLATE_VIEW')" th:href="@{/template/twitter/templateDetail(templateId=*{twitterTemplateDto.templateId})}" th:text="*{twitterTemplateDto.templateId}">0001</a></td>
+								<td><a sec:authorize="hasAuthority('TEMPLATE_LIST')" th:href="@{/template/twitter/templateDetail(templateId=*{twitterTemplateDto.templateId})}" th:text="*{twitterTemplateDto.templateId}">0001</a></td>
 								<td th:text="*{twitterTemplateDto.templateName}">テンプレート１</td>
 								<td th:text="*{twitterTemplateDto.templatePriority}">1</td>
 							</tr>

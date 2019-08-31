@@ -98,24 +98,24 @@
 						<div th:if="${twitterTemplateDto.location} == 2">
 							<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(regions)}">
 								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
-									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">選択してください</option>
 								</select>
 							</div>
 							<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(regions)}">
 								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
-									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterTemplateDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterTemplateDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">選択してください</option>
 								</select>
 							</div>
 						</div>
 						<div class="col-sm-4" th:unless="${twitterTemplateDto.location} == 2">
-							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterLocationType).of(__*{location}__).label}">繧ｦ繧ｧ繝悶し繧､繝医�ｮ繧ｯ繝ｪ繝�繧ｯ縺ｾ縺溘�ｯ繧ｳ繝ｳ繝舌�ｼ繧ｸ繝ｧ繝ｳ</label>
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterLocationType).of(__*{location}__).label}">地域</label>
 						</div>
 
 					</div>
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<button class="btn btn-warning" sec:authorize="hasAuthority('TWITTER_REPORT_VIEW')" th:formaction="@{/template/twitter/templateList}" th:formmethod="get">一覧へ</button>
+						<button class="btn btn-warning" sec:authorize="hasAuthority('TEMPLATE_LIST')" th:formaction="@{/template/twitter/templateList}" th:formmethod="get">一覧へ</button>
 					</div>
 				</div>
 			</div>
