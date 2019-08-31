@@ -68,7 +68,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button sec:authorize="hasAuthority('FACEBOOK_TEMPLATE_MANAGE')" class="btn btn-info" th:formaction="@{/template/facebook/updateTemplateComplete}" th:formmethod="post">更新</button>
+							<button sec:authorize="hasAuthority('TEMPLATE_CREATE')" class="btn btn-info" th:formaction="@{/template/facebook/updateTemplateComplete}" th:formmethod="post">更新</button>
 						</div>
 					</div>
 				</div>

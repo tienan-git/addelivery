@@ -55,7 +55,7 @@
 					<div class="form-group row">
 						<label class="col-sm-2 text-right"></label>
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-warning" type="submit" sec:authorize="hasAuthority('DSP_TEMPLATE_VIEW')" th:formaction="@{/template/dsp/templateList}" th:formmethod="get">一覧へ</button>
+							<button class="btn btn-warning" type="submit" sec:authorize="hasAuthority('TEMPLATE_LIST')" th:formaction="@{/template/dsp/templateList}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>
 				</form>
