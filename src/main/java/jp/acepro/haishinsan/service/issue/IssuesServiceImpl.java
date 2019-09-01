@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.service.issue;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -24,6 +25,7 @@ import jp.acepro.haishinsan.enums.IssueAdtype;
 import jp.acepro.haishinsan.enums.TwitterCampaignStatus;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.util.ContextUtil;
+import jp.acepro.haishinsan.util.StringFormatter;
 
 @Service
 public class IssuesServiceImpl extends BaseService implements IssuesService {
@@ -94,17 +96,24 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
                 issuesDto.setMedia(IssueAdtype.YOUTUBE.getLabel());
                 issuesDto.setMediaIcon(IssueAdtype.YOUTUBE.getValue());
             }
+
+            DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
             // 配信開始日と配信終了日で配信状態を判別
-            LocalDate today = LocalDate.now();
-            LocalDate startDate = LocalDate.parse(issue.getStartDate());
-            LocalDate endDate = LocalDate.parse(issue.getEndDate());
+            LocalDateTime today = LocalDateTime.now();
+            // date: 2019/10/10, time: 13:00
+            String startDate = StringFormatter.dateHyphenToSlash(issue.getStartDate().substring(0, 10));
+            String startTime = issue.getStartDate().substring(11);
+            String endDate = StringFormatter.dateHyphenToSlash(issue.getEndDate().substring(0, 10));
+            String endTime = issue.getEndDate().substring(11);
+            LocalDateTime startDateTime = LocalDateTime.parse(startDate + " " + startTime, f);
+            LocalDateTime endDateTime = LocalDateTime.parse(endDate + " " + endTime, f);
             // 配信待ち
-            if (today.isBefore(startDate)) {
+            if (today.isBefore(startDateTime)) {
                 issuesDto.setStatusIcon(IssueAdStatus.WAIT.getValue());
                 issuesDto.setStatus(IssueAdStatus.WAIT.getLabel());
             }
             // 配信済み
-            if (today.isAfter(endDate)) {
+            if (today.isAfter(endDateTime)) {
                 issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
                 issuesDto.setStatus(IssueAdStatus.END.getLabel());
                 issuesDto.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
@@ -115,10 +124,9 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
                     issuesDto.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
                 }
             }
-
             // 配信中
-            if ((today.isAfter(startDate) || today.isEqual(startDate))
-                    && (today.isBefore(endDate) || today.isEqual(endDate))) {
+            if ((today.isAfter(startDateTime) || today.isEqual(startDateTime))
+                    && (today.isBefore(endDateTime) || today.isEqual(endDateTime))) {
                 issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
                 issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
             }
