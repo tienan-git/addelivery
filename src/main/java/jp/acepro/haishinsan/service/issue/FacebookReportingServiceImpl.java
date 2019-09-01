@@ -439,6 +439,7 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 				facebookDeviceReportCsvBean.setCpm(fbReportDisplayDto.getCpm().toString());
 				facebookDeviceReportCsvBeanList.add(facebookDeviceReportCsvBean);
 			}
+			break;
 		case REGIONS:// 地域別の場合
 			fbReportDisplayDtoList = getRegionReport(campaignIdList, startDate, endDate);
 			for (FbReportDisplayDto fbReportDisplayDto : fbReportDisplayDtoList) {
@@ -453,6 +454,7 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 				facebookRegionReportCsvBean.setCpm(fbReportDisplayDto.getCpm().toString());
 				facebookRegionReportCsvBeanList.add(facebookRegionReportCsvBean);
 			}
+			break;
 		case DATE:// 日別の場合
 			fbReportDisplayDtoList = getDateReport(campaignIdList, startDate, endDate);
 			for (FbReportDisplayDto fbReportDisplayDto : fbReportDisplayDtoList) {
@@ -467,6 +469,7 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 				facebookDateReportCsvBean.setCpm(fbReportDisplayDto.getCpm().toString());
 				facebookDateReportCsvBeanList.add(facebookDateReportCsvBean);
 			}
+			break;
 		}
 
 		StringWriter out = new StringWriter();

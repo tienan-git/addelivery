@@ -121,8 +121,6 @@ public class IssueApiServiceImpl implements IssueApiService {
 
 		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
 				applicationProperties.getFacebookAppSecret());
-		// AdAccount account = new
-		// AdAccount(applicationProperties.getFacebookAccountId(), context);
 
 		if (CodeMasterServiceImpl.facebookAreaNameList == null) {
 			codeMasterService.getFacebookAreaList();
