@@ -433,6 +433,42 @@ public class ReportingController {
 		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
 	}
 
+	@PostMapping("/dspDownload")
+	public ResponseEntity<byte[]> dspDownload(@RequestParam Integer campaignId, @RequestParam Integer reportType) throws IOException {
+
+		// // システムDBに保存しているキャンペーンをすべて検索していく
+		// List<DspCampaignDto> dspCampaignDtoList = dspCampaignService.getCampaignList();
+		// List<Integer> ids = new ArrayList<Integer>();
+		// dspCampaignDtoList.forEach(dspCampaignDto -> ids.add(dspCampaignDto.getCampaignId()));
+		//
+		// // 検索条件を集める
+		// DspAdReportDto dspAdReportDto = new DspAdReportDto();
+		// dspAdReportDto.setCampaignIdList(Arrays.asList(campaignId));
+		// if (dspAdReportInputForm.getCampaignIdList().isEmpty()) {
+		// dspAdReportDto.setCampaignIdList(ids);
+		// }
+
+		// 検索条件を集める
+		DspAdReportDto dspAdReportDto = new DspAdReportDto();
+		dspAdReportDto.setCampaignIdList(Arrays.asList(campaignId));
+		dspAdReportDto.setStartDate(null);
+		dspAdReportDto.setEndDate(null);
+		dspAdReportDto.setReportType(reportType);
+
+		// CSVファイル中身を取得し、文字列にする
+		String file = dspApiService.download(dspAdReportDto);
+
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
+		String fimeName = "DSP_REPORT" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+		httpHeaders.setContentDispositionFormData("filename", fimeName);
+
+		// オペレーションログ記録
+		operationService.create(Operation.DSP_REPORT_DOWNLOAD.getValue(), null);
+
+		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
+	}
+
 	@PostMapping("/yahooCsvUploadConfirm")
 	// @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")
 	public ModelAndView csvUploadConfirm(@Validated YahooCsvInputForm yahooCsvInputForm, BindingResult result, ModelAndView mv) {
