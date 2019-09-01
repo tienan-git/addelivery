@@ -17,4 +17,7 @@ public interface YoutubeCampaignManageCustomDao {
 
 	@Select
 	List<YoutubeCampaignManage> selectByCampaignManageIdList(List<Long> campaignManageIdList);
+
+	@Select
+	List<YoutubeCampaignManage> selectByCampaignIdList(List<Long> campaignIdList);
 }

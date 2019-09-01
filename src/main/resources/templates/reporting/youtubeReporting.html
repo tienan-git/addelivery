@@ -33,145 +33,256 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form action="#" method="post">
-			<div class="card" id="youtubeReporting">
-				<div th:if="${youtubeDailyReportDto != null}">
-					<div class="card-block">
-						<h4 class="sub-title">Youtube-日付別</h4>
+		<form th:action="@{/youtube/issueUpdate}" method="post"
+			th:object="${youtubeIssueDto}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{issueId}" />
+			<div class="form-group row">
+				<div class="col-sm-12 text-right"></div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">案件詳細</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">案件ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{issueId}">123</label>
+						</div>
 					</div>
-					<div class="card-block">
-						<div id="youtubeDaily" class="c3"></div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Youtube広告ID<span
+								class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-4">
+							<input type="number" class="form-control"
+								th:value="*{campaignId}" th:field="*{campaignId}"
+								required="required"></input>
+						</div>
 					</div>
-					<div class="card-block col-lg-12">
-						<table class="table table-striped table-bordered nowrap"
-							style="width: 100%;">
-							<thead>
-								<tr>
-									<th>日次サマリ</th>
-									<th>表示回数</th>
-									<th>クリック数</th>
-									<th>ご利用金額</th>
-									<th>CTR</th>
-									<th>CPC</th>
-									<th>CPM</th>
-									<th>視聴回数</th>
-									<th>視聴率</th>
-									<th>視聴単価</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="dateDto : ${youtubeDailyReportDto.youtubeReportDisplayDtoList}">
-									<td th:text="${dateDto.dateSlash}">2019/1/1</td>
-									<td th:text="${dateDto.impressions}">130092</td>
-									<td th:text="${dateDto.clicks}">136</td>
-									<td th:text="${dateDto.costs}">¥7,570</td>
-									<td th:text="${dateDto.ctr}">0.10%</td>
-									<td th:text="${dateDto.cpc}">¥56</td>
-									<td th:text="${dateDto.cpm}">¥58</td>
-									<td th:text="${dateDto.videoViews}"></td>
-									<td th:text="${dateDto.videoViewRate} + '%'">"></td>
-									<td th:text="${dateDto.avgCpv}"></td>
-									
-								</tr>
-							</tbody>
-						</table>
-					</div>
-				</div>
-				<div th:if="${youtubeDeviceReportDto != null}">
-					<div class="card-block">
-						<h4 class="sub-title">Youtubeーデバイス別</h4>
-					</div>
-					<div class="card-block col-lg-12"
-						style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-						<div id="youtubeDeviceClick"
-							style="width: 33%; display: inline-block;" class="c3"></div>
-						<div id="youtubeDeviceImpression"
-							style="width: 33%; display: inline-block;"></div>
-						<div id="youtubeDeviceSum" style="width: 33%; display: inline-block;"></div>
-					</div>
-					<div class="card-block col-lg-12">
-						<table class="table table-striped table-bordered nowrap"
-							style="width: 100%;">
-							<thead>
-								<tr>
-									<th>デバイス</th>
-									<th>表示回数</th>
-									<th>クリック数</th>
-									<th>ご利用金額</th>
-									<th>CTR</th>
-									<th>CPC</th>
-									<th>CPM</th>
-									<th>視聴回数</th>
-									<th>視聴率</th>
-									<th>視聴単価</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="deviceDto : ${youtubeDeviceReportDto.youtubeReportDisplayDtoList}">
-									<td th:text="${deviceDto.campaignId}"></td>
-									<td th:text="${deviceDto.campaignName}"></td>
-									<td th:text="${deviceDto.deviceName}"></td>
-									<td th:text="${deviceDto.impressions}+'回'"></td>
-									<td th:text="${deviceDto.clicks}+'回'"></td>
-									<td th:text="${deviceDto.costs} + '円'"></td>
-									<td th:text="${deviceDto.ctr} + '%'">"></td>
-									<td th:text="${deviceDto.cpc}"></td>
-									<td th:text="${deviceDto.cpm}"></td>
-									<td th:text="${deviceDto.videoViews}"></td>
-									<td th:text="${deviceDto.videoViewRate} + '%'">"></td>
-									<td th:text="${deviceDto.avgCpv}"></td>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">Youtube広告名</label>
+						</div>
 
-								</tr>
-							</tbody>
-						</table>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">広告タイプ</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label"
+								th:text="${T(jp.acepro.haishinsan.enums.YoutubeAdType).of('__*{adType}__').label}">タイプ</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">予算</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{budget} + '円'">1000円</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startDate}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endDate}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信地域</label>
+						</div>
+						<div class="col-sm-8">
+							<ul class="col-form-label" th:remove="all-but-first"
+								th:each="youtubeLocationDto : *{locationList}">
+								<li th:text="${youtubeLocationDto.second}">東京</li>
+							</ul>
+						</div>
+						<div th:if="${#lists.isEmpty(youtubeIssueDto.locationList)}">
+							<label class="col-form-label">--</label>
+						</div>
 					</div>
 				</div>
-				<div th:if="${youtubeLocationReportDto != null}">
-					<div class="card-block">
-						<h4 class="sub-title">Youtubeー地域別</h4>
+				<div class="form-group row">
+					<div class="col-sm-2 text-right">
+						<label class="col-form-label">LP</label>
 					</div>
-					<div class="card-block col-lg-12"
-						style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
-						<div id="youtubeLocation" class="c3"></div>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="${#strings.isEmpty(youtubeIssueDto.lp)} ? '--' : ${youtubeIssueDto.lp}">https://example.com</label>
 					</div>
-					<div class="card-block col-lg-12">
-						<table class="table table-striped table-bordered nowrap"
-							style="width: 100%;">
-							<thead>
-								<tr>
-									<th>地域</th>
-									<th>表示回数</th>
-									<th>クリック数</th>
-									<th>ご利用金額</th>
-									<th>CTR</th>
-									<th>CPC</th>
-									<th>CPM</th>
-									<th>視聴回数</th>
-									<th>視聴率</th>
-									<th>視聴単価</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr th:each="locationDto : ${youtubeLocationReportDto.youtubeReportDisplayDtoList}">
-									<td th:text="${locationDto.campaignId}"></td>
-									<td th:text="${locationDto.campaignName}"></td>
-									<td th:text="${locationDto.locationName}"></td>
-									<td th:text="${locationDto.impressions}+'回'"></td>
-									<td th:text="${locationDto.clicks}+'回'"></td>
-									<td th:text="${locationDto.costs} + '円'"></td>
-									<td th:text="${locationDto.ctr} + '%'">"></td>
-									<td th:text="${locationDto.cpc}"></td>
-									<td th:text="${locationDto.cpm}"></td>
-									<td th:text="${locationDto.videoViews}"></td>
-									<td th:text="${locationDto.videoViewRate} + '%'">"></td>
-									<td th:text="${locationDto.avgCpv}"></td>
-								</tr>
-							</tbody>
-						</table>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-2 text-right">
+						<label class="col-form-label">動画URL</label>
+					</div>
+					<div class="col-sm-8">
+						<label class="col-form-label"
+							th:text="${#strings.isEmpty(youtubeIssueDto.videoUrl)} ? '--' : ${youtubeIssueDto.videoUrl}">aaa.png</label>
 					</div>
 				</div>
 			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-info" type="submit"
+						th:formaction="@{/campaign/youtube/issueUpdateComplete}"
+						th:formmethod="post">更新</button>
+				</div>
+			</div>
 		</form>
+		<div class="card" id="youtubeReporting">
+			<div th:if="${youtubeDailyReportDto != null}">
+				<div class="card-block">
+					<h4 class="sub-title">Youtube-日付別</h4>
+				</div>
+				<div class="card-block">
+					<div id="youtubeDaily" class="c3"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>日次サマリ</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+								<th>視聴回数</th>
+								<th>視聴率</th>
+								<th>視聴単価</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								th:each="dateDto : ${youtubeDailyReportDto.youtubeReportDisplayDtoList}">
+								<td th:text="${dateDto.dateSlash}">2019/1/1</td>
+								<td th:text="${dateDto.impressions}">130092</td>
+								<td th:text="${dateDto.clicks}">136</td>
+								<td th:text="${dateDto.costs}">¥7,570</td>
+								<td th:text="${dateDto.ctr}">0.10%</td>
+								<td th:text="${dateDto.cpc}">¥56</td>
+								<td th:text="${dateDto.cpm}">¥58</td>
+								<td th:text="${dateDto.videoViews}"></td>
+								<td th:text="${dateDto.videoViewRate} + '%'">"></td>
+								<td th:text="${dateDto.avgCpv}"></td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div th:if="${youtubeDeviceReportDto != null}">
+				<div class="card-block">
+					<h4 class="sub-title">Youtubeーデバイス別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="youtubeDeviceClick"
+						style="width: 33%; display: inline-block;" class="c3"></div>
+					<div id="youtubeDeviceImpression"
+						style="width: 33%; display: inline-block;"></div>
+					<div id="youtubeDeviceSum"
+						style="width: 33%; display: inline-block;"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>デバイス</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+								<th>視聴回数</th>
+								<th>視聴率</th>
+								<th>視聴単価</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								th:each="deviceDto : ${youtubeDeviceReportDto.youtubeReportDisplayDtoList}">
+								<td th:text="${deviceDto.deviceName}"></td>
+								<td th:text="${deviceDto.impressions}+'回'"></td>
+								<td th:text="${deviceDto.clicks}+'回'"></td>
+								<td th:text="${deviceDto.costs} + '円'"></td>
+								<td th:text="${deviceDto.ctr} + '%'">"></td>
+								<td th:text="${deviceDto.cpc}"></td>
+								<td th:text="${deviceDto.cpm}"></td>
+								<td th:text="${deviceDto.videoViews}"></td>
+								<td th:text="${deviceDto.videoViewRate} + '%'">"></td>
+								<td th:text="${deviceDto.avgCpv}"></td>
+
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div th:if="${youtubeLocationReportDto != null}">
+				<div class="card-block">
+					<h4 class="sub-title">Youtubeー地域別</h4>
+				</div>
+				<div class="card-block col-lg-12"
+					style="text-align: center; margin: 0 auto; padding: 0; clear: both;">
+					<div id="youtubeLocation" class="c3"></div>
+				</div>
+				<div class="card-block col-lg-12">
+					<table class="table table-striped table-bordered nowrap"
+						style="width: 100%;">
+						<thead>
+							<tr>
+								<th>地域</th>
+								<th>表示回数</th>
+								<th>クリック数</th>
+								<th>ご利用金額</th>
+								<th>CTR</th>
+								<th>CPC</th>
+								<th>CPM</th>
+								<th>視聴回数</th>
+								<th>視聴率</th>
+								<th>視聴単価</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr
+								th:each="locationDto : ${youtubeLocationReportDto.youtubeReportDisplayDtoList}">
+								<td th:text="${locationDto.locationName}"></td>
+								<td th:text="${locationDto.impressions}+'回'"></td>
+								<td th:text="${locationDto.clicks}+'回'"></td>
+								<td th:text="${locationDto.costs} + '円'"></td>
+								<td th:text="${locationDto.ctr} + '%'">"></td>
+								<td th:text="${locationDto.cpc}"></td>
+								<td th:text="${locationDto.cpm}"></td>
+								<td th:text="${locationDto.videoViews}"></td>
+								<td th:text="${locationDto.videoViewRate} + '%'">"></td>
+								<td th:text="${locationDto.avgCpv}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 	<!-- Page body end -->
 
@@ -375,7 +486,7 @@
 				x : 'x',
 				columns : [
 			    	locationArr,
-			    	locationImpressionsAr,
+			    	locationImpressionsArr,
 			    	locationClicksArr,
 			    	locationCostsArr,
 			    	locationCtrArr,
