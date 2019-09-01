@@ -310,7 +310,7 @@ public class YoutubeReportServiceImpl implements YoutubeReportService {
 
 		// 選択した地域IDを取得(campaignId-locationId)
 		List<YoutubeCampaignManage> youtubeCampaignManageList = youtubeCampaignManageCustomDao
-				.selectByCampaignManageIdList(campaignIdList);
+				.selectByCampaignIdList(campaignIdList);
 		List<String> locationIds = new ArrayList<String>();
 		for (YoutubeCampaignManage youtubeCampaignManage : youtubeCampaignManageList) {
 			StringTokenizer st = new StringTokenizer(youtubeCampaignManage.getArea(), ", ");

@@ -9,13 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.beust.jcommander.Strings;
+
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
+import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.youtube.YoutubeIssueDto;
 import jp.acepro.haishinsan.form.YoutubeIssueinputForm;
@@ -24,6 +28,7 @@ import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspSegmentService;
+import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.youtube.YoutubeService;
 
 @Controller
@@ -44,6 +49,9 @@ public class YoutubeCampaignController {
 
 	@Autowired
 	CodeMasterService codeMasterService;
+
+	@Autowired
+	IssuesService issuesService;
 
 	@GetMapping("/issueCreate")
 	public ModelAndView createIssue(ModelAndView mv) {
@@ -68,8 +76,7 @@ public class YoutubeCampaignController {
 	}
 
 	@PostMapping("/issueCreateConfirm")
-	public ModelAndView createIssueComplete(@ModelAttribute YoutubeIssueinputForm youtubeIssueinputForm,
-			BindingResult result, ModelAndView mv) {
+	public ModelAndView createIssueComplete(@ModelAttribute YoutubeIssueinputForm youtubeIssueinputForm, BindingResult result, ModelAndView mv) {
 
 		YoutubeIssueDto youtubeIssueDto = YoutubeMapper.INSTANCE.map(youtubeIssueinputForm);
 		List<Long> locationIdList = youtubeIssueinputForm.getLocationIdList();
@@ -111,6 +118,42 @@ public class YoutubeCampaignController {
 
 		mv.setViewName("campaign/youtube/issueSuccess");
 		return mv;
+	}
+
+	@PostMapping("/issueUpdateComplete")
+	public ModelAndView issueUpdateComplete(@Validated YoutubeIssueinputForm youtubeIssueinputForm) {
+
+		Long campaignId = youtubeIssueinputForm.getCampaignId();
+		Long issueId = youtubeIssueinputForm.getIssueId();
+		youtubeService.updateIssue(issueId, campaignId);
+
+		YoutubeIssueDto youtubeIssueDto = youtubeService.getIssueDetail(issueId);
+		List<Pair<Long, String>> locationList = getLocationrList(youtubeIssueDto.getArea());
+		youtubeIssueDto.setLocationList(locationList);
+
+		IssuesDto issuesDto = new IssuesDto();
+		List<IssuesDto> issuesDtoList = issuesService.searchIssuesList(issuesDto);
+
+		ModelAndView mv = new ModelAndView();
+		mv.addObject(issuesDtoList);
+		mv.setViewName("issue/issueList");
+		return mv;
+	}
+
+	private List<Pair<Long, String>> getLocationrList(String area) {
+
+		if (Strings.isStringEmpty(area)) {
+			return null;
+		}
+
+		String[] areas = area.split(",");
+
+		List<Long> locationIdList = new ArrayList<Long>();
+		for (String a : areas) {
+			locationIdList.add(Long.parseLong(a));
+		}
+
+		return getLocationrList(locationIdList);
 	}
 
 	private List<Pair<Long, String>> getLocationrList(List<Long> locationIdList) {

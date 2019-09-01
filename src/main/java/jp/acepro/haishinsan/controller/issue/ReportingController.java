@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.beust.jcommander.Strings;
 
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.bean.YahooCsvBean;
@@ -59,9 +62,12 @@ import jp.acepro.haishinsan.dto.youtube.YoutubeReportDto;
 import jp.acepro.haishinsan.dto.youtube.YoutubeReportSearchDto;
 import jp.acepro.haishinsan.enums.DateFormatter;
 import jp.acepro.haishinsan.enums.Operation;
+import jp.acepro.haishinsan.enums.PeriodSet;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.YahooCsvInputForm;
+import jp.acepro.haishinsan.service.CodeMasterService;
+import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCampaignService;
@@ -141,6 +147,9 @@ public class ReportingController {
 
 	@Autowired
 	YoutubeService youtubeService;
+
+	@Autowired
+	CodeMasterService codeMasterService;
 
 	@PostMapping("/allReporting")
 	public ModelAndView allReporting(@RequestParam Long issueId, @RequestParam String media) {
@@ -367,6 +376,7 @@ public class ReportingController {
 
 		YoutubeReportSearchDto youtubeReportSearchDto = new YoutubeReportSearchDto();
 		youtubeReportSearchDto.setCampaignIdList(campaignIds);
+		youtubeReportSearchDto.setPeriod(PeriodSet.WHOLE.getValue());
 
 		// レポート表示（デバイス別）
 		YoutubeReportDto youtubeDeviceReportDto = youtubeReportService.showDeviceReport(youtubeReportSearchDto);
@@ -377,6 +387,8 @@ public class ReportingController {
 
 		// issue詳細取得
 		YoutubeIssueDto youtubeIssueDto = youtubeService.getIssueDetail(issueId);
+		List<Pair<Long, String>> locationList = getLocationrList(youtubeIssueDto.getArea());
+		youtubeIssueDto.setLocationList(locationList);
 
 		// 正常時レスポンスを作成
 		ModelAndView modelAndView = new ModelAndView();
@@ -460,6 +472,42 @@ public class ReportingController {
 		// オペレーションログ記録
 		operationService.create(Operation.YAHOO_CSV_UPLOAD.getValue(), "ファイル名：" + yahooCsvInputForm.getFileName());
 		return mv;
+	}
+
+	private List<Pair<Long, String>> getLocationrList(String area) {
+
+		if (Strings.isStringEmpty(area)) {
+			return null;
+		}
+
+		String[] areas = area.split(",");
+
+		List<Long> locationIdList = new ArrayList<Long>();
+		for (String a : areas) {
+			locationIdList.add(Long.parseLong(a));
+		}
+
+		return getLocationrList(locationIdList);
+	}
+
+	private List<Pair<Long, String>> getLocationrList(List<Long> locationIdList) {
+
+		// コードマスタを読込
+		getGoogleAreaList();
+
+		List<Pair<Long, String>> locationList = new ArrayList<Pair<Long, String>>();
+		for (Pair<Long, String> pair : CodeMasterServiceImpl.googleAreaNameList) {
+			if (locationIdList.contains(pair.getFirst())) {
+				locationList.add(pair);
+			}
+		}
+		return locationList;
+	}
+
+	private void getGoogleAreaList() {
+		if (CodeMasterServiceImpl.googleAreaNameList == null) {
+			codeMasterService.getGoogleAreaList();
+		}
 	}
 
 }
