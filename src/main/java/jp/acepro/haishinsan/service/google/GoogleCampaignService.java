@@ -19,6 +19,9 @@ public interface GoogleCampaignService {
 	// キャンペーン状態変更（API経由）
 	void updateCampaignStatus(Long campaignId, String switchFlag);
 
+	// 案件審査状態変更
+	void updateIssueCheckStatus(Long IssueId, String switchFlag);
+
 	// キャンペーン一覧取得（API経由）
 	List<GoogleCampaignInfoDto> getCampaignList();
 

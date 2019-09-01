@@ -40,8 +40,8 @@ public interface FacebookService {
 	// キャンペーンの配信ステータスを更新
 	void updateCampaignStatus(String campaignId, String campaignStatus);
 
-	// キャンペーンの審査ステータスを更新
-	void updateCampaignCheckStatus(String campaignId, String checkStatus);
+	// 案件の審査ステータスを更新
+	void updateIssueCheckStatus(Long issueId, String checkStatus);
 
 	void createFacebookCampaign(FbCampaignDto fbCampaignDto, IssueDto issueDto);
 
