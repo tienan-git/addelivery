@@ -10,30 +10,34 @@ import lombok.Data;
 @Data
 public class TwitterAdsInputForm {
 
-	Long templateId;
+    Long templateId;
 
-	// 入力データ
-	Long twitter_campaign_manage_id;
-	String campaignId;
-	@Trim
-	String campaignName;
-	String startTime;
-	String endTime;
-	Integer dailyBudget;
-	Integer totalBudget;
-	Integer objective;
-	Integer location;
-	List<String> regions;
-	List<String> tweetIdList;
+    // 入力データ
+    Long twitter_campaign_manage_id;
+    String campaignId;
+    @Trim
+    String campaignName;
+    String startTime;
+    String endTime;
+    String startHour;
+    String startMin;
+    String endHour;
+    String endMin;
+    Integer dailyBudget;
+    Integer totalBudget;
+    Integer objective;
+    Integer location;
+    List<String> regions;
+    List<String> tweetIdList;
 
-	// 初期値の為
+    // 初期値の為
 
-	List<TwitterTweet> websiteTweetList;
+    List<TwitterTweet> websiteTweetList;
 
-	List<TwitterTweet> followersTweetList;
+    List<TwitterTweet> followersTweetList;
 
-	List<TwitterTemplateDto> templateList;
+    List<TwitterTemplateDto> templateList;
 
-	List<TwitterTweet> tweetList;
+    List<TwitterTweet> tweetList;
 
 }
