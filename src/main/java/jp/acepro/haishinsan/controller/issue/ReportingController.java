@@ -468,6 +468,48 @@ public class ReportingController {
 
 		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
 	}
+	
+	@PostMapping("/googleDownload")
+	public ResponseEntity<byte[]> googleDownload(@RequestParam Long campaignId, @RequestParam Integer reportType) throws IOException {
+
+		// ＦＯＲＭを読込
+		GoogleReportSearchDto googleReportSearchDto = new GoogleReportSearchDto();
+		googleReportSearchDto.setCampaignIdList(Arrays.asList(campaignId));
+		googleReportSearchDto.setReportType(reportType);
+
+		// ダウンロードファイルを作成
+		String file = googleReportService.download(googleReportSearchDto);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
+		String fimeName = "Google_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+		switch (ReportType.of(reportType)) {
+		case DEVICE:
+			fimeName = "Google_Device_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		case REGIONS:
+			fimeName = "Google_Regions_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		case DATE:
+			fimeName = "Google_Date_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		}
+		httpHeaders.setContentDispositionFormData("filename", fimeName);
+		
+		// オペレーションログ記録
+		switch (ReportType.of(reportType)) {
+		case DEVICE:
+			operationService.create(Operation.GOOGLE_DEVICE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		case REGIONS:
+			operationService.create(Operation.GOOGLE_REGION_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		case DATE:
+			operationService.create(Operation.GOOGLE_DATE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		}
+		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
+	}
+
 
 	@PostMapping("/yahooCsvUploadConfirm")
 	// @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")

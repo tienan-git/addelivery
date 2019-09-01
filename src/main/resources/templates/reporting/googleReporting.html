@@ -23,7 +23,7 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form action="#" method="post">
+		<form th:action="@{/issue/report}" method="post">
 			<div class="card" id="GoogleReporting">
 				<div class="card-block" th:object="${googleCampaignDetailDto}">
 					<h4 class="sub-title">基本情報</h4>
@@ -213,6 +213,13 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit"
+							th:formaction="@{/issue/report/googleDownload(campaignId=${googleCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}))}"
+							th:formmethod="post">CSVダウンロード</button>
+					</div>
+				</div>
 				<div class="card-block">
 					<h4 class="sub-title">Google-地域別</h4>
 				</div>
@@ -247,6 +254,13 @@
 							</tr>
 						</tbody>
 					</table>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit"
+							th:formaction="@{/issue/report/googleDownload(campaignId=${googleCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}))}"
+							th:formmethod="post">CSVダウンロード</button>
+					</div>
 				</div>
 				<div class="card-block">
 					<h4 class="sub-title">Googleーデバイス別</h4>
@@ -288,6 +302,13 @@
 							</tr>
 						</tbody>
 					</table>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit"
+							th:formaction="@{/issue/report/googleDownload(campaignId=${googleCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}))}"
+							th:formmethod="post">CSVダウンロード</button>
+					</div>
 				</div>
 			</div>
 		</form>
