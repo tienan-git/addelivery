@@ -33,68 +33,69 @@
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form action="#" method="post">
-			<div class="card" id="issueDetail">
-				<div class="card-block">
-					<h4 class="sub-title">案件情報</h4>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">案件名</label>
-					<div class="col-sm-4">
-						<label class="col-form-label"
-							th:text="${dspCampaignDetailDto.campaignName}">DSPキャンペーンテスト</label>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">配信開始日</label>
-					<div class="col-sm-2">
-						<label class="col-form-label"
-							th:text="${dspCampaignDetailDto.startDatetime}">2018-09-16</label>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">配信終了日</label>
-					<div class="col-sm-2">
-						<label class="col-form-label"
-							th:text="${dspCampaignDetailDto.endDatetime}">2018-10-16</label>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">総予算</label>
-					<div class="col-sm-2">
-						<label class="col-form-label"
-							th:text="${dspCampaignDetailDto.budget}">50,000円</label>
-					</div>
-				</div>
-				<div class="form-group row">
-					<label class="col-sm-2 col-form-label text-right">デバイス</label>
-					<div class="col-sm-1">
-						<label class="col-form-label"
-							th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000円</label>
-					</div>
-				</div>
-				<div class="card-block">
-					<h4 class="sub-title">ファンへ配信-広告物</h4>
-				</div>
-				<div
-					th:each="dspCreativeDto, stat : ${dspCampaignDetailDto.dspCreativeDtoList}">
-					<fieldset class="form_block" id="form_block[0]">
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right">クリエイティブ</label>
-							<div class="col-sm-3">
-								<label class="col-form-label"
-									th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)メガガーデン戸塚店_300x250</label>
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label text-right"></label>
-							<div class="col-sm-4">
-								<img class="img-fluid" th:src="*{dspCreativeDto.url}">
-							</div>
-						</div>
-					</fieldset>
+		<div class="card" id="issueDetail">
+			<div class="card-block">
+				<h4 class="sub-title">案件情報</h4>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">案件名</label>
+				<div class="col-sm-4">
+					<label class="col-form-label"
+						th:text="${dspCampaignDetailDto.campaignName}">DSPキャンペーンテスト</label>
 				</div>
 			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">配信開始日</label>
+				<div class="col-sm-2">
+					<label class="col-form-label"
+						th:text="${dspCampaignDetailDto.startDatetime}">2018-09-16</label>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">配信終了日</label>
+				<div class="col-sm-2">
+					<label class="col-form-label"
+						th:text="${dspCampaignDetailDto.endDatetime}">2018-10-16</label>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">総予算</label>
+				<div class="col-sm-2">
+					<label class="col-form-label"
+						th:text="${dspCampaignDetailDto.budget}">50,000円</label>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label text-right">デバイス</label>
+				<div class="col-sm-1">
+					<label class="col-form-label"
+						th:text="${T(jp.acepro.haishinsan.enums.DspDeviceType).of(__${dspCampaignDetailDto.device}__).label}">50,000円</label>
+				</div>
+			</div>
+			<div class="card-block">
+				<h4 class="sub-title">ファンへ配信-広告物</h4>
+			</div>
+			<div
+				th:each="dspCreativeDto, stat : ${dspCampaignDetailDto.dspCreativeDtoList}">
+				<fieldset class="form_block" id="form_block[0]">
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ</label>
+						<div class="col-sm-3">
+							<label class="col-form-label"
+								th:text="*{dspCreativeDto.creativeName}">(12/23-12/27)メガガーデン戸塚店_300x250</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right"></label>
+						<div class="col-sm-4">
+							<img class="img-fluid" th:src="*{dspCreativeDto.url}">
+						</div>
+					</div>
+				</fieldset>
+			</div>
+		</div>
+
+		<form th:action="@{/issue/report}" method="post">
 			<div class="card" id="dspReporting">
 				<div th:if="${dspDateReportingDtoList != null}">
 					<div class="card-block">
@@ -129,6 +130,13 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit"
+								th:formaction="@{/issue/report/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}))}"
+								th:formmethod="post">CSVダウンロード</button>
+						</div>
 					</div>
 				</div>
 				<div th:if="${dspDeviceReportingDtoList != null}">
@@ -170,6 +178,13 @@
 							</tbody>
 						</table>
 					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success"
+								th:formaction="@{/issue/report/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}))}"
+								th:formmethod="Post">CSVダウンロード</button>
+						</div>
+					</div>
 				</div>
 				<div th:if="${dspCreativeReportingDtoList != null}">
 					<div class="card-block">
@@ -205,6 +220,13 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success"
+								th:formaction="@{/issue/report/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).CREATIVE.getValue()}))}"
+								th:formmethod="Post">CSVダウンロード</button>
+						</div>
 					</div>
 				</div>
 			</div>
