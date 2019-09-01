@@ -334,6 +334,10 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
         // 案件追加
         Issue issue = new Issue();
+        String startTime = twitterAdsDto.getStartTime() + " " + twitterAdsDto.getStartHour() + ":"
+                + twitterAdsDto.getStartMin();
+        String endTime = twitterAdsDto.getEndTime() + " " + twitterAdsDto.getEndHour() + ":"
+                + twitterAdsDto.getEndMin();
         if (issueDto == null) {
             if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
                 // 営業チェックが必要有りの場合
@@ -347,8 +351,8 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             issue.setBudget(
                     twitterAdsDto.getTotalBudget() == 0 ? CalculateUtil.calTotalBudget(twitterAdsDto.getDailyBudget(),
                             twitterAdsDto.getStartTime(), twitterAdsDto.getEndTime()) : twitterAdsDto.getTotalBudget());
-            issue.setStartDate(twitterAdsDto.getStartTime());
-            issue.setEndDate(twitterAdsDto.getEndTime());
+            issue.setStartDate(startTime);
+            issue.setEndDate(endTime);
             issue.setShopId(ContextUtil.getCurrentShop().getShopId());
             issueDao.insert(issue);
         } else {
