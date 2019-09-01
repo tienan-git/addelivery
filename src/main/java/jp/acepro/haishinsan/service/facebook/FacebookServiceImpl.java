@@ -832,10 +832,10 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 	@Override
 	@Transactional
-	public void updateCampaignCheckStatus(String campaignId, String checkStatus) {
+	public void updateIssueCheckStatus(Long issueId, String checkStatus) {
 
 		// DBからキャンペーンを取得する
-		FacebookCampaignManage facebookCampaignManage = facebookCampaignManageCustomDao.selectByCampaignId(campaignId);
+		//FacebookCampaignManage facebookCampaignManage = facebookCampaignManageCustomDao.selectByCampaignId(issueId);
 		// 審査状態が不一致の場合、更新する
 //		if (!checkStatus.equals(facebookCampaignManage.getApprovalFlag())) {
 //			facebookCampaignManage.setApprovalFlag(checkStatus);

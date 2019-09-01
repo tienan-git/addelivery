@@ -93,6 +93,7 @@
 									<!-- other switch -->
 									<td th:unless="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}">
 										<label id="media" hidden="hidden" th:text="${issue.media}"></label>
+										<label id="issueId" hidden="hidden" th:text="${issue.issueId}"></label> 
 										<label hidden="hidden" th:text="${issue.campaignId}"></label> 
 										<input type="checkbox" class="js-switch" 
 											th:checked="${issue.campaignStatus} == 'ACTIVE'" 
@@ -138,6 +139,7 @@
 				}
 				var campaignId = $(this).prev().text();
 				var media = $("#media").text();
+				var issueId = $("#issueId").text();
 				var urlStr = "/issue/approval";
 				var mediaUrlStr = null;
 				var checkedStatus = $(this).prop('checked');
@@ -150,12 +152,13 @@
 				}
 				switch (media) {
 				case "Google":
-					mediaUrlStr = urlStr + "/google/"　+ campaignId + "/"　+ switchFlag;
+					mediaUrlStr = urlStr + "/google/"　+ issueId + "/"　+ switchFlag;
 					break;
 				case "FaceBook":
-					mediaUrlStr = urlStr + "/facebook/updateCampaignStatus/" + campaignId + "/" + switchFlag;
+					mediaUrlStr = urlStr + "/facebook/" + issueId + "/" + switchFlag;
 					break;
 				case "Instagram":
+					mediaUrlStr = urlStr + "/instagram/" + issueId + "/" + switchFlag;
 					break
 				case "FreakOut":
 					mediaUrlStr = urlStr +  "/dsp/" + campaignId + "/" + switchFlag;

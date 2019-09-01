@@ -260,6 +260,29 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 	}
 
+	// 案件審査状態変更
+	@Override
+	@Transactional
+	public void updateIssueCheckStatus(Long campaignId, String switchFlag) {
+
+		// キャンペーン情報更新（API経由）
+		UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
+		updateCampaignStatus.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+		updateCampaignStatus.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
+		updateCampaignStatus.run(campaignId, switchFlag);
+
+		// キャンペーン情報更新（DB）
+		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
+//		if (googleCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+//			// 承認フラグ設定
+//			if (switchFlag.equals("ON")) {
+//				//googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+//				googleCampaignManageDao.update(googleCampaignManage);
+//			}
+//		}
+
+	}
+
 	// キャンペーン一覧取得（API経由）
 	@Override
 	@Transactional
