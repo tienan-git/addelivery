@@ -65,6 +65,7 @@ import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.enums.PeriodSet;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.exception.BusinessException;
+import jp.acepro.haishinsan.form.FbReportInputForm;
 import jp.acepro.haishinsan.form.YahooCsvInputForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
@@ -510,6 +511,47 @@ public class ReportingController {
 		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
 	}
 
+	@PostMapping("/facebookDownload")
+	public ResponseEntity<byte[]> facebookDownload(@RequestParam String issueId, @RequestParam Integer reportType) throws IOException {
+
+		// 案件詳細を取得
+		Issue issue = issueDao.selectById(Long.valueOf(issueId));
+		List<String> campaignIdList = Arrays.asList(issue.getFacebookCampaignId());
+
+		// ダウンロードファイルを作成
+		// CSVファイル中身を取得し、文字列にする
+		String file = facebookReportingService.download(campaignIdList, issue.getStartDate(), issue.getEndDate(),
+				reportType);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
+		String fimeName = "Facebook_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+		switch (ReportType.of(reportType)) {
+		case DEVICE:
+			fimeName = "Facebook_Device_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		case REGIONS:
+			fimeName = "Facebook_Regions_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		case DATE:
+			fimeName = "Facebook_Date_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		}
+		httpHeaders.setContentDispositionFormData("filename", fimeName);
+		
+		// オペレーションログ記録
+		switch (ReportType.of(reportType)) {
+		case DEVICE:
+			operationService.create(Operation.FACEBOOK_DEVICE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		case REGIONS:
+			operationService.create(Operation.FACEBOOK_REGION_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		case DATE:
+			operationService.create(Operation.FACEBOOK_DATE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		}
+		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
+	}
 
 	@PostMapping("/yahooCsvUploadConfirm")
 	// @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.YAHOO_CSV_UPLOAD + "')")

@@ -26,6 +26,8 @@ import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
+import jp.acepro.haishinsan.dto.EmailCampDetailDto;
+import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
@@ -33,8 +35,10 @@ import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
 import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
 import jp.acepro.haishinsan.enums.DeviceType;
+import jp.acepro.haishinsan.enums.EmailTemplateType;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.GoogleAdType;
+import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.GoogleIssueInputForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
@@ -193,46 +197,12 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		googleCampaignManage.setCampaignId(addCampaign.newCampaign.getId());
 		googleCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
 		googleCampaignManage.setCampaignName(addCampaign.newCampaign.getName());
-		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
-			// 営業チェックが必要有りの場合
-			//googleCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
-		} else {
-			// 営業チェックが必要無しの場合
-			//googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-		}
 		googleCampaignManage
 				.setRegions(googleCampaignDto.getLocationList().toString().replace("[", "").replace("]", ""));
 		googleCampaignManage.setAdType(googleCampaignDto.getAdType());
 		googleCampaignManage.setBudget(googleCampaignDto.getBudget());
 		googleCampaignManageDao.insert(googleCampaignManage);
 		googleCampaignDto.setCampaignId(addCampaign.newCampaign.getId());
-
-		// 案件DB登録
-//		Issue issue = new Issue();
-//		if (issueDto == null) {
-//			issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-//			issue.setGoogleCampaignManageId(googleCampaignManage.getGoogleCampaignManageId());
-//			issue.setCampaignName(googleCampaignDto.getCampaignName());
-//			issue.setBudget(CalculateUtil.calTotalBudget(googleCampaignDto.getBudget(), googleCampaignDto.getStartDate(), googleCampaignDto.getEndDate()));
-//			issue.setStartDate(googleCampaignDto.getStartDate());
-//			issue.setEndDate(googleCampaignDto.getEndDate());
-//			issueDao.insert(issue);
-//		} else {
-//			issueDto.setGoogleCampaignManageId(googleCampaignManage.getGoogleCampaignManageId());
-//		}
-
-		// メール送信
-//		EmailDto emailDto = new EmailDto();
-//		emailDto.setIssueId(issue.getIssueId());
-//		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
-//		emailCampDetailDto.setMediaType(MediaCollection.GOOGLE.getValue());
-//		emailCampDetailDto.setCampaignId(String.valueOf(googleCampaignManage.getCampaignId()));
-//		emailCampDetailDto.setCampaignName(googleCampaignManage.getCampaignName());
-//		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
-//		emailCampDetailDtoList.add(emailCampDetailDto);
-//		emailDto.setCampaignList(emailCampDetailDtoList);
-//		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
-//		emailService.sendEmail(emailDto);
 
 		//log.debug("キャンペーン新規作成完了----------------------------");
 	}
@@ -263,23 +233,17 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	// 案件審査状態変更
 	@Override
 	@Transactional
-	public void updateIssueCheckStatus(Long campaignId, String switchFlag) {
+	public void updateIssueCheckStatus(Long issueId, String switchFlag) {
 
-		// キャンペーン情報更新（API経由）
-		UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
-		updateCampaignStatus.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
-		updateCampaignStatus.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
-		updateCampaignStatus.run(campaignId, switchFlag);
+		// DBから案件を取得する
+		Issue issue = issueDao.selectById(issueId);
 
-		// キャンペーン情報更新（DB）
-		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
-//		if (googleCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
-//			// 承認フラグ設定
-//			if (switchFlag.equals("ON")) {
-//				//googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-//				googleCampaignManageDao.update(googleCampaignManage);
-//			}
-//		}
+        if (switchFlag.equals("ON")) {
+        	issue.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+        } else {
+        	issue.setApprovalFlag(ApprovalFlag.WAITING.getValue());
+        }
+		issueDao.update(issue);
 
 	}
 
@@ -537,6 +501,14 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	@Override
 	@Transactional
 	public Issue createIssue(GoogleIssueDto googleIssueDto) {
+
+		// 審査状態を設定
+		ApprovalFlag approvalFlag = ApprovalFlag.COMPLETED;
+		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
+			// 営業チェックが必要な場合、審査状態を承認待ちにする
+			approvalFlag = ApprovalFlag.WAITING;
+		}
+
 		// 案件DB登録
 		Issue issue = new Issue();
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
@@ -548,7 +520,20 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		issue.setEndDate(googleIssueDto.getEndDate());
 		issue.setGoogleOnedayBudget(googleIssueDto.getBudget());
 		issue.setGoogleRegions(assembleLocationString(googleIssueDto.getLocationList()));
+		issue.setApprovalFlag(approvalFlag.getValue());
 		issueDao.insert(issue);
+
+		// メール送信
+		EmailDto emailDto = new EmailDto();
+		emailDto.setIssueId(issue.getIssueId());
+		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
+		emailCampDetailDto.setMediaType(MediaCollection.GOOGLE.getValue());
+		emailCampDetailDto.setCampaignName(googleIssueDto.getCampaignName());
+		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
+		emailCampDetailDtoList.add(emailCampDetailDto);
+		emailDto.setCampaignList(emailCampDetailDtoList);
+		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
+		emailService.sendEmail(emailDto);
 
 		return issue;
 	}

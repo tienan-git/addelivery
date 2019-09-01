@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.service.facebook;
 
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -32,12 +33,18 @@ import com.facebook.ads.sdk.AdSet.EnumOptimizationGoal;
 import com.facebook.ads.sdk.Campaign;
 import com.facebook.ads.sdk.Campaign.EnumObjective;
 import com.facebook.ads.sdk.Campaign.EnumStatus;
+import com.univocity.parsers.common.processor.BeanWriterProcessor;
+import com.univocity.parsers.csv.CsvWriter;
+import com.univocity.parsers.csv.CsvWriterSettings;
 import com.facebook.ads.sdk.IDName;
 import com.facebook.ads.sdk.Targeting;
 import com.facebook.ads.sdk.TargetingGeoLocation;
 import com.facebook.ads.sdk.TargetingGeoLocationCity;
 
 import jp.acepro.haishinsan.ApplicationProperties;
+import jp.acepro.haishinsan.bean.GoogleDateReportCsvBean;
+import jp.acepro.haishinsan.bean.GoogleDeviceReportCsvBean;
+import jp.acepro.haishinsan.bean.GoogleLocationReportCsvBean;
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dao.DspSegmentCustomDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageCustomDao;
@@ -62,6 +69,8 @@ import jp.acepro.haishinsan.dto.facebook.FbCreativeDto;
 import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.dto.facebook.InstagramAccountRes;
+import jp.acepro.haishinsan.dto.google.GoogleReportDisplayDto;
+import jp.acepro.haishinsan.dto.google.GoogleReportSearchDto;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
 import jp.acepro.haishinsan.enums.DateFormatter;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
@@ -69,6 +78,8 @@ import jp.acepro.haishinsan.enums.FacebookArrangePlace;
 import jp.acepro.haishinsan.enums.FacebookCampaignStatus;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.MediaCollection;
+import jp.acepro.haishinsan.enums.ReportType;
+import jp.acepro.haishinsan.enums.TwitterCampaignStatus;
 import jp.acepro.haishinsan.enums.UnitPriceType;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.exception.SystemException;
@@ -360,11 +371,6 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		EnumObjective enumObjective = Campaign.EnumObjective.VALUE_REACH;
 		// キャンペーン配信ステータス設定
 		EnumStatus enumCpStatus = Campaign.EnumStatus.VALUE_PAUSED;
-		// 審査状態を設定
-		ApprovalFlag approvalFlag = ApprovalFlag.WAITING;
-
-		// fbCampaignDto.setCampaignDisplayStatus(FacebookCampaignStatus.of(enumCpStatus.toString()).getLabel());
-		// fbCampaignDto.setCheckStatus(approvalFlag.getValue());
 		// AdSet配信ステータス設定
 		com.facebook.ads.sdk.AdSet.EnumStatus enumSetStatus = AdSet.EnumStatus.VALUE_ACTIVE;
 		// Ad配信ステータス設定
@@ -432,7 +438,6 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 				facebookCampaignManage.setCampaignName(campaignName);
 				facebookCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
 				facebookCampaignManage.setBudget(totalBudget);
-				//facebookCampaignManage.setApprovalFlag(approvalFlag.getValue());
 				facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
 				facebookCampaignManage.setLinkUrl(linkUrl);
 				facebookCampaignManageDao.insert(facebookCampaignManage);
@@ -834,23 +839,30 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 	@Transactional
 	public void updateIssueCheckStatus(Long issueId, String checkStatus) {
 
-		// DBからキャンペーンを取得する
-		//FacebookCampaignManage facebookCampaignManage = facebookCampaignManageCustomDao.selectByCampaignId(issueId);
-		// 審査状態が不一致の場合、更新する
-//		if (!checkStatus.equals(facebookCampaignManage.getApprovalFlag())) {
-//			facebookCampaignManage.setApprovalFlag(checkStatus);
-//			facebookCampaignManageDao.update(facebookCampaignManage);
-//		}
+		// DBから案件を取得する
+		Issue issue = issueDao.selectById(issueId);
+
+        if (checkStatus.equals("ON")) {
+        	issue.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+        } else {
+        	issue.setApprovalFlag(ApprovalFlag.WAITING.getValue());
+        }
+		issueDao.update(issue);
 	}
 
 	@Override
 	@Transactional
 	public Issue createIssue(FbIssueDto fbIssueDto) {
 
+		// 審査状態を設定
+		ApprovalFlag approvalFlag = ApprovalFlag.COMPLETED;
+		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
+			// 営業チェックが必要な場合、審査状態を承認待ちにする
+			approvalFlag = ApprovalFlag.WAITING;
+		}
+
 		// 案件表にインサート
 		Issue issue = new Issue();
-		// issue.setBudget(fbIssueDto.getBudget());
-
 		issue.setShopId(ContextUtil.getCurrentShopId());
 		issue.setFacebookCampaignId(fbIssueDto.getCampaignId());
 		issue.setCampaignName(fbIssueDto.getCampaignName());
@@ -860,7 +872,20 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		issue.setEndDate(fbIssueDto.getEndDate());
 		issue.setFacebookOnedayBudget(fbIssueDto.getDailyBudget());
 		issue.setFacebookRegions(assembleLocationString(fbIssueDto.getLocationList()));
+		issue.setApprovalFlag(approvalFlag.getValue());
 		issueDao.insert(issue);
+
+		// メール送信
+		EmailDto emailDto = new EmailDto();
+		emailDto.setIssueId(issue.getIssueId());
+		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
+		emailCampDetailDto.setMediaType(MediaCollection.FACEBOOK.getValue());
+		emailCampDetailDto.setCampaignName(fbIssueDto.getCampaignName());
+		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
+		emailCampDetailDtoList.add(emailCampDetailDto);
+		emailDto.setCampaignList(emailCampDetailDtoList);
+		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
+		emailService.sendEmail(emailDto);
 
 		return issue;
 	}
