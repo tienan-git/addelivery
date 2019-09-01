@@ -417,23 +417,28 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
 
         // 半角スペース削除
         String campaignName = (twitterAdsDto.getCampaignName()).replaceAll(" ", "");
-
+        // StartTime
+        String startTime = twitterAdsDto.getStartTime() + "T" + twitterAdsDto.getStartHour() + ":"
+                + twitterAdsDto.getStartMin() + ":00+09:00";
+        // EndTime
+        String endTime = twitterAdsDto.getEndTime() + "T" + twitterAdsDto.getEndHour() + ":" + twitterAdsDto.getEndMin()
+                + ":00+09:00";
         try {
             // Request Body
             TwitterCampaignReq body = new TwitterCampaignReq();
             body.setFunding_instrument_id(fundingInstrumentId);
             body.setName(campaignName);
-            body.setStart_time(twitterAdsDto.getStartTime());
+            body.setStart_time(startTime);
             body.setDaily_budget_amount_local_micro(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000));
             body.setEntity_status(campaignStatus);
             // パラメーターの設定
             SortedMap<String, String> parameters = new TreeMap<String, String>();
             parameters.put("funding_instrument_id", TwitterUtil.urlEncode(fundingInstrumentId));
             parameters.put("name", TwitterUtil.urlEncode(campaignName));
-            parameters.put("start_time", TwitterUtil.urlEncode(twitterAdsDto.getStartTime()));
+            parameters.put("start_time", TwitterUtil.urlEncode(startTime));
             if (twitterAdsDto.getEndTime() != null) {
-                parameters.put("end_time", TwitterUtil.urlEncode(twitterAdsDto.getEndTime()));
-                body.setEnd_time(twitterAdsDto.getEndTime());
+                parameters.put("end_time", TwitterUtil.urlEncode(endTime));
+                body.setEnd_time(endTime);
             }
             parameters.put("daily_budget_amount_local_micro",
                     TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000)));// 10円
@@ -448,12 +453,11 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
             url = applicationProperties.getTwitterhost() + ContextUtil.getCurrentShop().getTwitterAccountId()
                     + applicationProperties.getTwitterCreatCampaign() + "?funding_instrument_id="
                     + TwitterUtil.urlEncode(fundingInstrumentId) + "&name=" + TwitterUtil.urlEncode(campaignName)
-                    + "&start_time=" + TwitterUtil.urlEncode(twitterAdsDto.getStartTime())
-                    + "&daily_budget_amount_local_micro="
+                    + "&start_time=" + TwitterUtil.urlEncode(startTime) + "&daily_budget_amount_local_micro="
                     + TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getDailyBudget() * 1000000))
                     + "&entity_status=" + TwitterUtil.urlEncode(campaignStatus);
 
-            String endTimeUrl = "&end_time=" + TwitterUtil.urlEncode(twitterAdsDto.getEndTime());
+            String endTimeUrl = "&end_time=" + TwitterUtil.urlEncode(endTime);
             String totalBudgetUrl = "&total_budget_amount_local_micro="
                     + TwitterUtil.urlEncode(String.valueOf(twitterAdsDto.getTotalBudget() * 1000000));
 
