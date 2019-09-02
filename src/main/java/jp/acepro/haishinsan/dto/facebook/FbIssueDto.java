@@ -19,8 +19,14 @@ public class FbIssueDto {
 
 	// キャンペーンの上限予算（一万円以上）
 	Long spendCap;
-	String startDate;
-	String endDate;
+
+    String startTime;
+    String endTime;
+    String startHour;
+    String startMin;
+    String endHour;
+    String endMin;
+
 	String createdDate;
 	String updatedDate;
 

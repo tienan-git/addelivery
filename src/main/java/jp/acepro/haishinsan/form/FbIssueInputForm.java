@@ -17,8 +17,13 @@ public class FbIssueInputForm {
 	String campaignStatus;
 	String checkStatus;
 
-	String startDate;
-	String endDate;
+    String startTime;
+    String endTime;
+    String startHour;
+    String startMin;
+    String endHour;
+    String endMin;
+
 	Long dailyBudget;
 	String arrangePlace;
 	Long bidAmount;

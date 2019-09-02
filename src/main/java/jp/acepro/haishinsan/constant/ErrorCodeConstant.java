@@ -132,6 +132,9 @@ public class ErrorCodeConstant {
 
 	// 入力最大値を過ぎました。
 	public static final String E60004 = "E60004";
+	
+	// 設定した配信期間中に同じ広告物の案件が既に存在します。
+	public static final String E60005 = "E60005";
 
 	/************* Googleエラーコード *************/
 	// 該当キャンペーン名が既に登録されたため、修正してください。

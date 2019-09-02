@@ -28,6 +28,7 @@ import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleTemplateDto;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
+import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.GoogleIssueInputForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
@@ -191,12 +192,22 @@ public class GoogleIssueController {
 	public ModelAndView confirmIssue(@Validated GoogleIssueInputForm googleIssueInputForm, BindingResult result)
 			throws IOException {
 
+		ModelAndView mv = new ModelAndView();
 		String campaignId = (String) session.getAttribute("campaignId");
 		GoogleIssueDto googleIssueDto = googleCampaignService.mapToIssue(googleIssueInputForm);
 		googleIssueDto.setCampaignId(Long.valueOf(campaignId));
 
+        try {
+        	googleCampaignService.dailyCheck(googleIssueDto);
+        } catch (BusinessException e) {
+            // 異常時レスポンス
+            result.reject(e.getMessage());
+            mv.setViewName("campaign/google/createIssue");
+            return mv;
+        }
+
 		session.setAttribute("googleIssueDto", googleIssueDto);
-		ModelAndView mv = new ModelAndView("campaign/google/confirmIssue");
+		mv.setViewName("campaign/google/confirmIssue");
 		mv.addObject("googleIssueDto", googleIssueDto);
 
 		return mv;

@@ -39,5 +39,11 @@ public interface IssueCustomDao {
     // twitterCampaignIdで検索する
     @Select
     Issue selectByTwitterCampaignId(Long shopId, String campaignId);
+    
+    @Select
+    List<Issue> selectExistFacebookDuplicateIssue(String campaignId, String startTime, String endTime);
+
+    @Select
+    List<Issue> selectExistGoogleDuplicateIssue(Long campaignId, String startTime, String endTime);
 
 }

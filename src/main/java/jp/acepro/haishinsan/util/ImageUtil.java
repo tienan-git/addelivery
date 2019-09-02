@@ -197,7 +197,7 @@ public class ImageUtil {
 			String minimumDimension = dimensionList.get(0);
 			int minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
 			int minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width < minimumWidth || height < minimumHeight) {
+			if (width != minimumWidth || height != minimumHeight) {
 				return false;
 			}
 		default:

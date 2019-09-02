@@ -9,7 +9,7 @@ import java.time.format.ResolverStyle;
  * 日付のフォーマットを処理するクラス
  */
 public enum DateFormatter {
-	yyyyMMdd("uuuuMMdd"), yyyyMM("uuuuMM"), yyyyMM_SLASH("uuuu/MM"), yyyyMMdd_HYPHEN("uuuu-MM-dd"),
+	yyyyMMdd("uuuuMMdd"), yyyyMM("uuuuMM"), yyyyMM_SLASH("uuuu/MM"), yyyyMMdd_HYPHEN("uuuu-MM-dd"), yyyyMMddHHmm_HYPHEN("uuuu-MM-dd HH:mm"),
 	yyyyMMdd_SLASH("uuuu/MM/dd"), yyyyMd_SLASH("uuuu/M/d"), yyyyMMdd_JP("uuuu年MM月dd日");
 
 	private final DateTimeFormatter formatter;
