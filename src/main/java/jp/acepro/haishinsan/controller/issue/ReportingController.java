@@ -434,82 +434,7 @@ public class ReportingController {
 		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
 	}
 
-	@PostMapping("/dspDownload")
-	public ResponseEntity<byte[]> dspDownload(@RequestParam Integer campaignId, @RequestParam Integer reportType) throws IOException {
-
-		// // システムDBに保存しているキャンペーンをすべて検索していく
-		// List<DspCampaignDto> dspCampaignDtoList = dspCampaignService.getCampaignList();
-		// List<Integer> ids = new ArrayList<Integer>();
-		// dspCampaignDtoList.forEach(dspCampaignDto -> ids.add(dspCampaignDto.getCampaignId()));
-		//
-		// // 検索条件を集める
-		// DspAdReportDto dspAdReportDto = new DspAdReportDto();
-		// dspAdReportDto.setCampaignIdList(Arrays.asList(campaignId));
-		// if (dspAdReportInputForm.getCampaignIdList().isEmpty()) {
-		// dspAdReportDto.setCampaignIdList(ids);
-		// }
-
-		// 検索条件を集める
-		DspAdReportDto dspAdReportDto = new DspAdReportDto();
-		dspAdReportDto.setCampaignIdList(Arrays.asList(campaignId));
-		dspAdReportDto.setStartDate(null);
-		dspAdReportDto.setEndDate(null);
-		dspAdReportDto.setReportType(reportType);
-
-		// CSVファイル中身を取得し、文字列にする
-		String file = dspApiService.download(dspAdReportDto);
-
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
-		String fimeName = "DSP_REPORT" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
-		httpHeaders.setContentDispositionFormData("filename", fimeName);
-
-		// オペレーションログ記録
-		operationService.create(Operation.DSP_REPORT_DOWNLOAD.getValue(), null);
-
-		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
-	}
 	
-	@PostMapping("/googleDownload")
-	public ResponseEntity<byte[]> googleDownload(@RequestParam Long campaignId, @RequestParam Integer reportType) throws IOException {
-
-		// ＦＯＲＭを読込
-		GoogleReportSearchDto googleReportSearchDto = new GoogleReportSearchDto();
-		googleReportSearchDto.setCampaignIdList(Arrays.asList(campaignId));
-		googleReportSearchDto.setReportType(reportType);
-
-		// ダウンロードファイルを作成
-		String file = googleReportService.download(googleReportSearchDto);
-		HttpHeaders httpHeaders = new HttpHeaders();
-		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
-		String fimeName = "Google_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
-		switch (ReportType.of(reportType)) {
-		case DEVICE:
-			fimeName = "Google_Device_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
-			break;
-		case REGIONS:
-			fimeName = "Google_Regions_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
-			break;
-		case DATE:
-			fimeName = "Google_Date_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
-			break;
-		}
-		httpHeaders.setContentDispositionFormData("filename", fimeName);
-		
-		// オペレーションログ記録
-		switch (ReportType.of(reportType)) {
-		case DEVICE:
-			operationService.create(Operation.GOOGLE_DEVICE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
-			break;
-		case REGIONS:
-			operationService.create(Operation.GOOGLE_REGION_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
-			break;
-		case DATE:
-			operationService.create(Operation.GOOGLE_DATE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
-			break;
-		}
-		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
-	}
 
 	@PostMapping("/facebookDownload")
 	public ResponseEntity<byte[]> facebookDownload(@RequestParam String issueId, @RequestParam Integer reportType) throws IOException {
@@ -520,8 +445,7 @@ public class ReportingController {
 
 		// ダウンロードファイルを作成
 		// CSVファイル中身を取得し、文字列にする
-		String file = facebookReportingService.download(campaignIdList, issue.getStartDate(), issue.getEndDate(),
-				reportType);
+		String file = facebookReportingService.download(campaignIdList, issue.getStartDate(), issue.getEndDate(), reportType);
 		HttpHeaders httpHeaders = new HttpHeaders();
 		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
 		String fimeName = "Facebook_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
@@ -537,7 +461,7 @@ public class ReportingController {
 			break;
 		}
 		httpHeaders.setContentDispositionFormData("filename", fimeName);
-		
+
 		// オペレーションログ記録
 		switch (ReportType.of(reportType)) {
 		case DEVICE:

@@ -134,7 +134,7 @@
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success" type="submit"
-								th:formaction="@{/issue/report/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}))}"
+								th:formaction="@{/issue/download/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}))}"
 								th:formmethod="post">CSVダウンロード</button>
 						</div>
 					</div>
@@ -181,7 +181,7 @@
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success"
-								th:formaction="@{/issue/report/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}))}"
+								th:formaction="@{/issue/download/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}))}"
 								th:formmethod="Post">CSVダウンロード</button>
 						</div>
 					</div>
@@ -224,7 +224,7 @@
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success"
-								th:formaction="@{/issue/report/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).CREATIVE.getValue()}))}"
+								th:formaction="@{/issue/download/dspDownload(campaignId=${dspCampaignDetailDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).CREATIVE.getValue()}))}"
 								th:formmethod="Post">CSVダウンロード</button>
 						</div>
 					</div>
