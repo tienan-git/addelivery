@@ -187,8 +187,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-success"
-								type="submit"
+							<button class="btn btn-success" type="submit"
 								th:formaction="@{/campaign/yahoo/issueUpdateComplete}"
 								th:formmethod="post">確認</button>
 						</div>
@@ -254,6 +253,13 @@
 					</tbody>
 				</table>
 			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-success"
+						th:formaction="@{/issue/download/dspDownload(campaignId=${yahooIssueDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}))}"
+						th:formmethod="Post">CSVダウンロード</button>
+				</div>
+			</div>
 			<div class="card-block">
 				<h4 class="sub-title">Yahooーデバイス別</h4>
 			</div>
@@ -292,6 +298,13 @@
 						</tr>
 					</tbody>
 				</table>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-success"
+						th:formaction="@{/issue/download/yahooDownload(campaignId=${yahooIssueDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}))}"
+						th:formmethod="Post">CSVダウンロード</button>
+				</div>
 			</div>
 		</div>
 	</div>
