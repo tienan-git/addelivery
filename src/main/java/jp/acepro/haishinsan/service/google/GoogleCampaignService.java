@@ -5,6 +5,7 @@ import java.util.List;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.IssueDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
@@ -40,4 +41,6 @@ public interface GoogleCampaignService {
 	Issue createIssue(GoogleIssueDto googleIssueDto);
 
 	GoogleIssueDto mapToIssue(GoogleIssueInputForm googleIssueInputForm);
+	
+    void dailyCheck(GoogleIssueDto googleIssueDto);
 }

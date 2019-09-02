@@ -2,6 +2,7 @@ package jp.acepro.haishinsan.service.facebook;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -55,6 +56,7 @@ import jp.acepro.haishinsan.dao.FacebookRegionReportCustomDao;
 import jp.acepro.haishinsan.dao.FacebookRegionReportDao;
 import jp.acepro.haishinsan.dao.FacebookTemplateCustomDao;
 import jp.acepro.haishinsan.dao.FacebookTemplateDao;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.FacebookTemplate;
@@ -71,6 +73,7 @@ import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.dto.facebook.InstagramAccountRes;
 import jp.acepro.haishinsan.dto.google.GoogleReportDisplayDto;
 import jp.acepro.haishinsan.dto.google.GoogleReportSearchDto;
+import jp.acepro.haishinsan.dto.twitter.TwitterAdsDto;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
 import jp.acepro.haishinsan.enums.DateFormatter;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
@@ -105,6 +108,9 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 	@Autowired
 	IssueDao issueDao;
+
+	@Autowired
+	IssueCustomDao issueCustomDao;
 
 	@Autowired
 	DspSegmentCustomDao dspSegmentCustomDao;
@@ -863,13 +869,18 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 		// 案件表にインサート
 		Issue issue = new Issue();
+        String startTime = fbIssueDto.getStartTime() + " " + fbIssueDto.getStartHour() + ":"
+                + fbIssueDto.getStartMin();
+        String endTime = fbIssueDto.getEndTime() + " " + fbIssueDto.getEndHour() + ":"
+                + fbIssueDto.getEndMin();
+
 		issue.setShopId(ContextUtil.getCurrentShopId());
 		issue.setFacebookCampaignId(fbIssueDto.getCampaignId());
 		issue.setCampaignName(fbIssueDto.getCampaignName());
-		issue.setBudget(CalculateUtil.calTotalBudget(fbIssueDto.getDailyBudget(), fbIssueDto.getStartDate(),
-				fbIssueDto.getEndDate()));
-		issue.setStartDate(fbIssueDto.getStartDate());
-		issue.setEndDate(fbIssueDto.getEndDate());
+		issue.setBudget(CalculateUtil.calTotalBudget(fbIssueDto.getDailyBudget(), startTime,
+				endTime));
+		issue.setStartDate(startTime);
+		issue.setEndDate(endTime);
 		issue.setFacebookOnedayBudget(fbIssueDto.getDailyBudget());
 		issue.setFacebookRegions(assembleLocationString(fbIssueDto.getLocationList()));
 		issue.setApprovalFlag(approvalFlag.getValue());
@@ -889,6 +900,29 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 
 		return issue;
 	}
+
+    // 配信日チェック
+    @Override
+    public void dailyCheck(FbIssueDto fbIssueDto) {
+
+        String startTime = fbIssueDto.getStartTime() + " " + fbIssueDto.getStartHour() + ":"
+                + fbIssueDto.getStartMin();
+        String endTime = fbIssueDto.getEndTime() + " " + fbIssueDto.getEndHour() + ":"
+                + fbIssueDto.getEndMin();
+    	LocalDateTime startDate = LocalDateTime.parse(startTime,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    	LocalDateTime endDate = LocalDateTime.parse(endTime,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        if (endDate.isBefore(startDate)) {
+            throw new BusinessException(ErrorCodeConstant.E20003);
+        }
+
+        List<Issue> issueList = new ArrayList<Issue>();
+        issueList = issueCustomDao.selectExistFacebookDuplicateIssue(fbIssueDto.getCampaignId(), startTime, endTime);
+        if (issueList != null && issueList.size() > 0) {
+            throw new BusinessException(ErrorCodeConstant.E60005);
+        }
+    }
 
 	// 地域を組み立てる
 	private String assembleLocationString(List<Long> locationList) {
