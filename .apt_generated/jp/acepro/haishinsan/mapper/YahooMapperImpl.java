@@ -27,6 +27,10 @@ public class YahooMapperImpl implements YahooMapper {
         yahooIssueDto.setEndDate( yahooIssueinputForm.getEndDate() );
         yahooIssueDto.setIssueId( yahooIssueinputForm.getIssueId() );
         yahooIssueDto.setStartDate( yahooIssueinputForm.getStartDate() );
+        yahooIssueDto.setStartHour( yahooIssueinputForm.getStartHour() );
+        yahooIssueDto.setStartMin( yahooIssueinputForm.getStartMin() );
+        yahooIssueDto.setEndHour( yahooIssueinputForm.getEndHour() );
+        yahooIssueDto.setEndMin( yahooIssueinputForm.getEndMin() );
 
         return yahooIssueDto;
     }
@@ -47,6 +51,10 @@ public class YahooMapperImpl implements YahooMapper {
         yahooIssueinputForm.setEndDate( yahooIssueDto.getEndDate() );
         yahooIssueinputForm.setIssueId( yahooIssueDto.getIssueId() );
         yahooIssueinputForm.setStartDate( yahooIssueDto.getStartDate() );
+        yahooIssueinputForm.setStartHour( yahooIssueDto.getStartHour() );
+        yahooIssueinputForm.setStartMin( yahooIssueDto.getStartMin() );
+        yahooIssueinputForm.setEndHour( yahooIssueDto.getEndHour() );
+        yahooIssueinputForm.setEndMin( yahooIssueDto.getEndMin() );
 
         return yahooIssueinputForm;
     }

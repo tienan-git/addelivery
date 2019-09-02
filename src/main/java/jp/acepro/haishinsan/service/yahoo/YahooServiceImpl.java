@@ -481,8 +481,13 @@ public class YahooServiceImpl implements YahooService {
 		issue.setYahooCampaignManageId(yahooCampaignManage.getYahooCampaignManageId());
 		issue.setCampaignName(yahooIssueDto.getCampaignName());
 		issue.setBudget(yahooIssueDto.getBudget());
-		issue.setEndDate(yahooIssueDto.getEndDate());
-		issue.setStartDate(yahooIssueDto.getStartDate());
+		
+        String startDateTime = yahooIssueDto.getStartDate() + " " + yahooIssueDto.getStartHour() + ":"
+                + yahooIssueDto.getStartMin();
+        String endDateTime = yahooIssueDto.getEndDate() + " " + yahooIssueDto.getEndHour() + ":"
+                + yahooIssueDto.getEndMin();
+		issue.setEndDate(startDateTime);
+		issue.setStartDate(endDateTime);
 
 		// DB access
 		issueDao.insert(issue);

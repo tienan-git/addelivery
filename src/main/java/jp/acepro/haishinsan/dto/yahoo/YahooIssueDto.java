@@ -30,9 +30,21 @@ public class YahooIssueDto {
 
 	// 配信開始日
 	String startDate;
+	
+	// 配信開始日(時)
+	String startHour;
+	
+	// 配信開始日(分)
+	String startMin;
 
 	// 配信終了日
 	String endDate;
+	
+	// 配信終了日(時)
+	String endHour;
+	
+	// 配信終了日(分)
+	String endMin;
 
 	// 配信地域
 	List<YahooLocationDto> locationList;
