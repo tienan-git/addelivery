@@ -127,7 +127,7 @@
 					</div>
 					<div class="form-group row">
 						<div class="col-sm-12 text-center">
-							<button class="btn btn-primary" sec:authorize="hasAuthority('USER_CREATE')" type="submit" th:formaction="@{/account/user/create}" th:formmethod="post">新規の継続</button>
+							<button class="btn btn-primary" sec:authorize="hasAuthority('USER_CREATE')" type="submit" th:formaction="@{/account/user/create}" th:formmethod="get">新規の継続</button>
 							<button class="btn btn-warning" type="submit" th:formaction="@{/account/user/list}" th:formmethod="get">一覧へ</button>
 						</div>
 					</div>
