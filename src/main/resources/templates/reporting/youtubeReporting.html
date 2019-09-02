@@ -189,6 +189,13 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit"
+							th:formaction="@{/issue/download/youtubeDownload(campaignId=${youtubeIssueDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DATE.getValue()}))}"
+							th:formmethod="post">CSVダウンロード</button>
+					</div>
+				</div>
 			</div>
 			<div th:if="${youtubeDeviceReportDto != null}">
 				<div class="card-block">
@@ -238,6 +245,13 @@
 						</tbody>
 					</table>
 				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit"
+							th:formaction="@{/issue/download/youtubeDownload(campaignId=${youtubeIssueDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).DEVICE.getValue()}))}"
+							th:formmethod="post">CSVダウンロード</button>
+					</div>
+				</div>
 			</div>
 			<div th:if="${youtubeLocationReportDto != null}">
 				<div class="card-block">
@@ -280,6 +294,13 @@
 							</tr>
 						</tbody>
 					</table>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit"
+							th:formaction="@{/issue/download/youtubeDownload(campaignId=${youtubeIssueDto.campaignId}, reportType=(${T(jp.acepro.haishinsan.enums.ReportType).REGIONS.getValue()}))}"
+							th:formmethod="post">CSVダウンロード</button>
+					</div>
 				</div>
 			</div>
 		</div>

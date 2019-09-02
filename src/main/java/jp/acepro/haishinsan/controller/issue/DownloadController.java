@@ -25,6 +25,7 @@ import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.YahooCampaignManage;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportDto;
 import jp.acepro.haishinsan.dto.google.GoogleReportSearchDto;
+import jp.acepro.haishinsan.dto.youtube.YoutubeReportSearchDto;
 import jp.acepro.haishinsan.enums.DateFormatter;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.enums.PeriodSet;
@@ -37,6 +38,7 @@ import jp.acepro.haishinsan.service.facebook.FacebookService;
 import jp.acepro.haishinsan.service.google.GoogleReportService;
 import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.service.yahoo.YahooService;
+import jp.acepro.haishinsan.service.youtube.YoutubeReportService;
 import jp.acepro.haishinsan.util.Utf8BomUtil;
 
 @Controller
@@ -69,6 +71,9 @@ public class DownloadController {
 	
 	@Autowired
 	YahooService yahooService;
+	
+	@Autowired
+	YoutubeReportService youtubeReportService;
 
 	@PostMapping("/dspDownload")
 	public ResponseEntity<byte[]> dspDownload(@RequestParam Integer campaignId, @RequestParam Integer reportType) throws IOException {
@@ -136,7 +141,7 @@ public class DownloadController {
 	}
 
 	@PostMapping("/yahooDownload")
-	public ResponseEntity<byte[]> download(@RequestParam String campaignId, @RequestParam Integer reportType) throws IOException {
+	public ResponseEntity<byte[]> yahooDownload(@RequestParam String campaignId, @RequestParam Integer reportType) throws IOException {
 
 		List<String> campaignIdList = new ArrayList<String>();
 
@@ -176,6 +181,47 @@ public class DownloadController {
 
 		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
 	}
+	
+	@PostMapping("/youtubeDownload")
+	public ResponseEntity<byte[]> youtubeDownload(@RequestParam Long campaignId, @RequestParam Integer reportType) throws IOException {
+
+		// ＦＯＲＭを読込
+		YoutubeReportSearchDto youtubeReportSearchDto = new YoutubeReportSearchDto();
+		youtubeReportSearchDto.setCampaignId(campaignId);
+		youtubeReportSearchDto.setReportType(reportType);
+
+		// ダウンロードファイルを作成
+		String file = youtubeReportService.download(youtubeReportSearchDto);
+		HttpHeaders httpHeaders = new HttpHeaders();
+		httpHeaders.add("Content-Type", applicationProperties.getContentTypeCsvDownload());
+		String fimeName = "Youtube_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+		switch (ReportType.of(reportType)) {
+		case DEVICE:
+			fimeName = "Youtube_Device_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		case REGIONS:
+			fimeName = "Youtube_Regions_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		case DATE:
+			fimeName = "Youtube_Date_Report_" + DateFormatter.yyyyMMdd.format(LocalDate.now()) + ".csv";
+			break;
+		}
+		httpHeaders.setContentDispositionFormData("filename", fimeName);
+		
+		switch (ReportType.of(reportType)) {
+		case DEVICE:
+			operationService.create(Operation.YOUTUBE_DEVICE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		case REGIONS:
+			operationService.create(Operation.YOUTUBE_REGION_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		case DATE:
+			operationService.create(Operation.YOUTUBE_DATE_REPORT_DOWNLOAD.getValue(), String.valueOf(""));
+			break;
+		}
+		return new ResponseEntity<>(Utf8BomUtil.utf8ToWithBom(file), httpHeaders, HttpStatus.OK);
+	}
+
 	
 	private List<Pair<String, String>> getCampaignPairList() {
 
