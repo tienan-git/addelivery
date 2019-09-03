@@ -22,6 +22,7 @@ import jp.acepro.haishinsan.enums.ApprovalFlag;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.IssueAdStatus;
 import jp.acepro.haishinsan.enums.IssueAdtype;
+import jp.acepro.haishinsan.enums.Role;
 import jp.acepro.haishinsan.enums.TwitterCampaignStatus;
 import jp.acepro.haishinsan.service.BaseService;
 import jp.acepro.haishinsan.util.ContextUtil;
@@ -42,10 +43,20 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
     public List<IssuesDto> searchIssuesList(IssuesDto issuesSearch) {
 
         List<IssuesDto> issuesDtoList = new ArrayList<IssuesDto>();
+        List<IssueWithShopWithCorporation> issueList = new ArrayList<>();
+
         // DB検索
-        List<IssueWithShopWithCorporation> IssueList = issueCustomDao
-                .selectIssueList(ContextUtil.getCurrentShop().getShopId(), issuesSearch);
-        for (IssueWithShopWithCorporation issue : IssueList) {
+        // ユーザが切り替えできる店舗を取得
+        if (ContextUtil.getLoginUser().getRoleId().intValue() == Role.ADMIN.getValue().intValue()) {
+            issueList = issueCustomDao.selectAllShop();
+        } else if (ContextUtil.getLoginUser().getRoleId().intValue() == Role.AGENCY.getValue().intValue()) {
+            issueList = issueCustomDao.selectAgencyShops(ContextUtil.getCurrentShop().getShopId());
+        } else if (ContextUtil.getLoginUser().getRoleId().intValue() == Role.CORPORATION.getValue().intValue()) {
+            issueList = issueCustomDao.selectCorporationShops(ContextUtil.getCurrentShop().getShopId());
+        } else if (ContextUtil.getLoginUser().getRoleId().intValue() == Role.SHOP.getValue().intValue()) {
+            issueList = issueCustomDao.selectIssueList(ContextUtil.getCurrentShop().getShopId(), issuesSearch);
+        }
+        for (IssueWithShopWithCorporation issue : issueList) {
             IssuesDto issuesDto = new IssuesDto();
             issuesDto.setShopName(issue.getShopName());
             issuesDto.setCorporationName(issue.getCorporationName());

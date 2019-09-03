@@ -18,6 +18,7 @@ public interface IssueCustomDao {
     @Select
     List<Issue> selectByShopId(Long shopId);
 
+    // issueListを検索する(Role:SHOP)
     @Select
     List<IssueWithShopWithCorporation> selectIssueList(Long shopId, IssuesDto issueSearchDto);
 
@@ -39,5 +40,27 @@ public interface IssueCustomDao {
     // twitterCampaignIdで検索する
     @Select
     Issue selectByTwitterCampaignId(Long shopId, String campaignId);
+
+    @Select
+    List<Issue> selectExistFacebookDuplicateIssue(String campaignId, String startTime, String endTime);
+
+    @Select
+    List<Issue> selectExistGoogleDuplicateIssue(Long campaignId, String startTime, String endTime);
+
+    // 全てのissueListを検索する
+    @Select
+    List<Issue> selectAll();
+
+    // issueListを検索する(Role:ADMIN)
+    @Select
+    List<IssueWithShopWithCorporation> selectAllShop();
+
+    // issueListを検索する(Role:AGENCY)
+    @Select
+    List<IssueWithShopWithCorporation> selectAgencyShops(Long shopId);
+
+    // issueListを検索する(Role:CORPORATION)
+    @Select
+    List<IssueWithShopWithCorporation> selectCorporationShops(Long shopId);
 
 }

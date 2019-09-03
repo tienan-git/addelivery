@@ -486,8 +486,8 @@ public class YahooServiceImpl implements YahooService {
                 + yahooIssueDto.getStartMin();
         String endDateTime = yahooIssueDto.getEndDate() + " " + yahooIssueDto.getEndHour() + ":"
                 + yahooIssueDto.getEndMin();
-		issue.setEndDate(startDateTime);
-		issue.setStartDate(endDateTime);
+		issue.setStartDate(startDateTime);
+		issue.setEndDate(endDateTime);
 
 		// DB access
 		issueDao.insert(issue);

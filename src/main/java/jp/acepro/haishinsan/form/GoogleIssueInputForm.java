@@ -43,6 +43,13 @@ public class GoogleIssueInputForm {
 	public String getEndDateSlash() {
 		return StringFormatter.dateHyphenToSlash(endDate);
 	}
+	
+    String startTime;
+    String endTime;
+    String startHour;
+    String startMin;
+    String endHour;
+    String endMin;
 
 	// デバイスタイプ
 	String deviceType;

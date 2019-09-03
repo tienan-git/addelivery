@@ -23,6 +23,7 @@ import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
 import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.facebook.FbTemplateDto;
 import jp.acepro.haishinsan.enums.Operation;
+import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.FbIssueInputForm;
 import jp.acepro.haishinsan.mapper.FacebookMapper;
 import jp.acepro.haishinsan.service.CodeMasterService;
@@ -122,12 +123,23 @@ public class FacebookIssueController {
 	public ModelAndView confirmIssue(@Validated FbIssueInputForm fbIssueInputForm, BindingResult result)
 			throws IOException {
 
+		ModelAndView mv = new ModelAndView();
 		FbIssueDto fbIssueDto = FacebookMapper.INSTANCE.map(fbIssueInputForm);
 		String campaignId = (String) session.getAttribute("campaignId");
 		fbIssueDto.setCampaignId(campaignId);
+
+        try {
+        	facebookService.dailyCheck(fbIssueDto);
+        } catch (BusinessException e) {
+            // 異常時レスポンス
+            result.reject(e.getMessage());
+            mv.setViewName("campaign/facebook/createIssue");
+            return mv;
+        }
+		
 		session.setAttribute("fbIssueDto", fbIssueDto);
 
-		ModelAndView mv = new ModelAndView("campaign/facebook/confirmIssue");
+		mv.setViewName("campaign/facebook/confirmIssue");
 		mv.addObject("fbIssueDto", fbIssueDto);
 
 		return mv;

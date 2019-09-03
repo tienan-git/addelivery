@@ -1,6 +1,5 @@
 package jp.acepro.haishinsan.controller.campaign.yahoo;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import jp.acepro.haishinsan.bean.YahooCsvBean;
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
@@ -34,7 +32,6 @@ import jp.acepro.haishinsan.enums.DeviceType;
 import jp.acepro.haishinsan.enums.MediaType;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
-import jp.acepro.haishinsan.form.YahooCsvInputForm;
 import jp.acepro.haishinsan.form.YahooIssueinputForm;
 import jp.acepro.haishinsan.mapper.YahooMapper;
 import jp.acepro.haishinsan.service.CodeMasterService;

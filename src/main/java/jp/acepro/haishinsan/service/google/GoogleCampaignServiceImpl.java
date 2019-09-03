@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.service.google;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
@@ -511,13 +513,18 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// 案件DB登録
 		Issue issue = new Issue();
+        String startTime = googleIssueDto.getStartTime() + " " + googleIssueDto.getStartHour() + ":"
+                + googleIssueDto.getStartMin();
+        String endTime = googleIssueDto.getEndTime() + " " + googleIssueDto.getEndHour() + ":"
+                + googleIssueDto.getEndMin();
+
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
 		issue.setGoogleCampaignId(googleIssueDto.getCampaignId());
 		issue.setCampaignName(googleIssueDto.getCampaignName());
-		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), googleIssueDto.getStartDate(),
-				googleIssueDto.getEndDate()));
-		issue.setStartDate(googleIssueDto.getStartDate());
-		issue.setEndDate(googleIssueDto.getEndDate());
+		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), startTime,
+				endTime));
+		issue.setStartDate(startTime);
+		issue.setEndDate(endTime);
 		issue.setGoogleOnedayBudget(googleIssueDto.getBudget());
 		issue.setGoogleRegions(assembleLocationString(googleIssueDto.getLocationList()));
 		issue.setApprovalFlag(approvalFlag.getValue());
@@ -549,6 +556,12 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		googleIssueDto.setCampaignName(googleIssueInputForm.getCampaignName());
 		googleIssueDto.setBudget(googleIssueInputForm.getBudget());
 		googleIssueDto.setEndDate(googleIssueInputForm.getEndDate());
+		googleIssueDto.setStartTime(googleIssueInputForm.getStartTime());
+		googleIssueDto.setStartHour(googleIssueInputForm.getStartHour());
+		googleIssueDto.setStartMin(googleIssueInputForm.getStartMin());
+		googleIssueDto.setEndTime(googleIssueInputForm.getEndTime());
+		googleIssueDto.setEndHour(googleIssueInputForm.getEndHour());
+		googleIssueDto.setEndMin(googleIssueInputForm.getEndMin());
 		List<Long> list = googleIssueInputForm.getLocationList();
 		if (list != null) {
 			googleIssueDto.setLocationList(new ArrayList<Long>(list));
@@ -556,6 +569,31 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		googleIssueDto.setStartDate(googleIssueInputForm.getStartDate());
 		return googleIssueDto;
 	}
+
+    // 配信日チェック
+    @Override
+    public void dailyCheck(GoogleIssueDto googleIssueDto) {
+
+        String startTime = googleIssueDto.getStartTime() + " " + googleIssueDto.getStartHour() + ":"
+                + googleIssueDto.getStartMin();
+        String endTime = googleIssueDto.getEndTime() + " " + googleIssueDto.getEndHour() + ":"
+                + googleIssueDto.getEndMin();        
+    	LocalDateTime startDate = LocalDateTime.parse(startTime,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    	LocalDateTime endDate = LocalDateTime.parse(endTime,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        //LocalDate startDate = LocalDate.parse(googleIssueDto.getStartTime());
+        //LocalDate endDate = LocalDate.parse(googleIssueDto.getEndTime());
+        if (endDate.isBefore(startDate)) {
+            throw new BusinessException(ErrorCodeConstant.E20003);
+        }
+
+        List<Issue> issueList = new ArrayList<Issue>();
+        issueList = issueCustomDao.selectExistGoogleDuplicateIssue(googleIssueDto.getCampaignId(), startTime, endTime);
+        if (issueList != null && issueList.size() > 0) {
+            throw new BusinessException(ErrorCodeConstant.E60005);
+        }
+    }
 
 	// 地域を組み立てる
 	private String assembleLocationString(List<Long> locationList) {

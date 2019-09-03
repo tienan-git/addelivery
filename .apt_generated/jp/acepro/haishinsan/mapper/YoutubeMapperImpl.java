@@ -53,6 +53,10 @@ public class YoutubeMapperImpl implements YoutubeMapper {
         youtubeIssueDto.setLp( youtubeIssueinputForm.getLp() );
         youtubeIssueDto.setStartDate( youtubeIssueinputForm.getStartDate() );
         youtubeIssueDto.setVideoUrl( youtubeIssueinputForm.getVideoUrl() );
+        youtubeIssueDto.setStartHour(youtubeIssueinputForm.getStartHour());
+        youtubeIssueDto.setStartMin(youtubeIssueinputForm.getStartMin());
+        youtubeIssueDto.setEndHour(youtubeIssueinputForm.getEndHour());
+        youtubeIssueDto.setEndMin(youtubeIssueinputForm.getEndMin());
 
         return youtubeIssueDto;
     }

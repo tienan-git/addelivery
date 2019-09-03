@@ -43,6 +43,13 @@ public class GoogleIssueDto {
 		return StringFormatter.formatToSlash(endDate);
 	}
 
+    String startTime;
+    String endTime;
+    String startHour;
+    String startMin;
+    String endHour;
+    String endMin;
+
 	// デバイスタイプ
 	String deviceType;
 
