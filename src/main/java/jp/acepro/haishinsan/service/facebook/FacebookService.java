@@ -46,5 +46,7 @@ public interface FacebookService {
 	void createFacebookCampaign(FbCampaignDto fbCampaignDto, IssueDto issueDto);
 
 	Issue createIssue(FbIssueDto fbIssueDto);
+	
+    void dailyCheck(FbIssueDto fbIssueDto);
 
 }

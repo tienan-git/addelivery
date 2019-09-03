@@ -102,7 +102,7 @@ public class CalculateUtil {
 	 * 
 	 */
 	public static Long calTotalBudget(Long budget, String startDate, String endDate) {
-		int days = DateUtil.distance_hyphen(startDate, endDate);
+		int days = DateUtil.distance_hyphenHHmm(startDate, endDate);
 
 		// 予算から一日の予算を算出する 予算/日数
 		return BigDecimal.valueOf(budget).multiply(BigDecimal.valueOf(days)).longValue();
