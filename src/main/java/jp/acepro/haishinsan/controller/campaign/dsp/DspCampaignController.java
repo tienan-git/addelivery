@@ -148,6 +148,10 @@ public class DspCampaignController {
 		dspCampaignDto.setCampaignName(dspCampaignInputForm.getCampaignName());
 		dspCampaignDto.setStartDatetime(dspCampaignInputForm.getStartDatetime());
 		dspCampaignDto.setEndDatetime(dspCampaignInputForm.getEndDatetime());
+		dspCampaignDto.setStartHour(dspCampaignInputForm.getStartHour());
+		dspCampaignDto.setEndHour(dspCampaignInputForm.getEndHour());
+		dspCampaignDto.setStartMin(dspCampaignInputForm.getStartMin());
+		dspCampaignDto.setEndMin(dspCampaignInputForm.getEndMin());
 		dspCampaignDto.setBudget(dspCampaignInputForm.getBudget());
 		dspCampaignDto.setDeviceType(dspCampaignInputForm.getDeviceType());
 		dspCampaignDto.setTemplateId(dspTemplateDto.getTemplateId());

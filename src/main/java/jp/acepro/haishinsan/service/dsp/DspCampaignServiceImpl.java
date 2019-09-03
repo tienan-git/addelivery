@@ -136,8 +136,8 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		String resetTime = "00:00";
 
 		// 開始時刻と終了時刻のフォーマット
-		String startDateTime = dspCampaignDto.getStartDatetime() + " 00:00";
-		String endDateTime = dspCampaignDto.getEndDatetime() + " 23:30";
+		String startDateTime = dspCampaignDto.getStartDatetime() + " " + dspCampaignDto.getStartHour() + ":" + dspCampaignDto.getStartMin();
+		String endDateTime = dspCampaignDto.getEndDatetime() + " " + dspCampaignDto.getEndHour() + ":" + dspCampaignDto.getEndMin();
 
 		// templateIdでDBからDspテンプレート情報取得
 		DspTemplate dspTemplate = dspTemplateDao.selectById(dspCampaignDto.getTemplateId());
@@ -160,8 +160,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		// キャンペーン作成
 		DspCampaignCreateRes dspCampaignCreateRes = null;
 		try {
-			dspCampaignCreateRes = call(campaignResource, HttpMethod.POST, dspCampaignCreateReq, null,
-					DspCampaignCreateRes.class);
+			dspCampaignCreateRes = call(campaignResource, HttpMethod.POST, dspCampaignCreateReq, null, DspCampaignCreateRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:キャンペーン作成エラー、リクエストボディー:{}", dspCampaignCreateReq);
 			e.printStackTrace();
@@ -196,22 +195,19 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		 * 
 		 **********************************************/
 		// ShopIdでDBからセグメント情報取得
-		List<SegmentManage> segmentManageList = dspSegmentCustomDao
-				.selectByShopId(ContextUtil.getCurrentShop().getShopId());
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 		// PC広告グループのみ、入札する
 		List<DspAdBitCreateRes> dspAdBitCreateResList = new ArrayList<DspAdBitCreateRes>();
 		if (dspAdGroupCreatePcRes != null) {
 			for (SegmentManage segmentManage : segmentManageList) {
-				DspAdBitCreateRes dspAdBitCreatePcRes = createAdBit(dspToken, segmentManage, dspAdGroupCreatePcRes,
-						dspTemplate);
+				DspAdBitCreateRes dspAdBitCreatePcRes = createAdBit(dspToken, segmentManage, dspAdGroupCreatePcRes, dspTemplate);
 				dspAdBitCreateResList.add(dspAdBitCreatePcRes);
 			}
 		}
 		// Mobile広告グループのみ、入札する
 		if (dspAdGroupCreateMbRes != null) {
 			for (SegmentManage segmentManage : segmentManageList) {
-				DspAdBitCreateRes dspAdBitCreatePcRes = createAdBit(dspToken, segmentManage, dspAdGroupCreateMbRes,
-						dspTemplate);
+				DspAdBitCreateRes dspAdBitCreatePcRes = createAdBit(dspToken, segmentManage, dspAdGroupCreateMbRes, dspTemplate);
 				dspAdBitCreateResList.add(dspAdBitCreatePcRes);
 			}
 		}
@@ -259,8 +255,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	public List<DspCampaignDto> getCampaignList() {
 
 		// ShopIDで有効的なキャンペーンをDBから取得
-		List<DspCampaignManage> dspCampaignManageList = dspCampaignCustomDao
-				.selectByShopId(ContextUtil.getCurrentShop().getShopId());
+		List<DspCampaignManage> dspCampaignManageList = dspCampaignCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 
 		// キャンペーンIDをリストにして
 		List<Integer> ids = new ArrayList<Integer>();
@@ -290,8 +285,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		DspCampaignListRes dspCampaignListRes = null;
 		try {
-			dspCampaignListRes = call(campaignListResource, HttpMethod.POST, dspCampaignListReq, null,
-					DspCampaignListRes.class);
+			dspCampaignListRes = call(campaignListResource, HttpMethod.POST, dspCampaignListReq, null, DspCampaignListRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:キャンペーンリスト取得エラー、リクエストボディー:{}", dspCampaignListReq);
 			e.printStackTrace();
@@ -341,8 +335,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		DspCampaignListRes dspCampaignListRes = null;
 		try {
-			dspCampaignListRes = call(campaignResource, HttpMethod.POST, dspCampaignListReq, null,
-					DspCampaignListRes.class);
+			dspCampaignListRes = call(campaignResource, HttpMethod.POST, dspCampaignListReq, null, DspCampaignListRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:キャンペーン詳細エラー、リクエストボディー:{}", dspCampaignListReq);
 			e.printStackTrace();
@@ -375,8 +368,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		DspAdGroupListRes dspAdGroupListRes = null;
 		try {
-			dspAdGroupListRes = call(adGroupResource, HttpMethod.POST, dspAdGroupListReq, null,
-					DspAdGroupListRes.class);
+			dspAdGroupListRes = call(adGroupResource, HttpMethod.POST, dspAdGroupListReq, null, DspAdGroupListRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:広告グループ取得エラー、リクエストボディー:{}", dspAdGroupListReq);
 			e.printStackTrace();
@@ -452,8 +444,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		}
 
 		// 表示するのために、先に検索する
-		DspCampaignDetailDto dspCampaignDetailDto = getCampaignDetail(campaignId,
-				ContextUtil.getCurrentShop().getDspUserId());
+		DspCampaignDetailDto dspCampaignDetailDto = getCampaignDetail(campaignId, ContextUtil.getCurrentShop().getDspUserId());
 
 		// システムDBを審査フラグを更新する
 		DspCampaignManage dspCampaignManage = dspCampaignCustomDao.selectByCampaignId(campaignId);
@@ -505,7 +496,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		// システムDBを審査フラグを更新する
 		if (Flag.ON.getLabel().equals(status)) {
 			DspCampaignManage dspCampaignManage = dspCampaignCustomDao.selectByCampaignId(campaignId);
-			//dspCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+			// dspCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
 			dspCampaignManageDao.update(dspCampaignManage);
 		}
 	}
@@ -515,8 +506,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	 * 
 	 * @param dspTemplate
 	 **********************************************/
-	private DspAdGroupCreateRes createAdGroup(DspToken dspToken, Integer deviceType, String adGroupName,
-			DspCampaignDto dspCampaignDto, DspCampaignCreateRes dspCampaignCreateRes) {
+	private DspAdGroupCreateRes createAdGroup(DspToken dspToken, Integer deviceType, String adGroupName, DspCampaignDto dspCampaignDto, DspCampaignCreateRes dspCampaignCreateRes) {
 
 		// Req AdGroup URL組み立てる
 		UriComponentsBuilder adGroupBuilder = UriComponentsBuilder.newInstance();
@@ -539,8 +529,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		DspAdGroupCreateRes dspAdGroupCreateRes = null;
 		try {
-			dspAdGroupCreateRes = call(adGroupResource, HttpMethod.POST, dspAdGroupCreateReq, null,
-					DspAdGroupCreateRes.class);
+			dspAdGroupCreateRes = call(adGroupResource, HttpMethod.POST, dspAdGroupCreateReq, null, DspAdGroupCreateRes.class);
 		} catch (Exception e) {
 			log.debug("DSP:広告グループ作成エラー、リクエストボディー:{}", dspAdGroupCreateReq);
 			e.printStackTrace();
@@ -556,8 +545,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	 * @param dspAdGroupCreatePcRes
 	 * @param dspTemplate
 	 **********************************************/
-	private DspAdBitCreateRes createAdBit(DspToken dspToken, SegmentManage segmentManage,
-			DspAdGroupCreateRes dspAdGroupCreateRes, DspTemplate dspTemplate) {
+	private DspAdBitCreateRes createAdBit(DspToken dspToken, SegmentManage segmentManage, DspAdGroupCreateRes dspAdGroupCreateRes, DspTemplate dspTemplate) {
 		// Req AdBit URL組み立てる
 		UriComponentsBuilder adBitBuilder = UriComponentsBuilder.newInstance();
 		adBitBuilder = adBitBuilder.scheme(applicationProperties.getDspScheme());
@@ -599,8 +587,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	 * 
 	 * @param dspCampaignDto
 	 **********************************************/
-	private DspAdCreateRes createAd(DspToken dspToken, DspAdGroupCreateRes dspAdGroupCreatePRes, Integer creativeId,
-			DspCampaignDto dspCampaignDto) {
+	private DspAdCreateRes createAd(DspToken dspToken, DspAdGroupCreateRes dspAdGroupCreatePRes, Integer creativeId, DspCampaignDto dspCampaignDto) {
 
 		// Req Ad URL組み立てる
 		UriComponentsBuilder adBuilder = UriComponentsBuilder.newInstance();
@@ -667,13 +654,10 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		}
 
 		// 配信期間日数
-		BigDecimal periodBigDecimal = BigDecimal
-				.valueOf(DateUtil.distance_hyphen(dspCampaignDto.getStartDatetime(), dspCampaignDto.getEndDatetime()));
+		BigDecimal periodBigDecimal = BigDecimal.valueOf(DateUtil.distance_hyphen(dspCampaignDto.getStartDatetime(), dspCampaignDto.getEndDatetime()));
 
 		// 最低予算金額 金額を切り上げにする
-		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000)
-				.divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio())
-						.divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 0, BigDecimal.ROUND_UP);
+		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 0, BigDecimal.ROUND_UP);
 		// 最低日次予算金額
 		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 0, BigDecimal.ROUND_UP);
 		// 実際総予算金額
@@ -720,8 +704,8 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		issue.setDspCampaignId(dspCampaignManage.getCampaignId());
 		issue.setCampaignName(dspCampaignDto.getCampaignName());
 		issue.setBudget(dspCampaignDto.getBudget().longValue());
-		issue.setStartDate(dspCampaignDto.getStartDatetime());
-		issue.setEndDate(dspCampaignDto.getEndDatetime());
+		issue.setStartDate(dspCampaignDto.getStartDatetime() + " " + dspCampaignDto.getStartHour() + ":" + dspCampaignDto.getStartMin());
+		issue.setEndDate(dspCampaignDto.getEndDatetime() + " " + dspCampaignDto.getEndHour() + ":" + dspCampaignDto.getEndMin());
 		issueDao.insert(issue);
 
 		// メール送信
