@@ -15,7 +15,9 @@ select
   i.youtube_campaign_manage_id,
   i.budget,
   i.start_date,
-  i.end_date
+  i.end_date, 
+  i.start_timestamp, 
+  i.end_timestamp 
 from
   issue i
 inner join shop s on i.shop_id = s.shop_id and s.is_actived = 1

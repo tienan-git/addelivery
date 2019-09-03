@@ -138,8 +138,10 @@
 					return;
 				}
 				var campaignId = $(this).prev().text();
-				var media = $("#media").text();
-				var issueId = $("#issueId").text();
+				var media = $(this).prev().prev().prev().text();
+				var issueId = $(this).prev().prev().text();
+				//var media = $("#media").text();
+				//var issueId = $("#issueId").text();
 				var urlStr = "/issue/approval";
 				var mediaUrlStr = null;
 				var checkedStatus = $(this).prop('checked');

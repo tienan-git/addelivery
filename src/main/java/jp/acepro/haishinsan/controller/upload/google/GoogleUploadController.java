@@ -78,25 +78,25 @@ public class GoogleUploadController {
 			if (!form.getImageFile01().isEmpty()) {
 				form.setImageFileName01(form.getImageFile01().getOriginalFilename());
 				form.setImageData01("data:image/jpeg;base64,"
-						+ imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLEIMG.getValue()));
+						+ imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLEIMG1.getValue()));
 				form.setImageBytes01(getByteArrayFromStream(form.getImageFile01().getInputStream()));
 			}
 			if (!form.getImageFile02().isEmpty()) {
 				form.setImageFileName02(form.getImageFile02().getOriginalFilename());
 				form.setImageData02("data:image/jpeg;base64,"
-						+ imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLEIMG.getValue()));
+						+ imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLEIMG2.getValue()));
 				form.setImageBytes02(getByteArrayFromStream(form.getImageFile02().getInputStream()));
 			}
 			if (!form.getImageFile03().isEmpty()) {
 				form.setImageFileName03(form.getImageFile03().getOriginalFilename());
 				form.setImageData03("data:image/jpeg;base64,"
-						+ imageUtil.getImageBytes(form.getImageFile03(), MediaType.GOOGLEIMG.getValue()));
+						+ imageUtil.getImageBytes(form.getImageFile03(), MediaType.GOOGLEIMG3.getValue()));
 				form.setImageBytes03(getByteArrayFromStream(form.getImageFile03().getInputStream()));
 			}
 			if (!form.getImageFile04().isEmpty()) {
 				form.setImageFileName04(form.getImageFile04().getOriginalFilename());
 				form.setImageData04("data:image/jpeg;base64,"
-						+ imageUtil.getImageBytes(form.getImageFile04(), MediaType.GOOGLEIMG.getValue()));
+						+ imageUtil.getImageBytes(form.getImageFile04(), MediaType.GOOGLEIMG4.getValue()));
 				form.setImageBytes04(getByteArrayFromStream(form.getImageFile04().getInputStream()));
 			}
 			if (form.getImageFile01().isEmpty() && form.getImageFile02().isEmpty() && form.getImageFile03().isEmpty()
@@ -207,22 +207,27 @@ public class GoogleUploadController {
 	}
 
 	@PostMapping("/bannerTextAd/confirm")
-	public ModelAndView bannerTextAdConfirm(UploadGoogleBannerTextAdCreateForm form) throws IOException {
+	public ModelAndView bannerTextAdConfirm(@Validated UploadGoogleBannerTextAdCreateForm form, BindingResult result) throws IOException {
 		try {
 			if (!form.getImageFile01().isEmpty()) {
 				form.setImageFileName01(form.getImageFile01().getOriginalFilename());
 				form.setImageData01("data:image/jpeg;base64,"
-						+ imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLERES.getValue()));
+						+ imageUtil.getImageBytes(form.getImageFile01(), MediaType.GOOGLERES1.getValue()));
 				form.setImageBytes01(getByteArrayFromStream(form.getImageFile01().getInputStream()));
 			}
 			if (!form.getImageFile02().isEmpty()) {
 				form.setImageFileName02(form.getImageFile02().getOriginalFilename());
 				form.setImageData02("data:image/jpeg;base64,"
-						+ imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLERES.getValue()));
+						+ imageUtil.getImageBytes(form.getImageFile02(), MediaType.GOOGLERES2.getValue()));
 				form.setImageBytes02(getByteArrayFromStream(form.getImageFile02().getInputStream()));
 			}
 		} catch (BusinessException e) {
-			e.printStackTrace();
+			// 異常時レスポンスを作成
+			result.reject(e.getMessage(), e.getParams(), null);
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("upload/google/bannerTextAd/create");
+			modelAndView.addObject("form", form);
+			return modelAndView;
 		}
 		session.setAttribute("bannerTextAdForm", form);
 		ModelAndView mv = new ModelAndView();
