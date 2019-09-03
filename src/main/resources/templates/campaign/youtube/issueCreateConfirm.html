@@ -60,7 +60,7 @@
 							<label class="col-form-label">配信開始日</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{startDate}">2018/10/10</label>
+							<label class="col-form-label" th:text="*{startDate}+ ' ' + *{startHour} + ':' + *{startMin}">2018/10/10</label>
 						</div>
 					</div>
 					<div class="form-group row">
@@ -68,7 +68,7 @@
 							<label class="col-form-label">配信終了日</label>
 						</div>
 						<div class="col-sm-8">
-							<label class="col-form-label" th:text="*{endDate}">2018/10/10</label>
+							<label class="col-form-label" th:text="*{endDate}+ ' ' + *{endHour} + ':' + *{endMin}">2018/10/10</label>
 						</div>
 					</div>
 					<div class="form-group row">

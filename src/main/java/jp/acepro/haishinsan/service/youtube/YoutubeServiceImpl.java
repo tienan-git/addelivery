@@ -98,10 +98,15 @@ public class YoutubeServiceImpl implements YoutubeService {
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
 		issue.setYoutubeCampaignManageId(youtubeCampaignManage.getYoutubeCampaignManageId());
 		issue.setCampaignName(youtubeIssueDto.getCampaignName());
-		issue.setBudget(youtubeIssueDto.getBudget());
-		issue.setEndDate(youtubeIssueDto.getEndDate());
-		issue.setStartDate(youtubeIssueDto.getStartDate());
-
+		issue.setBudget(youtubeIssueDto.getBudget());		
+		
+        String startDateTime = youtubeIssueDto.getStartDate() + " " + youtubeIssueDto.getStartHour() + ":"
+                + youtubeIssueDto.getStartMin();
+        String endDateTime = youtubeIssueDto.getEndDate() + " " + youtubeIssueDto.getEndHour() + ":"
+                + youtubeIssueDto.getEndMin();
+		issue.setStartDate(startDateTime);
+		issue.setEndDate(endDateTime);
+		
 		// DB access
 		issueDao.insert(issue);
 		youtubeIssueDto.setIssueId(issue.getIssueId());
