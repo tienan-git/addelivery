@@ -83,8 +83,11 @@ public class ImageUtil {
 					: ErrorCodeConstant.E00005;
 
 			throw new BusinessException(code,
-					String.valueOf(image.getWidth(null)) + "*" + String.valueOf(image.getHeight(null)),
-					String.join(", ", dimensionList));
+					String.valueOf(image.getWidth(null)) + "*" + String.valueOf(image.getHeight(null)));
+
+//			throw new BusinessException(code,
+//					String.valueOf(image.getWidth(null)) + "*" + String.valueOf(image.getHeight(null)),
+//					String.join(", ", dimensionList));
 		}
 
 		// GIFの毎秒フレーム数と長さのチェック
@@ -122,8 +125,8 @@ public class ImageUtil {
 		case DSP: // dsp
 			maxSize = applicationProperties.getDspImageMaxSize();
 			break;
-		case GOOGLERES: // google Responsive & Image
-		case GOOGLEIMG:
+		case GOOGLERES1: // google Responsive & Image
+		case GOOGLEIMG1:
 			maxSize = applicationProperties.getGoogleImageMaxSize();
 			break;
 		default:
@@ -147,10 +150,10 @@ public class ImageUtil {
 		case DSP: // dsp
 			contentTypeList = applicationProperties.getDspContentTypes();
 			break;
-		case GOOGLERES: // google Responsive
+		case GOOGLERES1: // google Responsive
 			contentTypeList = applicationProperties.getGoogleResponsiveContentTypes();
 			break;
-		case GOOGLEIMG: // google Image
+		case GOOGLEIMG1: // google Image
 			contentTypeList = applicationProperties.getGoogleImageContentTypes();
 			break;
 		default:
@@ -175,16 +178,70 @@ public class ImageUtil {
 		int width = image.getWidth(null);
 		int height = image.getHeight(null);
 		String dimension = String.valueOf(width) + "*" + String.valueOf(height);
-
+		String minimumDimension = null;
+		String maximumDimension = null;
+		int minimumWidth = 0;
+		int minimumHeight = 0;
+		int maximumWidth = 0;
+		int maximumHeight = 0;
+				
 		switch (MediaType.of(mediaType)) {
 		case DSP: // dsp
 			dimensionList = applicationProperties.getDspDimenstions();
 			break;
-		case GOOGLERES: // google Responsive
+		case GOOGLERES1: // google Responsive
 			dimensionList = applicationProperties.getGoogleResponsiveDimenstions();
+			minimumDimension = dimensionList.get(0);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			if (width != minimumWidth || height != minimumHeight) {
+				return false;
+			}
 			break;
-		case GOOGLEIMG: // google Image
+		case GOOGLERES2: // google Responsive
+			dimensionList = applicationProperties.getGoogleResponsiveDimenstions();
+			minimumDimension = dimensionList.get(1);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			if (width != minimumWidth || height != minimumHeight) {
+				return false;
+			}
+			break;
+		case GOOGLEIMG1: // google Image
 			dimensionList = applicationProperties.getGoogleImageDimenstions();
+			minimumDimension = dimensionList.get(0);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			if (width != minimumWidth || height != minimumHeight) {
+				return false;
+			}
+			break;
+		case GOOGLEIMG2: // google Image
+			dimensionList = applicationProperties.getGoogleImageDimenstions();
+			minimumDimension = dimensionList.get(1);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			if (width != minimumWidth || height != minimumHeight) {
+				return false;
+			}
+			break;
+		case GOOGLEIMG3: // google Image
+			dimensionList = applicationProperties.getGoogleImageDimenstions();
+			minimumDimension = dimensionList.get(2);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			if (width != minimumWidth || height != minimumHeight) {
+				return false;
+			}
+			break;
+		case GOOGLEIMG4: // google Image
+			dimensionList = applicationProperties.getGoogleImageDimenstions();
+			minimumDimension = dimensionList.get(3);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			if (width != minimumWidth || height != minimumHeight) {
+				return false;
+			}
 			break;
 		case YAHOORESPONSIVE: // yahoo Responsive
 			dimensionList = applicationProperties.getYahooInfeedDimenstions();
@@ -193,13 +250,20 @@ public class ImageUtil {
 			dimensionList = applicationProperties.getYahooTargetingDimenstions();
 			break;
 		case FACEBOOK: // facebook Image
-			dimensionList = applicationProperties.getFacebookDimensions();
-			String minimumDimension = dimensionList.get(0);
-			int minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			int minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (width != height) {
 				return false;
 			}
+			dimensionList = applicationProperties.getFacebookDimensions();
+			minimumDimension = dimensionList.get(0);
+			maximumDimension = dimensionList.get(1);
+			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
+			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
+			maximumWidth = Integer.valueOf(maximumDimension.substring(0, maximumDimension.indexOf("*")).trim());
+			maximumHeight = Integer.valueOf(maximumDimension.substring(maximumDimension.indexOf("*") + 1).trim());
+			if (width < minimumWidth || width > maximumWidth) {
+				return false;
+			}
+
 		default:
 			return true;
 		}
@@ -227,7 +291,7 @@ public class ImageUtil {
 			gifFrames = applicationProperties.getDspGifFrames();
 			gifPlayTime = applicationProperties.getDspgifPlayTime();
 			break;
-		case GOOGLEIMG: // google Image
+		case GOOGLEIMG1: // google Image
 			gifFrames = applicationProperties.getGoogleImageGifFrames();
 			gifPlayTime = applicationProperties.getGoogleImageGifPlayTime();
 			break;

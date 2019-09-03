@@ -5,6 +5,8 @@
 
 package jp.acepro.haishinsan.entity;
 
+import java.time.LocalDateTime;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
@@ -90,5 +92,13 @@ public class IssueWithShopWithCorporation extends BaseEntity {
     /** 配信終了日 */
     @Column(name = "end_date")
     String endDate;
+
+    /** 開始日時スタンプ */
+    @Column(name = "start_timestamp")
+    LocalDateTime startTimestamp;
+
+    /** 終了日時スタンプ */
+    @Column(name = "end_timestamp")
+    LocalDateTime endTimestamp;
 
 }
