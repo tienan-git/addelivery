@@ -96,9 +96,9 @@
 										<label id="issueId" hidden="hidden" th:text="${issue.issueId}"></label> 
 										<label hidden="hidden" th:text="${issue.campaignId}"></label> 
 										<input type="checkbox" class="js-switch" 
-											th:checked="${issue.campaignStatus} == 'ACTIVE'" 
+											th:checked="${(issue.campaignStatus == T(jp.acepro.haishinsan.enums.TwitterCampaignStatus).ACTIVE.getLabel())}" 
 											th:disabled="${(issue.campaignStatus == T(jp.acepro.haishinsan.enums.TwitterCampaignStatus).EXPIRED.getLabel())
-											 || !(T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}">
+											 || (issue.approvalFlag == T(jp.acepro.haishinsan.enums.ApprovalFlag).COMPLETED.getValue()) || !(T(jp.acepro.haishinsan.util.ContextUtil).hasAuthority('CAMPAIGN_APPROVAL'))}">
 									</td>
 									<!-- yahoo,youtube approal -->
 									<td th:if="${(issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YAHOO.getLabel()) || (issue.media == T(jp.acepro.haishinsan.enums.IssueAdtype).YOUTUBE.getLabel())}"></td>
