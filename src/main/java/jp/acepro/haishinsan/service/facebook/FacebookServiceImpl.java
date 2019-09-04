@@ -1,5 +1,9 @@
 package jp.acepro.haishinsan.service.facebook;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -17,6 +21,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.facebook.ads.sdk.APIContext;
@@ -409,7 +414,14 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 					.setFieldFacebookPositions(Arrays.asList("feed"));
 			// 広告セットを作成（スタート日時は仮に次の日に設定、終了日時は設定せず）
 			String startDateTime = DateFormatter.yyyyMMdd_HYPHEN.format(today.plusDays(1L)) + "T00:00:00+0900";
-			AdImage adImage = account.createAdImage().addUploadFile("filename", fbCreativeDto.getImageFile()).execute();
+			
+            MultipartFile image = fbCreativeDto.getImage();
+			File imageFile = new File(image.getOriginalFilename());
+			FileOutputStream fo = new FileOutputStream(imageFile);
+			fo.write(image.getBytes());
+			fo.close();
+			AdImage adImage = account.createAdImage().addUploadFile("filename", imageFile).execute();
+			imageFile.delete();
 			for (DspSegmentListDto dspSegmentListDto : dspSegmentDtoList) {
 				cnt++;
 				String campaignName = fbCreativeDto.getCreativeName() + "Campaign" + cnt;
@@ -451,6 +463,10 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			}
 
 		} catch (APIException e) {
+			e.printStackTrace();
+			throw new SystemException("システムエラー発生しました");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 			throw new SystemException("システムエラー発生しました");
 		}

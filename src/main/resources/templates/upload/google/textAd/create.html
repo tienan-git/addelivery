@@ -415,7 +415,8 @@ ol, ul {
 			</div>
 			<div class="card-block">
 				<div class="left">
-					<form th:action="@{/}" th:method="post" th:object=${form}>
+					<form id="defaultForm" class="form-horizontal" th:action="@{/google/completeCampaign}" method="post" th:object="${form}">
+			            <div th:replace="common/errorMessages"></div>
 						<div>
 							<div class="" align="left">
 								<span>広告</span> <span class="text-danger">(〇〇/〇〇文字)</span>
@@ -447,7 +448,7 @@ ol, ul {
 							<div class="col-sm-12 text-center">
 								<button class="btn btn-success" type="submit"
 									th:formmethod="get"
-									th:formaction="@{/creative/mediaDescription}">戻る</button>
+									th:formaction="@{/upload/google/adTypeSelection}">戻る</button>
 								<button class="btn btn-success" type="submit"
 									th:formmethod="post"
 									th:formaction="@{/upload/google/textAd/confirm}">次へ</button>

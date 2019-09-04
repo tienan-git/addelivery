@@ -79,15 +79,9 @@ public class ImageUtil {
 		Image image = ImageIO.read(is);
 
 		if (!validDimension(image, mediaType)) {
-			String code = MediaType.of(mediaType).equals(MediaType.FACEBOOK) ? ErrorCodeConstant.E40004
-					: ErrorCodeConstant.E00005;
-
-			throw new BusinessException(code,
-					String.valueOf(image.getWidth(null)) + "*" + String.valueOf(image.getHeight(null)));
-
-//			throw new BusinessException(code,
-//					String.valueOf(image.getWidth(null)) + "*" + String.valueOf(image.getHeight(null)),
-//					String.join(", ", dimensionList));
+			throw new BusinessException(ErrorCodeConstant.E00005,
+					String.valueOf(image.getWidth(null)) + "*" + String.valueOf(image.getHeight(null)),
+					String.join(", ", dimensionList));
 		}
 
 		// GIFの毎秒フレーム数と長さのチェック
@@ -178,12 +172,6 @@ public class ImageUtil {
 		int width = image.getWidth(null);
 		int height = image.getHeight(null);
 		String dimension = String.valueOf(width) + "*" + String.valueOf(height);
-		String minimumDimension = null;
-		String maximumDimension = null;
-		int minimumWidth = 0;
-		int minimumHeight = 0;
-		int maximumWidth = 0;
-		int maximumHeight = 0;
 				
 		switch (MediaType.of(mediaType)) {
 		case DSP: // dsp
@@ -191,55 +179,37 @@ public class ImageUtil {
 			break;
 		case GOOGLERES1: // google Responsive
 			dimensionList = applicationProperties.getGoogleResponsiveDimenstions();
-			minimumDimension = dimensionList.get(0);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (!dimensionList.get(0).equals(dimension)) {
 				return false;
 			}
 			break;
 		case GOOGLERES2: // google Responsive
 			dimensionList = applicationProperties.getGoogleResponsiveDimenstions();
-			minimumDimension = dimensionList.get(1);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (!dimensionList.get(1).equals(dimension)) {
 				return false;
 			}
 			break;
 		case GOOGLEIMG1: // google Image
 			dimensionList = applicationProperties.getGoogleImageDimenstions();
-			minimumDimension = dimensionList.get(0);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (!dimensionList.get(0).equals(dimension)) {
 				return false;
 			}
 			break;
 		case GOOGLEIMG2: // google Image
 			dimensionList = applicationProperties.getGoogleImageDimenstions();
-			minimumDimension = dimensionList.get(1);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (!dimensionList.get(1).equals(dimension)) {
 				return false;
 			}
 			break;
 		case GOOGLEIMG3: // google Image
 			dimensionList = applicationProperties.getGoogleImageDimenstions();
-			minimumDimension = dimensionList.get(2);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (!dimensionList.get(2).equals(dimension)) {
 				return false;
 			}
 			break;
 		case GOOGLEIMG4: // google Image
 			dimensionList = applicationProperties.getGoogleImageDimenstions();
-			minimumDimension = dimensionList.get(3);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			if (width != minimumWidth || height != minimumHeight) {
+			if (!dimensionList.get(3).equals(dimension)) {
 				return false;
 			}
 			break;
@@ -250,20 +220,10 @@ public class ImageUtil {
 			dimensionList = applicationProperties.getYahooTargetingDimenstions();
 			break;
 		case FACEBOOK: // facebook Image
-			if (width != height) {
-				return false;
-			}
 			dimensionList = applicationProperties.getFacebookDimensions();
-			minimumDimension = dimensionList.get(0);
-			maximumDimension = dimensionList.get(1);
-			minimumWidth = Integer.valueOf(minimumDimension.substring(0, minimumDimension.indexOf("*")).trim());
-			minimumHeight = Integer.valueOf(minimumDimension.substring(minimumDimension.indexOf("*") + 1).trim());
-			maximumWidth = Integer.valueOf(maximumDimension.substring(0, maximumDimension.indexOf("*")).trim());
-			maximumHeight = Integer.valueOf(maximumDimension.substring(maximumDimension.indexOf("*") + 1).trim());
-			if (width < minimumWidth || width > maximumWidth) {
+			if (!dimensionList.get(0).equals(dimension)) {
 				return false;
 			}
-
 		default:
 			return true;
 		}

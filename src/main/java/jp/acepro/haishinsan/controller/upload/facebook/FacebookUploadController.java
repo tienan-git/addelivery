@@ -132,12 +132,7 @@ public class FacebookUploadController {
 		fbCreativeDto.setCreativeName(creativeName);
 		fbCreativeDto.setBytes(bytes);
 		fbCreativeDto.setBase64Str(imaBase64);
-
-		File imageFile = new File(image.getOriginalFilename());
-		FileOutputStream fo = new FileOutputStream(imageFile);
-		fo.write(image.getBytes());
-		fo.close();
-		fbCreativeDto.setImageFile(imageFile);
+		fbCreativeDto.setImage(image);
 
 		facebookService.createCreative(fbCreativeDto, dspSegmentDtoList);
 

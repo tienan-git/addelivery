@@ -69,7 +69,7 @@ image:
       dimensions: 1200*628, 300*300
     image:
       contentType: image/jpeg, image/png, image/gif
-      dimensions: 300*250, 320*50, 728*90, 320*100, 336*280, 468*60
+      dimensions: 300*250, 320*50, 728*90, 320*100
       gif:
         frames: 5
         playTime: 30
@@ -79,7 +79,7 @@ image:
     targeting:
       dimensions: 300*300, 1200*628, 300*250, 320*50, 320*100, 728*90, 468*60
   facebook:
-    dimensions: 500*500, 1080*1080 #横*縦
+    dimensions: 1080*1080 #横*縦
 
 inputLength:
   title: 30
