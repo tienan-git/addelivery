@@ -126,8 +126,8 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
                     issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
                     issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
                 }
-            }else {
-            	// その他媒体の配信状態を判別する
+            } else {
+                // その他媒体の配信状態を判別する
                 DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm");
                 // 配信開始日と配信終了日で配信状態を判別
                 LocalDateTime today = LocalDateTime.now();
@@ -138,31 +138,38 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
                 String endTime = issue.getEndDate().substring(11);
                 LocalDateTime startDateTime = LocalDateTime.parse(startDate + " " + startTime, f);
                 LocalDateTime endDateTime = LocalDateTime.parse(endDate + " " + endTime, f);
-                // 配信待ち
-                if (today.isBefore(startDateTime)) {
+
+                // 承認待ちする場合、広告の時間過ぎても配信待ちにする
+                if (issue.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
                     issuesDto.setStatusIcon(IssueAdStatus.WAIT.getValue());
                     issuesDto.setStatus(IssueAdStatus.WAIT.getLabel());
-                }
-                // 配信済み
-                if (today.isAfter(endDateTime)) {
-                    issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
-                    issuesDto.setStatus(IssueAdStatus.END.getLabel());
-                    issuesDto.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
+                    // 広告時間がもう過ぎた場合、承認できないようにする
+                    if (today.isAfter(endDateTime)) {
+                        issuesDto.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
+                    }
+                    // 承認済み場合
                 } else {
-                    if (issue.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
-                        issuesDto.setCampaignStatus(TwitterCampaignStatus.PAUSED.getLabel());
-                    } else {
+                    // 配信待ち
+                    if (today.isBefore(startDateTime)) {
+                        issuesDto.setStatusIcon(IssueAdStatus.WAIT.getValue());
+                        issuesDto.setStatus(IssueAdStatus.WAIT.getLabel());
+                    }
+                    // 配信済み
+                    if (today.isAfter(endDateTime)) {
+                        issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
+                        issuesDto.setStatus(IssueAdStatus.END.getLabel());
+                        issuesDto.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
+                    }
+                    // 配信中
+                    if ((today.isAfter(startDateTime) || today.isEqual(startDateTime))
+                            && (today.isBefore(endDateTime) || today.isEqual(endDateTime))) {
+                        issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
+                        issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
                         issuesDto.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
                     }
                 }
-                // 配信中
-                if ((today.isAfter(startDateTime) || today.isEqual(startDateTime))
-                        && (today.isBefore(endDateTime) || today.isEqual(endDateTime))) {
-                    issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
-                    issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
-                }
-            }
 
+            }
             issuesDtoList.add(issuesDto);
         }
         return issuesDtoList;
