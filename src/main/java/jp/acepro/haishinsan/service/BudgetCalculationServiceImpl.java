@@ -30,8 +30,8 @@ public class BudgetCalculationServiceImpl implements BudgetCalculationService {
 	}
 
 	@Override
-	public int calculateBudget(String startDateTime, String endDateTime, int budget, int costFee,
-			LocalDateTime currentDateTime) {
+	public long calculateBudget(String startDateTime, String endDateTime, long budget, LocalDateTime currentDateTime,
+			long costFee) {
 
 		// TODO 一旦元予算+1のダミーデータ返す
 		return budget + 1;
