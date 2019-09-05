@@ -14,7 +14,7 @@ public interface DspCampaignService {
 
 	DspCampaignDetailDto getCampaignDetail(Integer campaignId, Integer dspUserId);
 
-	void updateCampaign(Integer campaignId, String status);
+	void updateCampaign(Long issueId, String status);
 
 	DspCampaignDetailDto deleteCampaign(Integer campaignId);
 
