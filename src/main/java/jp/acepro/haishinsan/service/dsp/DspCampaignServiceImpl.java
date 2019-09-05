@@ -456,7 +456,9 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 	@Override
 	@Transactional
-	public void updateCampaign(Integer campaignId, String status) {
+	public void updateCampaign(Long issueId, String status) {
+
+		Issue issue = issueDao.selectById(issueId);
 
 		// Token取得
 		DspToken dspToken = dspApiService.getToken();
@@ -476,7 +478,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		// Req CampaignUpdate Body作成
 		DspCampaignUpdateReq dspCampaignUpdateReq = new DspCampaignUpdateReq();
-		dspCampaignUpdateReq.setId(campaignId);
+		dspCampaignUpdateReq.setId(issue.getDspCampaignId());
 		dspCampaignUpdateReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
 		if (Flag.ON.getLabel().equals(status)) {
 			dspCampaignUpdateReq.setStatus(Flag.ON.getValue());
@@ -495,9 +497,8 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		// システムDBを審査フラグを更新する
 		if (Flag.ON.getLabel().equals(status)) {
-			DspCampaignManage dspCampaignManage = dspCampaignCustomDao.selectByCampaignId(campaignId);
-			// dspCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-			dspCampaignManageDao.update(dspCampaignManage);
+			issue.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+			issueDao.update(issue);
 		}
 	}
 
