@@ -108,23 +108,36 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
                 issuesDto.setMediaIcon(IssueAdtype.YOUTUBE.getValue());
             }
 
-            if (Objects.nonNull(issue.getGoogleCampaignId()) || Objects.nonNull(issue.getFacebookCampaignId()) || Objects.nonNull(issue.getInstagramCampaignId())) {
-            	// Google、FacebookとInstagramの配信状態を判別する
-                // 配信待ち
-                if (issue.getStartTimestamp() == null && issue.getEndTimestamp() == null) {
+            if (Objects.nonNull(issue.getGoogleCampaignId()) || Objects.nonNull(issue.getFacebookCampaignId())
+                    || Objects.nonNull(issue.getInstagramCampaignId())) {
+                // Google、FacebookとInstagramの配信状態を判別する
+                // 承認待ちする場合、広告の時間過ぎても配信待ちにする
+                if (issue.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
                     issuesDto.setStatusIcon(IssueAdStatus.WAIT.getValue());
                     issuesDto.setStatus(IssueAdStatus.WAIT.getLabel());
-                }
-                // 配信済み
-                if (issue.getStartTimestamp() != null && issue.getEndTimestamp() != null) {
-                    issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
-                    issuesDto.setStatus(IssueAdStatus.END.getLabel());
-                    issuesDto.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
-                }
-                // 配信中
-                if (issue.getStartTimestamp() != null && issue.getEndTimestamp() == null) {
-                    issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
-                    issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
+                    // 広告時間がもう過ぎた場合、承認できないようにする
+                    if (issue.getStartTimestamp() != null && issue.getEndTimestamp() == null) {
+                        issuesDto.setCampaignStatus(TwitterCampaignStatus.EXPIRED.getLabel());
+                    }
+                    // 承認済み場合
+                } else {
+                    // 配信待ち
+                    if (issue.getStartTimestamp() == null && issue.getEndTimestamp() == null) {
+                        issuesDto.setStatusIcon(IssueAdStatus.WAIT.getValue());
+                        issuesDto.setStatus(IssueAdStatus.WAIT.getLabel());
+                    }
+                    // 配信済み
+                    if (issue.getStartTimestamp() != null && issue.getEndTimestamp() != null) {
+                        issuesDto.setStatusIcon(IssueAdStatus.END.getValue());
+                        issuesDto.setStatus(IssueAdStatus.END.getLabel());
+                        issuesDto.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
+                    }
+                    // 配信中
+                    if (issue.getStartTimestamp() != null && issue.getEndTimestamp() == null) {
+                        issuesDto.setStatusIcon(IssueAdStatus.ALIVE.getValue());
+                        issuesDto.setStatus(IssueAdStatus.ALIVE.getLabel());
+                        issuesDto.setCampaignStatus(TwitterCampaignStatus.ACTIVE.getLabel());
+                    }
                 }
             } else {
                 // その他媒体の配信状態を判別する
