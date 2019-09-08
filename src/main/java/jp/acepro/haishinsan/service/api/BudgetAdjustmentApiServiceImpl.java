@@ -10,6 +10,7 @@ import jp.acepro.haishinsan.dao.GoogleCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
+import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
@@ -25,62 +26,71 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class BudgetAdjustmentApiServiceImpl implements BudgetAdjustmentApiService {
 
-    @Autowired
-    OperationService operationService;
+	@Autowired
+	OperationService operationService;
 
-    @Autowired
-    CodeMasterService codeMasterService;
+	@Autowired
+	CodeMasterService codeMasterService;
 
-    @Autowired
-    ApplicationProperties applicationProperties;
+	@Autowired
+	ApplicationProperties applicationProperties;
 
-    @Autowired
-    DspApiService dspApiService;
+	@Autowired
+	DspApiService dspApiService;
 
-    @Autowired
-    GoogleReportService googleReportService;
+	@Autowired
+	GoogleReportService googleReportService;
 
-    @Autowired
-    FacebookService facebookService;
+	@Autowired
+	FacebookService facebookService;
 
-    @Autowired
-    FacebookReportingService facebookReportingService;
+	@Autowired
+	FacebookReportingService facebookReportingService;
 
-    @Autowired
-    TwitterReportingService twitterReportingService;
+	@Autowired
+	TwitterReportingService twitterReportingService;
 
-    @Autowired
-    YoutubeReportService youtubeReportService;
+	@Autowired
+	YoutubeReportService youtubeReportService;
 
-    @Autowired
-    DspSegmentService dspSegmentService;
+	@Autowired
+	DspSegmentService dspSegmentService;
 
-    @Autowired
-    IssueDao issueDao;
+	@Autowired
+	IssueDao issueDao;
 
-    @Autowired
-    IssueCustomDao issueCustomDao;
+	@Autowired
+	IssueCustomDao issueCustomDao;
 
-    @Autowired
-    ShopCustomDao shopCustomDao;
+	@Autowired
+	ShopCustomDao shopCustomDao;
 
-    @Autowired
-    GoogleCampaignManageCustomDao googleCampaignManageCustomDao;
+	@Autowired
+	GoogleCampaignManageCustomDao googleCampaignManageCustomDao;
 
-    @Async
-    @Override
-    @Transactional
-    public void executeAsync() {
+	@Async
+	@Override
+	@Transactional
+	public void executeAsync() {
 
-        // DSP
+		// DSP
+		try {
+			// キャンペーン日別予算更新
+			dspApiService.updateDailyBudget();
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.DSP_CAMPAIGN_UPDATE.getValue(), "キャンペーン日別予算更新が成功しました。");
+		} catch (Exception e) {
+			log.error("キャンペーン日別予算更新中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.DSP_CAMPAIGN_UPDATE.getValue(), e.getMessage());
+		}
+		// Twitter
+		twitterReportingService.changeBudget();
 
-        // Twitter
-        twitterReportingService.changeBudget();
+		// Facebook
 
-        // Facebook
+		// Google
 
-        // Google
-
-    }
+	}
 
 }
