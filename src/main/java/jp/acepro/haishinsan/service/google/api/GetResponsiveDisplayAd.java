@@ -27,6 +27,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdPage;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
+import com.google.api.ads.adwords.axis.v201809.cm.PolicyApprovalStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.ResponsiveDisplayAd;
 import com.google.api.ads.adwords.axis.v201809.cm.Selector;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
@@ -57,7 +58,8 @@ public class GetResponsiveDisplayAd {
 	public String propFileName;
 	public Long adGroupId;
 	public List<ResponsiveDisplayAd> responsiveDisplayAdList = new ArrayList<ResponsiveDisplayAd>();
-
+	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
+	
 	public void run() {
 		AdWordsSession session;
 		try {
@@ -136,7 +138,7 @@ public class GetResponsiveDisplayAd {
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
 				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.ShortHeadline,
-						AdGroupAdField.MarketingImage, AdGroupAdField.SquareMarketingImage)
+						AdGroupAdField.MarketingImage, AdGroupAdField.SquareMarketingImage, AdGroupAdField.CombinedApprovalStatus)
 				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
 				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "RESPONSIVE_DISPLAY_AD").build();
@@ -150,6 +152,7 @@ public class GetResponsiveDisplayAd {
 				for (AdGroupAd adGroupAd : page.getEntries()) {
 					ResponsiveDisplayAd responsiveDisplayAd = (ResponsiveDisplayAd) adGroupAd.getAd();
 					responsiveDisplayAdList.add(responsiveDisplayAd);
+					policyApprovalStatusList.add(adGroupAd.getPolicySummary().getCombinedApprovalStatus());
 					// System.out.printf(
 					// "Expanded text ad with ID %d, status '%s', and headline '%s - %s' was
 					// found.%n",
@@ -157,7 +160,7 @@ public class GetResponsiveDisplayAd {
 					// adGroupAd.getStatus(),
 					// expandedTextAd.getHeadlinePart1(),
 					// expandedTextAd.getHeadlinePart2());
-					log.debug("ResponsiveDisplayAd : {}", responsiveDisplayAd.toString());
+					//log.debug("ResponsiveDisplayAd : {}", responsiveDisplayAd.toString());
 				}
 			} else {
 				// System.out.println("No expanded text ads were found.");

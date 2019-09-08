@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.service.api;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,30 +14,29 @@ import com.facebook.ads.sdk.APINodeList;
 import com.facebook.ads.sdk.Ad;
 import com.facebook.ads.sdk.Ad.EnumEffectiveStatus;
 import com.facebook.ads.sdk.Campaign;
+import com.google.api.ads.adwords.axis.v201809.cm.PolicyApprovalStatus;
 
 //gitlab.com/acepro/reporting/haishinsan.git
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageCustomDao;
-import jp.acepro.haishinsan.dao.IssueCustomDao;
-import jp.acepro.haishinsan.dao.IssueDao;
+import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
+import jp.acepro.haishinsan.dao.ShopDao;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
+import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
+import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.enums.CheckStatus;
+import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.SystemException;
-//gitlab.com/acepro/reporting/haishinsan.git
-import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.OperationService;
-import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.dsp.DspCreativeService;
-import jp.acepro.haishinsan.service.dsp.DspSegmentService;
-import jp.acepro.haishinsan.service.facebook.FacebookService;
-import jp.acepro.haishinsan.service.google.GoogleReportService;
-import jp.acepro.haishinsan.service.issue.FacebookReportingService;
-import jp.acepro.haishinsan.service.issue.TwitterReportingService;
-import jp.acepro.haishinsan.service.youtube.YoutubeReportService;
+import jp.acepro.haishinsan.service.google.api.GetAdGroups;
+import jp.acepro.haishinsan.service.google.api.GetExpandedTextAds;
+import jp.acepro.haishinsan.service.google.api.GetImageAd;
+import jp.acepro.haishinsan.service.google.api.GetResponsiveDisplayAd;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,37 +47,10 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 	OperationService operationService;
 
 	@Autowired
-	CodeMasterService codeMasterService;
-
-	@Autowired
 	ApplicationProperties applicationProperties;
 
 	@Autowired
-	DspApiService dspApiService;
-
-	@Autowired
-	GoogleReportService googleReportService;
-
-	@Autowired
-	FacebookService facebookService;
-
-	@Autowired
-	FacebookReportingService facebookReportingService;
-
-	@Autowired
-	TwitterReportingService twitterReportingService;
-
-	@Autowired
-	YoutubeReportService youtubeReportService;
-
-	@Autowired
-	DspSegmentService dspSegmentService;
-
-	@Autowired
-	IssueDao issueDao;
-
-	@Autowired
-	IssueCustomDao issueCustomDao;
+	ShopDao shopDao;
 
 	@Autowired
 	ShopCustomDao shopCustomDao;
@@ -87,6 +60,9 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 
 	@Autowired
 	FacebookCampaignManageCustomDao facebookCampaignManageCustomDao;
+
+	@Autowired
+	GoogleCampaignManageDao googleCampaignManageDao;
 
 	@Autowired
 	GoogleCampaignManageCustomDao googleCampaignManageCustomDao;
@@ -111,13 +87,14 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 			operationService.createWithoutUser(Operation.DSP_CREATIVE_UPDATE.getValue(), e.getMessage());
 		}
 		// Facebook
-		updateLocalFacebookAdEffectiveStatusIssueAsync();
+		updateLocalFacebookAdEffectiveStatusAsync();
 
 		// Google
+		updateLocalGoogleAdCombinedApprovalStatusAsync();
 	}
 
 	@Transactional
-	private void updateLocalFacebookAdEffectiveStatusIssueAsync() {
+	private void updateLocalFacebookAdEffectiveStatusAsync() {
 
 		List<FacebookCampaignManage> facebookCampaignManageList = facebookCampaignManageCustomDao.selectWithActiveShop();
 
@@ -154,6 +131,70 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 				throw new SystemException("システムエラー発生しました");
 			}
 		}
+	}
+	
+	@Transactional
+	private void updateLocalGoogleAdCombinedApprovalStatusAsync() {
+
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao.selectWithActiveShop();
+
+		for (GoogleCampaignManage googleCampaignManage : googleCampaignManageList) {
+			Shop shop = shopDao.selectById(googleCampaignManage.getShopId());
+
+			// ---------広告グループ取得API実行
+			GetAdGroups getAdGroups = new GetAdGroups();
+			getAdGroups.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+			getAdGroups.campaignId = googleCampaignManage.getCampaignId();
+			getAdGroups.googleAccountId = shop.getGoogleAccountId();
+			getAdGroups.run();
+			// ---------広告グループ取得API実行
+
+			// ---------広告取得API実行
+			List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
+			switch (GoogleAdType.of(googleCampaignManage.getAdType())) {
+			case RESPONSIVE:
+				GetResponsiveDisplayAd getResponsiveDisplayAd = new GetResponsiveDisplayAd();
+				getResponsiveDisplayAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+				getResponsiveDisplayAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+				getResponsiveDisplayAd.run();
+				policyApprovalStatusList = getResponsiveDisplayAd.policyApprovalStatusList;
+				break;
+			case IMAGE:
+				GetImageAd getImageAd = new GetImageAd();
+				getImageAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+				getImageAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+				getImageAd.run();
+				policyApprovalStatusList = getImageAd.policyApprovalStatusList;
+				break;
+			case TEXT:
+				GetExpandedTextAds getExpandedTextAds = new GetExpandedTextAds();
+				getExpandedTextAds.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+				getExpandedTextAds.adGroupId = getAdGroups.adGroupIdList.get(0);
+				getExpandedTextAds.run();
+				policyApprovalStatusList = getExpandedTextAds.policyApprovalStatusList;
+				break;
+			}
+			// ---------広告取得API実行
+			for (PolicyApprovalStatus policyApprovalStatus : policyApprovalStatusList) {
+				// 任意の広告が不承認の場合、不承認と判断
+				if (PolicyApprovalStatus._DISAPPROVED.equals(policyApprovalStatus.getValue())) {
+					googleCampaignManage.setCheckStatus(CheckStatus.DISAPPROVED.getValue());
+					break;
+				}
+		
+				// 全部の広告が承認の場合、承認と判断
+				if (PolicyApprovalStatus._APPROVED.equals(policyApprovalStatus.getValue()) || PolicyApprovalStatus._APPROVED_LIMITED.equals(policyApprovalStatus.getValue())
+						|| PolicyApprovalStatus._ELIGIBLE.equals(policyApprovalStatus.getValue())) {
+					googleCampaignManage.setCheckStatus(CheckStatus.PREAPPROVED.getValue());
+				} else {
+					// 任意の広告がその他の場合、審査中と判断
+					googleCampaignManage.setCheckStatus(CheckStatus.PROCESSING.getValue());
+					break;
+				}
+			}
+			googleCampaignManageDao.update(googleCampaignManage);
+		}
+
 	}
 
 }

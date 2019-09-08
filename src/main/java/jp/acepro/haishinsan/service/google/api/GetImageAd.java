@@ -28,6 +28,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
 import com.google.api.ads.adwords.axis.v201809.cm.ImageAd;
+import com.google.api.ads.adwords.axis.v201809.cm.PolicyApprovalStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.Selector;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
@@ -58,7 +59,8 @@ public class GetImageAd {
 	public String propFileName;
 	public Long adGroupId;
 	public List<ImageAd> imageAdList = new ArrayList<ImageAd>();
-
+	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
+	
 	public void run() {
 		AdWordsSession session;
 		try {
@@ -135,7 +137,7 @@ public class GetImageAd {
 
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
-		Selector selector = builder.fields(AdGroupAdField.CreativeFinalUrls, AdGroupAdField.MarketingImage)
+		Selector selector = builder.fields(AdGroupAdField.CreativeFinalUrls, AdGroupAdField.MarketingImage, AdGroupAdField.CombinedApprovalStatus)
 				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
 				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "IMAGE_AD").build();
@@ -149,6 +151,7 @@ public class GetImageAd {
 				for (AdGroupAd adGroupAd : page.getEntries()) {
 					ImageAd imageAd = (ImageAd) adGroupAd.getAd();
 					imageAdList.add(imageAd);
+					policyApprovalStatusList.add(adGroupAd.getPolicySummary().getCombinedApprovalStatus());
 					// System.out.printf(
 					// "Expanded text ad with ID %d, status '%s', and headline '%s - %s' was
 					// found.%n",
@@ -156,7 +159,7 @@ public class GetImageAd {
 					// adGroupAd.getStatus(),
 					// expandedTextAd.getHeadlinePart1(),
 					// expandedTextAd.getHeadlinePart2());
-					log.debug("ImageAd : {}", imageAd.toString());
+					// log.debug("ImageAd : {}", imageAd.toString());
 				}
 			} else {
 				// System.out.println("No expanded text ads were found.");
