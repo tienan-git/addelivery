@@ -215,12 +215,15 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		List<CreativeManage> creativeManageList = dspCreativeCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 		List<DspCreativeDto> dspCreativeDtoList = new ArrayList<DspCreativeDto>();
 		for (CreativeManage dreativeManage : creativeManageList) {
-			DspCreativeDto dspCreativeDto = new DspCreativeDto();
-			dspCreativeDto.setCreativeId(Integer.valueOf(dreativeManage.getCreativeId()));
-			dspCreativeDto.setCreativeName(dreativeManage.getCreativeName());
-			dspCreativeDto.setCreatedAt(dreativeManage.getCreatedAt());
-			dspCreativeDto.setUrl(dreativeManage.getUrl());
-			dspCreativeDtoList.add(dspCreativeDto);
+			// 審査状態判断 1:審査済
+			if (dreativeManage.getScreening() != null && dreativeManage.getScreening().equals(1)) {
+				DspCreativeDto dspCreativeDto = new DspCreativeDto();
+				dspCreativeDto.setCreativeId(Integer.valueOf(dreativeManage.getCreativeId()));
+				dspCreativeDto.setCreativeName(dreativeManage.getCreativeName());
+				dspCreativeDto.setCreatedAt(dreativeManage.getCreatedAt());
+				dspCreativeDto.setUrl(dreativeManage.getUrl());
+				dspCreativeDtoList.add(dspCreativeDto);
+			}
 		}
 
 		return dspCreativeDtoList;
