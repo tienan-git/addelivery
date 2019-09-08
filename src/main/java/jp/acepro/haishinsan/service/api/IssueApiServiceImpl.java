@@ -143,10 +143,18 @@ public class IssueApiServiceImpl implements IssueApiService {
 
 				// 最大入札価格を設定（地域の価格の平均値を算出）
 				Long bidAmount = 200l;
-				Double averageUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceClickList.stream()
-						.filter(obj -> locationLongList.contains(obj.getFirst())).mapToInt(obj -> obj.getSecond())
-						.average().getAsDouble();
-				bidAmount = Math.round(averageUnitPriceDouble);
+				if (issue.getUnitPriceType().equals(UnitPriceType.CLICK.getValue())) {
+					Double averageClickUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceClickList.stream()
+							.filter(obj -> locationLongList.contains(obj.getFirst())).mapToInt(obj -> obj.getSecond())
+							.average().getAsDouble();
+					bidAmount = Math.round(averageClickUnitPriceDouble);
+				}
+				if (issue.getUnitPriceType().equals(UnitPriceType.DISPLAY.getValue())) {
+					Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceDisplayList.stream()
+							.filter(obj -> locationLongList.contains(obj.getFirst())).mapToInt(obj -> obj.getSecond())
+							.average().getAsDouble();
+					bidAmount = Math.round(averageDisplayUnitPriceDouble);
+				}
 
 				// 1日の予算
 				Long dailyBudget = issue.getFacebookOnedayBudget();
@@ -235,7 +243,7 @@ public class IssueApiServiceImpl implements IssueApiService {
 			GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao
 					.selectByCampaignId(issue.getGoogleCampaignId());
 			GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
-			googleCampaignDto.setUnitPriceType(UnitPriceType.DISPLAY.getValue());
+			googleCampaignDto.setUnitPriceType(issue.getUnitPriceType());
 			googleCampaignDto.setAdType(googleCampaignManage.getAdType());
 			List<String> locationStringList = Arrays.asList(issue.getGoogleRegions().split(","));
 			List<Long> locationLongList = new ArrayList<Long>();

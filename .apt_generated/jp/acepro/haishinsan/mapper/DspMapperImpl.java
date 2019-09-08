@@ -11,7 +11,7 @@ import jp.acepro.haishinsan.form.DspTemplateInputForm;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-08-24T14:36:44+0900",
+    date = "2019-09-06T22:22:59+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class DspMapperImpl implements DspMapper {
@@ -110,6 +110,8 @@ public class DspMapperImpl implements DspMapper {
         dspCampaignDto.setCampaignName( dspCampaignInputForm.getCampaignName() );
         dspCampaignDto.setDeviceType( dspCampaignInputForm.getDeviceType() );
         dspCampaignDto.setEndDatetime( dspCampaignInputForm.getEndDatetime() );
+        dspCampaignDto.setEndHour( dspCampaignInputForm.getEndHour() );
+        dspCampaignDto.setEndMin( dspCampaignInputForm.getEndMin() );
         List<Integer> list = dspCampaignInputForm.getIdList();
         if ( list != null ) {
             dspCampaignDto.setIdList(       new ArrayList<Integer>( list )
@@ -117,6 +119,8 @@ public class DspMapperImpl implements DspMapper {
         }
         dspCampaignDto.setSegmentId( dspCampaignInputForm.getSegmentId() );
         dspCampaignDto.setStartDatetime( dspCampaignInputForm.getStartDatetime() );
+        dspCampaignDto.setStartHour( dspCampaignInputForm.getStartHour() );
+        dspCampaignDto.setStartMin( dspCampaignInputForm.getStartMin() );
         dspCampaignDto.setTemplateId( dspCampaignInputForm.getTemplateId() );
 
         return dspCampaignDto;

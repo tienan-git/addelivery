@@ -108,7 +108,7 @@ public class FacebookIssueController {
 				fbIssueInputForm.setDailyBudget(fbTemplateDtoList.get(0).getDailyBudget());
 			}
 			// fbIssueInputForm.setTemplateId(fbTemplateDtoList.get(0).getTemplateId());
-			// fbIssueInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
+			fbIssueInputForm.setUnitPriceType(fbTemplateDtoList.get(0).getUnitPriceType());
 		}
 
 		session.setAttribute("campaignId", fbIssueInputForm.getIdList().get(0));

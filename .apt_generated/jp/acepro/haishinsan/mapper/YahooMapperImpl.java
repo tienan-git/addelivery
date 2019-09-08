@@ -6,7 +6,7 @@ import jp.acepro.haishinsan.form.YahooIssueinputForm;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-08-24T14:36:44+0900",
+    date = "2019-09-06T22:22:59+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class YahooMapperImpl implements YahooMapper {
@@ -25,12 +25,12 @@ public class YahooMapperImpl implements YahooMapper {
         yahooIssueDto.setCampaignName( yahooIssueinputForm.getCampaignName() );
         yahooIssueDto.setDeviceType( yahooIssueinputForm.getDeviceType() );
         yahooIssueDto.setEndDate( yahooIssueinputForm.getEndDate() );
+        yahooIssueDto.setEndHour( yahooIssueinputForm.getEndHour() );
+        yahooIssueDto.setEndMin( yahooIssueinputForm.getEndMin() );
         yahooIssueDto.setIssueId( yahooIssueinputForm.getIssueId() );
         yahooIssueDto.setStartDate( yahooIssueinputForm.getStartDate() );
         yahooIssueDto.setStartHour( yahooIssueinputForm.getStartHour() );
         yahooIssueDto.setStartMin( yahooIssueinputForm.getStartMin() );
-        yahooIssueDto.setEndHour( yahooIssueinputForm.getEndHour() );
-        yahooIssueDto.setEndMin( yahooIssueinputForm.getEndMin() );
 
         return yahooIssueDto;
     }
@@ -49,12 +49,12 @@ public class YahooMapperImpl implements YahooMapper {
         yahooIssueinputForm.setCampaignName( yahooIssueDto.getCampaignName() );
         yahooIssueinputForm.setDeviceType( yahooIssueDto.getDeviceType() );
         yahooIssueinputForm.setEndDate( yahooIssueDto.getEndDate() );
+        yahooIssueinputForm.setEndHour( yahooIssueDto.getEndHour() );
+        yahooIssueinputForm.setEndMin( yahooIssueDto.getEndMin() );
         yahooIssueinputForm.setIssueId( yahooIssueDto.getIssueId() );
         yahooIssueinputForm.setStartDate( yahooIssueDto.getStartDate() );
         yahooIssueinputForm.setStartHour( yahooIssueDto.getStartHour() );
         yahooIssueinputForm.setStartMin( yahooIssueDto.getStartMin() );
-        yahooIssueinputForm.setEndHour( yahooIssueDto.getEndHour() );
-        yahooIssueinputForm.setEndMin( yahooIssueDto.getEndMin() );
 
         return yahooIssueinputForm;
     }
