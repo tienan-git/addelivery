@@ -14,6 +14,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +39,7 @@ import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.bean.TwitterDateReportCsvBean;
 import jp.acepro.haishinsan.bean.TwitterDeviceReportCsvBean;
 import jp.acepro.haishinsan.bean.TwitterRegionReportCsvBean;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
 import jp.acepro.haishinsan.dao.TwitterCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.TwitterDeviceReportCustomDao;
@@ -47,9 +50,13 @@ import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.db.entity.TwitterCampaignManage;
 import jp.acepro.haishinsan.db.entity.TwitterDeviceReport;
 import jp.acepro.haishinsan.db.entity.TwitterRegionReport;
+import jp.acepro.haishinsan.dto.twitter.TwitterBatchCampaign;
+import jp.acepro.haishinsan.dto.twitter.TwitterBatchCampaignParams;
+import jp.acepro.haishinsan.dto.twitter.TwitterBatchCampaignsReq;
 import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
 import jp.acepro.haishinsan.dto.twitter.TwitterCampaignDataRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterDisplayReportDto;
+import jp.acepro.haishinsan.dto.twitter.TwitterFundingInstrumentRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterGraphReportDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterReport;
 import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
@@ -58,9 +65,12 @@ import jp.acepro.haishinsan.dto.twitter.TwitterReportingJobsRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterReportingReq;
 import jp.acepro.haishinsan.dto.twitter.TwitterReportingRes;
 import jp.acepro.haishinsan.dto.twitter.TwitterShopDto;
+import jp.acepro.haishinsan.entity.IssueTwitterCampaign;
 import jp.acepro.haishinsan.enums.ReportType;
+import jp.acepro.haishinsan.enums.TwitterOperationType;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.BaseService;
+import jp.acepro.haishinsan.service.BudgetCalculationService;
 import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.DateUtil;
@@ -80,6 +90,12 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
 
     @Autowired
     TwitterReportingService twitterReportingService;
+
+    @Autowired
+    BudgetCalculationService budgetCalculationService;
+
+    @Autowired
+    IssueCustomDao issueCustomDao;
 
     @Autowired
     ApplicationProperties applicationProperties;
@@ -1012,4 +1028,124 @@ public class TwitterReportingServiceImpl extends BaseService implements TwitterR
         }
         return strbuffer.toString();
     }
+
+    // 自動予算変更
+    @Override
+    public void changeBudget() {
+
+        Long shopId = null;
+        String accountId = null;
+        String fundingInstrumentId = null;
+        String operationType = TwitterOperationType.UPDATE.getLabel();
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+
+        // 予算
+        long calculatedBudget = 0;
+        String startDateTime = null;
+        String endDateTime = null;
+        long budget = 0;
+        long costFee = 0;
+
+        // 全ての店舗を取得する
+        List<Shop> shopList = shopCustomDao.selectAllShop();
+        // 店舗毎、campaignListを取得する
+        for (Shop shop : shopList) {
+            List<IssueTwitterCampaign> twitterIssueList = new ArrayList<>();
+            List<TwitterBatchCampaign> twitterBatchCampaignList = new ArrayList<>();
+            // TwitterアカウントID
+            accountId = shop.getTwitterAccountId();
+            // Call API: TwitterアカウントIDでfundingInstrumentIdを取得
+            fundingInstrumentId = getFundingInstrumentId(accountId);
+            // shopIdでTwitter issueListを取得する
+            shopId = shop.getShopId();
+            twitterIssueList = issueCustomDao.selectTwitterIssueListByShopId(shopId, now);
+            for (IssueTwitterCampaign issueTwitterCampaign : twitterIssueList) {
+                // db検索: costFee 実際費用（前日まで使った分）
+                TwitterDeviceReport twitterDeviceReport = twitterDeviceReportCustomtDao
+                        .selectCostFeeByCampaignId(issueTwitterCampaign.getTwitterCampaignId(), getDateString());
+                if (twitterDeviceReport != null) {
+                    costFee = Long.valueOf(twitterDeviceReport.getBilledChargeLoaclMicro().substring(0,
+                            twitterDeviceReport.getBilledChargeLoaclMicro().indexOf(".")));
+                    budget = issueTwitterCampaign.getTotalBudget();
+                    startDateTime = issueTwitterCampaign.getStartDate();
+                    endDateTime = issueTwitterCampaign.getEndDate();
+                    // 予算計算
+                    calculatedBudget = budgetCalculationService.calculateBudget(startDateTime, endDateTime, budget,
+                            costFee, LocalDateTime.now());
+                    if (calculatedBudget != 0) {
+                        // Batch API用Requestデータ作る
+                        TwitterBatchCampaign campaign = new TwitterBatchCampaign();
+                        TwitterBatchCampaignParams params = new TwitterBatchCampaignParams();
+                        campaign.setOperation_type(operationType);
+                        params.setFunding_instrument_id(fundingInstrumentId);
+                        params.setDaily_budget_amount_local_micro(String.valueOf(calculatedBudget * 1000000));
+                        params.setCampaign_id(issueTwitterCampaign.getTwitterCampaignId());
+                        campaign.setParams(params);
+                        twitterBatchCampaignList.add(campaign);
+                    }
+                }
+            }
+            log.debug("「予算バッチ」店舗：" + shop.getShopName());
+            log.debug("Twitter店舗アカウントID: " + accountId);
+            log.debug("「予算バッチ」Request：" + twitterBatchCampaignList.toString());
+            if (!twitterBatchCampaignList.isEmpty())
+                changeCampaignInfo(accountId, twitterBatchCampaignList);
+        }
+    }
+
+    // API: campaign総予算変更
+    private void changeCampaignInfo(String accountId, List<TwitterBatchCampaign> twitterBatchCampaignList) {
+        try {
+            // パラーメター
+            SortedMap<String, String> parameters = new TreeMap<String, String>();
+            // Http Request URL
+            String call_url = "https://ads-api.twitter.com/6/batch/accounts/" + accountId + "/campaigns";
+            String method = "POST";
+            // oauth Header
+            String auth = twitterCampaignApiService.getHeader(method, call_url, parameters);
+            // Request body
+            TwitterBatchCampaignsReq body = new TwitterBatchCampaignsReq();
+            body.setRequest(twitterBatchCampaignList);
+            // Call API
+            call(call_url, HttpMethod.POST, body.getRequest(), auth, TwitterReportingRes.class);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            throw new SystemException("システムエラー発生しました");
+        }
+    }
+
+    // API : 支払い方法ID取得
+    @Transactional
+    private String getFundingInstrumentId(String accountId) {
+
+        String fundingInstrumentId = null;
+
+        try {
+            // Http request URL
+            String url = applicationProperties.getTwitterhost() + accountId + "/funding_instruments";
+            String method = "GET";
+            // パラメーター
+            SortedMap<String, String> parameters = new TreeMap<String, String>();
+            // oauth Header
+            String auth = twitterCampaignApiService.getHeader(method, url, parameters);
+            // Call API
+            TwitterFundingInstrumentRes twitterFundingInstrumentRes = call(url, HttpMethod.GET, null, auth,
+                    TwitterFundingInstrumentRes.class);
+            // 支払い方法ID
+            fundingInstrumentId = twitterFundingInstrumentRes.getData().get(0).getId();
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            throw new SystemException("システムエラー発生しました");
+        }
+        return fundingInstrumentId;
+    }
+
+    private String getDateString() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String formattedString = today.format(formatter);
+        return formattedString;
+    }
+
 }
