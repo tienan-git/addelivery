@@ -25,4 +25,5 @@ public interface FacebookReportingService {
 
 	String download(List<String> campaignIdList, String startDate, String endDate, Integer reportType);
 
+    void adjustDailyBudget();
 }

@@ -6,6 +6,7 @@ import org.seasar.doma.Dao;
 import org.seasar.doma.Select;
 
 import jp.acepro.haishinsan.db.annotation.InjectConfig;
+import jp.acepro.haishinsan.db.entity.FacebookDeviceReport;
 import jp.acepro.haishinsan.db.entity.GoogleDeviceReport;
 
 @Dao
@@ -26,4 +27,9 @@ public interface GoogleDeviceReportCustomDao {
 
 	@Select
 	List<GoogleDeviceReport> selectDailyGraph(List<Long> campaignIdList, String startDate, String endDate);
+
+    // 使った金額を検索（Batch:自動予算変更に使う）
+    @Select
+    GoogleDeviceReport selectCostFeeByCampaignId(String campaignId, String date, String startDate);
+
 }

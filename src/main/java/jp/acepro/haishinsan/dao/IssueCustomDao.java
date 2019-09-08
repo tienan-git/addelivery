@@ -32,11 +32,19 @@ public interface IssueCustomDao {
 	@Select
 	List<Issue> selectFacebookIssueNeededStop(String date);
 
+	// Facebookの日予算調整必要なissueList検索する
+	@Select
+	List<Issue> selectFacebookIssueNeededBudgetAdjustment(Long shopId, String date);
+
 	@Select
 	List<Issue> selectGoogleIssueNeededStart(String date);
 
 	@Select
 	List<Issue> selectGoogleIssueNeededStop(String date);
+
+	// Googleの日予算調整必要なissueList検索する
+	@Select
+	List<Issue> selectGoogleIssueNeededBudgetAdjustment(Long shopId, String date);
 
 	// twitterCampaignIdで検索する
 	@Select
