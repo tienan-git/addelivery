@@ -30,6 +30,6 @@ public interface GoogleDeviceReportCustomDao {
 
     // 使った金額を検索（Batch:自動予算変更に使う）
     @Select
-    GoogleDeviceReport selectCostFeeByCampaignId(String campaignId, String date, String startDate);
+    GoogleDeviceReport selectCostFeeByCampaignId(Long campaignId, String date, String startDate);
 
 }

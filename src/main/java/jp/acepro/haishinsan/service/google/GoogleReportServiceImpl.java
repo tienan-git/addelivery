@@ -1,7 +1,11 @@
 package jp.acepro.haishinsan.service.google;
 
 import java.io.StringWriter;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,11 +34,13 @@ import jp.acepro.haishinsan.dao.GoogleLocationReportCustomDao;
 import jp.acepro.haishinsan.dao.GoogleLocationReportDao;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
+import jp.acepro.haishinsan.db.entity.FacebookDeviceReport;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleDeviceReport;
 import jp.acepro.haishinsan.db.entity.GoogleLocationReport;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.db.entity.Shop;
+import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleDeviceReportDto;
 import jp.acepro.haishinsan.dto.google.GoogleLocationReportDto;
 import jp.acepro.haishinsan.dto.google.GoogleReportDisplayDto;
@@ -42,10 +48,15 @@ import jp.acepro.haishinsan.dto.google.GoogleReportDto;
 import jp.acepro.haishinsan.dto.google.GoogleReportSearchDto;
 import jp.acepro.haishinsan.enums.GoogleDeviceType;
 import jp.acepro.haishinsan.enums.ReportType;
+import jp.acepro.haishinsan.service.BudgetCalculationService;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
+import jp.acepro.haishinsan.service.google.api.GetAdGroups;
 import jp.acepro.haishinsan.service.google.api.GetDeviceReport;
 import jp.acepro.haishinsan.service.google.api.GetLocationReport;
+import jp.acepro.haishinsan.service.google.api.UpdateAdGroup;
+import jp.acepro.haishinsan.service.google.api.UpdateCampaign;
+import jp.acepro.haishinsan.service.google.api.UpdateCampaignBudget;
 import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.ReportUtil;
 import jp.acepro.haishinsan.util.StringFormatter;
@@ -76,6 +87,9 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 
 	@Autowired
 	ShopCustomDao shopCustomDao;
+
+    @Autowired
+    BudgetCalculationService budgetCalculationService;
 
 	@Autowired
 	ApplicationProperties applicationProperties;
@@ -565,6 +579,67 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 		// 終了処理
 		writer.close();
 		return out.toString();
+	}
+
+    // 自動予算変更
+    @Override
+    public void adjustDailyBudget() {
+
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+
+        // 予算
+        long calculatedBudget = 0;
+        String startDateTime = null;
+        String endDateTime = null;
+        long budget = 0;
+        long costFee = 0;
+
+        // 全ての店舗を取得する
+        List<Shop> shopList = shopCustomDao.selectAllShop();
+        // 店舗毎、campaignListを取得する
+        for (Shop shop : shopList) {
+	        List<Issue> issueList = issueCustomDao.selectGoogleIssueNeededBudgetAdjustment(shop.getShopId(), now);
+	        for (Issue issue : issueList) {
+	            startDateTime = issue.getStartDate();
+	            endDateTime = issue.getEndDate();
+	            // db検索: costFee 実際費用（前日まで使った分）
+	        	GoogleDeviceReport googleDeviceReport = googleDeviceReportCustomDao.selectCostFeeByCampaignId(issue.getGoogleCampaignId(), getDateString(), startDateTime.substring(0, 10));
+	            if (googleDeviceReport != null) {
+	                costFee = googleDeviceReport.getCosts().longValue();
+	                budget = issue.getBudget();
+	                // 予算計算
+	                calculatedBudget = budgetCalculationService.calculateBudget(startDateTime, endDateTime, budget,
+	                        costFee, LocalDateTime.now());
+	                if (calculatedBudget != 0) {
+	                    // APIでキャンペーンの日予算を更新する
+	                	updateGoogleDailyBudget(issue.getGoogleCampaignId(), calculatedBudget, shop);
+	                }
+	            }
+	        }
+        }
+    }
+
+    private String getDateString() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedString = today.format(formatter);
+        return formattedString;
+	}
+
+	private void updateGoogleDailyBudget(Long campaignId, Long newBudget, Shop shop) {
+
+		String propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+
+		GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
+		googleCampaignDto.setBudget(newBudget);
+
+		UpdateCampaignBudget updateCampaignBudget = new UpdateCampaignBudget();
+		updateCampaignBudget.propFileName = propFileName;
+		updateCampaignBudget.googleAccountId = shop.getGoogleAccountId();
+		updateCampaignBudget.ratio = shop.getMarginRatio();
+		updateCampaignBudget.googleCampaignDto = googleCampaignDto;
+		updateCampaignBudget.run(campaignId);
+
 	}
 
 	// 合計行作成
