@@ -55,6 +55,7 @@ public class BudgetAdjustmentApiServiceImpl implements BudgetAdjustmentApiServic
 		facebookReportingService.adjustDailyBudget();
 
 		// Google
+		googleReportService.adjustDailyBudget();
 
 	}
 
