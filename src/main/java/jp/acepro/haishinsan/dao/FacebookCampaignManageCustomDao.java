@@ -17,4 +17,7 @@ public interface FacebookCampaignManageCustomDao {
 
 	@Select
 	FacebookCampaignManage selectByCampaignId(String campaignId);
+	
+	@Select
+	List<FacebookCampaignManage> selectWithActiveShop();
 }
