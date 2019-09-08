@@ -28,6 +28,9 @@
 				<form th:action="@{/dsp/completeCampaign}" method="post"
 					th:object="${dspCampaignInputForm}">
 					<div th:replace="common/errorMessages"></div>
+					<div class="form-group row">
+						<label class="col-sm-12 col-form-label text-danger">★こちらは、審査済クリエイティブのみを表示する。</label>
+					</div>
 					<div class="dt-responsive table-responsive">
 						<table id="basicTable"
 							class="table table-striped table-bordered nowrap"
@@ -51,7 +54,7 @@
 									<td><input type="checkbox"
 										th:field="${dspCampaignInputForm.idList}"
 										th:value="${dspCreativeDto.creativeId}" /></td>
-									<td><a  
+									<td><a
 										th:href="@{/dsp/creativeDetail(creativeId=${dspCreativeDto.creativeId})}"
 										th:text="${dspCreativeDto.creativeId}">0001</a></td>
 									<td><a href="#" th:onclick="|show((${stat.index}))|"
@@ -62,11 +65,13 @@
 							</tbody>
 						</table>
 					</div>
-					<div class="form-group row">
+					<div class="form-group row"
+						th:if="${dspCreativeDtoList.size() != 0}">
 						<label class="col-sm-2 col-form-label"></label>
 						<div class="col-sm-12 text-center">
 							<button class="btn btn-success" type="submit"
-								th:formaction="@{/campaign/dsp/createCampaign}" th:formmethod="post">次へ</button>
+								th:formaction="@{/campaign/dsp/createCampaign}"
+								th:formmethod="post">次へ</button>
 						</div>
 					</div>
 				</form>
