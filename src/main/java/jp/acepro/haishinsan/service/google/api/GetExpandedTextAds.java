@@ -28,6 +28,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
 import com.google.api.ads.adwords.axis.v201809.cm.ExpandedTextAd;
+import com.google.api.ads.adwords.axis.v201809.cm.PolicyApprovalStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.Selector;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
@@ -56,7 +57,8 @@ public class GetExpandedTextAds {
 	public String propFileName;
 	public Long adGroupId;
 	public List<ExpandedTextAd> expandedTextAdList = new ArrayList<ExpandedTextAd>();
-
+	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
+	
 	public void run() {
 		AdWordsSession session;
 		try {
@@ -135,7 +137,7 @@ public class GetExpandedTextAds {
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
 				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.HeadlinePart1,
-						AdGroupAdField.HeadlinePart2)
+						AdGroupAdField.HeadlinePart2, AdGroupAdField.CombinedApprovalStatus)
 				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
 				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "EXPANDED_TEXT_AD").build();
@@ -149,6 +151,7 @@ public class GetExpandedTextAds {
 				for (AdGroupAd adGroupAd : page.getEntries()) {
 					ExpandedTextAd expandedTextAd = (ExpandedTextAd) adGroupAd.getAd();
 					expandedTextAdList.add(expandedTextAd);
+					policyApprovalStatusList.add(adGroupAd.getPolicySummary().getCombinedApprovalStatus());
 					// System.out.printf("Expanded text ad with ID %d, status '%s', and headline '%s
 					// - %s' was found.%n", adGroupAd.getAd().getId(), adGroupAd.getStatus(),
 					// expandedTextAd.getHeadlinePart1(), expandedTextAd.getHeadlinePart2());

@@ -29,4 +29,8 @@ public interface GoogleCampaignManageCustomDao {
 
 	@Select
 	List<GoogleCampaignManage> selectByShopIdAndAdType(Long shopId, String adType);
+	
+	@Select
+	List<GoogleCampaignManage> selectWithActiveShop();
+	
 }
