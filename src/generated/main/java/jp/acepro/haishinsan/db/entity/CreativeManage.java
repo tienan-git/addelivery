@@ -68,6 +68,10 @@ public class CreativeManage extends BaseEntity {
     @Column(name = "is_actived")
     Integer isActived;
 
+    /**  */
+    @Column(name = "screening")
+    Integer screening;
+
     /** 
      * Returns the creativeManageId.
      * 
@@ -264,5 +268,23 @@ public class CreativeManage extends BaseEntity {
      */
     public void setIsActived(Integer isActived) {
         this.isActived = isActived;
+    }
+
+    /** 
+     * Returns the screening.
+     * 
+     * @return the screening
+     */
+    public Integer getScreening() {
+        return screening;
+    }
+
+    /** 
+     * Sets the screening.
+     * 
+     * @param screening the screening
+     */
+    public void setScreening(Integer screening) {
+        this.screening = screening;
     }
 }

@@ -112,6 +112,7 @@ public enum Operation implements CodeEnum<String> {
 	DSP_CREATIVE_DELETE("DSP_CREATIVE_DELETE", "DSPクリエイティブ削除"), // DSPクリエイティブ削除
 	DSP_CREATIVE_LIST("DSP_CREATIVE_LIST", "DSPクリエイティブ一覧"), // DSPクリエイティブ一覧
 	DSP_CREATIVE_VIEW("DSP_CREATIVE_VIEW", "DSPクリエイティブ照会"), // DSPクリエイティブ照会
+	DSP_CREATIVE_UPDATE("DSP_CREATIVE_UPDATE", "DSPクリエイティブ更新"), // DSPクリエイティブ更新
 
 	DSP_CAMPAIGN_CREATE("DSP_CAMPAIGN_CREATE", "DSPキャンペーン新規作成"), // DSPキャンペーン新規作成
 	DSP_CAMPAIGN_UPDATE("DSP_CAMPAIGN_UPDATE", "DSPキャンペーン削除"), // DSPキャンペーン削除

@@ -1,9 +1,5 @@
 package jp.acepro.haishinsan.service.api;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +12,9 @@ import com.facebook.ads.sdk.APIException;
 import com.facebook.ads.sdk.APINodeList;
 import com.facebook.ads.sdk.Ad;
 import com.facebook.ads.sdk.Ad.EnumEffectiveStatus;
-import com.facebook.ads.sdk.AdSet;
 import com.facebook.ads.sdk.Campaign;
-import com.facebook.ads.sdk.IDName;
-import com.facebook.ads.sdk.Targeting;
-import com.facebook.ads.sdk.TargetingGeoLocation;
-import com.facebook.ads.sdk.TargetingGeoLocationCity;
 
+//gitlab.com/acepro/reporting/haishinsan.git
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.FacebookCampaignManageDao;
@@ -31,28 +23,20 @@ import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
-import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
-import jp.acepro.haishinsan.db.entity.Issue;
-import jp.acepro.haishinsan.db.entity.Shop;
-import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.enums.CheckStatus;
-import jp.acepro.haishinsan.enums.UnitPriceType;
+import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.SystemException;
+//gitlab.com/acepro/reporting/haishinsan.git
 import jp.acepro.haishinsan.service.CodeMasterService;
-import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
+import jp.acepro.haishinsan.service.dsp.DspCreativeService;
 import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.service.facebook.FacebookService;
 import jp.acepro.haishinsan.service.google.GoogleReportService;
-import jp.acepro.haishinsan.service.google.api.GetAdGroups;
-import jp.acepro.haishinsan.service.google.api.UpdateAdGroup;
-import jp.acepro.haishinsan.service.google.api.UpdateCampaign;
-import jp.acepro.haishinsan.service.google.api.UpdateCampaignStatus;
 import jp.acepro.haishinsan.service.issue.FacebookReportingService;
 import jp.acepro.haishinsan.service.issue.TwitterReportingService;
 import jp.acepro.haishinsan.service.youtube.YoutubeReportService;
-import jp.acepro.haishinsan.util.CalculateUtil;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -107,29 +91,37 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 	@Autowired
 	GoogleCampaignManageCustomDao googleCampaignManageCustomDao;
 
+	@Autowired
+	DspCreativeService dspCreativeService;
+
 	@Async
 	@Override
 	@Transactional
 	public void executeAsync() {
-		
+
 		// DSP
-		
-		
+		try {
+			// クリエイティブ審査状態更新
+			dspCreativeService.updateCreatives();
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.DSP_CREATIVE_UPDATE.getValue(), "クリエイティブ審査状態更新が成功しました。");
+		} catch (Exception e) {
+			log.error("クリエイティブ審査状態更新中エラー発生", e);
+			// オペレーションログ記録
+			operationService.createWithoutUser(Operation.DSP_CREATIVE_UPDATE.getValue(), e.getMessage());
+		}
 		// Facebook
 		updateLocalFacebookAdEffectiveStatusIssueAsync();
 
 		// Google
-
 	}
 
-	
 	@Transactional
 	private void updateLocalFacebookAdEffectiveStatusIssueAsync() {
 
 		List<FacebookCampaignManage> facebookCampaignManageList = facebookCampaignManageCustomDao.selectWithActiveShop();
 
-		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
-				applicationProperties.getFacebookAppSecret());
+		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(), applicationProperties.getFacebookAppSecret());
 
 		for (FacebookCampaignManage facebookCampaignManage : facebookCampaignManageList) {
 			try {
@@ -137,8 +129,7 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 				APINodeList<Ad> ads = new Campaign(facebookCampaignManage.getCampaignId(), context).getAds()
 						// .requestNameField()
 						// .requestConfiguredStatusField()
-						.requestEffectiveStatusField()
-						.execute();
+						.requestEffectiveStatusField().execute();
 				if (ads == null || ads.size() < 1) {
 					continue;
 				}
@@ -164,6 +155,5 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 			}
 		}
 	}
-
 
 }

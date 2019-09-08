@@ -23,4 +23,9 @@ public interface DspCreativeService {
 	 * @return
 	 */
 	List<DspCreativeDto> selectCreativeByIdList(List<Integer> idList);
+	
+	/**
+	 * 店舗単位でクリエイティブ審査状態更新
+	 */
+	void updateCreatives();
 }
