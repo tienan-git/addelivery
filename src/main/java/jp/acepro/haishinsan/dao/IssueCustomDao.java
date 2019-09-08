@@ -8,6 +8,7 @@ import org.seasar.doma.Select;
 import jp.acepro.haishinsan.db.annotation.InjectConfig;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.IssuesDto;
+import jp.acepro.haishinsan.entity.IssueTwitterCampaign;
 import jp.acepro.haishinsan.entity.IssueWithShopWithCorporation;
 import jp.acepro.haishinsan.entity.TwitterCampaignWithIssueWithTweetList;
 
@@ -47,9 +48,9 @@ public interface IssueCustomDao {
     @Select
     List<Issue> selectExistGoogleDuplicateIssue(Long campaignId, String startTime, String endTime);
 
-    // 全てのissueListを検索する
+    // TwitterのissueList検索する
     @Select
-    List<Issue> selectAll();
+    List<IssueTwitterCampaign> selectTwitterIssueListByShopId(Long shopId, String date);
 
     // issueListを検索する(Role:ADMIN)
     @Select

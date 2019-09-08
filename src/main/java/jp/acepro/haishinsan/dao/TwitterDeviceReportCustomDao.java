@@ -14,22 +14,26 @@ import jp.acepro.haishinsan.dto.twitter.TwitterReportDto;
 @InjectConfig
 public interface TwitterDeviceReportCustomDao {
 
-	@Select
-	List<TwitterDeviceReport> selectByDay(LocalDate day, String campaignId);
+    @Select
+    List<TwitterDeviceReport> selectByDay(LocalDate day, String campaignId);
 
-	// デバイス別で検索
-	@Select
-	List<TwitterDeviceReport> selectDeviceReport(TwitterReportDto twitterReportDto);
+    // デバイス別で検索
+    @Select
+    List<TwitterDeviceReport> selectDeviceReport(TwitterReportDto twitterReportDto);
 
-	// 日別で検索
-	@Select
-	List<TwitterDeviceReport> selectDayReport(TwitterReportDto twitterReportDto);
+    // 日別で検索
+    @Select
+    List<TwitterDeviceReport> selectDayReport(TwitterReportDto twitterReportDto);
 
-	// デバイス別で検索（グラフ）
-	@Select
-	List<TwitterDeviceReport> selectDeviceReportGraph(TwitterReportDto twitterReportDto);
+    // デバイス別で検索（グラフ）
+    @Select
+    List<TwitterDeviceReport> selectDeviceReportGraph(TwitterReportDto twitterReportDto);
 
-	// 日別で検索（グラフ）
-	@Select
-	List<TwitterDeviceReport> selectDayReportGraph(TwitterReportDto twitterReportDto);
+    // 日別で検索（グラフ）
+    @Select
+    List<TwitterDeviceReport> selectDayReportGraph(TwitterReportDto twitterReportDto);
+
+    // 使った金額を検索（Batch:自動予算変更に使う）
+    @Select
+    TwitterDeviceReport selectCostFeeByCampaignId(String campaignId, String date);
 }

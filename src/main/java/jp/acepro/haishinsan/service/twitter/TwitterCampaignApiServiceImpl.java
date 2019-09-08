@@ -218,14 +218,6 @@ public class TwitterCampaignApiServiceImpl extends BaseService implements Twitte
         List<TwitterTweet> tweetList = new ArrayList<TwitterTweet>();
         List<TwitterTweet> tweetListFromSession = twitterAdsDto.getTweetList();
         List<String> tweetIdList = twitterAdsDto.getTweetIdList();
-        log.debug("-------------------------------------------------");
-        log.debug("-------------------------------------------------");
-        log.debug("tweetListFromSession : " + tweetListFromSession.toString());
-        log.debug("-------------------------------------------------");
-        log.debug("-------------------------------------------------");
-        log.debug("tweetIdList : " + tweetIdList.toString());
-        log.debug("-------------------------------------------------");
-        log.debug("-------------------------------------------------");
 
         for (TwitterTweet twitterTweet : tweetListFromSession) {
             for (String tweetId : tweetIdList) {
