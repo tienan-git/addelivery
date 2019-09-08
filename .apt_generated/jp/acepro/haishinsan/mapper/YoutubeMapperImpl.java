@@ -10,7 +10,7 @@ import jp.acepro.haishinsan.form.YoutubeReportSearchForm;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-08-24T14:36:44+0900",
+    date = "2019-09-06T22:22:59+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class YoutubeMapperImpl implements YoutubeMapper {
@@ -49,14 +49,14 @@ public class YoutubeMapperImpl implements YoutubeMapper {
         youtubeIssueDto.setCampaignId( youtubeIssueinputForm.getCampaignId() );
         youtubeIssueDto.setCampaignName( youtubeIssueinputForm.getCampaignName() );
         youtubeIssueDto.setEndDate( youtubeIssueinputForm.getEndDate() );
+        youtubeIssueDto.setEndHour( youtubeIssueinputForm.getEndHour() );
+        youtubeIssueDto.setEndMin( youtubeIssueinputForm.getEndMin() );
         youtubeIssueDto.setIssueId( youtubeIssueinputForm.getIssueId() );
         youtubeIssueDto.setLp( youtubeIssueinputForm.getLp() );
         youtubeIssueDto.setStartDate( youtubeIssueinputForm.getStartDate() );
+        youtubeIssueDto.setStartHour( youtubeIssueinputForm.getStartHour() );
+        youtubeIssueDto.setStartMin( youtubeIssueinputForm.getStartMin() );
         youtubeIssueDto.setVideoUrl( youtubeIssueinputForm.getVideoUrl() );
-        youtubeIssueDto.setStartHour(youtubeIssueinputForm.getStartHour());
-        youtubeIssueDto.setStartMin(youtubeIssueinputForm.getStartMin());
-        youtubeIssueDto.setEndHour(youtubeIssueinputForm.getEndHour());
-        youtubeIssueDto.setEndMin(youtubeIssueinputForm.getEndMin());
 
         return youtubeIssueDto;
     }

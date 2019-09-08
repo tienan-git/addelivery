@@ -172,12 +172,12 @@ public class GoogleIssueController {
 			if (list != null) {
 				googleIssueInputForm.setLocationList(new ArrayList<Long>(list));
 			}
+	        googleIssueInputForm.setUnitPriceType(googleTemplateDto.getUnitPriceType());
 //	        googleIssueInputForm.setResAdDescription( googleTemplateDto.getResAdDescription() );
 //	        googleIssueInputForm.setResAdShortTitle( googleTemplateDto.getResAdShortTitle() );
 //	        googleIssueInputForm.setTextAdDescription( googleTemplateDto.getTextAdDescription() );
 //	        googleIssueInputForm.setTextAdTitle1( googleTemplateDto.getTextAdTitle1() );
 //	        googleIssueInputForm.setTextAdTitle2( googleTemplateDto.getTextAdTitle2() );
-//	        googleIssueInputForm.setUnitPriceType( googleTemplateDto.getUnitPriceType() );
 		}
 
 		session.setAttribute("campaignId", googleIssueInputForm.getIdList().get(0));

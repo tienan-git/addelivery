@@ -1,5 +1,5 @@
 -- Project Name : reporting
--- Date/Time    : 2019/08/25 10:35:48
+-- Date/Time    : 2019/09/08 11:36:56
 -- Author       : luoq1
 -- RDBMS Type   : MySQL
 -- Application  : A5:SQL Mk-2
@@ -436,7 +436,7 @@ create table dsp_token (
 create table issue (
   issue_id bigint auto_increment not null comment '案件ID'
   , shop_id bigint not null comment '店舗ID'
-  , approval_flag CHAR(1) comment '審査フラグ'
+  , approval_flag CHAR(1) comment '承認フラグ'
   , dsp_campaign_id INT comment 'DSPキャンペーンID'
   , twitter_campaign_id VARCHAR(80) comment 'TwitterキャンペーンID'
   , google_campaign_id bigint comment 'GoogleキャンペーンID'
@@ -452,6 +452,7 @@ create table issue (
   , google_regions text comment 'Google地域コード'
   , facebook_oneday_budget bigint comment 'Facebook一日予算'
   , facebook_regions text comment 'Facebook地域コード'
+  , unit_price_type CHAR(2) comment '単価タイプ'
   , start_timestamp DATETIME(6) comment '配信開始タイムスタンプ'
   , end_timestamp DATETIME(6) comment '配信終了タイムスタンプ'
   , version_no bigint not null comment 'バージョン番号'
@@ -507,6 +508,7 @@ create table facebook_campaign_manage (
   , campaign_id VARCHAR(80) not null comment 'キャンペーンID'
   , shop_id bigint comment '店舗ID'
   , campaign_name VARCHAR(240) comment 'キャンペーン名'
+  , check_status CHAR(1) comment '審査ステータス'
   , budget bigint comment '予算'
   , segment_id INT comment 'セグメントID'
   , regions text comment '地域コード'
@@ -705,6 +707,7 @@ create table google_campaign_manage (
   , campaign_id bigint not null comment 'キャンペーンID'
   , shop_id bigint comment '店舗ID'
   , campaign_name VARCHAR(240) not null comment 'キャンペーン名'
+  , check_status CHAR(1) comment '審査ステータス'
   , budget bigint comment '予算'
   , regions text comment '地域コード'
   , ad_type CHAR(2) not null comment '広告タイプ:01:レスポンシブ広告 02:イメージ広告 03:拡張テキスト広告'

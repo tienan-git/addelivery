@@ -521,6 +521,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
 		issue.setGoogleCampaignId(googleIssueDto.getCampaignId());
 		issue.setCampaignName(googleIssueDto.getCampaignName());
+		issue.setUnitPriceType(googleIssueDto.getUnitPriceType());
 		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), startTime,
 				endTime));
 		issue.setStartDate(startTime);
@@ -554,6 +555,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
 		googleIssueDto.setCampaignName(googleIssueInputForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleIssueInputForm.getUnitPriceType());
 		googleIssueDto.setBudget(googleIssueInputForm.getBudget());
 		googleIssueDto.setEndDate(googleIssueInputForm.getEndDate());
 		googleIssueDto.setStartTime(googleIssueInputForm.getStartTime());

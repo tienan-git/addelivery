@@ -893,7 +893,8 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 		issue.setShopId(ContextUtil.getCurrentShopId());
 		issue.setFacebookCampaignId(fbIssueDto.getCampaignId());
 		issue.setCampaignName(fbIssueDto.getCampaignName());
-		issue.setBudget(CalculateUtil.calTotalBudget(fbIssueDto.getDailyBudget(), startTime,
+		issue.setUnitPriceType(fbIssueDto.getUnitPriceType());
+        issue.setBudget(CalculateUtil.calTotalBudget(fbIssueDto.getDailyBudget(), startTime,
 				endTime));
 		issue.setStartDate(startTime);
 		issue.setEndDate(endTime);

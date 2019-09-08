@@ -12,7 +12,7 @@ import jp.acepro.haishinsan.form.TwitterTemplateInputForm;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-08-24T14:36:44+0900",
+    date = "2019-09-06T22:22:59+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class TwitterMapperImpl implements TwitterMapper {
@@ -158,6 +158,8 @@ public class TwitterMapperImpl implements TwitterMapper {
         if ( twitterAdsInputForm.getDailyBudget() != null ) {
             twitterAdsDto.setDailyBudget( twitterAdsInputForm.getDailyBudget() );
         }
+        twitterAdsDto.setEndHour( twitterAdsInputForm.getEndHour() );
+        twitterAdsDto.setEndMin( twitterAdsInputForm.getEndMin() );
         twitterAdsDto.setEndTime( twitterAdsInputForm.getEndTime() );
         List<TwitterTweet> list = twitterAdsInputForm.getFollowersTweetList();
         if ( list != null ) {
@@ -171,6 +173,8 @@ public class TwitterMapperImpl implements TwitterMapper {
             twitterAdsDto.setRegions(       new ArrayList<String>( list_ )
             );
         }
+        twitterAdsDto.setStartHour( twitterAdsInputForm.getStartHour() );
+        twitterAdsDto.setStartMin( twitterAdsInputForm.getStartMin() );
         twitterAdsDto.setStartTime( twitterAdsInputForm.getStartTime() );
         List<TwitterTemplateDto> list__ = twitterAdsInputForm.getTemplateList();
         if ( list__ != null ) {

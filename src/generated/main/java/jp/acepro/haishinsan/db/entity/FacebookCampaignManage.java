@@ -84,6 +84,10 @@ public class FacebookCampaignManage extends BaseEntity {
     @Column(name = "is_actived")
     Integer isActived;
 
+    /** 審査ステータス */
+    @Column(name = "check_status")
+    String checkStatus;
+
     /** 
      * Returns the facebookCampaignManageId.
      * 
@@ -352,5 +356,23 @@ public class FacebookCampaignManage extends BaseEntity {
      */
     public void setIsActived(Integer isActived) {
         this.isActived = isActived;
+    }
+
+    /** 
+     * Returns the checkStatus.
+     * 
+     * @return the checkStatus
+     */
+    public String getCheckStatus() {
+        return checkStatus;
+    }
+
+    /** 
+     * Sets the checkStatus.
+     * 
+     * @param checkStatus the checkStatus
+     */
+    public void setCheckStatus(String checkStatus) {
+        this.checkStatus = checkStatus;
     }
 }
