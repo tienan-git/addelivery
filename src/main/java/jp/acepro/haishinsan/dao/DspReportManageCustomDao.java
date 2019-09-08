@@ -40,4 +40,7 @@ public interface DspReportManageCustomDao {
 	@Select
 	List<DspReportManage> selectByCampaignIdsAndDate(List<Integer> campaignIds, String startDate, String endDate);
 
+	@Select
+	List<DspReportManage> selectByCampaignId(Integer dspCampaignId, String now);
+
 }

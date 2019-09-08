@@ -4,6 +4,7 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,20 +36,25 @@ import jp.acepro.haishinsan.dao.DspTemplateCustomDao;
 import jp.acepro.haishinsan.dao.DspTemplateDao;
 import jp.acepro.haishinsan.dao.DspTokenCustomDao;
 import jp.acepro.haishinsan.dao.DspTokenDao;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
+import jp.acepro.haishinsan.dao.ShopDao;
 import jp.acepro.haishinsan.db.entity.CreativeManage;
 import jp.acepro.haishinsan.db.entity.DspAdManage;
 import jp.acepro.haishinsan.db.entity.DspCampaignManage;
 import jp.acepro.haishinsan.db.entity.DspReportManage;
 import jp.acepro.haishinsan.db.entity.DspTemplate;
 import jp.acepro.haishinsan.db.entity.DspToken;
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportDto;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportReq;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportRes;
 import jp.acepro.haishinsan.dto.dsp.DspAdReportResDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDetailDto;
+import jp.acepro.haishinsan.dto.dsp.DspCampaignUpdateReq;
+import jp.acepro.haishinsan.dto.dsp.DspCampaignUpdateRes;
 import jp.acepro.haishinsan.dto.dsp.DspReportingGraphDto;
 import jp.acepro.haishinsan.dto.dsp.DspReportingListDto;
 import jp.acepro.haishinsan.dto.dsp.DspTemplateDto;
@@ -61,6 +67,7 @@ import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.mapper.DspMapper;
 import jp.acepro.haishinsan.service.BaseService;
+import jp.acepro.haishinsan.service.BudgetCalculationService;
 import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.ContextUtil;
 import jp.acepro.haishinsan.util.ReportUtil;
@@ -111,6 +118,15 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 
 	@Autowired
 	IssueDao issueDao;
+
+	@Autowired
+	IssueCustomDao issueCustomDao;
+
+	@Autowired
+	BudgetCalculationService budgetCalculationService;
+
+	@Autowired
+	ShopDao shopDao;
 
 	@Override
 	@Transactional
@@ -187,15 +203,13 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 	public DspTemplateDto createTemplate(DspTemplateDto dspTemplateDto) {
 
 		// テンプレート名チェック
-		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(),
-				ContextUtil.getCurrentShopId());
+		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(), ContextUtil.getCurrentShopId());
 		if (existName != null) {
 			throw new BusinessException(ErrorCodeConstant.E30001);
 		}
 
 		// テンプレート優先順チェック
-		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(),
-				ContextUtil.getCurrentShopId());
+		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(), ContextUtil.getCurrentShopId());
 		if (existPriority != null) {
 			throw new BusinessException(ErrorCodeConstant.E30002);
 		}
@@ -252,15 +266,13 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 	public void templateUpdate(DspTemplateDto dspTemplateDto) {
 
 		// テンプレート名チェック
-		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(),
-				ContextUtil.getCurrentShopId());
+		DspTemplate existName = dspTemplateCustomDao.selectByName(dspTemplateDto.getTemplateName(), ContextUtil.getCurrentShopId());
 		if (existName != null && !existName.getTemplateId().equals(dspTemplateDto.getTemplateId())) {
 			throw new BusinessException(ErrorCodeConstant.E30001);
 		}
 
 		// テンプレート優先順チェック
-		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(),
-				ContextUtil.getCurrentShopId());
+		DspTemplate existPriority = dspTemplateCustomDao.selectByPriority(dspTemplateDto.getTemplatePriority(), ContextUtil.getCurrentShopId());
 		if (existPriority != null && !existPriority.getTemplateId().equals(dspTemplateDto.getTemplateId())) {
 			throw new BusinessException(ErrorCodeConstant.E30002);
 		}
@@ -352,16 +364,14 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		}
 
 		// システムDBに保存しているレポーティング情報を検索条件で削除する
-		List<DspReportManage> dspReportManageListForDelete = dspReportManageCustomDao
-				.selectByCampaignIdsAndDate(campaignIds, startDate, endDate);
+		List<DspReportManage> dspReportManageListForDelete = dspReportManageCustomDao.selectByCampaignIdsAndDate(campaignIds, startDate, endDate);
 		dspReportManageDao.delete(dspReportManageListForDelete);
 		// 取得した広告レポートを編集して、システムDBに保存する
 		List<DspReportManage> dspReportManageList = new ArrayList<DspReportManage>();
 		for (DspAdReportResDto dspAdReportResDto : dspAdReportRes.getResult()) {
 			// 今回で取得したキャンペーン
 			DspAdManage dspAdManage = dspAdManageCustomDao.selectByAdId(dspAdReportResDto.getAd_id());
-			DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService
-					.getCampaignDetail(dspAdReportResDto.getCampaign_id(), shop.getDspUserId());
+			DspCampaignDetailDto dspCampaignDetailDto = dspCampaignService.getCampaignDetail(dspAdReportResDto.getCampaign_id(), shop.getDspUserId());
 			CreativeManage creativeManage = dspCreativeCustomDao.selectByCreativeId(dspAdManage.getCreativeId());
 			DspReportManage dspReportManage = new DspReportManage();
 			dspReportManage.setCampaignId(dspAdManage.getCampaignId());
@@ -426,8 +436,7 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 			price.add(longPrice.toString());
 			cpc.add(ReportUtil.calCpc(dspReportManage.getClickCount().longValue(), longPrice).toString());
 			cpm.add(ReportUtil.calCpm(dspReportManage.getImpressionCount().longValue(), longPrice).toString());
-			ctr.add(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(),
-					dspReportManage.getImpressionCount().longValue() * 100).toString());
+			ctr.add(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(), dspReportManage.getImpressionCount().longValue() * 100).toString());
 
 		}
 		// リストの名を付ける
@@ -488,8 +497,7 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 			dspReportingDto.setImpressionCount(dspReportManage.getImpressionCount());
 			dspReportingDto.setClickCount(dspReportManage.getClickCount());
 			dspReportingDto.setPrice(longPrice);
-			dspReportingDto.setCtr(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(),
-					dspReportManage.getImpressionCount().longValue()));
+			dspReportingDto.setCtr(ReportUtil.calCtr(dspReportManage.getClickCount().longValue(), dspReportManage.getImpressionCount().longValue()));
 			dspReportingDto.setCpc(ReportUtil.calCpc(dspReportManage.getClickCount().longValue(), longPrice));
 			dspReportingDto.setCpm(ReportUtil.calCpm(dspReportManage.getImpressionCount().longValue(), longPrice));
 			dspReportingDtoList.add(dspReportingDto);
@@ -682,6 +690,58 @@ public class DspApiServiceImpl extends BaseService implements DspApiService {
 		dspTemplateDto.setBillingType(dspTemplateList.get(0).getBillingType());
 		dspTemplateDto.setTemplatePriority(dspTemplateList.get(0).getTemplatePriority());
 		return dspTemplateDto;
+	}
+
+	@Override
+	public void updateDailyBudget() {
+
+		String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+		List<Issue> issues = issueCustomDao.selectDspIssues(now);
+
+		// Token取得
+		DspToken dspToken = dspApiService.getToken();
+		for (Issue issue : issues) {
+			List<DspReportManage> reports = dspReportManageCustomDao.selectByCampaignId(issue.getDspCampaignId(), now);
+			if (reports == null || reports.size() == 0) {
+				continue;
+			}
+			long costFee = 0l;
+			for (DspReportManage report : reports) {
+				costFee += report.getPrice();
+			}
+			long calculatedBudget = budgetCalculationService.calculateBudget(issue.getStartDate(), issue.getEndDate(), issue.getBudget(), costFee, LocalDateTime.now());
+			if (calculatedBudget <= 0l) {
+				continue;
+			}
+			Shop shop = shopDao.selectById(issue.getShopId());
+			/**********************************************
+			 * 
+			 * ************キャンペーンステータス更新************ *
+			 * 
+			 **********************************************/
+			// Req CampaignUpdate URL組み立てる
+			UriComponentsBuilder campaignUpdateBuilder = UriComponentsBuilder.newInstance();
+			campaignUpdateBuilder = campaignUpdateBuilder.scheme(applicationProperties.getDspScheme());
+			campaignUpdateBuilder = campaignUpdateBuilder.host(applicationProperties.getDspHost());
+			campaignUpdateBuilder = campaignUpdateBuilder.path(applicationProperties.getCreateDspCampaign());
+			campaignUpdateBuilder = campaignUpdateBuilder.queryParam("token", dspToken.getToken());
+			String campaignUpdateResource = campaignUpdateBuilder.build().toUri().toString();
+
+			// Req CampaignUpdate Body作成
+			DspCampaignUpdateReq dspCampaignUpdateReq = new DspCampaignUpdateReq();
+			dspCampaignUpdateReq.setId(issue.getDspCampaignId());
+			dspCampaignUpdateReq.setUser_id(shop.getDspUserId());
+			dspCampaignUpdateReq.setDaily_budget((int) calculatedBudget);
+
+			try {
+				call(campaignUpdateResource, HttpMethod.POST, dspCampaignUpdateReq, null, DspCampaignUpdateRes.class);
+			} catch (Exception e) {
+				log.error("---------------DSP:キャンペーン更新の場合、エラーが発生しました。---------------");
+				log.debug("DSP:キャンペーン更新エラー、リクエストボディー:{}", dspCampaignUpdateReq);
+				e.printStackTrace();
+				throw new SystemException("システムエラー発生しました");
+			}
+		}
 	}
 
 }

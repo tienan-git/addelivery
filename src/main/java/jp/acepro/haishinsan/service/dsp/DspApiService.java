@@ -36,4 +36,6 @@ public interface DspApiService {
 
 	DspTemplateDto getDefaultTemplate();
 
+	void updateDailyBudget();
+
 }

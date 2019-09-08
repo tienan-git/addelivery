@@ -13,8 +13,11 @@ import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.dao.CreativeManageCustomDao;
 import jp.acepro.haishinsan.dao.CreativeManageDao;
 import jp.acepro.haishinsan.dao.DspCreativeCustomDao;
+import jp.acepro.haishinsan.dao.DspReportManageCustomDao;
 import jp.acepro.haishinsan.dao.DspTokenCustomDao;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.ShopCustomDao;
+import jp.acepro.haishinsan.dao.ShopDao;
 import jp.acepro.haishinsan.db.entity.CreativeManage;
 import jp.acepro.haishinsan.db.entity.DspToken;
 import jp.acepro.haishinsan.db.entity.Shop;
@@ -27,6 +30,7 @@ import jp.acepro.haishinsan.dto.dsp.DspCreativeListRes;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.BaseService;
+import jp.acepro.haishinsan.service.BudgetCalculationService;
 import jp.acepro.haishinsan.util.ContextUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -54,6 +58,18 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 
 	@Autowired
 	CreativeManageCustomDao creativeManageCustomDao;
+
+	@Autowired
+	IssueCustomDao issueCustomDao;
+
+	@Autowired
+	DspReportManageCustomDao dspReportManageCustomDao;
+
+	@Autowired
+	BudgetCalculationService budgetCalculationService;
+
+	@Autowired
+	ShopDao shopDao;
 
 	@Override
 	@Transactional
