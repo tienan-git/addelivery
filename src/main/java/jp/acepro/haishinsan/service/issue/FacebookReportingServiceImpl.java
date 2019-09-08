@@ -2,6 +2,8 @@ package jp.acepro.haishinsan.service.issue;
 
 import java.io.StringWriter;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,9 +17,11 @@ import com.facebook.ads.sdk.APIContext;
 import com.facebook.ads.sdk.APIException;
 import com.facebook.ads.sdk.APINodeList;
 import com.facebook.ads.sdk.AdAccount;
+import com.facebook.ads.sdk.AdSet;
 import com.facebook.ads.sdk.AdsInsights;
 import com.facebook.ads.sdk.AdsInsights.EnumBreakdowns;
 import com.facebook.ads.sdk.AdsInsights.EnumDatePreset;
+import com.facebook.ads.sdk.Campaign;
 import com.google.gson.Gson;
 import com.univocity.parsers.common.processor.BeanWriterProcessor;
 import com.univocity.parsers.csv.CsvWriter;
@@ -36,9 +40,13 @@ import jp.acepro.haishinsan.dao.FacebookRegionReportCustomDao;
 import jp.acepro.haishinsan.dao.FacebookRegionReportDao;
 import jp.acepro.haishinsan.dao.FacebookTemplateCustomDao;
 import jp.acepro.haishinsan.dao.FacebookTemplateDao;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
+import jp.acepro.haishinsan.dao.ShopCustomDao;
 import jp.acepro.haishinsan.db.entity.FacebookDeviceReport;
 import jp.acepro.haishinsan.db.entity.FacebookRegionReport;
+import jp.acepro.haishinsan.db.entity.Issue;
+import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.dto.facebook.FbDeviceReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbGraphReportDto;
 import jp.acepro.haishinsan.dto.facebook.FbRegionReportDto;
@@ -46,7 +54,9 @@ import jp.acepro.haishinsan.dto.facebook.FbReportDisplayDto;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.BaseService;
+import jp.acepro.haishinsan.service.BudgetCalculationService;
 import jp.acepro.haishinsan.service.EmailService;
+import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.DateUtil;
 import jp.acepro.haishinsan.util.ReportUtil;
 
@@ -64,6 +74,9 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
 	@Autowired
 	IssueDao issueDao;
+
+	@Autowired
+	IssueCustomDao issueCustomDao;
 
 	@Autowired
 	DspSegmentCustomDao dspSegmentCustomDao;
@@ -88,6 +101,12 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
 	@Autowired
 	EmailService emailService;
+
+    @Autowired
+    ShopCustomDao shopCustomDao;
+
+    @Autowired
+    BudgetCalculationService budgetCalculationService;
 
 	@Override
 	@Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -513,6 +532,72 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 		writer.close();
 
 		return out.toString();
+	}
+
+    // 自動予算変更
+    @Override
+    public void adjustDailyBudget() {
+
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+
+        // 予算
+        long calculatedBudget = 0;
+        String startDateTime = null;
+        String endDateTime = null;
+        long budget = 0;
+        long costFee = 0;
+
+        // 全ての店舗を取得する
+        List<Shop> shopList = shopCustomDao.selectAllShop();
+        // 店舗毎、campaignListを取得する
+        for (Shop shop : shopList) {
+	        List<Issue> issueList = issueCustomDao.selectFacebookIssueNeededBudgetAdjustment(shop.getShopId(), now);
+	        for (Issue issue : issueList) {
+	            startDateTime = issue.getStartDate();
+	            endDateTime = issue.getEndDate();
+	            // db検索: costFee 実際費用（前日まで使った分）
+	        	FacebookDeviceReport facebookDeviceReport = facebookDeviceReportCustomDao.selectCostFeeByCampaignId(issue.getFacebookCampaignId(), getDateString(), startDateTime.substring(0, 10));
+	            if (facebookDeviceReport != null) {
+	                costFee = facebookDeviceReport.getSpend();
+	                budget = issue.getBudget();
+	                // 予算計算
+	                calculatedBudget = budgetCalculationService.calculateBudget(startDateTime, endDateTime, budget,
+	                        costFee, LocalDateTime.now());
+	                if (calculatedBudget != 0) {
+	                    // APIでキャンペーンの日予算を更新する
+	                	updateFacebookDailyBudget(issue.getFacebookCampaignId(), calculatedBudget, shop);
+	                }
+	            }
+	        }
+        }
+    }
+
+    private String getDateString() {
+        LocalDate today = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String formattedString = today.format(formatter);
+        return formattedString;
+	}
+
+	private void updateFacebookDailyBudget(String campaignId, Long newBudget, Shop shop) {
+
+		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
+				applicationProperties.getFacebookAppSecret());
+
+		try {
+			// マージン率をかけた1日の予算
+			Long realDailyBudget = CalculateUtil.calRealBudgetWithShopRatio(newBudget,
+					shop.getMarginRatio());
+
+			APINodeList<AdSet> adSets = new Campaign(campaignId, context).getAdSets()
+					.execute();
+			adSets.get(0).update().setDailyBudget(realDailyBudget)
+					.execute();
+
+		} catch (APIException e) {
+			e.printStackTrace();
+			throw new SystemException("システムエラー発生しました");
+		}
 	}
 
 	// 合計データ

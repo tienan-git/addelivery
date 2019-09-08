@@ -31,4 +31,9 @@ public interface FacebookDeviceReportCustomDao {
 	@Select
 	List<FacebookDeviceReport> selectDateReportGraph(List<String> campaignIdList, LocalDate startDate,
 			LocalDate endDate);
+	
+    // 使った金額を検索（Batch:自動予算変更に使う）
+    @Select
+    FacebookDeviceReport selectCostFeeByCampaignId(String campaignId, String date, String startDate);
+
 }
