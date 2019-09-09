@@ -86,6 +86,7 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 			// オペレーションログ記録
 			operationService.createWithoutUser(Operation.DSP_CREATIVE_UPDATE.getValue(), e.getMessage());
 		}
+
 		// Facebook
 		updateLocalFacebookAdEffectiveStatusAsync();
 
@@ -156,6 +157,7 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 				GetResponsiveDisplayAd getResponsiveDisplayAd = new GetResponsiveDisplayAd();
 				getResponsiveDisplayAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 				getResponsiveDisplayAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+				getResponsiveDisplayAd.googleAccountId = shop.getGoogleAccountId();
 				getResponsiveDisplayAd.run();
 				policyApprovalStatusList = getResponsiveDisplayAd.policyApprovalStatusList;
 				break;
@@ -163,6 +165,7 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 				GetImageAd getImageAd = new GetImageAd();
 				getImageAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 				getImageAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+				getImageAd.googleAccountId = shop.getGoogleAccountId();
 				getImageAd.run();
 				policyApprovalStatusList = getImageAd.policyApprovalStatusList;
 				break;
@@ -170,6 +173,7 @@ public class CreativeStatusApiServiceImpl implements CreativeStatusApiService {
 				GetExpandedTextAds getExpandedTextAds = new GetExpandedTextAds();
 				getExpandedTextAds.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 				getExpandedTextAds.adGroupId = getAdGroups.adGroupIdList.get(0);
+				getExpandedTextAds.googleAccountId = shop.getGoogleAccountId();
 				getExpandedTextAds.run();
 				policyApprovalStatusList = getExpandedTextAds.policyApprovalStatusList;
 				break;

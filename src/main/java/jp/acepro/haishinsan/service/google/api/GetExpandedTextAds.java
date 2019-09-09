@@ -56,6 +56,7 @@ public class GetExpandedTextAds {
 
 	public String propFileName;
 	public Long adGroupId;
+	public String googleAccountId;
 	public List<ExpandedTextAd> expandedTextAdList = new ArrayList<ExpandedTextAd>();
 	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
 	
@@ -70,7 +71,7 @@ public class GetExpandedTextAds {
 			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
 					.build();
 			// 店舗AdwordsIdを設定
-			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
+			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
 			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
 					DEFAULT_CONFIGURATION_FILENAME, cle);
@@ -137,7 +138,7 @@ public class GetExpandedTextAds {
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
 				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.HeadlinePart1,
-						AdGroupAdField.HeadlinePart2, AdGroupAdField.CombinedApprovalStatus)
+						AdGroupAdField.HeadlinePart2, AdGroupAdField.PolicySummary, AdGroupAdField.CombinedApprovalStatus)
 				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
 				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "EXPANDED_TEXT_AD").build();

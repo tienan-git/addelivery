@@ -585,7 +585,7 @@ public class GoogleReportServiceImpl implements GoogleReportService {
     @Override
     public void adjustDailyBudget() {
 
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
         // 予算
         long calculatedBudget = 0;
@@ -603,7 +603,7 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 	            startDateTime = issue.getStartDate();
 	            endDateTime = issue.getEndDate();
 	            // db検索: costFee 実際費用（前日まで使った分）
-	        	GoogleDeviceReport googleDeviceReport = googleDeviceReportCustomDao.selectCostFeeByCampaignId(issue.getGoogleCampaignId(), getDateString(), startDateTime.substring(0, 10));
+	        	GoogleDeviceReport googleDeviceReport = googleDeviceReportCustomDao.selectCostFeeByCampaignId(issue.getGoogleCampaignId(), getDateString(), startDateTime.substring(0, 10).replace("-", ""));
 	            if (googleDeviceReport != null) {
 	                costFee = googleDeviceReport.getCosts().longValue();
 	                budget = issue.getBudget();
@@ -621,7 +621,7 @@ public class GoogleReportServiceImpl implements GoogleReportService {
 
     private String getDateString() {
         LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String formattedString = today.format(formatter);
         return formattedString;
 	}
