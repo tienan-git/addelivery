@@ -538,7 +538,7 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
     @Override
     public void adjustDailyBudget() {
 
-        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"));
+        String now = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
 
         // 予算
         long calculatedBudget = 0;
@@ -556,7 +556,7 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 	            startDateTime = issue.getStartDate();
 	            endDateTime = issue.getEndDate();
 	            // db検索: costFee 実際費用（前日まで使った分）
-	        	FacebookDeviceReport facebookDeviceReport = facebookDeviceReportCustomDao.selectCostFeeByCampaignId(issue.getFacebookCampaignId(), getDateString(), startDateTime.substring(0, 10));
+	        	FacebookDeviceReport facebookDeviceReport = facebookDeviceReportCustomDao.selectCostFeeByCampaignId(issue.getFacebookCampaignId(), getDateString(), startDateTime.substring(0, 10).replace("-", ""));
 	            if (facebookDeviceReport != null) {
 	                costFee = facebookDeviceReport.getSpend();
 	                budget = issue.getBudget();
@@ -574,7 +574,7 @@ public class FacebookReportingServiceImpl extends BaseService implements Faceboo
 
     private String getDateString() {
         LocalDate today = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String formattedString = today.format(formatter);
         return formattedString;
 	}

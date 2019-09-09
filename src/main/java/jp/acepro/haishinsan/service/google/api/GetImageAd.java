@@ -58,6 +58,7 @@ public class GetImageAd {
 
 	public String propFileName;
 	public Long adGroupId;
+	public String googleAccountId;
 	public List<ImageAd> imageAdList = new ArrayList<ImageAd>();
 	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
 	
@@ -72,7 +73,7 @@ public class GetImageAd {
 			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
 					.build();
 			// 店舗AdwordsIdを設定
-			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
+			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
 			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
 					DEFAULT_CONFIGURATION_FILENAME, cle);
@@ -137,7 +138,7 @@ public class GetImageAd {
 
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
-		Selector selector = builder.fields(AdGroupAdField.CreativeFinalUrls, AdGroupAdField.MarketingImage, AdGroupAdField.CombinedApprovalStatus)
+		Selector selector = builder.fields(AdGroupAdField.CreativeFinalUrls, AdGroupAdField.MarketingImage, AdGroupAdField.PolicySummary, AdGroupAdField.CombinedApprovalStatus)
 				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
 				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "IMAGE_AD").build();

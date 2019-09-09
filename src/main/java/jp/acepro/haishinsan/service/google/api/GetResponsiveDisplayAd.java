@@ -57,6 +57,7 @@ public class GetResponsiveDisplayAd {
 	private static final int PAGE_SIZE = 100;
 	public String propFileName;
 	public Long adGroupId;
+	public String googleAccountId;
 	public List<ResponsiveDisplayAd> responsiveDisplayAdList = new ArrayList<ResponsiveDisplayAd>();
 	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
 	
@@ -71,7 +72,7 @@ public class GetResponsiveDisplayAd {
 			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
 					.build();
 			// 店舗AdwordsIdを設定
-			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
+			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
 			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
 					DEFAULT_CONFIGURATION_FILENAME, cle);
@@ -138,7 +139,7 @@ public class GetResponsiveDisplayAd {
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
 				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.ShortHeadline,
-						AdGroupAdField.MarketingImage, AdGroupAdField.SquareMarketingImage, AdGroupAdField.CombinedApprovalStatus)
+						AdGroupAdField.MarketingImage, AdGroupAdField.SquareMarketingImage, AdGroupAdField.PolicySummary, AdGroupAdField.CombinedApprovalStatus)
 				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
 				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "RESPONSIVE_DISPLAY_AD").build();

@@ -401,6 +401,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			GetResponsiveDisplayAd getResponsiveDisplayAd = new GetResponsiveDisplayAd();
 			getResponsiveDisplayAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 			getResponsiveDisplayAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+			getResponsiveDisplayAd.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 			getResponsiveDisplayAd.run();
 			ResponsiveDisplayAd responsiveDisplayAd = new ResponsiveDisplayAd();
 			responsiveDisplayAd = getResponsiveDisplayAd.responsiveDisplayAdList.get(0);
@@ -416,6 +417,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			GetImageAd getImageAd = new GetImageAd();
 			getImageAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 			getImageAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+			getImageAd.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 			getImageAd.run();
 			List<String> imgAdUrlList = new ArrayList<String>();
 			for (ImageAd imageAd : getImageAd.imageAdList) {
@@ -430,6 +432,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			GetExpandedTextAds getExpandedTextAds = new GetExpandedTextAds();
 			getExpandedTextAds.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 			getExpandedTextAds.adGroupId = getAdGroups.adGroupIdList.get(0);
+			getExpandedTextAds.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 			getExpandedTextAds.run();
 			ExpandedTextAd expandedTextAd = new ExpandedTextAd();
 			expandedTextAd = getExpandedTextAds.expandedTextAdList.get(0);
