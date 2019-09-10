@@ -394,10 +394,12 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 			EnumBillingEvent enumBillingEvent = AdSet.EnumBillingEvent.VALUE_IMPRESSIONS;
 			// 最大入札価格を設定
 			Long bidAmount = 200l;
-			// 地域設定 （仮に東京銀座に設定）
+			// 地域設定 （仮に東京北区、渋谷区、新宿区に設定）
 			// location_typesが指定されていない場合、デフォルトはこの地域に住んでる人です。
 			List<TargetingGeoLocationCity> TargetingGeoLocationCityList = new ArrayList<TargetingGeoLocationCity>();
-			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("1200778"));
+			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("1205077"));
+			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("1211264"));
+			TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey("1211841"));
 
 			// 趣味設定
 			List<IDName> idNameList = new ArrayList<IDName>();
