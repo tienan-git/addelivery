@@ -1,5 +1,6 @@
 package jp.acepro.haishinsan.controller.campaign.dsp;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,11 +20,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDetailDto;
 import jp.acepro.haishinsan.dto.dsp.DspCampaignDto;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
 import jp.acepro.haishinsan.dto.dsp.DspTemplateDto;
+import jp.acepro.haishinsan.enums.MediaType;
 import jp.acepro.haishinsan.enums.Operation;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.form.DspCampaignInputForm;
@@ -33,6 +36,7 @@ import jp.acepro.haishinsan.service.dsp.DspCampaignService;
 import jp.acepro.haishinsan.service.dsp.DspCreativeService;
 import jp.acepro.haishinsan.service.dsp.DspSegmentService;
 import jp.acepro.haishinsan.util.ContextUtil;
+import jp.acepro.haishinsan.util.ImageUtil;
 
 @Controller
 @RequestMapping("/campaign/dsp")
@@ -55,6 +59,19 @@ public class DspCampaignController {
 
 	@Autowired
 	OperationService operationService;
+
+	@Autowired
+	ImageUtil imageUtil;
+
+	@GetMapping("/selectAction")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
+	public ModelAndView selectAction() {
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("campaign/dsp/selectAction");
+
+		return modelAndView;
+	}
 
 	@GetMapping("/selectCreative")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
@@ -170,6 +187,7 @@ public class DspCampaignController {
 		dspCampaignDto.setIdList(ids);
 		dspCampaignInputForm.setIdList(ids);
 		try {
+			dspCampaignService.validateCreative(dspCampaignDto);
 			dspCampaignDto = dspCampaignService.validate(dspCampaignDto);
 		} catch (BusinessException e) {
 			result.reject(e.getMessage());
@@ -203,6 +221,228 @@ public class DspCampaignController {
 		session.removeAttribute("idList");
 		session.removeAttribute("selectedDspCreativeDtoList");
 		session.removeAttribute("dspCreativeDtoList");
+
+		// オペレーションログ記録
+		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(dspCampaignDto.getCampaignId()));
+
+		return modelAndView;
+	}
+
+	@PostMapping("/createNewCampaign")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
+	public ModelAndView createNewCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) {
+
+		// 最低予算金額
+		BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
+		// 最低日次予算金額
+		BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
+
+		// 日付によるセグメント情報を取得
+		List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(LocalDateTime.now());
+		dspCampaignInputForm.setDeviceType(9);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("campaign/dsp/createNewCampaign");
+		modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
+		modelAndView.addObject("dailyBudgetFlag", dailyBudgetFlag.longValue());
+
+		session.setAttribute("dspSegmentDtoList", dspSegmentDtoList);
+
+		return modelAndView;
+	}
+
+	@PostMapping("/confirmNewCampaign")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
+	public ModelAndView confirmNewCampaign(@Validated DspCampaignInputForm dspCampaignInputForm, BindingResult result) throws IOException {
+
+		// クリエイティブ表示させる処理
+		String imaBase64 = null;
+		byte[] bytes = null;
+		String imaBase64_2 = null;
+		byte[] bytes2 = null;
+		String imaBase64_3 = null;
+		byte[] bytes3 = null;
+		String imaBase64_4 = null;
+		byte[] bytes4 = null;
+		String imaBase64_5 = null;
+		byte[] bytes5 = null;
+
+		// FormからDtoまで変更
+		DspCreativeDto dspCreativeDto = new DspCreativeDto();
+		try {
+			if (dspCampaignInputForm.getImage() != null) {
+				imaBase64 = imageUtil.getImageBytes(dspCampaignInputForm.getImage(), MediaType.DSP.getValue());
+				bytes = dspCampaignInputForm.getImage().getBytes();
+				dspCreativeDto.setCreativeName(dspCampaignInputForm.getCreativeName());
+				dspCreativeDto.setBytes(bytes);
+				dspCreativeDto.setBase64Str(imaBase64);
+			}
+			if (dspCampaignInputForm.getImage2() != null) {
+				imaBase64_2 = imageUtil.getImageBytes(dspCampaignInputForm.getImage2(), MediaType.DSP.getValue());
+				bytes2 = dspCampaignInputForm.getImage2().getBytes();
+				dspCreativeDto.setCreativeName2(dspCampaignInputForm.getCreativeName2());
+				dspCreativeDto.setBytes2(bytes2);
+				dspCreativeDto.setBase64Str2(imaBase64_2);
+			}
+			if (dspCampaignInputForm.getImage3() != null) {
+				imaBase64_3 = imageUtil.getImageBytes(dspCampaignInputForm.getImage3(), MediaType.DSP.getValue());
+				bytes3 = dspCampaignInputForm.getImage3().getBytes();
+				dspCreativeDto.setCreativeName3(dspCampaignInputForm.getCreativeName3());
+				dspCreativeDto.setBytes3(bytes3);
+				dspCreativeDto.setBase64Str3(imaBase64_3);
+			}
+			if (dspCampaignInputForm.getImage4() != null) {
+				imaBase64_4 = imageUtil.getImageBytes(dspCampaignInputForm.getImage4(), MediaType.DSP.getValue());
+				bytes4 = dspCampaignInputForm.getImage4().getBytes();
+				dspCreativeDto.setCreativeName4(dspCampaignInputForm.getCreativeName4());
+				dspCreativeDto.setBytes4(bytes4);
+				dspCreativeDto.setBase64Str4(imaBase64_4);
+			}
+			if (dspCampaignInputForm.getImage5() != null) {
+				imaBase64_5 = imageUtil.getImageBytes(dspCampaignInputForm.getImage5(), MediaType.DSP.getValue());
+				bytes5 = dspCampaignInputForm.getImage5().getBytes();
+				dspCreativeDto.setCreativeName5(dspCampaignInputForm.getCreativeName5());
+				dspCreativeDto.setBytes5(bytes5);
+				dspCreativeDto.setBase64Str5(imaBase64_5);
+			}
+			if (dspCampaignInputForm.getImage5() == null && dspCampaignInputForm.getImage2() == null && dspCampaignInputForm.getImage3() == null && dspCampaignInputForm.getImage4() == null && dspCampaignInputForm.getImage5() == null) {
+				throw new BusinessException(ErrorCodeConstant.E30005);
+			}
+		} catch (BusinessException e) {
+			result.reject(e.getMessage(), null);
+			// 最低予算金額
+			BigDecimal monthBudgetFlag = BigDecimal.valueOf(30000).divide(BigDecimal.valueOf(100 - ContextUtil.getCurrentShop().getMarginRatio()).divide(BigDecimal.valueOf(100), 2, BigDecimal.ROUND_UP), 2, BigDecimal.ROUND_UP);
+			// 最低日次予算金額
+			BigDecimal dailyBudgetFlag = monthBudgetFlag.divide(BigDecimal.valueOf(30), 2, BigDecimal.ROUND_UP);
+
+			// 日付によるセグメント情報を取得
+			List<DspSegmentListDto> dspSegmentDtoList = dspSegmentService.selectUrlByDateTimeWithNoCheck(LocalDateTime.now());
+			dspCampaignInputForm.setDeviceType(9);
+
+			ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("campaign/dsp/createNewCampaign");
+			modelAndView.addObject("dspSegmentDtoList", dspSegmentDtoList);
+			modelAndView.addObject("dailyBudgetFlag", dailyBudgetFlag.longValue());
+			modelAndView.addObject("dspCampaignInputForm", dspCampaignInputForm);
+			return modelAndView;
+		}
+
+		// テンプレート情報を取って、優先度一番高いの方で使う
+		DspTemplateDto dspTemplateDto = dspApiService.getDefaultTemplate();
+
+		List<DspSegmentListDto> dspSegmentDtoList = (ArrayList<DspSegmentListDto>) session.getAttribute("dspSegmentDtoList");
+
+		// FormをDtoにして、キャンペーンを作成する
+		DspCampaignDto dspCampaignDto = new DspCampaignDto();
+		dspCampaignDto.setCampaignName(dspCampaignInputForm.getCampaignName());
+		dspCampaignDto.setStartDatetime(dspCampaignInputForm.getStartDatetime());
+		dspCampaignDto.setEndDatetime(dspCampaignInputForm.getEndDatetime());
+		dspCampaignDto.setStartHour(dspCampaignInputForm.getStartHour());
+		dspCampaignDto.setEndHour(dspCampaignInputForm.getEndHour());
+		dspCampaignDto.setStartMin(dspCampaignInputForm.getStartMin());
+		dspCampaignDto.setEndMin(dspCampaignInputForm.getEndMin());
+		dspCampaignDto.setBudget(dspCampaignInputForm.getBudget());
+		dspCampaignDto.setDeviceType(dspCampaignInputForm.getDeviceType());
+		dspCampaignDto.setTemplateId(dspTemplateDto.getTemplateId());
+		dspCampaignDto.setSegmentId(dspCampaignInputForm.getSegmentId());
+		for (DspSegmentListDto dspSegmentListDto : dspSegmentDtoList) {
+			if (dspSegmentListDto.getSegmentId().equals(dspCampaignInputForm.getSegmentId())) {
+				dspCampaignDto.setUrl(dspSegmentListDto.getUrl());
+				break;
+			}
+		}
+
+		try {
+			dspCampaignDto = dspCampaignService.validate(dspCampaignDto);
+		} catch (BusinessException e) {
+			result.reject(e.getMessage());
+			return createCampaign(dspCampaignInputForm, result);
+		}
+
+		session.setAttribute("dspCreativeDto", dspCreativeDto);
+		session.setAttribute("dspCampaignDto", dspCampaignDto);
+
+		StringBuffer data = new StringBuffer();
+		StringBuffer data2 = new StringBuffer();
+		StringBuffer data3 = new StringBuffer();
+		StringBuffer data4 = new StringBuffer();
+		StringBuffer data5 = new StringBuffer();
+		data.append("data:image/jpeg;base64,");
+		data.append(imaBase64);
+		data2.append("data:image/jpeg;base64,");
+		data2.append(imaBase64_2);
+		data3.append("data:image/jpeg;base64,");
+		data3.append(imaBase64_3);
+		data4.append("data:image/jpeg;base64,");
+		data4.append(imaBase64_4);
+		data5.append("data:image/jpeg;base64,");
+		data5.append(imaBase64_5);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.addObject("dspCreativeDto", dspCreativeDto);
+		modelAndView.addObject("dspCampaignDto", dspCampaignDto);
+		modelAndView.addObject("dspTemplateDto", dspTemplateDto);
+		modelAndView.addObject("base64Data", data.toString());
+		modelAndView.addObject("base64Data2", data2.toString());
+		modelAndView.addObject("base64Data3", data3.toString());
+		modelAndView.addObject("base64Data4", data4.toString());
+		modelAndView.addObject("base64Data5", data5.toString());
+		return modelAndView;
+	}
+
+	@GetMapping("/completeNewCampaign")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
+	public ModelAndView completeNewCampaign() {
+
+		// クリエイティブ登録
+		DspCreativeDto dspCreativeDto = (DspCreativeDto) session.getAttribute("dspCreativeDto");
+		DspCreativeDto tempDto = new DspCreativeDto();
+		List<Integer> idList = new ArrayList<Integer>();
+		if (dspCreativeDto.getBase64Str() != null && dspCreativeDto.getCreativeName() != null) {
+			tempDto.setCreativeName(dspCreativeDto.getCreativeName());
+			tempDto.setBase64Str(dspCreativeDto.getBase64Str());
+			tempDto = dspCreativeService.createCreative(tempDto);
+			idList.add(tempDto.getCreativeId());
+		}
+		if (dspCreativeDto.getBase64Str2() != null && dspCreativeDto.getCreativeName2() != null) {
+			tempDto.setCreativeName(dspCreativeDto.getCreativeName2());
+			tempDto.setBase64Str(dspCreativeDto.getBase64Str2());
+			tempDto = dspCreativeService.createCreative(tempDto);
+			idList.add(tempDto.getCreativeId());
+		}
+		if (dspCreativeDto.getBase64Str3() != null && dspCreativeDto.getCreativeName3() != null) {
+			tempDto.setCreativeName(dspCreativeDto.getCreativeName3());
+			tempDto.setBase64Str(dspCreativeDto.getBase64Str3());
+			tempDto = dspCreativeService.createCreative(tempDto);
+			idList.add(tempDto.getCreativeId());
+		}
+		if (dspCreativeDto.getBase64Str4() != null && dspCreativeDto.getCreativeName4() != null) {
+			tempDto.setCreativeName(dspCreativeDto.getCreativeName4());
+			tempDto.setBase64Str(dspCreativeDto.getBase64Str4());
+			tempDto = dspCreativeService.createCreative(tempDto);
+			idList.add(tempDto.getCreativeId());
+		}
+		if (dspCreativeDto.getBase64Str5() != null && dspCreativeDto.getCreativeName5() != null) {
+			tempDto.setCreativeName(dspCreativeDto.getCreativeName5());
+			tempDto.setBase64Str(dspCreativeDto.getBase64Str5());
+			tempDto = dspCreativeService.createCreative(tempDto);
+			idList.add(tempDto.getCreativeId());
+		}
+
+		// sessionからdspCampaignDto対象を取得
+		DspCampaignDto dspCampaignDto = (DspCampaignDto) session.getAttribute("dspCampaignDto");
+		dspCampaignDto.setIdList(idList);
+
+		// 広告キャンペーン作成
+		dspCampaignDto = dspCampaignService.createCampaign(dspCampaignDto, null);
+
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("campaign/dsp/createSuccess");
+
+		session.removeAttribute("dspCampaignDto");
+		session.removeAttribute("idList");
+		session.removeAttribute("selectedDspCreativeDtoList");
+		session.removeAttribute("dspCreativeDtoList");
+		session.removeAttribute("dspCreativeDto");
 
 		// オペレーションログ記録
 		operationService.create(Operation.DSP_CAMPAIGN_CREATE.getValue(), String.valueOf(dspCampaignDto.getCampaignId()));

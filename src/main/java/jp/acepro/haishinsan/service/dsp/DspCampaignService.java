@@ -30,4 +30,6 @@ public interface DspCampaignService {
 
 	Long saveCampaign(DspCampaignDto dspCampaignDto);
 
+	void validateCreative(DspCampaignDto dspCampaignDto);
+
 }

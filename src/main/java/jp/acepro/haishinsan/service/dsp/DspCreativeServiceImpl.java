@@ -174,7 +174,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		newDspCreativeDto.setCreativeName(dspCreateCreativeRes.getName());
 		newDspCreativeDto.setUrl(dspCreateCreativeRes.getSrc());
 
-		return dspCreativeDto;
+		return newDspCreativeDto;
 	}
 
 	@Override
