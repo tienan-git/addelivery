@@ -270,35 +270,35 @@ public class DspCampaignController {
 		// FormからDtoまで変更
 		DspCreativeDto dspCreativeDto = new DspCreativeDto();
 		try {
-			if (dspCampaignInputForm.getImage() != null) {
+			if (dspCampaignInputForm.getImage() != null && dspCampaignInputForm.getCreativeName() != null) {
 				imaBase64 = imageUtil.getImageBytes(dspCampaignInputForm.getImage(), MediaType.DSP.getValue());
 				bytes = dspCampaignInputForm.getImage().getBytes();
 				dspCreativeDto.setCreativeName(dspCampaignInputForm.getCreativeName());
 				dspCreativeDto.setBytes(bytes);
 				dspCreativeDto.setBase64Str(imaBase64);
 			}
-			if (dspCampaignInputForm.getImage2() != null) {
+			if (dspCampaignInputForm.getImage2() != null && dspCampaignInputForm.getCreativeName2() != null) {
 				imaBase64_2 = imageUtil.getImageBytes(dspCampaignInputForm.getImage2(), MediaType.DSP.getValue());
 				bytes2 = dspCampaignInputForm.getImage2().getBytes();
 				dspCreativeDto.setCreativeName2(dspCampaignInputForm.getCreativeName2());
 				dspCreativeDto.setBytes2(bytes2);
 				dspCreativeDto.setBase64Str2(imaBase64_2);
 			}
-			if (dspCampaignInputForm.getImage3() != null) {
+			if (dspCampaignInputForm.getImage3() != null && dspCampaignInputForm.getCreativeName3() != null) {
 				imaBase64_3 = imageUtil.getImageBytes(dspCampaignInputForm.getImage3(), MediaType.DSP.getValue());
 				bytes3 = dspCampaignInputForm.getImage3().getBytes();
 				dspCreativeDto.setCreativeName3(dspCampaignInputForm.getCreativeName3());
 				dspCreativeDto.setBytes3(bytes3);
 				dspCreativeDto.setBase64Str3(imaBase64_3);
 			}
-			if (dspCampaignInputForm.getImage4() != null) {
+			if (dspCampaignInputForm.getImage4() != null && dspCampaignInputForm.getCreativeName4() != null) {
 				imaBase64_4 = imageUtil.getImageBytes(dspCampaignInputForm.getImage4(), MediaType.DSP.getValue());
 				bytes4 = dspCampaignInputForm.getImage4().getBytes();
 				dspCreativeDto.setCreativeName4(dspCampaignInputForm.getCreativeName4());
 				dspCreativeDto.setBytes4(bytes4);
 				dspCreativeDto.setBase64Str4(imaBase64_4);
 			}
-			if (dspCampaignInputForm.getImage5() != null) {
+			if (dspCampaignInputForm.getImage5() != null && dspCampaignInputForm.getCreativeName5() != null) {
 				imaBase64_5 = imageUtil.getImageBytes(dspCampaignInputForm.getImage5(), MediaType.DSP.getValue());
 				bytes5 = dspCampaignInputForm.getImage5().getBytes();
 				dspCreativeDto.setCreativeName5(dspCampaignInputForm.getCreativeName5());
