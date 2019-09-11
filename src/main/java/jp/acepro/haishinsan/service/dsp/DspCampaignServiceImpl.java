@@ -640,12 +640,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	}
 
 	@Override
-	@Transactional
 	public DspCampaignDto validate(DspCampaignDto dspCampaignDto) {
-		// クリエイティブ必須チェック
-		if (dspCampaignDto.getDspCreativeDtoList() == null || dspCampaignDto.getDspCreativeDtoList().size() == 0) {
-			throw new BusinessException(ErrorCodeConstant.E30005);
-		}
 
 		// 入力配信期間チェック
 		LocalDate startDate = LocalDate.parse(dspCampaignDto.getStartDatetime());
@@ -679,6 +674,15 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 			dspCampaignDto.setMonthBudget(dspCampaignDto.getBudget());
 		}
 		return dspCampaignDto;
+	}
+
+	@Override
+	public void validateCreative(DspCampaignDto dspCampaignDto) {
+
+		// クリエイティブ必須チェック
+		if (dspCampaignDto.getDspCreativeDtoList() == null || dspCampaignDto.getDspCreativeDtoList().size() == 0) {
+			throw new BusinessException(ErrorCodeConstant.E30005);
+		}
 	}
 
 	@Override

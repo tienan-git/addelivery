@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>広告物作成</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/dsp/completeCampaign}" method="post" enctype="multipart/form-data"
+			th:object="${dspCampaignInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<div class="sub-title">クリエイティブ情報1</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ名</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{creativeName}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">バナー画像</label>
+						<div class="col-sm-8">
+							<input type="file" class="form-control" th:field="*{image}">
+						</div>
+					</div>
+					
+					<div class="sub-title">クリエイティブ情報2</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ名</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{creativeName2}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">バナー画像</label>
+						<div class="col-sm-8">
+							<input type="file" class="form-control" th:field="*{image2}">
+						</div>
+					</div>
+					<div class="sub-title">クリエイティブ情報3</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ名</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{creativeName3}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">バナー画像</label>
+						<div class="col-sm-8">
+							<input type="file" class="form-control" th:field="*{image3}">
+						</div>
+					</div>
+					<div class="sub-title">クリエイティブ情報4</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ名</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{creativeName4}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">バナー画像1</label>
+						<div class="col-sm-8">
+							<input type="file" class="form-control" th:field="*{image4}">
+						</div>
+					</div>
+					<div class="sub-title">クリエイティブ情報5</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">クリエイティブ名</label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{creativeName5}">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">バナー画像</label>
+						<div class="col-sm-8">
+							<input type="file" class="form-control" th:field="*{image5}">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">配信名</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">配信名<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control"
+								th:field="*{campaignName}" required="required">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">配信期間</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">配信開始日<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-4">
+							<input type="date" class="form-control"
+								th:field="*{startDatetime}" required="required">
+						</div>
+						<div class="col-sm-4">
+							<select class="form-control select" th:field="*{startHour}"
+								required="required">
+								<option value="00">00</option>
+								<option value="01">01</option>
+								<option value="02">02</option>
+								<option value="03">03</option>
+								<option value="04">04</option>
+								<option value="05">05</option>
+								<option value="06">06</option>
+								<option value="07">07</option>
+								<option value="08">08</option>
+								<option value="09">09</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+							</select> <label class="col-form-label">：</label> <select
+								class="form-control select" th:field="*{startMin}"
+								required="required">
+								<option value="00">00</option>
+								<option value="30">30</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">配信終了日<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-4">
+							<input type="date" class="form-control" th:field="*{endDatetime}"
+								required="required">
+						</div>
+						<div class="col-sm-4">
+							<select class="form-control select" th:field="*{endHour}"
+								required="required">
+								<option value="00">00</option>
+								<option value="01">01</option>
+								<option value="02">02</option>
+								<option value="03">03</option>
+								<option value="04">04</option>
+								<option value="05">05</option>
+								<option value="06">06</option>
+								<option value="07">07</option>
+								<option value="08">08</option>
+								<option value="09">09</option>
+								<option value="10">10</option>
+								<option value="11">11</option>
+								<option value="12">12</option>
+								<option value="13">13</option>
+								<option value="14">14</option>
+								<option value="15">15</option>
+								<option value="16">16</option>
+								<option value="17">17</option>
+								<option value="18">18</option>
+								<option value="19">19</option>
+								<option value="20">20</option>
+								<option value="21">21</option>
+								<option value="22">22</option>
+								<option value="23">23</option>
+							</select> <label class="col-form-label">：</label> <select
+								class="form-control select" th:field="*{endMin}"
+								required="required">
+								<option value="00">00</option>
+								<option value="30">30</option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">配信予算</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">総予算<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-6">
+							<input type="number" class="form-control" th:field="*{budget}"
+								required="required" min="1" max="9999999999">
+						</div>
+						<span class="col-form-label"
+							th:text="'一日最低予算金額 : ¥'+${dailyBudgetFlag}+'円'">円</span>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">配信デバイス</h4>
+
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">デバイス<span
+								class="text-danger">※</span></label>
+							<div class="radio radio-inline col-sm-2 col-form-label"
+								th:each="deviceType : ${T(jp.acepro.haishinsan.enums.DspDeviceType).values()}">
+								<label> <input class="form-control" type="radio"
+									name="radio" th:value="${deviceType.value}"
+									th:field="*{deviceType}" th:text="${deviceType.label}"
+									checked="checked" required="required"> <i
+									class="helper"></i>
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">誘導URL</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">URL<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-8">
+							<select name="select" class="form-control"
+								th:field="*{segmentId}" required="required">
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}"
+									th:selected="${url==dspSegmentDto.getUrl()}"
+									th:value="${dspSegmentDto.getSegmentId()}"
+									th:text="${dspSegmentDto.getUrl()}"></option>
+							</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<label class="col-sm-2 col-form-label"></label>
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-warning" type="submit"
+						th:formaction="@{/campaign/dsp/selectCampaign}"
+						th:formmethod="get">戻る</button>
+					<button class="btn btn-success" type="submit"
+						th:formaction="@{/campaign/dsp/confirmNewCampaign}"
+						th:formmethod="post">次へ</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+
+		<script>
+			$(document).ready(function() {
+				$('.lightgallery-popup').lightGallery();
+			});
+		</script>
+		<script type="text/javascript" src="../files/assets/js/script.js"></script>
+		<script type="text/javascript">
+			$(function() {
+				$('input[name="check"]').change(function() {
+					var prop = $('#prop').prop('checked');
+					if (prop) {
+						$('#p1').show();
+					} else {
+						$('#p1').hide();
+					}
+				});
+			});
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			var nowTemplateId = $('#templateId').val();
+
+			$(function() {
+				var toDay = new Date();
+				var year = toDay.getFullYear();
+				var month = toDay.getMonth() + 1 < 10 ? "0"
+						+ (toDay.getMonth() + 1) : (toDay.getMonth() + 1);
+				var day = toDay.getDate() < 10 ? "0" + toDay.getDate() : toDay
+						.getDate();
+				$("#startDatetime").attr("min", year + "-" + month + "-" + day);
+				$("#endDatetime").attr("min", year + "-" + month + "-" + day);
+			});
+			/*]]>*/
+		</script>
+	</div>
+</body>
+</html>
