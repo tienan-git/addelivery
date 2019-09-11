@@ -14,6 +14,7 @@ import jp.acepro.haishinsan.dao.UserDao;
 import jp.acepro.haishinsan.db.entity.User;
 import jp.acepro.haishinsan.dto.account.UserDto;
 import jp.acepro.haishinsan.entity.UserWithAgency;
+import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.exception.BusinessException;
 
 @Service
@@ -141,7 +142,8 @@ public class UserServiceImpl implements UserService {
 	public void delete(Long userId) {
 
 		User user = userDao.selectById(userId);
-		userDao.delete(user);
+		user.setIsActived(Flag.OFF.getValue());
+		userDao.update(user);
 
 	}
 

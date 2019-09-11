@@ -14,6 +14,7 @@ import jp.acepro.haishinsan.db.entity.Agency;
 import jp.acepro.haishinsan.db.entity.Corporation;
 import jp.acepro.haishinsan.dto.account.AgencyDto;
 import jp.acepro.haishinsan.dto.account.CorporationDto;
+import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.exception.BusinessException;
 
 @Service
@@ -100,7 +101,8 @@ public class AgencyServiceImpl implements AgencyService {
 		}
 
 		Agency agency = agencyDao.selectById(agencyId);
-		agencyDao.delete(agency);
+		agency.setIsActived(Flag.OFF.getValue());
+		agencyDao.update(agency);
 
 	}
 

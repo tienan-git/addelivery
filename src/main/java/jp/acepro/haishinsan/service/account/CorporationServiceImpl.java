@@ -15,6 +15,7 @@ import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.dto.account.CorporationDto;
 import jp.acepro.haishinsan.dto.account.ShopDto;
 import jp.acepro.haishinsan.entity.CorporationWithAgency;
+import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.exception.BusinessException;
 
 @Service
@@ -107,7 +108,8 @@ public class CorporationServiceImpl implements CorporationService {
 		}
 
 		Corporation corporation = corporationDao.selectById(corporationId);
-		corporationDao.delete(corporation);
+		corporation.setIsActived(Flag.OFF.getValue());
+		corporationDao.update(corporation);
 
 	}
 
