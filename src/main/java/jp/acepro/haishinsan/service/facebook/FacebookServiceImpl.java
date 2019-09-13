@@ -878,46 +878,172 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 	@Transactional
 	public Issue createIssue(FbIssueDto fbIssueDto) {
 
+		// 配信時間まで設定
+		String startDateTime = fbIssueDto.getStartTime() + "T" + fbIssueDto.getStartHour() + ":" + fbIssueDto.getStartMin() +":00+0900";
+		String endDateTime = fbIssueDto.getEndTime() + "T" + fbIssueDto.getEndHour() + ":" + fbIssueDto.getEndMin() +":00+0900";
+
+		String startDateString = fbIssueDto.getStartTime() + " " + fbIssueDto.getStartHour() + ":" + fbIssueDto.getStartMin();
+		String endDateString = fbIssueDto.getEndTime() + " " + fbIssueDto.getEndHour() + ":" + fbIssueDto.getEndMin();
+		// 1日の予算
+		Long dailyBudget = fbIssueDto.getDailyBudget();
+		// マージン率をかけた1日の予算
+		Long realDailyBudget = CalculateUtil.calRealBudget(dailyBudget);
+		// 配信期間トータルの予算
+		Long totalBudget = CalculateUtil.calTotalBudget(dailyBudget, startDateString, endDateString);
+
+		APIContext context = new APIContext(applicationProperties.getFacebookAccessToken(),
+				applicationProperties.getFacebookAppSecret());
+
+		// キャンペーンの目的はブランドのリーチ
+		EnumObjective enumObjective = Campaign.EnumObjective.VALUE_REACH;
+
+		// キャンペーン配信ステータス設定
+		EnumStatus enumCpStatus = Campaign.EnumStatus.VALUE_ACTIVE;
 		// 審査状態を設定
 		ApprovalFlag approvalFlag = ApprovalFlag.COMPLETED;
 		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
+			// 営業チェックが必要な場合、停止状態で作られる
+			enumCpStatus = Campaign.EnumStatus.VALUE_PAUSED;
 			// 営業チェックが必要な場合、審査状態を承認待ちにする
 			approvalFlag = ApprovalFlag.WAITING;
 		}
+		fbIssueDto.setCampaignDisplayStatus(FacebookCampaignStatus.of(enumCpStatus.toString()).getLabel());
+		fbIssueDto.setCheckStatus(approvalFlag.getValue());
+		// AdSet配信ステータス設定
+		com.facebook.ads.sdk.AdSet.EnumStatus enumSetStatus = AdSet.EnumStatus.VALUE_ACTIVE;
+		// Ad配信ステータス設定
+		com.facebook.ads.sdk.Ad.EnumStatus enumAdStatus = Ad.EnumStatus.VALUE_ACTIVE;
 
-		// 案件表にインサート
-		Issue issue = new Issue();
-        String startTime = fbIssueDto.getStartTime() + " " + fbIssueDto.getStartHour() + ":"
-                + fbIssueDto.getStartMin();
-        String endTime = fbIssueDto.getEndTime() + " " + fbIssueDto.getEndHour() + ":"
-                + fbIssueDto.getEndMin();
+		try {
+			String campaignName = fbIssueDto.getCampaignName();
+			AdAccount account = new AdAccount(applicationProperties.getFacebookAccountId(), context);
+			Campaign campaign = account.createCampaign().setName(campaignName).setObjective(enumObjective)
+					.setStatus(enumCpStatus).execute();
+			String campaignId = campaign.fetch().getId();
+			fbIssueDto.setCampaignId(campaignId);
+			// String campaignId = "23843046668180277";
+			// System.out.println(campaignId);
 
-		issue.setShopId(ContextUtil.getCurrentShopId());
-		issue.setFacebookCampaignId(fbIssueDto.getCampaignId());
-		issue.setCampaignName(fbIssueDto.getCampaignName());
-		issue.setUnitPriceType(fbIssueDto.getUnitPriceType());
-        issue.setBudget(CalculateUtil.calTotalBudget(fbIssueDto.getDailyBudget(), startTime,
-				endTime));
-		issue.setStartDate(startTime);
-		issue.setEndDate(endTime);
-		issue.setFacebookOnedayBudget(fbIssueDto.getDailyBudget());
-		issue.setFacebookRegions(assembleLocationString(fbIssueDto.getLocationList()));
-		issue.setApprovalFlag(approvalFlag.getValue());
-		issueDao.insert(issue);
+			// 請求タイミング
+			EnumBillingEvent enumBillingEvent = AdSet.EnumBillingEvent.VALUE_IMPRESSIONS;
+			// 最大入札価格を設定（地域の価格の平均値を算出）
+			Long bidAmount = 200l;
+			if (fbIssueDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue())) {
+				Double averageClickUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceClickList.stream()
+						.filter(obj -> fbIssueDto.getLocationList().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				bidAmount = Math.round(averageClickUnitPriceDouble);
+			}
+			if (fbIssueDto.getUnitPriceType().equals(UnitPriceType.DISPLAY.getValue())) {
+				Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.facebookAreaUnitPriceDisplayList.stream()
+						.filter(obj -> fbIssueDto.getLocationList().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				bidAmount = Math.round(averageDisplayUnitPriceDouble);
+			}
 
-		// メール送信
-		EmailDto emailDto = new EmailDto();
-		emailDto.setIssueId(issue.getIssueId());
-		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
-		emailCampDetailDto.setMediaType(MediaCollection.FACEBOOK.getValue());
-		emailCampDetailDto.setCampaignName(fbIssueDto.getCampaignName());
-		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
-		emailCampDetailDtoList.add(emailCampDetailDto);
-		emailDto.setCampaignList(emailCampDetailDtoList);
-		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
-		emailService.sendEmail(emailDto);
+			// 地域設定
+			// location_typesが指定されていない場合、デフォルトはこの地域に住んでる人です。
+			List<TargetingGeoLocationCity> TargetingGeoLocationCityList = new ArrayList<TargetingGeoLocationCity>();
+			for (Long location : fbIssueDto.getLocationList()) {
+				TargetingGeoLocationCityList.add(new TargetingGeoLocationCity().setFieldKey(location.toString()));
+			}
+			// 趣味設定
+			List<IDName> idNameList = new ArrayList<IDName>();
+			idNameList.add(new IDName().setFieldId("6003484127669").setFieldName("Casino"));// カジノ
+			idNameList.add(new IDName().setFieldId("6003012317397").setFieldName("Gambling"));// ギャンブル
 
-		return issue;
+			// ターゲット
+			// 性別のデフォルトはすべてです。
+			// デフォルトはこの地域に住んでる人
+			// 配置場所はfacebookのフィード
+			Targeting targeting = new Targeting().setFieldAgeMin(18L) // 最小年齢
+					.setFieldInterests(idNameList)// 趣味
+					.setFieldGeoLocations(new TargetingGeoLocation().setFieldCities(TargetingGeoLocationCityList));
+			targeting.setFieldPublisherPlatforms(Arrays.asList("facebook"))
+						.setFieldFacebookPositions(Arrays.asList("feed"));
+
+			// 広告セットを作成
+			// 広告セット名
+			String adSetName = fbIssueDto.getCampaignName() + "AdSet";
+			AdSet adset = account.createAdSet().setName(adSetName).setCampaignId(campaignId)
+					// 配信ステータス
+					.setStatus(enumSetStatus)
+					// 入札戦略（最小コスト）
+					.setDailyBudget(realDailyBudget).setStartTime(startDateTime).setEndTime(endDateTime).setBillingEvent(enumBillingEvent)
+					.setBidStrategy(EnumBidStrategy.VALUE_LOWEST_COST_WITH_BID_CAP).setBidAmount(bidAmount)
+					// 広告配信の最適化対象
+					.setOptimizationGoal(EnumOptimizationGoal.VALUE_IMPRESSIONS).setTargeting(targeting).execute();
+			String adSetId = adset.getFieldId();
+
+            MultipartFile image = fbIssueDto.getImage();
+			File imageFile = new File(image.getOriginalFilename());
+			FileOutputStream fo = new FileOutputStream(imageFile);
+			fo.write(image.getBytes());
+			fo.close();
+			AdImage adImage = account.createAdImage().addUploadFile("filename", imageFile).execute();
+			imageFile.delete();
+
+			String linkUrl = fbIssueDto.getLinkUrl();
+			AdCreativeLinkData link = (new AdCreativeLinkData()).setFieldLink(linkUrl)
+					.setFieldImageHash(adImage.getFieldHash());
+			AdCreativeObjectStorySpec spec = (new AdCreativeObjectStorySpec())
+					.setFieldPageId(ContextUtil.getCurrentShop().getFacebookPageId()).setFieldLinkData(link);
+			AdCreative creative = account.createAdCreative()
+					.setName(fbIssueDto.getCampaignName() + "Creative").setObjectStorySpec(spec).execute();
+			account.createAd().setName(fbIssueDto.getCampaignName() + "Ad")
+					.setAdsetId(Long.parseLong(adSetId)).setCreative(creative).setStatus(enumAdStatus).execute();
+
+			FacebookCampaignManage facebookCampaignManage = new FacebookCampaignManage();
+			facebookCampaignManage.setCampaignId(campaignId);
+			facebookCampaignManage.setCampaignName(campaignName);
+			facebookCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
+			facebookCampaignManage.setBudget(totalBudget);
+			facebookCampaignManage.setImageUrl(adImage.getFieldUrl());
+			facebookCampaignManage.setLinkUrl(linkUrl);
+			facebookCampaignManageDao.insert(facebookCampaignManage);
+
+			// 案件表にインサート
+			Issue issue = new Issue();
+	        String startTime = fbIssueDto.getStartTime() + " " + fbIssueDto.getStartHour() + ":"
+	                + fbIssueDto.getStartMin();
+	        String endTime = fbIssueDto.getEndTime() + " " + fbIssueDto.getEndHour() + ":"
+	                + fbIssueDto.getEndMin();
+
+			issue.setShopId(ContextUtil.getCurrentShopId());
+			issue.setFacebookCampaignId(campaignId);
+			issue.setCampaignName(fbIssueDto.getCampaignName());
+			issue.setUnitPriceType(fbIssueDto.getUnitPriceType());
+	        issue.setBudget(totalBudget);
+			issue.setStartDate(startTime);
+			issue.setEndDate(endTime);
+			issue.setFacebookOnedayBudget(dailyBudget);
+			issue.setFacebookRegions(assembleLocationString(fbIssueDto.getLocationList()));
+			issue.setApprovalFlag(approvalFlag.getValue());
+			issueDao.insert(issue);
+
+			// メール送信
+			EmailDto emailDto = new EmailDto();
+			emailDto.setIssueId(issue.getIssueId());
+			EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
+			emailCampDetailDto.setMediaType(MediaCollection.FACEBOOK.getValue());
+			emailCampDetailDto.setCampaignName(fbIssueDto.getCampaignName());
+			List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
+			emailCampDetailDtoList.add(emailCampDetailDto);
+			emailDto.setCampaignList(emailCampDetailDtoList);
+			emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
+			emailService.sendEmail(emailDto);
+
+			return issue;
+			
+		} catch (APIException e) {
+			e.printStackTrace();
+			throw new SystemException("システムエラー発生しました");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			throw new SystemException("システムエラー発生しました");
+		}
+
 	}
 
     // 配信日チェック
@@ -932,9 +1058,14 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     	LocalDateTime endDate = LocalDateTime.parse(endTime,
                 DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+
+        if (startDate.isBefore(LocalDateTime.now())) {
+            throw new BusinessException(ErrorCodeConstant.E00010);
+        }
         if (endDate.isBefore(startDate)) {
             throw new BusinessException(ErrorCodeConstant.E20003);
         }
+        
 
         List<Issue> issueList = new ArrayList<Issue>();
         issueList = issueCustomDao.selectExistFacebookDuplicateIssue(fbIssueDto.getCampaignId(), startTime, endTime);

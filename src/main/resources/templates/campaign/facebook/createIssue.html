@@ -82,6 +82,32 @@
     }
 }
 </style>
+<script type="text/javascript">
+	function myFile_upload1(obj) {
+		var file = obj.files[0];
+		var reader = new FileReader();
+
+		//　画像読み込み
+		reader.onloadstart = function(e) {
+			console.log("画像を読み込んで始まる....");
+		}
+		reader.onprogress = function(e) {
+			console.log("読み込み中....");
+		}
+		reader.onabort = function(e) {
+			console.log("読み込み中断....");
+		}
+		reader.onerror = function(e) {
+			console.log("例外発生....");
+		}
+		reader.onload = function(e) {
+			console.log("画像の読み込みは成功....");
+			var img = document.getElementById("xmTanImg");
+			img.src = e.target.result;
+		}
+		reader.readAsDataURL(file);
+	}
+</script>
 </head>
 <body>
 	<div class="top-bar clearfix pc" layout:fragment="page_header_container">
@@ -116,15 +142,34 @@
 		<div class="pheader sp">
 			<img th:src="@{/images/facebook.png}" style="width: 60px; margin-left: 20px;" /> <span style="margin-left: 30px;">Facebook広告</span>
 			<h5 style="margin-top: 30px; margin-left: 50px;">
-				<strong>3.配信詳細を入力</strong>
+				<strong>2.配信詳細を入力</strong>
 			</h5>
 		</div>
 		<br />
-		<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeCampaign}" method="post" th:object="${fbIssueInputForm}" onsubmit="return check('')">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/facebook/completeCampaign}" method="post" th:object="${fbIssueInputForm}" enctype="multipart/form-data" onsubmit="return check('')">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card-block">
 					<h4 class="sub-title">案件入力内容</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">案件名<span class="text-danger">※</span></label>
+						<div class="col-sm-8">
+						    <input type="hidden" class="form-control" th:field="*{unitPriceType}">
+							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="left">
+							<div>バナー 画像1080ｘ1080px</div>
+							<input type="file" th:field="*{image}" onchange="myFile_upload1(this)" required />
+						</div>
+					</div>
+					<div class="form-group row">
+						<p class="preview"></p>
+						<div class="img">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3d4070/ffffff/1080x1080.png" style="width: 200px">
+						</div>
+					</div>
 					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">地域<span class="text-danger">※</span></label>
 						<div class="col-sm-4">
@@ -135,18 +180,24 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 col-form-label text-right">案件名<span class="text-danger">※</span></label>
-						<div class="col-sm-8">
-							<input type="text" class="form-control" th:field="*{campaignName}" required="required" maxlength="60">
-						</div>
-					</div>
-
-					<div class="form-group row">
 						<label class="col-sm-2 col-form-label text-right">一日の予算<span class="text-danger">※</span></label>
 						<div class="col-sm-2">
 							<input type="number" class="form-control" th:field="*{dailyBudget}" required="required" min="1" max="9999999999">
 						</div>
 						<span class="col-form-label">円</span>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">URL<span
+							class="text-danger">※</span></label>
+						<div class="col-sm-8">
+							<select name="select" class="form-control"
+								th:field="*{segmentId}" required="required">
+								<option th:each="dspSegmentDto : ${dspSegmentDtoList}"
+									th:selected="${url==dspSegmentDto.getUrl()}"
+									th:value="${dspSegmentDto.getSegmentId()}"
+									th:text="${dspSegmentDto.getUrl()}"></option>
+							</select>
+						</div>
 					</div>
 				</div>
 				<div class="card-block" style="margin-bottom:50px">

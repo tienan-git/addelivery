@@ -13,7 +13,7 @@ import jp.acepro.haishinsan.form.FbTemplateInputForm;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2019-09-06T22:22:59+0900",
+    date = "2019-09-13T19:59:46+0900",
     comments = "version: 1.1.0.Final, compiler: Eclipse JDT (IDE) 3.13.0.v20170516-1929, environment: Java 1.8.0_144 (Oracle Corporation)"
 )
 public class FacebookMapperImpl implements FacebookMapper {
@@ -169,6 +169,7 @@ public class FacebookMapperImpl implements FacebookMapper {
         fbIssueDto.setEndHour( fbIssueInputForm.getEndHour() );
         fbIssueDto.setEndMin( fbIssueInputForm.getEndMin() );
         fbIssueDto.setEndTime( fbIssueInputForm.getEndTime() );
+        fbIssueDto.setImage( fbIssueInputForm.getImage() );
         fbIssueDto.setLinkMessage( fbIssueInputForm.getLinkMessage() );
         fbIssueDto.setLinkUrl( fbIssueInputForm.getLinkUrl() );
         List<Long> list = fbIssueInputForm.getLocationList();
