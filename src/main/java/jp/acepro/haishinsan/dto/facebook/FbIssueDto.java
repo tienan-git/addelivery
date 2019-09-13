@@ -3,6 +3,8 @@ package jp.acepro.haishinsan.dto.facebook;
 import java.io.File;
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import jp.acepro.haishinsan.enums.Flag;
 import lombok.Data;
 
@@ -38,6 +40,7 @@ public class FbIssueDto {
 	List<Long> locationList;
 
 	// image
+	MultipartFile image;
 	byte[] bytes;
 	String Base64Str;
 	File imageFile;

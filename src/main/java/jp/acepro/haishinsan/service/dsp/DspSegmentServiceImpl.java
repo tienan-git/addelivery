@@ -556,4 +556,21 @@ public class DspSegmentServiceImpl extends BaseService implements DspSegmentServ
 		return dspSegmentListDtoList;
 	}
 
+	@Override
+	@Transactional
+	public DspSegmentDto selectBySegmentId(Integer segmentId) {
+		
+		DspSegmentDto dspSegmentDto = new DspSegmentDto();
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectListBySegmentId(segmentId);
+
+		if (segmentManageList == null || segmentManageList.size() == 0) {
+			return dspSegmentDto;
+		}
+
+		dspSegmentDto.setSegmentId(segmentManageList.get(0).getSegmentId());
+		dspSegmentDto.setSegmentName(segmentManageList.get(0).getSegmentName());
+		dspSegmentDto.setUrl(segmentManageList.get(0).getUrl());
+		return dspSegmentDto;
+	}
+
 }

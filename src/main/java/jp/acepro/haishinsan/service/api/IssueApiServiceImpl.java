@@ -100,9 +100,9 @@ public class IssueApiServiceImpl implements IssueApiService {
 	@Transactional
 	public void executeAsync() {
 		// Facebook
-		startFacebookIssueAsync();
+		//startFacebookIssueAsync();
 
-		stopFacebookIssueAsync();
+		//stopFacebookIssueAsync();
 
 		// Google
 		startGoogleIssueAsync();

@@ -3,6 +3,9 @@ package jp.acepro.haishinsan.service.dsp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import org.seasar.doma.Select;
+
+import jp.acepro.haishinsan.db.entity.SegmentManage;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentGraphDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentListDto;
@@ -51,5 +54,7 @@ public interface DspSegmentService {
 	 * @return
 	 */
 	List<DspSegmentListDto> selectUrlList();
+
+	DspSegmentDto selectBySegmentId(Integer segmentId);
 
 }

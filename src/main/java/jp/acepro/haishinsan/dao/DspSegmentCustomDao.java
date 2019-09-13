@@ -23,6 +23,9 @@ public interface DspSegmentCustomDao {
 	List<SegmentManage> selectByShopIdWithEmptyUrl(Long shopId);
 
 	@Select
+	List<SegmentManage> selectListBySegmentId(Integer segmentId);
+
+	@Select
 	SegmentManage selectBySegmentId(Integer segmentId);
 
 	@Select
