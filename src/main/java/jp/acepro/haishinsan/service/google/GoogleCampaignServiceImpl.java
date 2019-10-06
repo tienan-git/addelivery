@@ -36,13 +36,17 @@ import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
 import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
+import jp.acepro.haishinsan.enums.CheckStatus;
 import jp.acepro.haishinsan.enums.DeviceType;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.exception.BusinessException;
+import jp.acepro.haishinsan.form.GoogleBannerAdIssueForm;
+import jp.acepro.haishinsan.form.GoogleBannerTextAdIssueForm;
 import jp.acepro.haishinsan.form.GoogleIssueInputForm;
+import jp.acepro.haishinsan.form.GoogleTextAdIssueForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.EmailService;
@@ -96,7 +100,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	// キャンペーン新規作成（API経由）
 	@Override
 	@Transactional
-	public void createCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto) {
+	public Long createCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto) {
 
 		// Get Keyword List
 		if (CodeMasterServiceImpl.keywordNameList == null) {
@@ -206,6 +210,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		googleCampaignManageDao.insert(googleCampaignManage);
 		googleCampaignDto.setCampaignId(addCampaign.newCampaign.getId());
 
+		return googleCampaignManage.getCampaignId();
 		//log.debug("キャンペーン新規作成完了----------------------------");
 	}
 
@@ -484,19 +489,22 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		}
 
 		for (GoogleCampaignManage googleCampaignManage : googleCampaignManageList) {
-			GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
-			googleCampaignDto.setCampaignId(googleCampaignManage.getCampaignId());
-			googleCampaignDto.setCampaignName(googleCampaignManage.getCampaignName());
-			googleCampaignDto.setImage1Url(googleCampaignManage.getImage1Url());
-			googleCampaignDto.setImage2Url(googleCampaignManage.getImage2Url());
-			googleCampaignDto.setImage3Url(googleCampaignManage.getImage3Url());
-			googleCampaignDto.setImage4Url(googleCampaignManage.getImage4Url());
-			googleCampaignDto.setAdTitle1(googleCampaignManage.getTitle1());
-			googleCampaignDto.setAdTitle2(googleCampaignManage.getTitle2());
-			googleCampaignDto.setAdDescription(googleCampaignManage.getDescription());
-			googleCampaignDto.setLinkUrl(googleCampaignManage.getLinkUrl());
+			// 審査状態判断 1:審査済のキャンペーンを表示させる
+			if (googleCampaignManage.getCheckStatus() != null && CheckStatus.PREAPPROVED.getValue().equals(googleCampaignManage.getCheckStatus())) {
+				GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
+				googleCampaignDto.setCampaignId(googleCampaignManage.getCampaignId());
+				googleCampaignDto.setCampaignName(googleCampaignManage.getCampaignName());
+				googleCampaignDto.setImage1Url(googleCampaignManage.getImage1Url());
+				googleCampaignDto.setImage2Url(googleCampaignManage.getImage2Url());
+				googleCampaignDto.setImage3Url(googleCampaignManage.getImage3Url());
+				googleCampaignDto.setImage4Url(googleCampaignManage.getImage4Url());
+				googleCampaignDto.setAdTitle1(googleCampaignManage.getTitle1());
+				googleCampaignDto.setAdTitle2(googleCampaignManage.getTitle2());
+				googleCampaignDto.setAdDescription(googleCampaignManage.getDescription());
+				googleCampaignDto.setLinkUrl(googleCampaignManage.getLinkUrl());
 
-			googleCampaignDtoList.add(googleCampaignDto);
+				googleCampaignDtoList.add(googleCampaignDto);
+			}
 		}
 
 		return googleCampaignDtoList;
@@ -572,6 +580,84 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			googleIssueDto.setLocationList(new ArrayList<Long>(list));
 		}
 		googleIssueDto.setStartDate(googleIssueInputForm.getStartDate());
+		return googleIssueDto;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleBannerAdIssueForm googleBannerAdIssueForm) {
+		if (googleBannerAdIssueForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleBannerAdIssueForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleBannerAdIssueForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleBannerAdIssueForm.getBudget());
+		googleIssueDto.setEndDate(googleBannerAdIssueForm.getEndDate());
+		googleIssueDto.setStartTime(googleBannerAdIssueForm.getStartTime());
+		googleIssueDto.setStartHour(googleBannerAdIssueForm.getStartHour());
+		googleIssueDto.setStartMin(googleBannerAdIssueForm.getStartMin());
+		googleIssueDto.setEndTime(googleBannerAdIssueForm.getEndTime());
+		googleIssueDto.setEndHour(googleBannerAdIssueForm.getEndHour());
+		googleIssueDto.setEndMin(googleBannerAdIssueForm.getEndMin());
+		List<Long> list = googleBannerAdIssueForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleBannerAdIssueForm.getStartDate());
+		return googleIssueDto;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleBannerTextAdIssueForm googleBannerTextAdIssueForm) {
+		if (googleBannerTextAdIssueForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleBannerTextAdIssueForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleBannerTextAdIssueForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleBannerTextAdIssueForm.getBudget());
+		googleIssueDto.setEndDate(googleBannerTextAdIssueForm.getEndDate());
+		googleIssueDto.setStartTime(googleBannerTextAdIssueForm.getStartTime());
+		googleIssueDto.setStartHour(googleBannerTextAdIssueForm.getStartHour());
+		googleIssueDto.setStartMin(googleBannerTextAdIssueForm.getStartMin());
+		googleIssueDto.setEndTime(googleBannerTextAdIssueForm.getEndTime());
+		googleIssueDto.setEndHour(googleBannerTextAdIssueForm.getEndHour());
+		googleIssueDto.setEndMin(googleBannerTextAdIssueForm.getEndMin());
+		List<Long> list = googleBannerTextAdIssueForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleBannerTextAdIssueForm.getStartDate());
+		return googleIssueDto;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleTextAdIssueForm googleTextAdIssueForm) {
+		if (googleTextAdIssueForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleTextAdIssueForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleTextAdIssueForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleTextAdIssueForm.getBudget());
+		googleIssueDto.setEndDate(googleTextAdIssueForm.getEndDate());
+		googleIssueDto.setStartTime(googleTextAdIssueForm.getStartTime());
+		googleIssueDto.setStartHour(googleTextAdIssueForm.getStartHour());
+		googleIssueDto.setStartMin(googleTextAdIssueForm.getStartMin());
+		googleIssueDto.setEndTime(googleTextAdIssueForm.getEndTime());
+		googleIssueDto.setEndHour(googleTextAdIssueForm.getEndHour());
+		googleIssueDto.setEndMin(googleTextAdIssueForm.getEndMin());
+		List<Long> list = googleTextAdIssueForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleTextAdIssueForm.getStartDate());
 		return googleIssueDto;
 	}
 

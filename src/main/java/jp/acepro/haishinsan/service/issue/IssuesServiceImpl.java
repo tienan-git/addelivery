@@ -228,4 +228,10 @@ public class IssuesServiceImpl extends BaseService implements IssuesService {
         return twitterCampaignData;
     }
 
+    // 案件IdでIssueを検索
+    @Override
+    public Issue selectIssueByIssueId(Long issueId) {
+    	Issue issue = issueDao.selectById(issueId);
+    	return issue;
+    };
 }
