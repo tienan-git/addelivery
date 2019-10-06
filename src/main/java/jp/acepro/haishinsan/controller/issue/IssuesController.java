@@ -85,7 +85,7 @@ public class IssuesController {
             String campaignId = twitterCampaignData.getId();
             // Call Api: Twitter広告状態を停止にする
             twitterCampaignApiService.deleteAds(campaignId, issueId);
-        } else if (IssueAdtype.GOOGLE.getValue().equals(media)) {
+        } else if (IssueAdtype.GOOGLE.getLabel().equals(media)) {
             Issue issue = issuesService.selectIssueByIssueId(issueId);
             // Googleキャンペーンが存在する場合、且つ配信中と判断する場合、配信ステータスを停止する
             if (issue != null && issue.getGoogleCampaignId() != null && issue.getStartTimestamp() != null
@@ -94,7 +94,7 @@ public class IssuesController {
             }
             // 案件Idで案件を論理削除
             issuesService.deleteIssueById(issueId);
-        } else if (IssueAdtype.FACEBOOK.getValue().equals(media)) {
+        } else if (IssueAdtype.FACEBOOK.getLabel().equals(media)) {
             Issue issue = issuesService.selectIssueByIssueId(issueId);
             // Facebookキャンペーンが存在する場合、配信ステータスを停止する
             if (issue != null && issue.getFacebookCampaignId() != null) {
