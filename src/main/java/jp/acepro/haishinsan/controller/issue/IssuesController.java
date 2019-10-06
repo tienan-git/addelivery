@@ -27,94 +27,94 @@ import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 @RequestMapping("/issue/issues")
 public class IssuesController {
 
-	@Autowired
-	IssuesService issuesService;
+    @Autowired
+    IssuesService issuesService;
 
-	@Autowired
-	TwitterCampaignApiService twitterCampaignApiService;
+    @Autowired
+    TwitterCampaignApiService twitterCampaignApiService;
 
-	@Autowired
-	FacebookService facebookService;
+    @Autowired
+    FacebookService facebookService;
 
-	@Autowired
-	GoogleCampaignService googleCampaignService;
-	
-	@GetMapping("/issueList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
-	public ModelAndView issueList(@ModelAttribute IssueSearchForm issueSearchForm) {
+    @Autowired
+    GoogleCampaignService googleCampaignService;
 
-		IssuesDto issuesDto = new IssuesDto();
-		List<IssuesDto> issuesDtoList = issuesService.searchIssuesList(issuesDto);
+    @GetMapping("/issueList")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
+    public ModelAndView issueList(@ModelAttribute IssueSearchForm issueSearchForm) {
 
-		ModelAndView mv = new ModelAndView();
-		mv.addObject(issuesDtoList);
-		mv.setViewName("issue/issueList");
-		return mv;
-	}
+        IssuesDto issuesDto = new IssuesDto();
+        List<IssuesDto> issuesDtoList = issuesService.searchIssuesList(issuesDto);
 
-	@PostMapping("/issueSearch")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
-	public ModelAndView searchIssueList(@ModelAttribute IssueSearchForm issueSearchForm) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject(issuesDtoList);
+        mv.setViewName("issue/issueList");
+        return mv;
+    }
 
-		// Form → dto (検索条件)
-		IssuesDto issuesDto = new IssuesDto();
-		issuesDto.setShopName(issueSearchForm.getShopName());
-		issuesDto.setCampaignName(issueSearchForm.getCampaignName());
-		issuesDto.setMedia(issueSearchForm.getMedia());
-		issuesDto.setStatus(issueSearchForm.getStatus());
-		issuesDto.setStartDate(issueSearchForm.getStartDate());
+    @PostMapping("/issueSearch")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
+    public ModelAndView searchIssueList(@ModelAttribute IssueSearchForm issueSearchForm) {
 
-		log.debug("----------------------------------------------------------");
-		log.debug("issueSearchForm: " + issueSearchForm.toString());
-		log.debug("----------------------------------------------------------");
+        // Form → dto (検索条件)
+        IssuesDto issuesDto = new IssuesDto();
+        issuesDto.setShopName(issueSearchForm.getShopName());
+        issuesDto.setCampaignName(issueSearchForm.getCampaignName());
+        issuesDto.setMedia(issueSearchForm.getMedia());
+        issuesDto.setStatus(issueSearchForm.getStatus());
+        issuesDto.setStartDate(issueSearchForm.getStartDate());
 
-		List<IssuesDto> issuesDtoList = issuesService.searchIssuesList(issuesDto);
+        log.debug("----------------------------------------------------------");
+        log.debug("issueSearchForm: " + issueSearchForm.toString());
+        log.debug("----------------------------------------------------------");
 
-		ModelAndView mv = new ModelAndView();
-		mv.addObject(issuesDtoList);
-		mv.setViewName("issue/issueList");
-		return mv;
-	}
+        List<IssuesDto> issuesDtoList = issuesService.searchIssuesList(issuesDto);
 
-	@PostMapping("/deleteIssue")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DELETE + "')")
-	public ModelAndView deleteIssue(@RequestParam Long issueId, @RequestParam String media) {
+        ModelAndView mv = new ModelAndView();
+        mv.addObject(issuesDtoList);
+        mv.setViewName("issue/issueList");
+        return mv;
+    }
 
-		if ("Twitter".equals(media)) {
-			TwitterCampaignData twitterCampaignData = issuesService.selectCampaignIdByIssueId(issueId);
-			String campaignId = twitterCampaignData.getId();
-			// Call Api: Twitter広告状態を停止にする
-			twitterCampaignApiService.deleteAds(campaignId, issueId);
-		} else if (IssueAdtype.GOOGLE.getValue().equals(media)) {
-			Issue issue = issuesService.selectIssueByIssueId(issueId);
-			// Googleキャンペーンが存在する場合、且つ配信中と判断する場合、配信ステータスを停止する
-			if (issue != null && issue.getGoogleCampaignId() != null &&
-					issue.getStartTimestamp() != null && issue.getEndTimestamp() == null) {
-				googleCampaignService.updateCampaignStatus(issue.getGoogleCampaignId(), "OFF");
-			}
-			// 案件Idで案件を論理削除
-			issuesService.deleteIssueById(issueId);
-		} else if (IssueAdtype.FACEBOOK.getValue().equals(media)) {
-			Issue issue = issuesService.selectIssueByIssueId(issueId);
-			// Facebookキャンペーンが存在する場合、配信ステータスを停止する
-			if (issue != null && issue.getFacebookCampaignId() != null) {
-				facebookService.updateCampaignStatus(issue.getFacebookCampaignId(), "OFF");
-			}
-			// 案件Idで案件を論理削除
-			issuesService.deleteIssueById(issueId);
-		} else {
-			// 案件Idで案件を論理削除
-			issuesService.deleteIssueById(issueId);
-		}
+    @PostMapping("/deleteIssue")
+    @PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_DELETE + "')")
+    public ModelAndView deleteIssue(@RequestParam Long issueId, @RequestParam String media) {
 
-		log.debug("----------------------------------------------------------");
-		log.debug("削除した issueId: " + issueId);
-		log.debug("----------------------------------------------------------");
+        if ("Twitter".equals(media)) {
+            TwitterCampaignData twitterCampaignData = issuesService.selectCampaignIdByIssueId(issueId);
+            String campaignId = twitterCampaignData.getId();
+            // Call Api: Twitter広告状態を停止にする
+            twitterCampaignApiService.deleteAds(campaignId, issueId);
+        } else if (IssueAdtype.GOOGLE.getValue().equals(media)) {
+            Issue issue = issuesService.selectIssueByIssueId(issueId);
+            // Googleキャンペーンが存在する場合、且つ配信中と判断する場合、配信ステータスを停止する
+            if (issue != null && issue.getGoogleCampaignId() != null && issue.getStartTimestamp() != null
+                    && issue.getEndTimestamp() == null) {
+                googleCampaignService.updateCampaignStatus(issue.getGoogleCampaignId(), "OFF");
+            }
+            // 案件Idで案件を論理削除
+            issuesService.deleteIssueById(issueId);
+        } else if (IssueAdtype.FACEBOOK.getValue().equals(media)) {
+            Issue issue = issuesService.selectIssueByIssueId(issueId);
+            // Facebookキャンペーンが存在する場合、配信ステータスを停止する
+            if (issue != null && issue.getFacebookCampaignId() != null) {
+                facebookService.updateCampaignStatus(issue.getFacebookCampaignId(), "OFF");
+            }
+            // 案件Idで案件を論理削除
+            issuesService.deleteIssueById(issueId);
+        } else {
+            // 案件Idで案件を論理削除
+            issuesService.deleteIssueById(issueId);
+        }
 
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("redirect:/issues/issueList");
+        log.debug("----------------------------------------------------------");
+        log.debug("削除した issueId: " + issueId);
+        log.debug("----------------------------------------------------------");
 
-		return mv;
-	}
+        ModelAndView mv = new ModelAndView();
+        mv.setViewName("redirect:/issue/issues/issueList");
+
+        return mv;
+    }
 
 }
