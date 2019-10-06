@@ -38,7 +38,7 @@
 	<div layout:fragment="page_body_container">
 		<div class="card">
 			<div class="card-block">
-				<form th:action="@{/issues/issueList}" method="post"
+				<form th:action="@{/issue/issues/issueList}" method="post"
 					th:object="${issueSearchForm}">
 				
 					<div class="dt-responsive table-responsive">
@@ -113,7 +113,7 @@
 										</button>
 										<button class="label delete" type="submit"
 											th:formmethod="post"
-											th:formaction="@{/issues/deleteIssue(issueId=${issue.issueId}, media=${issue.media})}">
+											th:formaction="@{/issue/issues/deleteIssue(issueId=${issue.issueId}, media=${issue.media})}">
 											<i class="ti-trash"></i>削除
 										</button>
 									</td>
