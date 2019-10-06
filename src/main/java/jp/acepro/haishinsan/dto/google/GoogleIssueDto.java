@@ -32,15 +32,15 @@ public class GoogleIssueDto {
 	// 開始日
 	String startDate;
 
-	public String getStartDateSlash() {
-		return StringFormatter.formatToSlash(startDate);
+	public String getStartDateHyphen() {
+		return StringFormatter.formatToHyphen(startDate);
 	}
 
 	// 終了日
 	String endDate;
 
-	public String getEndDateSlash() {
-		return StringFormatter.formatToSlash(endDate);
+	public String getEndDateHyphen() {
+		return StringFormatter.formatToHyphen(endDate);
 	}
 
     String startTime;

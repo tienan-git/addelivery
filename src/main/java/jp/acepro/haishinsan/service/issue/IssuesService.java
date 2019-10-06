@@ -2,6 +2,7 @@ package jp.acepro.haishinsan.service.issue;
 
 import java.util.List;
 
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
 
@@ -15,5 +16,8 @@ public interface IssuesService {
 
     // 案件IdでcampaignIdを検索
     TwitterCampaignData selectCampaignIdByIssueId(Long issueId);
+    
+    // 案件IdでIssueを検索
+    Issue selectIssueByIssueId(Long issueId);
 
 }

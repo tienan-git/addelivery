@@ -12,9 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.IssuesDto;
 import jp.acepro.haishinsan.dto.twitter.TwitterCampaignData;
+import jp.acepro.haishinsan.enums.IssueAdtype;
 import jp.acepro.haishinsan.form.IssueSearchForm;
+import jp.acepro.haishinsan.service.facebook.FacebookService;
+import jp.acepro.haishinsan.service.google.GoogleCampaignService;
 import jp.acepro.haishinsan.service.issue.IssuesService;
 import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 
@@ -29,6 +33,12 @@ public class IssuesController {
 	@Autowired
 	TwitterCampaignApiService twitterCampaignApiService;
 
+	@Autowired
+	FacebookService facebookService;
+
+	@Autowired
+	GoogleCampaignService googleCampaignService;
+	
 	@GetMapping("/issueList")
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.ISSUE_LIST + "')")
 	public ModelAndView issueList(@ModelAttribute IssueSearchForm issueSearchForm) {
@@ -75,6 +85,23 @@ public class IssuesController {
 			String campaignId = twitterCampaignData.getId();
 			// Call Api: Twitter広告状態を停止にする
 			twitterCampaignApiService.deleteAds(campaignId, issueId);
+		} else if (IssueAdtype.GOOGLE.getValue().equals(media)) {
+			Issue issue = issuesService.selectIssueByIssueId(issueId);
+			// Googleキャンペーンが存在する場合、且つ配信中と判断する場合、配信ステータスを停止する
+			if (issue != null && issue.getGoogleCampaignId() != null &&
+					issue.getStartTimestamp() != null && issue.getEndTimestamp() == null) {
+				googleCampaignService.updateCampaignStatus(issue.getGoogleCampaignId(), "OFF");
+			}
+			// 案件Idで案件を論理削除
+			issuesService.deleteIssueById(issueId);
+		} else if (IssueAdtype.FACEBOOK.getValue().equals(media)) {
+			Issue issue = issuesService.selectIssueByIssueId(issueId);
+			// Facebookキャンペーンが存在する場合、配信ステータスを停止する
+			if (issue != null && issue.getFacebookCampaignId() != null) {
+				facebookService.updateCampaignStatus(issue.getFacebookCampaignId(), "OFF");
+			}
+			// 案件Idで案件を論理削除
+			issuesService.deleteIssueById(issueId);
 		} else {
 			// 案件Idで案件を論理削除
 			issuesService.deleteIssueById(issueId);

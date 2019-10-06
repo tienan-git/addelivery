@@ -119,6 +119,9 @@
 		<br />
 				<form th:action="@{/google/createIssue}" method="post" th:object="${googleIssueInputForm}">
 					<div th:replace="common/errorMessages"></div>
+					<div class="form-group row">
+						<label class="col-sm-12 col-form-label text-danger">★こちらは、審査済クリエイティブのみを表示する。</label>
+					</div>
 					<div class="dt-responsive table-responsive">
 						<table id="basicTable"
 							class="table table-striped table-bordered nowrap"
