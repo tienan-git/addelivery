@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.controller.campaign.instagram;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.google.common.io.ByteSource;
 
 import jp.acepro.haishinsan.constant.ErrorCodeConstant;
 import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
@@ -137,12 +140,12 @@ public class InstagramIssueController {
 			throws IOException {
 
 		String imaBase64 = null;
-		byte[] bytes = null;
 		FbIssueDto fbIssueDto = FacebookMapper.INSTANCE.map(fbIssueInputForm);
 
 		try {
 			imaBase64 = imageUtil.getImageBytes(fbIssueInputForm.getImage(), MediaType.FACEBOOK.getValue());
-			bytes = fbIssueInputForm.getImage().getBytes();
+			fbIssueDto.setImageFileName(fbIssueInputForm.getImage().getOriginalFilename());
+			fbIssueDto.setImageBytes(getByteArrayFromStream(fbIssueInputForm.getImage().getInputStream()));
 			facebookService.dailyCheck(fbIssueDto);
 		} catch (BusinessException e) {
 			result.reject(e.getMessage(), e.getParams(), null);
@@ -158,14 +161,8 @@ public class InstagramIssueController {
 		// FormからDtoまで変更
 		ModelAndView mv = new ModelAndView();
 
-		fbIssueDto.setBytes(bytes);
-		fbIssueDto.setBase64Str(imaBase64);
-		fbIssueDto.setImage(fbIssueInputForm.getImage());
 		fbIssueDto.setLinkUrl(dspSegmentDto.getUrl());
 
-		session.setAttribute("imaBase64", fbIssueDto.getBase64Str());
-		session.setAttribute("bytes", bytes);
-		session.setAttribute("image", fbIssueDto.getImage());
 		session.setAttribute("fbIssueDto", fbIssueDto);
 
 		StringBuffer data = new StringBuffer();
@@ -183,27 +180,27 @@ public class InstagramIssueController {
 	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.CAMPAIGN_CREATE_NEW + "')")
 	public ModelAndView completeIssue() {
 
-		String imaBase64 = (String) session.getAttribute("imaBase64");
-		byte[] bytes = (byte[]) session.getAttribute("bytes");
-		MultipartFile image = (MultipartFile) session.getAttribute("image");
 		FbIssueDto fbIssueDto = (FbIssueDto) session.getAttribute("fbIssueDto");
-	
-		fbIssueDto.setBytes(bytes);
-		fbIssueDto.setBase64Str(imaBase64);
-		fbIssueDto.setImage(image);
 
 		Issue issue = facebookService.createIssue(fbIssueDto);
 
 		session.removeAttribute("fbIssueDto");
-		session.removeAttribute("imaBase64");
-		session.removeAttribute("bytes");
-		session.removeAttribute("image");
 		session.removeAttribute("dspSegmentDtoList");
 		ModelAndView mv = new ModelAndView("campaign/instagram/completeIssue");
 
 		// オペレーションログ記録
 		operationService.create(Operation.FACEBOOK_ISSUE_CREATE.getValue(), String.valueOf(issue.getIssueId()));
 		return mv;
+	}
+
+	// Utilities
+	private byte[] getByteArrayFromStream(final InputStream inputStream) throws IOException {
+		return new ByteSource() {
+			@Override
+			public InputStream openStream() {
+				return inputStream;
+			}
+		}.read();
 	}
 
 }
