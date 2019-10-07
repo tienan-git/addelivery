@@ -40,6 +40,8 @@ public class FbIssueDto {
 	List<Long> locationList;
 
 	// image
+	String imageFileName;
+	byte[] imageBytes;
 	MultipartFile image;
 	byte[] bytes;
 	String Base64Str;

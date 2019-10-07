@@ -975,10 +975,9 @@ public class FacebookServiceImpl extends BaseService implements FacebookService 
 					.setOptimizationGoal(EnumOptimizationGoal.VALUE_IMPRESSIONS).setTargeting(targeting).execute();
 			String adSetId = adset.getFieldId();
 
-            MultipartFile image = fbIssueDto.getImage();
-			File imageFile = new File(image.getOriginalFilename());
+			File imageFile = new File(fbIssueDto.getImageFileName());
 			FileOutputStream fo = new FileOutputStream(imageFile);
-			fo.write(image.getBytes());
+			fo.write(fbIssueDto.getImageBytes());
 			fo.close();
 			AdImage adImage = account.createAdImage().addUploadFile("filename", imageFile).execute();
 			imageFile.delete();
