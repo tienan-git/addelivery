@@ -148,8 +148,8 @@ dependencies {
     compile 'com.google.api-ads:adwords-axis:4.1.0'
     compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
     compile 'com.beust:jcommander:1.48'
-    compile 'log4j:log4j:1.2.17'
-    compile 'commons-logging:commons-logging:1.1.1'
+    //compile 'log4j:log4j:1.2.17'
+    //compile 'commons-logging:commons-logging:1.1.1'
     
     // Facebook
 	compile "com.facebook.business.sdk:facebook-java-business-sdk:3.3.0"
