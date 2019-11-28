@@ -1,12 +1,11 @@
 buildscript {
 	ext {
-	    domaVersion = '2.19.2'
+	    domaVersion = '2.19.3'
         flywayVersion = '5.0.7'
 		springBootVersion = '2.0.5.RELEASE'
 		lombokVersion = '1.18.2'
 	    mysqlVersion = '5.1.44'
         domaSpringBootVersion = '1.1.1'
-        domaVersion = '2.19.2'
         mapstructVersion = '1.1.0.Final'
         univocityVersion = '2.6.3'
         groupName = 'jp.acepro.haishinsan'
@@ -97,9 +96,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.2'
 	annotationProcessor "org.projectlombok:lombok:1.18.2"
 	
-	    compile "org.seasar.doma:doma:$domaVersion"
-    apt "org.seasar.doma:doma:$domaVersion"
-        domaGenRuntime "org.seasar.doma:doma-gen:$domaVersion"
+    // doma
+	compile "org.seasar.doma:doma:$domaVersion"
+    annotationProcessor "org.seasar.doma:doma:$domaVersion"
+    domaGenRuntime "org.seasar.doma:doma-gen:$domaVersion"
         
     // mapstruct
     compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
