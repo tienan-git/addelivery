@@ -632,6 +632,7 @@ create table creative_manage (
   , updated_at DATETIME(6) not null comment '更新日時'
   , updated_by VARCHAR(15) not null comment '更新者'
   , is_actived INT(1) not null comment 'アクティブフラグ:0：無効、1：有効'
+  , screening INT comment 'screening'
   , constraint creative_manage_PKC primary key (creative_manage_id)
 ) comment 'クリエイティブ管理' ;
 
