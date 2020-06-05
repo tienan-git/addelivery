@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReportingRes {
-	
+
 	List<TwitterReport> data;
-	
+
 }

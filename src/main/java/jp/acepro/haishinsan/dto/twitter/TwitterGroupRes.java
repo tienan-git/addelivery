@@ -9,6 +9,6 @@ import lombok.ToString;
 @Data
 public class TwitterGroupRes {
 
-	 TwitterDataRes data;
+	TwitterDataRes data;
 
 }

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-youtube-play label youtube"></i>
+						<div class="d-inline">
+							<h4>Youtube広告作成確認</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/campaign/youtube/issueSuccess}" method="get" th:object="${youtubeIssueDto}">
+		<div th:replace="common/errorMessages"></div>
+		<input type="hidden" th:field="*{issueId}"/>
+			<div class="form-group row">
+				<div class="col-sm-12 text-right">
+					
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">案件情報</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">広告名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{campaignName}">キャンペイン</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">広告タイプ</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.YoutubeAdType).of('__*{adType}__').label}">広告</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">予算</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{budget} + '円'">1000円</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{startDate}+ ' ' + *{startHour} + ':' + *{startMin}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{endDate}+ ' ' + *{endHour} + ':' + *{endMin}">2018/10/10</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信地域</label>
+						</div>
+						<div class="col-sm-4">
+							<select id="custom-headers" class="searchable" multiple disabled>
+								<option
+									th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}"
+									th:selected="${#lists.contains(youtubeIssueinputForm.locationIdList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">LP</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="${#strings.isEmpty(youtubeIssueDto.lp)} ? '--' : ${youtubeIssueDto.lp}">https://example.com</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">動画URL</label>
+						</div>
+					<div class="col-sm-8">
+							<label class="col-form-label" th:text="${#strings.isEmpty(youtubeIssueDto.videoUrl)} ? '--' : ${youtubeIssueDto.videoUrl}">aaa.png</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group row">
+				<div class="col-sm-12 text-center">
+					<button class="btn btn-success" type="submit" th:formaction="@{/campaign/youtube/issueSuccess}" th:formmethod="get">確認</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

@@ -62,20 +62,26 @@ public class AddExpandedTextAds {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -112,18 +118,15 @@ public class AddExpandedTextAds {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param adGroupId
-	 *            the ID of the ad group where the ad will be created.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param adGroupId       the ID of the ad group where the ad will be created.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws RemoteException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId)
+			throws RemoteException {
 		// Get the AdGroupAdService.
 		AdGroupAdServiceInterface adGroupAdService = adWordsServices.get(session, AdGroupAdServiceInterface.class);
 
@@ -160,7 +163,8 @@ public class AddExpandedTextAds {
 		operations.add(adGroupAdOperation);
 
 		// Add ads.
-		AdGroupAdReturnValue result = adGroupAdService.mutate(operations.toArray(new AdGroupAdOperation[operations.size()]));
+		AdGroupAdReturnValue result = adGroupAdService
+				.mutate(operations.toArray(new AdGroupAdOperation[operations.size()]));
 
 		// Display ads.
 //		Arrays.stream(result.getValue()).map(adGroupAdResult -> (ExpandedTextAd) adGroupAdResult.getAd())

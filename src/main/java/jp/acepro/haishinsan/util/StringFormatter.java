@@ -11,8 +11,7 @@ public class StringFormatter {
 	/**
 	 * 日付文字列をyyyy/MM/ddにフォーマットします。
 	 *
-	 * @param date
-	 *            8桁文字列
+	 * @param date 8桁文字列
 	 * @return フォーマット後の文字列
 	 */
 	public static String formatToSlash(String date) {
@@ -25,8 +24,7 @@ public class StringFormatter {
 	/**
 	 * 日付文字列をyyyy-MM-ddにフォーマットします。
 	 *
-	 * @param date
-	 *            8桁文字列
+	 * @param date 8桁文字列
 	 * @return フォーマット後の文字列
 	 */
 	public static String formatToHyphen(String date) {
@@ -39,8 +37,7 @@ public class StringFormatter {
 	/**
 	 * yyyy/MM/ddやyyyy-MM-dd日付文字列をyyyyMMddにフォーマットします。
 	 *
-	 * @param date
-	 *            文字列
+	 * @param date 文字列
 	 * @return フォーマット後の文字列
 	 */
 	public static String dateFormat(String date) {
@@ -54,8 +51,7 @@ public class StringFormatter {
 	/**
 	 * yyyy/MM/dd日付文字列をyyyy-MM-ddにフォーマットします。
 	 *
-	 * @param date
-	 *            文字列
+	 * @param date 文字列
 	 * @return フォーマット後の文字列
 	 */
 	public static String dateToDisplay(String date) {
@@ -68,8 +64,7 @@ public class StringFormatter {
 	/**
 	 * yyyy-MM-dd日付文字列をyyyy/MM/ddにフォーマットします。
 	 *
-	 * @param date
-	 *            文字列
+	 * @param date 文字列
 	 * @return フォーマット後の文字列
 	 */
 	public static String dateHyphenToSlash(String date) {
@@ -82,8 +77,7 @@ public class StringFormatter {
 	/**
 	 * 郵便番号を***-****にフォーマットします。
 	 *
-	 * @param zip
-	 *            郵便番号
+	 * @param zip 郵便番号
 	 * @return フォーマット後の文字列
 	 */
 	public static String zipFormat(String zip) {
@@ -96,8 +90,7 @@ public class StringFormatter {
 	/**
 	 * 電話番号を***-****にフォーマットします。
 	 *
-	 * @param phoneNo
-	 *            電話番号
+	 * @param phoneNo 電話番号
 	 * @return フォーマット後の文字列
 	 */
 	public static String phoneNoFormat(String phoneNo) {

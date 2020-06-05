@@ -7,19 +7,19 @@ public class YoutubeReportDisplayDto {
 
 	// キャンペーンID
 	String campaignId;
-	
+
 	// キャンペーン名
 	String campaignName;
 
 	// デバイスタイプ
 	String deviceType;
-	
+
 	// デバイス名
-    String deviceName;
+	String deviceName;
 
 	// 地域ID
 	Long locationId;
-	
+
 	// 地域名
 	String locationName;
 
@@ -44,13 +44,13 @@ public class YoutubeReportDisplayDto {
 
 	// インプレッション単価
 	Integer cpm;
-	
-    // 視聴回数
-    Long videoViews = 0l;
 
-    // 視聴率
-    String videoViewRate;
+	// 視聴回数
+	Long videoViews = 0l;
 
-    // 視聴単価
-    Integer avgCpv;
+	// 視聴率
+	String videoViewRate;
+
+	// 視聴単価
+	Integer avgCpv;
 }

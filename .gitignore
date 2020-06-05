@@ -5,7 +5,9 @@
 .DS_Store
 
 ### STS ###
-.apt_generated
+.apt_generated/jp/acepro/haishinsan/dao
+.apt_generated/jp/acepro/haishinsan/db/entity
+.apt_generated/jp/acepro/haishinsan/entity
 .classpath
 .factorypath
 .project
@@ -29,3 +31,6 @@
 
 ### Honban Properties ###
 application-honban.yml
+ads-honban.properties
+
+*/haishinsan-1.0.0-SNAPSHOT.zip

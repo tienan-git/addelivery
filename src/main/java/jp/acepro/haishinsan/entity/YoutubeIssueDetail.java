@@ -18,45 +18,44 @@ import lombok.Data;
 @Data
 public class YoutubeIssueDetail extends BaseEntity {
 
-    /** 案件ID */
-    @Column(name = "issue_id")
-    Long issueId;
+	/** 案件ID */
+	@Column(name = "issue_id")
+	Long issueId;
 
-    /** 予算 */
-    @Column(name = "budget")
-    Long budget;
+	/** 予算 */
+	@Column(name = "budget")
+	Long budget;
 
-    /** 地域 */
-    @Column(name = "area")
-    String area;
+	/** 地域 */
+	@Column(name = "area")
+	String area;
 
-    /** 配信開始日 */
-    @Column(name = "start_date")
-    String startDate;
+	/** 配信開始日 */
+	@Column(name = "start_date")
+	String startDate;
 
-    /** 配信終了日 */
-    @Column(name = "end_date")
-    String endDate;
-    
-    
-    /** キャンペインID */
-    @Column(name = "campaign_id")
-    Long campaignId;
-    
-    /** キャンペイン名 */
-    @Column(name = "campaign_name")
-    String campaignName;
-    
-    /** 広告タイプ */
-    @Column(name = "ad_type")
-    String adType;
+	/** 配信終了日 */
+	@Column(name = "end_date")
+	String endDate;
 
-    /** LP */
-    @Column(name = "lp")
-    String lp;
-    
-    /** 動画URL */
-    @Column(name = "video_url")
-    String videoUrl;
-    
+	/** キャンペインID */
+	@Column(name = "campaign_id")
+	Long campaignId;
+
+	/** キャンペイン名 */
+	@Column(name = "campaign_name")
+	String campaignName;
+
+	/** 広告タイプ */
+	@Column(name = "ad_type")
+	String adType;
+
+	/** LP */
+	@Column(name = "lp")
+	String lp;
+
+	/** 動画URL */
+	@Column(name = "video_url")
+	String videoUrl;
+
 }

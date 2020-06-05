@@ -13,27 +13,25 @@ import jp.acepro.haishinsan.form.FbCampaignInputForm;
 import jp.acepro.haishinsan.form.FbIssueInputForm;
 import jp.acepro.haishinsan.form.FbTemplateInputForm;
 
-
 @Mapper
 public interface FacebookMapper {
 
 	FacebookMapper INSTANCE = Mappers.getMapper(FacebookMapper.class);
 
 	FbTemplateDto map(FbTemplateInputForm fbTemplateInputForm);
-	
+
 	FbTemplateDto mapEntityToDto(FacebookTemplate facebookTemplate);
 
 	FbTemplateInputForm mapDtoToForm(FbTemplateDto fbTemplateDto);
-	
+
 	FbTemplateDto mapFormToDto(FbTemplateInputForm fbTemplateInputForm);
-	
+
 	List<FbTemplateDto> mapListEntityToDto(List<FacebookTemplate> facebookTemplateList);
-	
+
 	FbCampaignDto map(FbCampaignInputForm fbCampaignInputForm);
 
 	FbIssueDto map(FbIssueInputForm fbIssueInputForm);
-	
-	//FacebookTemplate map(FbTemplateDto fbTemplateDto);
 
+	// FacebookTemplate map(FbTemplateDto fbTemplateDto);
 
 }

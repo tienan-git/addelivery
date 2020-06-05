@@ -8,10 +8,10 @@ public class TwitterDisplayReportDto {
 	String campaignId;
 	String campaignName;
 	String deviceType;
-    String deviceName;
+	String deviceName;
 	String locationName;
 	String day;
-	
+
 	Integer impressions;
 	Integer follows;
 	Integer clicks;

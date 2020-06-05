@@ -20,14 +20,12 @@ public class YahooIssueRequestInputForm {
 	String arrangePlace;
 	Long bidAmount;
 	String pageId;
-	
+
 	// 地域
 	List<Long> locationList;
 
 	MultipartFile image;
 	String linkMessage;
 	String linkUrl;
-	
-	
-	
+
 }

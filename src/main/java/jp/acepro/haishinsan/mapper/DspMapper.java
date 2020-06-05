@@ -17,9 +17,9 @@ public interface DspMapper {
 	DspMapper INSTANCE = Mappers.getMapper(DspMapper.class);
 
 	DspTemplateDto tempFormToDto(DspTemplateInputForm dsptemplateInputForm);
-	
+
 	DspTemplate tempDtoToEntity(DspTemplateDto dspTemplateDto);
-	
+
 	DspTemplateDto tempEntityToDto(DspTemplate dspTemplate);
 
 	List<DspTemplateDto> tempListEntityToDto(List<DspTemplate> dspTemplateList);

@@ -9,7 +9,7 @@ public class YoutubeReportDto {
 
 	// テーブル表示用
 	List<YoutubeReportDisplayDto> youtubeReportDisplayDtoList;
-	
+
 	// グラフ表示用
 	List<YoutubeReportDisplayDto> youtubeReportGraphDtoList;
 }

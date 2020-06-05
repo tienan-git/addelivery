@@ -8,7 +8,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TweetEntities {
-	
-    List<TweetUrls> urls;
-	
+
+	List<TweetUrls> urls;
+
 }

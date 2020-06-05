@@ -113,10 +113,9 @@
 				</div>
 				<div class="form-group row">
 					<div class="col-sm-12 text-center">
-						<!-- <button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')" class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/issue/createIssue}">次へ</button> -->
-						<button class="btn btn-success" type="submit" th:formmethod="get"
+						 	<button class="btn btn-success" type="submit" th:formmethod="get"
 							th:formaction="@{/creative/mediaDescription}">戻る</button>
-						<button sec:authorize="hasAuthority('SIMPLE_CAMPAIGN_MANAGE')"
+						<button  
 							class="btn btn-success" type="submit"
 							th:formaction="@{/creative/createLink}">選択</button>
 					</div>

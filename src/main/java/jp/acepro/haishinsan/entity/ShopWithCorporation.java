@@ -21,102 +21,102 @@ import lombok.Data;
 @Data
 public class ShopWithCorporation extends BaseEntity {
 
-    /** 代理店ID */
-    @Column(name = "agency_id")
-    Long agencyId;
-    
-    /** 代理店名 */
-    @Column(name = "agency_name")
-    String agencyName;
-    
-    /** 法人ID */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "corporation_id")
-    Long corporationId;
-    
-    /** 法人名 */
-    @Column(name = "corporation_name")
-    String corporationName;
+	/** 代理店ID */
+	@Column(name = "agency_id")
+	Long agencyId;
 
-    /** 店舗ID */
-    @Column(name = "shop_id")
-    Long shopId;
-    
-    /** 店舗名 */
-    @Column(name = "shop_name")
-    String shopName;
-    
-    /** DSPアカウントID */
-    @Column(name = "dsp_account_id")
-    String dspAccountId;
+	/** 代理店名 */
+	@Column(name = "agency_name")
+	String agencyName;
 
-    /** DSPパスワード */
-    @Column(name = "dsp_password")
-    String dspPassword;
+	/** 法人ID */
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "corporation_id")
+	Long corporationId;
 
-    /** DSPユーザーID */
-    @Column(name = "dsp_user_id")
-    Integer dspUserId;
-    
-    /** GoogleアカウントID */
-    @Column(name = "google_account_id")
-    String googleAccountId;
-    
-    /** FacebookページID */
-    @Column(name = "facebook_page_id")
-    String facebookPageId;
+	/** 法人名 */
+	@Column(name = "corporation_name")
+	String corporationName;
 
-    /** TwitterアカウントID */
-    @Column(name = "twitter_account_id")
-    String twitterAccountId;
+	/** 店舗ID */
+	@Column(name = "shop_id")
+	Long shopId;
 
-    /** TwitterAPIキー */
-    @Column(name = "twitter_api_key")
-    String twitterApiKey;
+	/** 店舗名 */
+	@Column(name = "shop_name")
+	String shopName;
 
-    /** TwitterAPIシークレットキー */
-    @Column(name = "twitter_api_secret_key")
-    String twitterApiSecretKey;
+	/** DSPアカウントID */
+	@Column(name = "dsp_account_id")
+	String dspAccountId;
 
-    /** Twitterアクセストークン */
-    @Column(name = "twitter_access_token")
-    String twitterAccessToken;
+	/** DSPパスワード */
+	@Column(name = "dsp_password")
+	String dspPassword;
 
-    /** Twitterアクセストークンシークレット */
-    @Column(name = "twitter_access_token_secret")
-    String twitterAccessTokenSecret;
+	/** DSPユーザーID */
+	@Column(name = "dsp_user_id")
+	Integer dspUserId;
 
-    /** DSP分配率 */
-    @Column(name = "dsp_distribution_ratio")
-    Integer dspDistributionRatio;
+	/** GoogleアカウントID */
+	@Column(name = "google_account_id")
+	String googleAccountId;
 
-    /** Google分配率 */
-    @Column(name = "google_distribution_ratio")
-    Integer googleDistributionRatio;
+	/** FacebookページID */
+	@Column(name = "facebook_page_id")
+	String facebookPageId;
 
-    /** Facebook分配率 */
-    @Column(name = "facebook_distribution_ratio")
-    Integer facebookDistributionRatio;
+	/** TwitterアカウントID */
+	@Column(name = "twitter_account_id")
+	String twitterAccountId;
 
-    /** Twitter分配率 */
-    @Column(name = "twitter_distribution_ratio")
-    Integer twitterDistributionRatio;
+	/** TwitterAPIキー */
+	@Column(name = "twitter_api_key")
+	String twitterApiKey;
 
-    /** 営業審査フラグ */
-    @Column(name = "sales_check_flag")
-    String salesCheckFlag;
+	/** TwitterAPIシークレットキー */
+	@Column(name = "twitter_api_secret_key")
+	String twitterApiSecretKey;
 
-    /** マージン率 */
-    @Column(name = "margin_ratio")
-    Integer marginRatio;
-    
-    /** 店舗通知メール先 */
-    @Column(name = "shop_mail_list")
-    String  shopMailList;
-    
-    /** 営業通知メール先 */
-    @Column(name = "sales_mail_list")
-    String salesMailList;
-  
+	/** Twitterアクセストークン */
+	@Column(name = "twitter_access_token")
+	String twitterAccessToken;
+
+	/** Twitterアクセストークンシークレット */
+	@Column(name = "twitter_access_token_secret")
+	String twitterAccessTokenSecret;
+
+	/** DSP分配率 */
+	@Column(name = "dsp_distribution_ratio")
+	Integer dspDistributionRatio;
+
+	/** Google分配率 */
+	@Column(name = "google_distribution_ratio")
+	Integer googleDistributionRatio;
+
+	/** Facebook分配率 */
+	@Column(name = "facebook_distribution_ratio")
+	Integer facebookDistributionRatio;
+
+	/** Twitter分配率 */
+	@Column(name = "twitter_distribution_ratio")
+	Integer twitterDistributionRatio;
+
+	/** 営業審査フラグ */
+	@Column(name = "sales_check_flag")
+	String salesCheckFlag;
+
+	/** マージン率 */
+	@Column(name = "margin_ratio")
+	Integer marginRatio;
+
+	/** 店舗通知メール先 */
+	@Column(name = "shop_mail_list")
+	String shopMailList;
+
+	/** 営業通知メール先 */
+	@Column(name = "sales_mail_list")
+	String salesMailList;
+
 }

@@ -47,15 +47,14 @@ import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.dsp.DspSegmentDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooGraphReportDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooImageDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooIssueDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooLocationDto;
 import jp.acepro.haishinsan.dto.yahoo.YahooReportDisplayDto;
 import jp.acepro.haishinsan.entity.YahooIssueDetail;
-import jp.acepro.haishinsan.enums.AdvDestination;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.MediaCollection;
-import jp.acepro.haishinsan.enums.MediaType;
 import jp.acepro.haishinsan.enums.ReportType;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.exception.SystemException;
@@ -72,6 +71,53 @@ public class YahooServiceImpl implements YahooService {
 
 	@Autowired
 	ApplicationProperties applicationProperties;
+
+	// 入力チェック
+	@Override
+	public void yahooCampaignCheck(YahooIssueDto yahooIssueDto) {
+
+		// 配信開始、終了日のチェック
+		if (DateUtil.toLocalDate(yahooIssueDto.getStartDate())
+				.isAfter(DateUtil.toLocalDate(yahooIssueDto.getEndDate()))) {
+			throw new BusinessException(ErrorCodeConstant.E60003);
+		}
+
+		String adShortTitle = yahooIssueDto.getAdShortTitle();
+		String adTitle1 = yahooIssueDto.getAdTitle1();
+		String adTitle2 = yahooIssueDto.getAdTitle2();
+		String adDescription = yahooIssueDto.getAdDescription();
+
+		// タイトルと説明文のレングスをチェック
+		// 短い広告見出し
+		if (Objects.nonNull(adShortTitle)
+				&& CalculateUtil.strLenCounter(adShortTitle) > applicationProperties.getTitleLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "短い広告見出し",
+					String.valueOf(applicationProperties.getTitleLength()),
+					String.valueOf(applicationProperties.getTitleLength() / 2));
+		}
+		// 広告見出し１
+		if (Objects.nonNull(adTitle1)
+				&& CalculateUtil.strLenCounter(adTitle1) > applicationProperties.getTitleLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "広告見出し１",
+					String.valueOf(applicationProperties.getTitleLength()),
+					String.valueOf(applicationProperties.getTitleLength() / 2));
+		}
+		// 広告見出し２
+		if (Objects.nonNull(adTitle2)
+				&& CalculateUtil.strLenCounter(adTitle2) > applicationProperties.getTitleLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "広告見出し２",
+					String.valueOf(applicationProperties.getTitleLength()),
+					String.valueOf(applicationProperties.getTitleLength() / 2));
+		}
+		// 説明文
+		if (Objects.nonNull(adDescription)
+				&& CalculateUtil.strLenCounter(adDescription) > applicationProperties.getDescriptionLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "説明文",
+					String.valueOf(applicationProperties.getDescriptionLength()),
+					String.valueOf(applicationProperties.getDescriptionLength() / 2));
+		}
+
+	}
 
 	@Override
 	public List<YahooCsvBean> readCsv(MultipartFile multipartFile) {
@@ -93,7 +139,8 @@ public class YahooServiceImpl implements YahooService {
 		String charsetName = CharsetDetector.detectCharset(csvFile, applicationProperties.getCsvUploadCharsets());
 
 		if (charsetName == null) {
-			throw new BusinessException(ErrorCodeConstant.E00017, String.join(",", applicationProperties.getCsvUploadCharsets()));
+			throw new BusinessException(ErrorCodeConstant.E00017,
+					String.join(",", applicationProperties.getCsvUploadCharsets()));
 		}
 
 		BeanListProcessor<YahooCsvBean> rowProcessor = new BeanListProcessor<>(YahooCsvBean.class);
@@ -107,7 +154,8 @@ public class YahooServiceImpl implements YahooService {
 
 		// BeanListProcessor从输入中提取出一个对象列表
 		List<YahooCsvBean> beans = rowProcessor.getBeans();
-		if (beans.get(beans.size() - 1).getCreateDate() != null && beans.get(beans.size() - 1).getCreateDate().toLowerCase().equals("total")) {
+		if (beans.get(beans.size() - 1).getCreateDate() != null
+				&& beans.get(beans.size() - 1).getCreateDate().toLowerCase().equals("total")) {
 			beans.remove(beans.size() - 1);
 		}
 
@@ -154,7 +202,8 @@ public class YahooServiceImpl implements YahooService {
 			yahooReportManage.setCityName(yahooCsvBean.getCityName());
 			yahooReportManage.setClickCount(Long.parseLong(yahooCsvBean.getClickCount()));
 			yahooReportManage.setCost(Double.parseDouble(yahooCsvBean.getCost()));
-			yahooReportManage.setCreateDate(LocalDate.parse(yahooCsvBean.getCreateDate(), DateTimeFormatter.ofPattern("yyyy-M-d")));
+			yahooReportManage.setCreateDate(
+					LocalDate.parse(yahooCsvBean.getCreateDate(), DateTimeFormatter.ofPattern("yyyy-M-d")));
 			yahooReportManage.setDeviceName(yahooCsvBean.getDeviceName());
 			yahooReportManage.setDistrictName(yahooCsvBean.getDistrictName());
 			yahooReportManage.setImpressionCount(Long.parseLong(yahooCsvBean.getImpressionCount()));
@@ -171,7 +220,8 @@ public class YahooServiceImpl implements YahooService {
 	@Override
 	public List<YahooCampaignManage> searchYahooCampaignManageList() {
 
-		List<YahooCampaignManage> yahooReportManageList = yahooCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
+		List<YahooCampaignManage> yahooReportManageList = yahooCustomDao
+				.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 
 		return yahooReportManageList;
 	}
@@ -190,7 +240,8 @@ public class YahooServiceImpl implements YahooService {
 			yahooReportDisplayDto.setCampaignId(yahooReportManage.getCampaignId().toString());
 			yahooReportDisplayDto.setCampaignName(yahooReportManage.getCampaignName());
 			yahooReportDisplayDto.setDevice(yahooReportManage.getDeviceName());
-			yahooReportDisplayDto.setImpressions(BigDecimal.valueOf(yahooReportManage.getImpressionCount()).toPlainString());
+			yahooReportDisplayDto
+					.setImpressions(BigDecimal.valueOf(yahooReportManage.getImpressionCount()).toPlainString());
 			yahooReportDisplayDto.setClicks(BigDecimal.valueOf(yahooReportManage.getClickCount()).toPlainString());
 			yahooReportDisplayDto.setSpend(longPrice.toString());
 
@@ -223,7 +274,8 @@ public class YahooServiceImpl implements YahooService {
 			yahooReportDisplayDto.setCampaignId(yahooReportManage.getCampaignId().toString());
 			yahooReportDisplayDto.setCampaignName(yahooReportManage.getCampaignName());
 			yahooReportDisplayDto.setRegion(yahooReportManage.getRegionName());
-			yahooReportDisplayDto.setImpressions(BigDecimal.valueOf(yahooReportManage.getImpressionCount()).toPlainString());
+			yahooReportDisplayDto
+					.setImpressions(BigDecimal.valueOf(yahooReportManage.getImpressionCount()).toPlainString());
 			yahooReportDisplayDto.setClicks(BigDecimal.valueOf(yahooReportManage.getClickCount()).toPlainString());
 			yahooReportDisplayDto.setSpend(doublePrice.toString());
 
@@ -268,7 +320,8 @@ public class YahooServiceImpl implements YahooService {
 			yahooReportDisplayDto.setCampaignId(yahooReportManage.getCampaignId().toString());
 			yahooReportDisplayDto.setCampaignName(yahooReportManage.getCampaignName());
 			yahooReportDisplayDto.setDate(DateUtil.fromLocalDate(yahooReportManage.getCreateDate()));
-			yahooReportDisplayDto.setImpressions(BigDecimal.valueOf(yahooReportManage.getImpressionCount()).toPlainString());
+			yahooReportDisplayDto
+					.setImpressions(BigDecimal.valueOf(yahooReportManage.getImpressionCount()).toPlainString());
 			yahooReportDisplayDto.setClicks(BigDecimal.valueOf(yahooReportManage.getClickCount()).toPlainString());
 			yahooReportDisplayDto.setSpend(longPrice.toString());
 
@@ -327,7 +380,8 @@ public class YahooServiceImpl implements YahooService {
 	@Override
 	public List<DspSegmentDto> searchSegmentList() {
 
-		List<SegmentManage> segmentManageList = dspSegmentCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
+		List<SegmentManage> segmentManageList = dspSegmentCustomDao
+				.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 		List<DspSegmentDto> dspSegmentDtoList = new ArrayList<DspSegmentDto>();
 		for (SegmentManage segmentManage : segmentManageList) {
 			DspSegmentDto dspSegmentDto = new DspSegmentDto();
@@ -360,38 +414,51 @@ public class YahooServiceImpl implements YahooService {
 	EmailService emailService;
 	@Autowired
 	ImageUtil imageUtil;
-	
+
 	@Transactional
 	@Override
-	public YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<MultipartFile> imageList) throws Exception {
+	public YahooIssueDto createIssue(YahooIssueDto yahooIssueDto, List<YahooImageDto> imaBase64List) {
 		// 配信開始、終了日のチェック
-		if (DateUtil.toLocalDate(yahooIssueDto.getStartDate()).isAfter(DateUtil.toLocalDate(yahooIssueDto.getEndDate()))) {
+		if (DateUtil.toLocalDate(yahooIssueDto.getStartDate())
+				.isAfter(DateUtil.toLocalDate(yahooIssueDto.getEndDate()))) {
 			throw new BusinessException(ErrorCodeConstant.E60003);
 		}
-		
+
 		String adShortTitle = yahooIssueDto.getAdShortTitle();
 		String adTitle1 = yahooIssueDto.getAdTitle1();
 		String adTitle2 = yahooIssueDto.getAdTitle2();
 		String adDescription = yahooIssueDto.getAdDescription();
-		
+
 		// タイトルと説明文のレングスをチェック
 		// 短い広告見出し
-		if (Objects.nonNull(adShortTitle) && CalculateUtil.strLenCounter(adShortTitle) > applicationProperties.getTitleLength()) {
-			throw new BusinessException(ErrorCodeConstant.E60004, "短い広告見出し", String.valueOf(applicationProperties.getTitleLength()), String.valueOf(applicationProperties.getTitleLength()/2));
+		if (Objects.nonNull(adShortTitle)
+				&& CalculateUtil.strLenCounter(adShortTitle) > applicationProperties.getTitleLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "短い広告見出し",
+					String.valueOf(applicationProperties.getTitleLength()),
+					String.valueOf(applicationProperties.getTitleLength() / 2));
 		}
 		// 広告見出し１
-		if (Objects.nonNull(adTitle1) && CalculateUtil.strLenCounter(adTitle1) > applicationProperties.getTitleLength()) {
-			throw new BusinessException(ErrorCodeConstant.E60004, "広告見出し１", String.valueOf(applicationProperties.getTitleLength()), String.valueOf(applicationProperties.getTitleLength()/2));
+		if (Objects.nonNull(adTitle1)
+				&& CalculateUtil.strLenCounter(adTitle1) > applicationProperties.getTitleLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "広告見出し１",
+					String.valueOf(applicationProperties.getTitleLength()),
+					String.valueOf(applicationProperties.getTitleLength() / 2));
 		}
 		// 広告見出し２
-		if (Objects.nonNull(adTitle2) && CalculateUtil.strLenCounter(adTitle2) > applicationProperties.getTitleLength()) {
-			throw new BusinessException(ErrorCodeConstant.E60004, "広告見出し２", String.valueOf(applicationProperties.getTitleLength()), String.valueOf(applicationProperties.getTitleLength()/2));
+		if (Objects.nonNull(adTitle2)
+				&& CalculateUtil.strLenCounter(adTitle2) > applicationProperties.getTitleLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "広告見出し２",
+					String.valueOf(applicationProperties.getTitleLength()),
+					String.valueOf(applicationProperties.getTitleLength() / 2));
 		}
 		// 説明文
-		if (Objects.nonNull(adDescription) && CalculateUtil.strLenCounter(adDescription) > applicationProperties.getDescriptionLength()) {
-			throw new BusinessException(ErrorCodeConstant.E60004, "説明文", String.valueOf(applicationProperties.getDescriptionLength()), String.valueOf(applicationProperties.getDescriptionLength()/2));
+		if (Objects.nonNull(adDescription)
+				&& CalculateUtil.strLenCounter(adDescription) > applicationProperties.getDescriptionLength()) {
+			throw new BusinessException(ErrorCodeConstant.E60004, "説明文",
+					String.valueOf(applicationProperties.getDescriptionLength()),
+					String.valueOf(applicationProperties.getDescriptionLength() / 2));
 		}
-		
+
 		// DTO->Entity
 		YahooCampaignManage yahooCampaignManage = new YahooCampaignManage();
 		yahooCampaignManage.setCampaignName(yahooIssueDto.getCampaignName());
@@ -414,32 +481,17 @@ public class YahooServiceImpl implements YahooService {
 		issue.setYahooCampaignManageId(yahooCampaignManage.getYahooCampaignManageId());
 		issue.setCampaignName(yahooIssueDto.getCampaignName());
 		issue.setBudget(yahooIssueDto.getBudget());
-		issue.setEndDate(yahooIssueDto.getEndDate());
-		issue.setStartDate(yahooIssueDto.getStartDate());
+		
+        String startDateTime = yahooIssueDto.getStartDate() + " " + yahooIssueDto.getStartHour() + ":"
+                + yahooIssueDto.getStartMin();
+        String endDateTime = yahooIssueDto.getEndDate() + " " + yahooIssueDto.getEndHour() + ":"
+                + yahooIssueDto.getEndMin();
+		issue.setStartDate(startDateTime);
+		issue.setEndDate(endDateTime);
 
 		// DB access
 		issueDao.insert(issue);
 		yahooIssueDto.setIssueId(issue.getIssueId());
-
-		// メール送信
-		int mediaType = 0;
-		switch (AdvDestination.of(yahooIssueDto.getAdvDestination())) {
-		case RESPONSIVE:
-			mediaType = MediaType.YAHOORESPONSIVE.getValue();
-			break;
-		case LISTING:
-			mediaType = MediaType.YAHOOLISTING.getValue();
-		case IMAGE:
-			mediaType = MediaType.YAHOOIMAGE.getValue();
-			break;
-		}
-		
-		// 画像をアップロードした場合、チェックを行う
-		if (Objects.nonNull(imageList) && !imageList.isEmpty()) {
-			for (MultipartFile multipartFile : imageList) {
-				imageUtil.getImageBytes(multipartFile, mediaType);
-			}
-		}
 
 		EmailDto emailDto = new EmailDto();
 		emailDto.setIssueId(yahooIssueDto.getIssueId());
@@ -450,7 +502,8 @@ public class YahooServiceImpl implements YahooService {
 		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
 		emailCampDetailDtoList.add(emailCampDetailDto);
 		emailDto.setCampaignList(emailCampDetailDtoList);
-		emailDto.setAttachmentList(imageList);
+		emailDto.setAttachmentList(imaBase64List);
+
 		// Template type - 案件依頼
 		emailDto.setTemplateType(EmailTemplateType.ISSUEREQUEST.getValue());
 		emailService.sendEmail(emailDto);
@@ -463,7 +516,8 @@ public class YahooServiceImpl implements YahooService {
 	public YahooIssueDto deleteIssue(Long issueId) {
 
 		YahooIssueDto yahooIssueDto = this.getIssueDetail(issueId);
-		YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao.selectById(yahooIssueDto.getYahooCampaignManageId());
+		YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao
+				.selectById(yahooIssueDto.getYahooCampaignManageId());
 
 		// 該当キャンペーンを論理削除
 		yahooCampaignManage.setIsActived(Flag.OFF.getValue());
@@ -476,7 +530,7 @@ public class YahooServiceImpl implements YahooService {
 		if (Objects.nonNull(yahooIssueDto.getImageName())) {
 			yahooIssueDto.setImageNameList(Arrays.asList(yahooIssueDto.getImageName().split(",")));
 		}
-		
+
 		return yahooIssueDto;
 
 	}
@@ -509,7 +563,7 @@ public class YahooServiceImpl implements YahooService {
 		if (Objects.nonNull(yahooIssueDto.getImageName())) {
 			yahooIssueDto.setImageNameList(Arrays.asList(yahooIssueDto.getImageName().split(",")));
 		}
-		
+
 		return yahooIssueDto;
 	}
 
@@ -518,7 +572,8 @@ public class YahooServiceImpl implements YahooService {
 	public void updateIssue(Long issueId, String campaignId) {
 
 		YahooIssueDto YahooIssueDto = this.getIssueDetail(issueId);
-		YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao.selectById(YahooIssueDto.getYahooCampaignManageId());
+		YahooCampaignManage yahooCampaignManage = yahooCampaignManageDao
+				.selectById(YahooIssueDto.getYahooCampaignManageId());
 
 		// キャンペーンIDを更新する
 		yahooCampaignManage.setCampaignId(campaignId);
@@ -527,7 +582,8 @@ public class YahooServiceImpl implements YahooService {
 	}
 
 	@Override
-	public YahooGraphReportDto getYahooDeviceReportingGraph(List<String> campaignIdList, String startDate, String endDate) {
+	public YahooGraphReportDto getYahooDeviceReportingGraph(List<String> campaignIdList, String startDate,
+			String endDate) {
 		List<String> reportTypeList = new ArrayList<>(Arrays.asList("x"));
 		List<String> impressionList = new ArrayList<>(Arrays.asList("impressions"));
 		List<String> clicksList = new ArrayList<>(Arrays.asList("clicks"));
@@ -536,7 +592,8 @@ public class YahooServiceImpl implements YahooService {
 		List<String> CPCList = new ArrayList<>(Arrays.asList("cpc"));
 		List<String> CPMList = new ArrayList<>(Arrays.asList("cpm"));
 
-		List<YahooReportManage> yahooReportManageList = yahooCustomDao.selectDeviceReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<YahooReportManage> yahooReportManageList = yahooCustomDao.selectDeviceReportGraph(campaignIdList,
+				DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 
 		for (YahooReportManage yahooReportManage : yahooReportManageList) {
 			Long longPrice = CalculateUtil.getRoundedPrice(Double.valueOf(yahooReportManage.getCost()));
@@ -544,7 +601,8 @@ public class YahooServiceImpl implements YahooService {
 			impressionList.add(yahooReportManage.getImpressionCount().toString());
 			clicksList.add(yahooReportManage.getClickCount().toString());
 			spendList.add(longPrice.toString());
-			CTRList.add(ReportUtil.calCtr(yahooReportManage.getClickCount(), yahooReportManage.getImpressionCount()).toString());
+			CTRList.add(ReportUtil.calCtr(yahooReportManage.getClickCount(), yahooReportManage.getImpressionCount())
+					.toString());
 			CPCList.add(ReportUtil.calCpc(yahooReportManage.getClickCount(), longPrice).toString());
 			CPMList.add(ReportUtil.calCpm(yahooReportManage.getImpressionCount(), longPrice).toString());
 		}
@@ -562,7 +620,8 @@ public class YahooServiceImpl implements YahooService {
 	}
 
 	@Override
-	public YahooGraphReportDto getYahooDateReportingGraph(List<String> campaignIdList, String startDate, String endDate) {
+	public YahooGraphReportDto getYahooDateReportingGraph(List<String> campaignIdList, String startDate,
+			String endDate) {
 		List<String> reportTypeList = new ArrayList<>(Arrays.asList("x"));
 		List<String> impressionList = new ArrayList<>(Arrays.asList("impressions"));
 		List<String> clicksList = new ArrayList<>(Arrays.asList("clicks"));
@@ -571,7 +630,8 @@ public class YahooServiceImpl implements YahooService {
 		List<String> CPCList = new ArrayList<>(Arrays.asList("cpc"));
 		List<String> CPMList = new ArrayList<>(Arrays.asList("cpm"));
 
-		List<YahooReportManage> yahooReportManageList = yahooCustomDao.selectDateReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<YahooReportManage> yahooReportManageList = yahooCustomDao.selectDateReportGraph(campaignIdList,
+				DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 
 		for (YahooReportManage yahooReportManage : yahooReportManageList) {
 			Long longPrice = CalculateUtil.getRoundedPrice(Double.valueOf(yahooReportManage.getCost()));
@@ -579,7 +639,8 @@ public class YahooServiceImpl implements YahooService {
 			impressionList.add(yahooReportManage.getImpressionCount().toString());
 			clicksList.add(yahooReportManage.getClickCount().toString());
 			spendList.add(longPrice.toString());
-			CTRList.add(ReportUtil.calCtr(yahooReportManage.getClickCount(), yahooReportManage.getImpressionCount()).toString());
+			CTRList.add(ReportUtil.calCtr(yahooReportManage.getClickCount(), yahooReportManage.getImpressionCount())
+					.toString());
 			CPCList.add(ReportUtil.calCpc(yahooReportManage.getClickCount(), longPrice).toString());
 			CPMList.add(ReportUtil.calCpm(yahooReportManage.getImpressionCount(), longPrice).toString());
 		}
@@ -597,7 +658,8 @@ public class YahooServiceImpl implements YahooService {
 	}
 
 	@Override
-	public YahooGraphReportDto getYahooRegionReportingGraph(List<String> campaignIdList, String startDate, String endDate) {
+	public YahooGraphReportDto getYahooRegionReportingGraph(List<String> campaignIdList, String startDate,
+			String endDate) {
 		List<String> reportTypeList = new ArrayList<>(Arrays.asList("x"));
 		List<String> impressionList = new ArrayList<>(Arrays.asList("impressions"));
 		List<String> clicksList = new ArrayList<>(Arrays.asList("clicks"));
@@ -606,7 +668,8 @@ public class YahooServiceImpl implements YahooService {
 		List<String> CPCList = new ArrayList<>(Arrays.asList("cpc"));
 		List<String> CPMList = new ArrayList<>(Arrays.asList("cpm"));
 
-		List<YahooReportManage> yahooReportManageList = yahooCustomDao.selectRegionReportGraph(campaignIdList, DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
+		List<YahooReportManage> yahooReportManageList = yahooCustomDao.selectRegionReportGraph(campaignIdList,
+				DateUtil.toLocalDate(startDate), DateUtil.toLocalDate(endDate));
 
 		for (YahooReportManage yahooReportManage : yahooReportManageList) {
 			Long longPrice = CalculateUtil.getRoundedPrice(Double.valueOf(yahooReportManage.getCost()));
@@ -614,7 +677,8 @@ public class YahooServiceImpl implements YahooService {
 			impressionList.add(yahooReportManage.getImpressionCount().toString());
 			clicksList.add(yahooReportManage.getClickCount().toString());
 			spendList.add(longPrice.toString());
-			CTRList.add(ReportUtil.calCtr(yahooReportManage.getClickCount(), yahooReportManage.getImpressionCount()).toString());
+			CTRList.add(ReportUtil.calCtr(yahooReportManage.getClickCount(), yahooReportManage.getImpressionCount())
+					.toString());
 			CPCList.add(ReportUtil.calCpc(yahooReportManage.getClickCount(), longPrice).toString());
 			CPMList.add(ReportUtil.calCpm(yahooReportManage.getImpressionCount(), longPrice).toString());
 		}
@@ -658,7 +722,8 @@ public class YahooServiceImpl implements YahooService {
 
 				yahooDeviceReportCsvBeanList.add(yahooDeviceReportCsvBean);
 			}
-			BeanWriterProcessor<YahooDeviceReportCsvBean> deviceWriterProcessor = new BeanWriterProcessor<>(YahooDeviceReportCsvBean.class);
+			BeanWriterProcessor<YahooDeviceReportCsvBean> deviceWriterProcessor = new BeanWriterProcessor<>(
+					YahooDeviceReportCsvBean.class);
 			settings.setHeaders(YahooDeviceReportCsvBean.columnName);
 			settings.setRowWriterProcessor(deviceWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -682,7 +747,8 @@ public class YahooServiceImpl implements YahooService {
 
 				yahooLocationReportCsvBeanList.add(yahooLocationReportCsvBean);
 			}
-			BeanWriterProcessor<YahooLocationReportCsvBean> locationWriterProcessor = new BeanWriterProcessor<>(YahooLocationReportCsvBean.class);
+			BeanWriterProcessor<YahooLocationReportCsvBean> locationWriterProcessor = new BeanWriterProcessor<>(
+					YahooLocationReportCsvBean.class);
 			settings.setHeaders(YahooLocationReportCsvBean.columnName);
 			settings.setRowWriterProcessor(locationWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -706,7 +772,8 @@ public class YahooServiceImpl implements YahooService {
 
 				yahooDateReportCsvBeanList.add(yahooDateReportCsvBean);
 			}
-			BeanWriterProcessor<YahooDateReportCsvBean> dateWriterProcessor = new BeanWriterProcessor<>(YahooDateReportCsvBean.class);
+			BeanWriterProcessor<YahooDateReportCsvBean> dateWriterProcessor = new BeanWriterProcessor<>(
+					YahooDateReportCsvBean.class);
 			settings.setHeaders(YahooDateReportCsvBean.columnName);
 			settings.setRowWriterProcessor(dateWriterProcessor);
 			writer = new CsvWriter(out, settings);
@@ -731,12 +798,19 @@ public class YahooServiceImpl implements YahooService {
 		sumReportDto.setDevice("-");
 		sumReportDto.setRegion("-");
 		sumReportDto.setDate("-");
-		sumReportDto.setImpressions(String.valueOf(yahooReportDisplayDtoList.stream().mapToLong(d -> Long.valueOf(d.getImpressions())).sum()));
-		sumReportDto.setClicks(String.valueOf(yahooReportDisplayDtoList.stream().mapToLong(d -> Long.valueOf(d.getClicks())).sum()));
-		sumReportDto.setSpend(String.valueOf(yahooReportDisplayDtoList.stream().mapToLong(d -> Long.valueOf(d.getSpend())).sum()));
-		sumReportDto.setCtr(ReportUtil.calCtr(Long.valueOf(sumReportDto.getClicks()), Long.valueOf(sumReportDto.getImpressions())).toString());
-		sumReportDto.setCpc(ReportUtil.calCpc(Long.valueOf(sumReportDto.getClicks()), Long.valueOf(sumReportDto.getSpend())).toString());
-		sumReportDto.setCpm(ReportUtil.calCpm(Long.valueOf(sumReportDto.getImpressions()), Long.valueOf(sumReportDto.getSpend())).toString());
+		sumReportDto.setImpressions(String
+				.valueOf(yahooReportDisplayDtoList.stream().mapToLong(d -> Long.valueOf(d.getImpressions())).sum()));
+		sumReportDto.setClicks(
+				String.valueOf(yahooReportDisplayDtoList.stream().mapToLong(d -> Long.valueOf(d.getClicks())).sum()));
+		sumReportDto.setSpend(
+				String.valueOf(yahooReportDisplayDtoList.stream().mapToLong(d -> Long.valueOf(d.getSpend())).sum()));
+		sumReportDto.setCtr(
+				ReportUtil.calCtr(Long.valueOf(sumReportDto.getClicks()), Long.valueOf(sumReportDto.getImpressions()))
+						.toString());
+		sumReportDto.setCpc(ReportUtil
+				.calCpc(Long.valueOf(sumReportDto.getClicks()), Long.valueOf(sumReportDto.getSpend())).toString());
+		sumReportDto.setCpm(ReportUtil
+				.calCpm(Long.valueOf(sumReportDto.getImpressions()), Long.valueOf(sumReportDto.getSpend())).toString());
 
 		yahooReportDisplayDtoList.add(sumReportDto);
 

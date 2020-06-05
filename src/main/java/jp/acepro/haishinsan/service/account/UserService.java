@@ -2,8 +2,7 @@ package jp.acepro.haishinsan.service.account;
 
 import java.util.List;
 
-import jp.acepro.haishinsan.dto.UserDto;
-
+import jp.acepro.haishinsan.dto.account.UserDto;
 
 public interface UserService {
 
@@ -18,6 +17,6 @@ public interface UserService {
 	void delete(Long userId);
 
 	UserDto getByEmail(String email);
-	
+
 	UserDto getByShopId(Long shopId);
 }

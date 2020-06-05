@@ -1,6 +1,5 @@
 package jp.acepro.haishinsan.form;
 
-
 import jp.acepro.haishinsan.annotation.Trim;
 import lombok.Data;
 

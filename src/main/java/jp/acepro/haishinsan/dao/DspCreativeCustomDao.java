@@ -14,7 +14,7 @@ public interface DspCreativeCustomDao {
 
 	@Select
 	List<CreativeManage> selectByShopId(Long shopId);
-	
+
 	@Select
 	CreativeManage selectByCreativeId(Integer creativeId);
 

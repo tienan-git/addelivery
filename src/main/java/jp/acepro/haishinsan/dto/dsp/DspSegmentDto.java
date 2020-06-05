@@ -8,6 +8,5 @@ public class DspSegmentDto {
 	Integer segmentId;
 	String segmentName;
 	String url;
-	
-	
+
 }

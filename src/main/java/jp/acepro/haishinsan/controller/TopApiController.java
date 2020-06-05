@@ -26,7 +26,7 @@ public class TopApiController {
 		ChangeShopRes changeShopRes = new ChangeShopRes();
 		changeShopRes.setCode("0000");
 		changeShopRes.setMessage("店舗情報が更新されました。");
-		
+
 		return changeShopRes;
 
 	}

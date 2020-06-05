@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-google bg-googleplus"></i>
+						<div class="d-inline">
+							<h4>Google広告 テンプレート削除完了</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/}" method="post" th:object="${googleTemplateDto}">
+			<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+				<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					<i class="icofont icofont-close-line-circled text-white"></i>
+				</button>
+				<strong>テンプレートの削除が成功しました!</strong>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">テンプレート</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">テンプレート名</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{templateName}">テンプレート１</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">優先順<br>※小さい数値が優先
+						</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{templatePriority}">1</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">キャンペーン</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">キャンペーン名</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{campaignName}">キャンペーン名>キャンペーンあああ</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">日別予算</label>
+						<div th:if="*{budget} != null" class="col-sm-4 col-form-label">
+							<label th:text="*{budget} + 円">1,000</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">デバイス</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="${T(jp.acepro.haishinsan.enums.DeviceType).of(googleTemplateDto.deviceType).getLabel()}">パソコン</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">地域</label>
+						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(googleTemplateDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(googleTemplateDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).googleAreaNameList}" th:selected="${#lists.contains(googleTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">地域単価タイプ</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(googleTemplateDto.unitPriceType).getLabel()}">表示重視</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">広告タイプ</label>
+						<div class="col-sm-4 col-form-label">
+							<label id="adType" th:text="${T(jp.acepro.haishinsan.enums.GoogleAdType).of(googleTemplateDto.adType).getLabel()}">レスポンシブ広告</label>
+						</div>
+					</div>
+					<br />
+					<h4 class="sub-title">レスポンシブ広告</h4>
+					<div id="advertisementType1" style="display: inline">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">短い広告見出し</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdShortTitle}">MacBook Pro</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">説明文</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdDescription}">新しいパソコンが発売</label>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+							<div class="col-sm-4 col-form-label">
+								<label th:text="*{resAdFinalPageUrl}">https://www.apple.com/macbook</label>
+							</div>
+						</div>
+					</div>
+					<br />
+					<h4 class="sub-title">イメージ広告</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{imageAdFinalPageUrl}">https://www.apple.com/macbook</label>
+						</div>
+					</div>
+					<br />
+					<h4 class="sub-title">拡張テキスト広告</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">最終ページURL</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{textAdFinalPageUrl}">https://www.apple.com/macbook</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">広告見出し１</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{textAdTitle1}">MacBook Pro広告見出し１</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">広告見出し２</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{textAdTitle2}">MacBook Pro広告見出し２</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">説明文</label>
+						<div class="col-sm-4 col-form-label">
+							<label th:text="*{textAdDescription}">MacBook Pro説明文</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button sec:authorize="hasAuthority('TEMPLATE_LIST')" class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/template/google/listTemplate}">一覧へ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

@@ -11,7 +11,7 @@ import jp.acepro.haishinsan.db.entity.FacebookAreaPrice;
 @Dao
 @InjectConfig
 public interface FacebookAreaPriceCustomDao {
-	
-    @Select
-    List<FacebookAreaPrice> selectAll();
+
+	@Select
+	List<FacebookAreaPrice> selectAll();
 }

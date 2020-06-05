@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import jp.acepro.haishinsan.db.entity.Shop;
@@ -31,21 +32,22 @@ public class ContextUtil {
 	}
 
 	public static LoginUser getLoginUser() {// TODO 袁先生へ：修正ができましたら、privateにしてください
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		if (principal != null && principal instanceof LoginUser) {
-			return (LoginUser) principal;
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication.getPrincipal() != null
+				&& authentication.getPrincipal() instanceof LoginUser) {
+			return (LoginUser) authentication.getPrincipal();
 		} else {
 			return null;
 		}
 	}
-	
+
 	public static String getOldSystemPassword() {
 		if (Objects.isNull(getLoginUser().getOldSystemPassword())) {
 			return "";
 		}
 		return getLoginUser().getOldSystemPassword();
 	}
-	
+
 	public static String getOldSystemEmail() {
 		if (Objects.isNull(getLoginUser().getOldSystemEmail())) {
 			return "";
@@ -68,7 +70,7 @@ public class ContextUtil {
 	public static Integer getRoleId() {
 		return getLoginUser().getRoleId();
 	}
-	
+
 	public static boolean hasAuthority(String authority) {
 
 		boolean flag = false;

@@ -14,10 +14,10 @@ public interface YoutubeLocationReportCustomDao {
 
 	@Select
 	YoutubeLocationReport selectForUpdate(Long campaignId, String date, Long locationId);
-	
+
 	@Select
 	List<YoutubeLocationReport> selectLocationReport(List<Long> campaignIdList, String startDate, String endDate);
-	
+
 	@Select
 	List<YoutubeLocationReport> selectLocationGraph(List<Long> campaignIdList, String startDate, String endDate);
 }

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-twitter bg-twiter"></i>
+						<div class="d-inline">
+							<h4>Twitter広告　テンプレート新規作成</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/template/twitter/completeTemplate}" method="Post" th:object="${twitterTemplateInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">テンプレート</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 text-right">テンプレート名<span class="text-danger">※</span></label>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{templateName}" required maxlength="60" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 text-right">優先順<span class="text-danger">※</span></label>
+						<div class="col-sm-8">
+							<input type="number" class="form-control" th:field="*{templatePriority}" min="1" required="required" />
+						</div>
+						<span class="col-form-label">（小さい数値が優先される）</span>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">案件作成</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">案件名</label>
+						</div>
+						<div class="col-sm-8">
+							<input type="text" class="form-control" th:field="*{campaignName}" maxlength="60" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信開始日</label>
+						</div>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" th:field="*{startTime}" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">配信終了日</label>
+						</div>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" th:field="*{endTime}" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">日別予算</label>
+						</div>
+						<div class="col-sm-8">
+							<input type="number" class="form-control" th:field="*{dailyBudget}" onkeyup="this.value=this.value.replace(/\D/g,'')" min="1" max="9999999999" />
+						</div>
+						<span class="col-form-label">円</span>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">総予算</label>
+						</div>
+						<div class="col-sm-8">
+							<input type="number" class="form-control" th:field="*{totalBudget}" min="1" />
+						</div>
+						<span class="col-form-label">円</span>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">ターゲット設定</h4>
+					<div class="form-radio">
+						<div class="form-group row">
+							<label class="col-sm-2 col-form-label text-right">地域</label>
+							<th:block th:each="object,stat: ${T(jp.acepro.haishinsan.enums.TwitterLocationType).values()}">
+								<label class="col-sm-2 col-form-label text-right" th:if="${!stat.first}"></label>
+								<div class="radio col-sm-10 col-form-label">
+									<label><input type="radio" name="radio" th:value="${object.value}" th:field="*{location}" th:text="${object.label}" /><i class="helper"></i></label>
+								</div>
+							</th:block>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right"></label>
+						<div id="div_select" style="display: none">
+							<select class="searchable" multiple='multiple' th:field="*{regions}">
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">蛹玲ｵｷ驕�</option>
+							</select>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-success" type="submit" sec:authorize="hasAuthority('TEMPLATE_CREATE')" th:formaction="@{/template/twitter/completeTemplate}" th:formmethod="Post">作成</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+	<!-- Page body end -->
+
+	<div id="styleSelector"></div>
+	<div layout:fragment="custom_resource_body">
+		<script>
+			window.onload = function() {
+
+				//配信日の設定、過去は選択できないにする
+				$(function() {
+					var toDay = new Date();
+					var year = toDay.getFullYear();
+					var month = toDay.getMonth() + 1 < 10 ? "0"
+							+ (toDay.getMonth() + 1) : (toDay.getMonth() + 1);
+					var day = toDay.getDate() < 10 ? "0" + toDay.getDate()
+							: toDay.getDate();
+					$("#startTime").attr("min", year + "-" + month + "-" + day);
+					$("#endTime").attr("min", year + "-" + month + "-" + day);
+				});
+
+				//地域ラジオボタンの初期状態を判断
+				$(document).ready(function() {
+					var location = $("input[name='location']:checked").val();
+					if (location == 2) {
+						$('#div_select').show();
+					}
+				});
+
+				//地域ラジオボタンのハンドラ
+				$(document).ready(function() {
+					$('[name="location"]:radio').change(function() {
+						if ($('[id=location1]').prop('checked')) {
+							$('#div_select').hide(0, refreshData);
+						}
+						if ($('[id=location2]').prop('checked')) {
+							$('#div_select').hide(0, refreshData);
+						}
+						if ($('[id=location3]').prop('checked')) {
+							$('#div_select').show();
+						}
+					});
+
+					//データ更新
+					function refreshData() {
+						$('#regions').multiSelect('deselect_all');
+						$('#regions').multiSelect('refresh');
+					}
+
+				});
+
+			}
+		</script>
+	</div>
+</body>
+</html>

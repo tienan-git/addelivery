@@ -9,8 +9,8 @@ import java.time.format.ResolverStyle;
  * 日付のフォーマットを処理するクラス
  */
 public enum DateFormatter {
-	yyyyMMdd("uuuuMMdd"), yyyyMM("uuuuMM"), yyyyMM_SLASH("uuuu/MM"), yyyyMMdd_HYPHEN("uuuu-MM-dd"), yyyyMMdd_SLASH(
-			"uuuu/MM/dd"), yyyyMd_SLASH("uuuu/M/d"), yyyyMMdd_JP("uuuu年MM月dd日");
+	yyyyMMdd("uuuuMMdd"), yyyyMM("uuuuMM"), yyyyMM_SLASH("uuuu/MM"), yyyyMMdd_HYPHEN("uuuu-MM-dd"), yyyyMMddHHmm_HYPHEN("uuuu-MM-dd HH:mm"),
+	yyyyMMdd_SLASH("uuuu/MM/dd"), yyyyMd_SLASH("uuuu/M/d"), yyyyMMdd_JP("uuuu年MM月dd日");
 
 	private final DateTimeFormatter formatter;
 
@@ -21,8 +21,7 @@ public enum DateFormatter {
 	/**
 	 * 日付オブジェクトを文字列にフォーマットします。
 	 *
-	 * @param date
-	 *            日付オブジェクト
+	 * @param date 日付オブジェクト
 	 * @return フォーマット後の文字列
 	 */
 	public String format(LocalDate date) {
@@ -32,8 +31,7 @@ public enum DateFormatter {
 	/**
 	 * 文字列から日付オブジェクトを作成します。
 	 *
-	 * @param text
-	 *            文字列
+	 * @param text 文字列
 	 * @return 日付オブジェクト
 	 */
 	public LocalDate parse(String text) {

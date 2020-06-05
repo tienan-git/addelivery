@@ -643,7 +643,7 @@ li {
 
 	<!-- Page body start -->
 	<div layout:fragment="page_body_container">
-		<form th:action="@{/}" method="post" enctype="multipart/form-data" th:object="${form}">
+		<form id="defaultForm" class="form-horizontal" th:action="@{/google/completeCampaign}" method="post" enctype="multipart/form-data" th:object="${form}">
 			<div th:replace="common/errorMessages"></div>
 			<div class="card">
 				<div class="card pc" id="progressbar">
@@ -709,7 +709,7 @@ li {
 					<div class="">
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
-								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/creative/mediaDescription}">戻る</button>
+								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/upload/google/adTypeSelection}">戻る</button>
 								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/google/bannerAd/confirm}">次へ</button>
 
 							</div>

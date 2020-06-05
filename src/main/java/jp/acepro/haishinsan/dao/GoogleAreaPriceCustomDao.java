@@ -11,7 +11,7 @@ import jp.acepro.haishinsan.db.entity.GoogleAreaPrice;
 @Dao
 @InjectConfig
 public interface GoogleAreaPriceCustomDao {
-	
-    @Select
-    List<GoogleAreaPrice> selectAll();
+
+	@Select
+	List<GoogleAreaPrice> selectAll();
 }

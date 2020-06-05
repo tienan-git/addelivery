@@ -10,7 +10,8 @@ import lombok.ToString;
 @ToString
 public class DspCreativeReportCsvBean {
 
-	public static final String[] columnName = { "キャンペーン名", "キャンペーンID", "クリエイティブ名", "表示回数", "クリック数", "費用", "CTR", "CPC", "CPM" };
+	public static final String[] columnName = { "キャンペーン名", "キャンペーンID", "クリエイティブ名", "表示回数", "クリック数", "費用", "CTR", "CPC",
+			"CPM" };
 
 	// @Trim を付けると前後の半角スペースが除去される
 	@Trim

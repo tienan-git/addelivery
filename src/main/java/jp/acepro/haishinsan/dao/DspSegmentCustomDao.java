@@ -18,9 +18,12 @@ public interface DspSegmentCustomDao {
 
 	@Select
 	List<SegmentManage> selectByShopId(Long shopId);
-	
+
 	@Select
 	List<SegmentManage> selectByShopIdWithEmptyUrl(Long shopId);
+
+	@Select
+	List<SegmentManage> selectListBySegmentId(Integer segmentId);
 
 	@Select
 	SegmentManage selectBySegmentId(Integer segmentId);
@@ -42,10 +45,21 @@ public interface DspSegmentCustomDao {
 
 	/**
 	 * 日付によるURL取得
+	 * 
 	 * @param LocalDateTime dateTime
 	 * @return
 	 */
 	@Select
 	List<SegmentManage> selectUrlByDateTime(LocalDateTime dateTime, Long shopId);
+
+	/**
+	 * segmentReport取得
+	 * @param segmentIds
+	 * @param startDate
+	 * @param endDate
+	 * @return
+	 */
+	@Select
+	List<SegmentReportManage> selectBySegmentIds(List<Integer> segmentIds, String startDate, String endDate);
 
 }

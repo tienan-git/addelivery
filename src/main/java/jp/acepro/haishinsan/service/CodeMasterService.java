@@ -5,11 +5,11 @@ public interface CodeMasterService {
 	void getGoogleAreaList();
 
 	void getFacebookAreaList();
-	
+
 	void getYahooAreaList();
-	
+
 	void getKeywordNameList();
-	
-	//Twitter
+
+	// Twitter
 	void searchRegions();
 }

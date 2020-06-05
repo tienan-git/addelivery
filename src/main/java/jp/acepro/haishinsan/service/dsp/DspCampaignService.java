@@ -12,9 +12,9 @@ public interface DspCampaignService {
 
 	List<DspCampaignDto> getCampaignList();
 
-	DspCampaignDetailDto getCampaignDetail(Integer creativeId, Integer dspUserId);
+	DspCampaignDetailDto getCampaignDetail(Integer campaignId, Integer dspUserId);
 
-	void updateCampaign(Integer campaignId, String status);
+	void updateCampaign(Long issueId, String status);
 
 	DspCampaignDetailDto deleteCampaign(Integer campaignId);
 
@@ -22,11 +22,14 @@ public interface DspCampaignService {
 
 	/**
 	 * 入力チェック
+	 * 
 	 * @param dspCampaignDto
-	 * @return 
+	 * @return
 	 */
 	DspCampaignDto validate(DspCampaignDto dspCampaignDto);
 
 	Long saveCampaign(DspCampaignDto dspCampaignDto);
+
+	void validateCreative(DspCampaignDto dspCampaignDto);
 
 }

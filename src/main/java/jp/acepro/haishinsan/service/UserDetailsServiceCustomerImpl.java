@@ -24,6 +24,7 @@ import jp.acepro.haishinsan.dao.UserCustomDao;
 import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.db.entity.User;
 import jp.acepro.haishinsan.dto.LoginUser;
+import jp.acepro.haishinsan.enums.Role;
 import jp.acepro.haishinsan.exception.SystemException;
 
 @Service
@@ -68,20 +69,21 @@ public class UserDetailsServiceCustomerImpl implements UserDetailsService {
 
 			// ユーザが切り替えできる店舗を取得
 			List<Shop> shopList = new ArrayList<Shop>();
-			if (authorityList.contains(AuthConstant.SHOPLIST_MANAGE)) {
+			if (user.getRoleId().intValue()==Role.ADMIN.getValue().intValue()) {
 				shopList = shopCustomDao.selectAllShop();
-			} else if (authorityList.contains(AuthConstant.SHOPLIST_AGENCY)) {
+			} else if (user.getRoleId().intValue()==Role.AGENCY.getValue().intValue()) {
 				shopList = shopCustomDao.selectAgencyShops(user.getShopId());
-			} else if (authorityList.contains(AuthConstant.SHOPLIST_CORPORATION)) {
+			} else if (user.getRoleId().intValue()==Role.CORPORATION.getValue().intValue()) {
 				shopList = shopCustomDao.selectCorporationShops(user.getShopId());
-			} else if (authorityList.contains(AuthConstant.SHOPLIST_SHOP)) {
+			} else if (user.getRoleId().intValue()==Role.SHOP.getValue().intValue()) {
 				Shop shop = shopDao.selectById(user.getShopId());
 				shopList.add(shop);
 			}
 
 			// ユーザの店舗情報を取得
-			Shop shop =shopList.stream().filter(s->s.getShopId().intValue()==user.getShopId().intValue()).findFirst().get();
-			
+			Shop shop = shopList.stream().filter(s -> s.getShopId().intValue() == user.getShopId().intValue())
+					.findFirst().get();
+
 			loginUser.changeShopList(shopList);
 			loginUser.changeCurrent(shop);
 
@@ -92,7 +94,7 @@ public class UserDetailsServiceCustomerImpl implements UserDetailsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new SystemException("システムエラーが発生しました。");
-		} 
+		}
 	}
 
 }

@@ -13,6 +13,10 @@ public class DspCampaignDto {
 	String campaignName;
 	String startDatetime;
 	String endDatetime;
+	String startHour;
+	String endHour;
+	String startMin;
+	String endMin;
 	Integer budget;
 	Integer deviceType;
 	List<Integer> idList = new ArrayList<Integer>();

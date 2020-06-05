@@ -26,11 +26,11 @@ import jp.acepro.haishinsan.form.TwitterAdsInputForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.OperationService;
-import jp.acepro.haishinsan.service.campaign.twitter.TwitterCampaignApiService;
+import jp.acepro.haishinsan.service.twitter.TwitterCampaignApiService;
 
 @lombok.extern.slf4j.Slf4j
 @Controller
-@RequestMapping("/twitter")
+@RequestMapping("/campaign/twitter")
 public class TwitterCampaignController {
 
     @Autowired
@@ -75,9 +75,6 @@ public class TwitterCampaignController {
             twitterAdsInputForm.setTweetList(followersTweetList);
             break;
         }
-        log.debug("-----------------------------------------------------");
-        log.debug("Twitterのキャンペーン目的：" + tweetType);
-        log.debug("-----------------------------------------------------");
         twitterAdsInputForm.setObjective(tweetType);
         mv.setViewName("campaign/twitter/selectTweetList");
         return mv;
@@ -105,9 +102,6 @@ public class TwitterCampaignController {
             mv.setViewName("campaign/twitter/selectTweetList");
             return mv;
         }
-        log.debug("-----------------------------------------------------");
-        log.debug("TwitterIdList：" + twitterAdsInputForm.getTweetIdList().toString());
-        log.debug("-----------------------------------------------------");
         // 正常時レスポンス
         // 1. 選択したツイートIDリストをsessionに保存
         session.setAttribute("tweetIdList", twitterAdsInputForm.getTweetIdList());
@@ -126,9 +120,6 @@ public class TwitterCampaignController {
         TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
         twitterAdsDto.setLocation(twitterAdsInputForm.getLocation());
         twitterAdsDto.setRegions(twitterAdsInputForm.getRegions());
-        log.debug("-----------------------------------------------------");
-        log.debug("配信地域：" + twitterAdsDto.toString());
-        log.debug("-----------------------------------------------------");
         try {
             twitterCampaignApiService.areaCheck(twitterAdsDto);
         } catch (BusinessException e) {
@@ -153,9 +144,10 @@ public class TwitterCampaignController {
         TwitterAdsDto twitterAdsDto = new TwitterAdsDto();
         twitterAdsDto.setStartTime(twitterAdsInputForm.getStartTime());
         twitterAdsDto.setEndTime(twitterAdsInputForm.getEndTime());
-        log.debug("-----------------------------------------------------");
-        log.debug("配信日付：" + twitterAdsDto.toString());
-        log.debug("-----------------------------------------------------");
+        twitterAdsDto.setStartHour(twitterAdsInputForm.getStartHour());
+        twitterAdsDto.setStartMin(twitterAdsInputForm.getStartMin());
+        twitterAdsDto.setEndHour(twitterAdsInputForm.getEndHour());
+        twitterAdsDto.setEndMin(twitterAdsInputForm.getEndMin());
 
         try {
             twitterCampaignApiService.dailyCheck(twitterAdsDto);
@@ -186,10 +178,6 @@ public class TwitterCampaignController {
         twitterAdsDto.setLocation(((TwitterAdsDto) session.getAttribute("area")).getLocation());
         twitterAdsDto.setRegions(((TwitterAdsDto) session.getAttribute("area")).getRegions());
 
-        log.debug("-----------------------------------------------------");
-        log.debug("予算：" + twitterAdsDto.toString());
-        log.debug("-----------------------------------------------------");
-
         try {
             twitterCampaignApiService.budgetCheck(twitterAdsDto);
         } catch (BusinessException e) {
@@ -212,6 +200,10 @@ public class TwitterCampaignController {
         // 日程をsessionから取得する
         twitterAdsDto.setStartTime(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartTime());
         twitterAdsDto.setEndTime(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndTime());
+        twitterAdsDto.setStartHour(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartHour());
+        twitterAdsDto.setStartMin(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartMin());
+        twitterAdsDto.setEndHour(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndHour());
+        twitterAdsDto.setEndMin(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndMin());
         // 予算をsessionから取得する
         twitterAdsDto.setDailyBudget(((TwitterAdsDto) session.getAttribute("budget")).getDailyBudget());
         twitterAdsDto.setTotalBudget(((TwitterAdsDto) session.getAttribute("budget")).getTotalBudget());
@@ -246,6 +238,10 @@ public class TwitterCampaignController {
         // 日程をsessionから取得する
         twitterAdsDto.setStartTime(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartTime());
         twitterAdsDto.setEndTime(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndTime());
+        twitterAdsDto.setStartHour(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartHour());
+        twitterAdsDto.setStartMin(((TwitterAdsDto) session.getAttribute("deliveryTime")).getStartMin());
+        twitterAdsDto.setEndHour(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndHour());
+        twitterAdsDto.setEndMin(((TwitterAdsDto) session.getAttribute("deliveryTime")).getEndMin());
         // 予算をsessionから取得する
         twitterAdsDto.setDailyBudget(((TwitterAdsDto) session.getAttribute("budget")).getDailyBudget());
         twitterAdsDto.setTotalBudget(((TwitterAdsDto) session.getAttribute("budget")).getTotalBudget());

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>ユーザー情報編集</h4>
+							<strong class="text-danger">※の項目は、必須項目です。</strong>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form action="#" th:action="@{/account/user/updateComplete}" method="post" th:object="${userInputForm}" onsubmit="return check('')">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{userId}" /> <input type="hidden" th:field="*{shopId}" /> <input type="hidden" th:field="*{shopName}" /> <input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" /> <input type="hidden" th:field="*{agencyId}" /> <input
+				type="hidden" th:field="*{agencyName}" />
+			<div class="card">
+				<div class="card-block">
+					<input type="hidden" th:field="*{userId}" />
+					<h4 class="sub-title">基本情報</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">ユーザーID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{userId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">ユーザー名<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{userName}" required="required"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">メールアドレス<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" th:field="*{email}" required="required" maxlength="60"></input>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">パスワード<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-sm-6">
+							<input type="text" class="form-control" placeholder="変更しない場合、入力不要" name="password" minlength="6" maxlength="20" />
+						</div>
+					</div>
+					<div class="form-group row gutter">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">権限<span class="text-danger">※</span></label>
+						</div>
+						<div class="col-lg-2">
+							<select class="form-control" name="role_id" th:field="*{roleId}" required="required">
+								<option value="">-- 選択してください --</option>
+								<option th:each="object : ${T(jp.acepro.haishinsan.enums.Role).values()}" th:selected="${roleId == object.value}" th:value="${object.value}" th:text="${object.label}">管理者</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">店舗ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">店舗名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{shopName}">店舗</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">法人ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">法人名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationName}">法人</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">代理店ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyId}">0001</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">代理店名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyName}">代理店1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" sec:authorize="hasAuthority('USER_UPDATE')" type="submit" th:formaction="@{/account/user/updateComplete}" th:formmethod="post">確認</button>
+							<button type="button"  class="btn btn-warning" th:onclick="'window.location.href = \'' + @{/account/user/detail?userId={id}(id=*{userId})} + '\''">詳細へ戻る</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

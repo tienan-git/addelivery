@@ -11,10 +11,13 @@ import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 @Dao
 @InjectConfig
 public interface FacebookCampaignManageCustomDao {
+
+	@Select
+	List<FacebookCampaignManage> selectByShopId(Long shopId);
+
+	@Select
+	FacebookCampaignManage selectByCampaignId(String campaignId);
 	
-    @Select
-    List<FacebookCampaignManage> selectByShopId(Long shopId);
-    
-    @Select
-    FacebookCampaignManage selectByCampaignId(String campaignId);
+	@Select
+	List<FacebookCampaignManage> selectWithActiveShop();
 }

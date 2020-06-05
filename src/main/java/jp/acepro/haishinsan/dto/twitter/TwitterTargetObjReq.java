@@ -6,8 +6,8 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterTargetObjReq {
-	
+
 	String operation_type;
 	TwitterTargetParamsReq params;
-	
+
 }

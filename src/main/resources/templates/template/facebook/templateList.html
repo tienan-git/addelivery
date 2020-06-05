@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-facebook bg-facebook"></i>
+						<div class="d-inline">
+							<h4>Facebook広告 テンプレート一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/template/facebook/completeTemplate}" method="post">
+					<div class="dt-responsive table-responsive">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%;">
+							<thead>
+								<tr>
+									<th>テンプレートID</th>
+									<th>テンプレート名</th>
+									<th>テンプレート優先順</th>
+									<th>単価タイプ</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>テンプレートID</th>
+									<th>テンプレート名</th>
+									<th>テンプレート優先順</th>
+									<th>単価タイプ</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="fbTemplateDto : ${fbTemplateDtoList}">
+									<td><a th:href="@{/template/facebook/templateDetail(templateId=${fbTemplateDto.templateId})}" th:text="${fbTemplateDto.templateId}">0001</a></td>
+									<td th:text="${fbTemplateDto.templateName}"></td>
+									<td th:text="${fbTemplateDto.templatePriority}"></td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(fbTemplateDto.unitPriceType).getLabel()}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

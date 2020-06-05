@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-envira bg-c-blue"></i>
+						<div class="d-inline">
+							<h4>広告作成</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form th:action="@{/dsp/completeCampaign}" method="post">
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit"
+								th:formaction="@{/campaign/dsp/selectCreative}"
+								th:formmethod="get">既存広告</button>
+							<button class="btn btn-success" type="submit"
+								th:formaction="@{/campaign/dsp/createNewCampaign}"
+								th:formmethod="post">新規広告</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript">
+			function show(id) {
+				//alert(id);
+				var img = document.getElementById(id);
+				if (img.style.display == "block") {
+					document.getElementById(id).style.display = "none";
+				} else if (document.getElementById(id).style.display == "none") {
+					document.getElementById(id).style.display = "block";
+				}
+			}
+		</script>
+	</div>
+</body>
+</html>

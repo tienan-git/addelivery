@@ -10,4 +10,5 @@ user
 join shop  on  shop.shop_id=user.shop_Id  
 WHERE
 shop.shop_id = /* shopId */'12345' and
-shop.is_actived = 1
+shop.is_actived = 1 and
+user.is_actived = 1 

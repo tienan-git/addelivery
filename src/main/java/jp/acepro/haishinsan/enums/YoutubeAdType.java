@@ -7,7 +7,7 @@ package jp.acepro.haishinsan.enums;
  */
 public enum YoutubeAdType implements CodeEnum<String> {
 
-	INSTREAM ("04", "インストリーム広告"), BUMPER("05", "バンパー広告");
+	INSTREAM("04", "インストリーム広告"), BUMPER("05", "バンパー広告");
 
 	private YoutubeAdType(String value, String label) {
 		this.value = value;

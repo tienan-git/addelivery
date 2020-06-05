@@ -429,26 +429,25 @@ ol, ul {
 				<div class="card-block">
 					<div>
 						<span>広告物名</span> <span class="text-danger">(〇〇/〇〇文字)</span>
-						<!-- <input type="text" class="form-control" required maxlength="15" id="inputfield_1" onchange="myFunc1()" placeholder="見出し1"> -->
 						<input type="text" class="form-control" maxlength="15" placeholder="広告物名" th:field=*{creativeName}>
 					</div>
 					<div class="top">
-						<div class="banner-left">
-							<div>バナー 500ｘ500</div>
+						<div class="left">
+							<div>バナー 1080ｘ1080px</div>
 							<input type="file" th:field="*{image}" onchange="myFile_upload1(this)" required />
 						</div>
 					</div>
 					<div class="bottom">
-						<p class="preview">プレビュー</p>
+						<p class="preview"></p>
 						<div class="img">
-							<img id="xmTanImg" alt="" src="http://placehold.jp/3c5c7d/ffffff/1200x628.png" style="width: 200px">
+							<img id="xmTanImg" alt="" src="http://placehold.jp/3d4070/ffffff/1080x1080.png" style="width: 200px">
 						</div>
 					</div>
 					<div class="">
 						<div class="form-group row" style="margin: 20px 0 20px 0">
 							<div class="col-sm-12 text-center">
 								<button class="btn btn-success" type="submit" th:formmethod="get" th:formaction="@{/upload/mediaSelection}">戻る</button>
-								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/confirmFacebookCreative}">次へ</button>
+								<button class="btn btn-success" type="submit" th:formmethod="post" th:formaction="@{/upload/facebook/confirmFacebookCreative}">次へ</button>
 							</div>
 						</div>
 					</div>

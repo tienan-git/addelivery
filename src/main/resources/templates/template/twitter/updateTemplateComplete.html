@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-twitter bg-twiter"></i>
+						<div class="d-inline">
+							<h4>Twitter広告テンプレート　更新完了</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div id="info" class="col-sm-24 col-md-24 col-xl-12 alert alert-success background-success">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<i class="icofont icofont-close-line-circled text-white"></i>
+			</button>
+			<strong>Twitter広告テンプレートの作成が成功しました!</strong>
+		</div>
+		<div class="card">
+			<form action="#" th:object="${twitterTemplateDto}">
+				<div class="card-block">
+					<h4 class="sub-title">テンプレート</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 text-right">テンプレート名</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templateName}">テスト</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 text-right">優先順<br>(小さい数値が優先)
+						</label>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{templatePriority}">テスト</label>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">案件作成</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">案件名</label>
+						</div>
+						<div class="col-sm-4">
+							<label class="col-form-label" th:text="*{campaignName}">テスト</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">開始日</label>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-form-label" th:text="*{startTime}">2018年09月15日</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">終了日</label>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-form-label" th:text="*{endTime}">2018年09月16日</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">日別予算</label>
+						</div>
+						<div th:if="*{dailyBudget} != null" class="col-sm-4">
+							<label class="col-form-label" th:text="*{dailyBudget} + 円">10000円</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">総予算</label>
+						</div>
+						<div th:if="*{totalBudget} != null" class="col-sm-4">
+							<label class="col-form-label" th:text="*{totalBudget} + 円">200円</label>
+						</div>
+					</div>
+				</div>
+				<div class="card-block">
+					<h4 class="sub-title">ターゲット設定</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">地域</label>
+						</div>
+						<div th:if="${twitterTemplateDto.location} == 2">
+							<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(regions)}">
+								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								</select>
+							</div>
+							<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(regions)}">
+								<select id="custom-headers" class="searchable" multiple th:field="*{regions}" disabled>
+									<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).twitterRegionList}" th:selected="${twitterTemplateDto.regions}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">譌･譛ｬ</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-4" th:unless="${twitterTemplateDto.location} == 2">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.TwitterLocationType).of(__*{location}__).label}">繧ｦ繧ｧ繝悶し繧､繝医�ｮ繧ｯ繝ｪ繝�繧ｯ縺ｾ縺溘�ｯ繧ｳ繝ｳ繝舌�ｼ繧ｸ繝ｧ繝ｳ</label>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-sm-12 text-center">
+						<button class="btn btn-warning" th:formaction="@{/template/twitter/templateList}" th:formmethod="get">一覧へ</button>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- page body end -->
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

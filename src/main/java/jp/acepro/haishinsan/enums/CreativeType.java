@@ -7,7 +7,8 @@ package jp.acepro.haishinsan.enums;
  */
 public enum CreativeType implements CodeEnum<String> {
 
-	DSP("1", "ファンへの配信"), GOOGLE("2", "Google"), FACEBOOK("3", "Facebook"), INSTAGRAM("4", "Instagram"), TWITTER("5", "Twitter");
+	DSP("1", "ファンへの配信"), GOOGLE("2", "Google"), FACEBOOK("3", "Facebook"), INSTAGRAM("4", "Instagram"),
+	TWITTER("5", "Twitter");
 
 	private CreativeType(String value, String label) {
 		this.value = value;

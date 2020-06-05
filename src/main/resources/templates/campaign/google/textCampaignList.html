@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<head>
+<style type="text/css">
+.button-upload {
+	float: left;
+	font-size: 0.8rem;
+	padding: 0.8rem 1.2rem;
+}
+
+@media only screen and (max-device-width: 480px) {
+	.button-upload {
+		float: none;
+		margin-bottom: 2px;
+	}
+	.sp {
+		display: none
+	}
+}
+
+.right-container {
+	margin: 2rem 0;
+}
+
+.right-container-2 {
+	width: 28%;
+	margin: 0 auto;
+	border: 1px solid #e2e2e2;
+}
+
+.right-container-2 .img {
+	display: flex;
+	flex-direction: row;
+}
+
+.right-container .img {
+	display: flex;
+	flex-direction: column;
+	width: 28%;
+	/* border:1px solid #e2e2e2; */
+	margin: 0 auto;
+}
+
+.midashi {
+	font-weight: bold;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid none;
+	padding: 10px;
+}
+
+.pc {
+	display: block !important;
+}
+
+.sp {
+	display: none !important;
+}
+
+@media only screen and (max-width: 750px) {
+	.sp {
+		display: block !important;
+	}
+	.pc {
+		display: none !important;
+	}
+	.card-block .form-control {
+		width: auto;
+	}
+	.card-block {
+		padding: 1rem;
+	}
+	.card-block .bottom {
+		display: grid;
+		grid-template-columns: 1fr 1fr 1fr 1fr;
+	}
+}
+</style>
+</head>
+<body>
+	<div class="top-bar clearfix pc" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-crown bg-c-pink"></i>
+						<div class="d-inline">
+							<h4>広告作成</h4>
+						</div>
+						<div id="resultBox"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div align="center" class="pheader pc">
+			<h3>
+				<img th:src="@{/images/google.png}" style="width: 80px;" /><span style="margin-left: 40px;">2.どれを配信しますか？</span>
+			</h3>
+			<br />
+			<p style="margin-left: 100px;">
+				<strong>Google広告</strong>
+			</p>
+		</div>
+		<div class="pheader sp">
+			<img th:src="@{/images/facebook.png}" style="width: 60px; margin-left: 20px;" /> <span style="margin-left: 30px;">Google広告</span>
+			<h5 style="margin-top: 30px; margin-left: 50px;">
+				<strong>2.どれを配信しますか？</strong>
+			</h5>
+		</div>
+		<br />
+				<form th:action="@{/google/createIssue}" method="post" th:object="${googleIssueInputForm}">
+					<div th:replace="common/errorMessages"></div>
+					<div class="form-group row">
+						<label class="col-sm-12 col-form-label text-danger">★こちらは、審査済クリエイティブのみを表示する。</label>
+					</div>
+					<div class="dt-responsive table-responsive">
+						<table id="basicTable"
+							class="table table-striped table-bordered nowrap"
+							style="width: 100%;">
+							<thead>
+								<tr>
+									<th>選択</th>
+									<th>クリエイティブID</th>
+									<th>クリエイティブ名</th>
+									<th>見出し１</th>
+									<th>見出し２</th>
+									<th>説明文</th>
+									<th>リンク先</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>選択</th>
+									<th>クリエイティブID</th>
+									<th>クリエイティブ名</th>
+									<th>見出し１</th>
+									<th>見出し２</th>
+									<th>説明文</th>
+									<th>リンク先</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="googleCampaignDto,stat : ${googleCampaignDtoList}">
+									<td><input type="checkbox" th:field="${googleIssueInputForm.idList}"
+										th:value="${googleCampaignDto.campaignId}"/></td>
+									<td><a 
+										th:text="${googleCampaignDto.campaignId}">0001</a></td>
+									<td><a th:text="${googleCampaignDto.campaignName}">0001</a></td>
+									<td><a 
+										th:text="${googleCampaignDto.adTitle1}">0001</a></td>
+									<td><a 
+										th:text="${googleCampaignDto.adTitle2}">0001</a></td>
+									<td><a 
+										th:text="${googleCampaignDto.adDescription}">0001</a></td>
+									<td><a 
+										th:text="${googleCampaignDto.linkUrl}">0001</a></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label"></label>
+						<div class="col-sm-12 text-center">
+							<button class="btn btn-success" type="submit" 
+								th:formaction="@{/campaign/google/createIssue}" th:formmethod="post">次へ</button>
+						</div>
+					</div>
+				</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body">
+		<script type="text/javascript">
+			function show(id) {
+				//alert(id);
+				var img = document.getElementById(id);
+				if (img.style.display == "block") {
+					document.getElementById(id).style.display = "none";
+				} else if (document.getElementById(id).style.display == "none") {
+					document.getElementById(id).style.display = "block";
+					document.getElementById(id).style.width = "50px";
+				}
+			}
+		</script>
+	</div>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>法人詳細</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form th:action="@{/account/corporation/list}" method="post" th:object="${corporationInputForm}">
+			<div th:replace="common/errorMessages"></div>
+			<input type="hidden" th:field="*{corporationId}" /> <input type="hidden" th:field="*{corporationName}" /> <input type="hidden" th:field="*{agencyId}" /> <input type="hidden" th:field="*{agencyName}" />
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">法人情報</h4>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">法人ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationId}">123</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">法人名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{corporationName}">エースプロ</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">代理店ID</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label"><a href="#"  th:href="@{/account/agency/detail(agencyId=*{agencyId})}" th:method="get" th:text="*{agencyId}">0001</a></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-2 text-right">
+							<label class="col-form-label">代理店名</label>
+						</div>
+						<div class="col-sm-8">
+							<label class="col-form-label" th:text="*{agencyName}">代理店1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button type="button" class="btn btn-primary" sec:authorize="hasAuthority('CORPORATION_CREATE')" th:onclick="'window.location.href = \'' + @{/account/shop/create?corporationId={id}(id=*{corporationId})} + '\''">店舗の新規</button>
+							<button type="button" class="btn btn-success" sec:authorize="hasAuthority('CORPORATION_CREATE')" th:onclick="'window.location.href = \'' + @{/account/corporation/update?corporationId={id}(id=*{corporationId})} + '\''">編集</button>
+							<button class="btn btn-danger" onclick="return check('法人削除してよろしいでしょうか？')" sec:authorize="hasAuthority('CORPORATION_CREATE')" type="submit" th:formaction="@{/account/corporation/delete}" th:formmethod="post">削除</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="card">
+				<div class="card-block">
+					<h4 class="sub-title">所属店舗リスト</h4>
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width: 100%">
+							<thead>
+								<tr>
+									<th>店舗ID</th>
+									<th>店舗名</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>店舗ID</th>
+									<th>店舗名</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="shopDto : *{shopDtoList}">
+									<td><a   href="#" th:href="@{/account/shop/detail(shopId=${shopDto.shopId})}" th:method="get" th:text="${shopDto.shopId}">0001</a></td>
+									<td th:text="${shopDto.shopName}">店舗名</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button type="button" class="btn btn-warning"  th:onclick="'window.location.href = \'' + @{/account/corporation/list} + '\''">一覧へ</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

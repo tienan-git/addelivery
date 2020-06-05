@@ -1,7 +1,7 @@
 package jp.acepro.haishinsan.enums;
 
 /**
- * 審査フラグ 列挙クラス
+ * 承認フラグ 列挙クラス
  *
  *
  */

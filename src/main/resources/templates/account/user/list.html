@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="icofont icofont-user-alt-3 bg-c-lite-green"></i>
+						<div class="d-inline">
+							<h4>ユーザー一覧</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/}" method="post">
+					<div class="dt-responsive table-responsive">
+						<input type="hidden" class="js-single">
+						<table id="basicTable" class="table table-striped table-hover table-bordered nowrap" style="width:100%">
+							<thead>
+								<tr>
+									<th>ユーザーID</th>
+									<th>ユーザー名</th>
+									<th>店舗ID</th>
+									<th>店舗名</th>
+									<th>メールアドレス</th>
+									<th>権限</th>
+								</tr>
+							</thead>
+							<tfoot>
+								<tr>
+									<th>ユーザーID</th>
+									<th>ユーザー名</th>
+									<th>店舗ID</th>
+									<th>店舗名</th>
+									<th>メールアドレス</th>
+									<th>権限</th>
+								</tr>
+							</tfoot>
+							<tbody>
+								<tr th:each="userDto : ${userDtoList}">
+									<td><a href="#"   th:href="@{/account/user/detail(userId=${userDto.userId})}" th:method="get" th:text="${userDto.userId}">0001</a></td>
+									<td th:text="${userDto.userName}">ユーザー名</td>
+									<td><a href="#"   th:href="@{/account/shop/detail(shopId=${userDto.shopId})}" th:method="get" th:text="${userDto.shopId}">0001</a></td>
+									<td th:text="${userDto.shopName}">店舗名</td>
+									<td th:text="${userDto.email}">メールアドレス</td>
+									<td th:text="${T(jp.acepro.haishinsan.enums.Role).of(__${userDto.roleId}__).label}">権限1</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+	
+</body>
+</html>

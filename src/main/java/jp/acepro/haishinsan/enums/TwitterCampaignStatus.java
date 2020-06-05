@@ -7,7 +7,8 @@ package jp.acepro.haishinsan.enums;
  */
 public enum TwitterCampaignStatus implements CodeEnum<Integer> {
 
-	RESERVATION(0, "STARTS_IN_FUTURE"), ACTIVE(1, "ACTIVE"), PAUSED(2, "PAUSED"),PAUSEDBYADVERTISER(3, "PAUSED_BY_ADVERTISER"),EXPIRED(4, "EXPIRED");
+	RESERVATION(0, "STARTS_IN_FUTURE"), ACTIVE(1, "ACTIVE"), PAUSED(2, "PAUSED"),
+	PAUSEDBYADVERTISER(3, "PAUSED_BY_ADVERTISER"), EXPIRED(4, "EXPIRED");
 
 	private TwitterCampaignStatus(Integer value, String label) {
 		this.value = value;

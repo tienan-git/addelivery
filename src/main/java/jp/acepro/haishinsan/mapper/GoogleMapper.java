@@ -18,25 +18,28 @@ import jp.acepro.haishinsan.form.GoogleTemplateForm;
 public interface GoogleMapper {
 
 	GoogleMapper INSTANCE = Mappers.getMapper(GoogleMapper.class);
-	
+
 	// ＦＯＲＭからＤＴＯへ変換
 	GoogleCampaignDto map(GoogleCampaignForm googleCampaignForm);
+
 	GoogleTemplateDto map(GoogleTemplateForm googleTemplateForm);
-	
-    @Mapping(target = "startDate", source = "startDateFormat")
-    @Mapping(target = "endDate", source = "endDateFormat")
+
+	@Mapping(target = "startDate", source = "startDateFormat")
+	@Mapping(target = "endDate", source = "endDateFormat")
 	GoogleReportSearchDto map(GoogleReportSearchForm googleReportSearchForm);
-	
+
 	// ＥＮＴＩＴＹからＤＴＯへ変換
-    @Mapping(target = "locationList", ignore = true)
+	@Mapping(target = "locationList", ignore = true)
 	GoogleTemplateDto map(GoogleTemplate googleTemplate);
+
 	List<GoogleTemplateDto> map(List<GoogleTemplate> googleTemplateList);
-	
+
 	// ＤＴＯからからＦＯＲＭへ変換
 	GoogleCampaignForm map(GoogleTemplateDto googleTemplateDto);
+
 	GoogleTemplateForm mapDtoToForm(GoogleTemplateDto googleTemplateDto);
-	
+
 	// ＤＴＯからからＥＮＴＩＴＹへ変換
-    @Mapping(target = "locationList", ignore = true)
-    GoogleTemplate mapDtotoEntitiy(GoogleTemplateDto googleTemplateDto);
+	@Mapping(target = "locationList", ignore = true)
+	GoogleTemplate mapDtotoEntitiy(GoogleTemplateDto googleTemplateDto);
 }

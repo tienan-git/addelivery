@@ -6,30 +6,30 @@ import lombok.Data;
 
 @Data
 public class GoogleTemplateForm {
-	
+
 	// テンプレートID
 	Long templateId;
-	
+
 	// テンプレート名
 	String templateName;
-	
+
 	// 優先順
 	Integer templatePriority;
-	
+
 	// キャンペイン名
 	String campaignName;
 
 	// 予算
 	Long budget;
-	
+
 	// デバイスタイプ
 	String deviceType;
-	
+
 	// 地域
 	List<Long> locationList;
 
-    // 単価タイプ
-    String unitPriceType;
+	// 単価タイプ
+	String unitPriceType;
 
 	// 広告タイプ
 	String adType;

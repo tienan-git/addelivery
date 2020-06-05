@@ -7,8 +7,8 @@ import lombok.ToString;
 @Data
 public class TwitterDataRes {
 
-	 String id;
-	 String tweet_id;
-	 String objective;
-	 
+	String id;
+	String tweet_id;
+	String objective;
+
 }

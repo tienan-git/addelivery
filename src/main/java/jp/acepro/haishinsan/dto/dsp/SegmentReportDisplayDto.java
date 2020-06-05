@@ -11,5 +11,5 @@ public class SegmentReportDisplayDto {
 	Integer uunum;
 	Integer uunumPc;
 	Integer uunumSp;
-	
+
 }

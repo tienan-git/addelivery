@@ -8,42 +8,51 @@ import lombok.Data;
 
 @Data
 public class YoutubeIssueinputForm {
-	
+
 	// 案件ID
 	Long issueId;
-	
+
 	// キャンペーン名
 	String campaignName;
-	
+
 	// キャンペーン名
 	Long campaignId;
-	
+
 	// 広告タイプ
 	String adType;
-	
+
 	// 予算
 	Long budget;
-	
+
 	// 配信開始日
 	String startDate;
 	
+	// 配信開始日(時)
+	String startHour;
+	
+	// 配信開始日(分)
+	String startMin;
+
 	// 配信終了日
 	String endDate;
 	
+	// 配信終了日(時)
+	String endHour;
+	
+	// 配信終了日(分)
+	String endMin;
+
 	// 配信地域
 	String area;
-	
+
 	// LP
 	String lp;
-		
+
 	// 動画URL
 	String videoUrl;
-		
+
 	List<Long> locationIdList;
-	
+
 	List<Pair<Integer, String>> segmentList;
-	
-	
-	
-	
+
 }

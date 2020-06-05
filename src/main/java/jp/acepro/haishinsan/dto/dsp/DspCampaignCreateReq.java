@@ -16,5 +16,5 @@ public class DspCampaignCreateReq {
 	String reset_time;
 	Integer status;
 	DspCampaignKpi performance_indicator = new DspCampaignKpi();
-	
+
 }

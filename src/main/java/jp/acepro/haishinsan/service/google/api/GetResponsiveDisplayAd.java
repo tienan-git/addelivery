@@ -27,6 +27,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdPage;
 import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
+import com.google.api.ads.adwords.axis.v201809.cm.PolicyApprovalStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.ResponsiveDisplayAd;
 import com.google.api.ads.adwords.axis.v201809.cm.Selector;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
@@ -56,26 +57,34 @@ public class GetResponsiveDisplayAd {
 	private static final int PAGE_SIZE = 100;
 	public String propFileName;
 	public Long adGroupId;
+	public String googleAccountId;
 	public List<ResponsiveDisplayAd> responsiveDisplayAdList = new ArrayList<ResponsiveDisplayAd>();
-
+	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
+	
 	public void run() {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
-			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
+			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -110,18 +119,16 @@ public class GetResponsiveDisplayAd {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param adGroupId
-	 *            the ID of the ad group to use to find expanded text ads.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param adGroupId       the ID of the ad group to use to find expanded text
+	 *                        ads.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long adGroupId) throws RemoteException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long adGroupId)
+			throws RemoteException {
 		// Get the AdGroupAdService.
 		AdGroupAdServiceInterface adGroupAdService = adWordsServices.get(session, AdGroupAdServiceInterface.class);
 
@@ -131,12 +138,10 @@ public class GetResponsiveDisplayAd {
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
-				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.ShortHeadline, AdGroupAdField.MarketingImage, AdGroupAdField.SquareMarketingImage)
-				.orderAscBy(AdGroupAdField.Id)
-				.offset(offset)
-				.limit(PAGE_SIZE)
-				.equals(AdGroupAdField.AdGroupId, adGroupId.toString())
-				.in(AdGroupAdField.Status, "ENABLED", "PAUSED")
+				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.ShortHeadline,
+						AdGroupAdField.MarketingImage, AdGroupAdField.SquareMarketingImage, AdGroupAdField.PolicySummary, AdGroupAdField.CombinedApprovalStatus)
+				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
+				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "RESPONSIVE_DISPLAY_AD").build();
 
 		while (morePages) {
@@ -148,6 +153,7 @@ public class GetResponsiveDisplayAd {
 				for (AdGroupAd adGroupAd : page.getEntries()) {
 					ResponsiveDisplayAd responsiveDisplayAd = (ResponsiveDisplayAd) adGroupAd.getAd();
 					responsiveDisplayAdList.add(responsiveDisplayAd);
+					policyApprovalStatusList.add(adGroupAd.getPolicySummary().getCombinedApprovalStatus());
 					// System.out.printf(
 					// "Expanded text ad with ID %d, status '%s', and headline '%s - %s' was
 					// found.%n",
@@ -155,10 +161,10 @@ public class GetResponsiveDisplayAd {
 					// adGroupAd.getStatus(),
 					// expandedTextAd.getHeadlinePart1(),
 					// expandedTextAd.getHeadlinePart2());
-					log.debug("ResponsiveDisplayAd : {}", responsiveDisplayAd.toString());
+					//log.debug("ResponsiveDisplayAd : {}", responsiveDisplayAd.toString());
 				}
 			} else {
-				//System.out.println("No expanded text ads were found.");
+				// System.out.println("No expanded text ads were found.");
 			}
 
 			offset += PAGE_SIZE;

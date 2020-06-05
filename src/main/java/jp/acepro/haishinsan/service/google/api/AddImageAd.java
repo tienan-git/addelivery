@@ -72,20 +72,26 @@ public class AddImageAd {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -136,7 +142,8 @@ public class AddImageAd {
 	 * @throws RemoteException if the API request failed due to other errors.
 	 * @throws IOException     if uploading an image failed.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws IOException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId)
+			throws IOException {
 		// Set current AdGroupId
 		this.adGroupId = adGroupId;
 
@@ -187,7 +194,8 @@ public class AddImageAd {
 		}
 
 		// Make the mutate request.
-		AdGroupAdReturnValue result = adGroupAdService.mutate(adGroupAdOperations.toArray(new AdGroupAdOperation[adGroupAdOperations.size()]));
+		AdGroupAdReturnValue result = adGroupAdService
+				.mutate(adGroupAdOperations.toArray(new AdGroupAdOperation[adGroupAdOperations.size()]));
 
 		// Display ads.
 		// Arrays.stream(result.getValue()).map(adGroupAdResult -> (ImageAd)

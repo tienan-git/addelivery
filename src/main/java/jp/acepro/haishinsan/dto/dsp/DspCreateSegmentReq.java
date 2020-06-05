@@ -23,7 +23,7 @@ public class DspCreateSegmentReq {
 	private Integer is_enabled;
 
 	private List<UrlRules> url_rules = new ArrayList<UrlRules>(Arrays.asList(new UrlRules()));
-	
+
 	private Integer share_type;
 
 }

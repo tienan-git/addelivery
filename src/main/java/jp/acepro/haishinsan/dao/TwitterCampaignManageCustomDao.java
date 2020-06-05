@@ -14,8 +14,8 @@ public interface TwitterCampaignManageCustomDao {
 
 	@Select
 	List<TwitterCampaignManage> selectAll(Long shopId);
-	
+
 	@Select
 	TwitterCampaignManage selectByCampaignId(String campaignId);
-	
+
 }

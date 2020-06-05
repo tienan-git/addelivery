@@ -27,7 +27,7 @@ import jp.acepro.haishinsan.service.dsp.DspCreativeService;
 import jp.acepro.haishinsan.util.ImageUtil;
 
 @Controller
-@RequestMapping("/dsp")
+@RequestMapping("/upload/dsp")
 public class DspUploadController {
 
 	@Autowired
@@ -43,16 +43,16 @@ public class DspUploadController {
 	OperationService operationService;
 
 	@GetMapping("/createCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView createCreative(@ModelAttribute DspCreativeInputForm dspCreativeInputForm) {
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("campaign/dsp/createDspAd");
+		modelAndView.setViewName("upload/dsp/createCreative");
 		return modelAndView;
 	}
 
 	@PostMapping("/confirmCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView confirmCreative(@Validated DspCreativeInputForm dspCreativeInputForm, BindingResult result) throws IOException {
 
 		String imaBase64 = null;
@@ -62,7 +62,7 @@ public class DspUploadController {
 			bytes = dspCreativeInputForm.getImage().getBytes();
 		} catch (BusinessException e) {
 			result.reject(e.getMessage(), e.getParams(), null);
-			ModelAndView mv = new ModelAndView("dsp/createCreative");
+			ModelAndView mv = new ModelAndView("upload/dsp/createCreative");
 			mv.addObject("dspCreativeInputForm", dspCreativeInputForm);
 			return mv;
 		}
@@ -83,12 +83,12 @@ public class DspUploadController {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("dspCreativeDto", dspCreativeDto);
 		modelAndView.addObject("base64Data", data.toString());
-		modelAndView.setViewName("campaign/dsp/confirmDspAd");
+		modelAndView.setViewName("upload/dsp/confirmCreative");
 		return modelAndView;
 	}
 
 	@GetMapping("/completeCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView completeCreative() throws IOException {
 
 		String imaBase64 = (String) session.getAttribute("imaBase64");
@@ -104,7 +104,7 @@ public class DspUploadController {
 		DspCreativeDto newDspCreativeDto = dspCreativeService.createCreative(dspCreativeDto);
 
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.setViewName("creative/uploadCreateSuccess");
+		modelAndView.setViewName("upload/dsp/completeCreative");
 
 		// オペレーションログ記録
 		operationService.create(Operation.DSP_CREATIVE_CREATE.getValue(), String.valueOf(newDspCreativeDto.getCreativeId()));
@@ -113,7 +113,6 @@ public class DspUploadController {
 	}
 
 	@GetMapping("/creativeList")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_VIEW + "')")
 	public ModelAndView creativeList() {
 
 		List<DspCreativeDto> dspCreativeDtoList = dspCreativeService.creativeList();
@@ -129,7 +128,6 @@ public class DspUploadController {
 	}
 
 	@GetMapping("/creativeDetail")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
 	public ModelAndView creativeDetail(@RequestParam Integer creativeId) {
 
 		DspCreativeDto dspCreativeDto = dspCreativeService.creativeDetail(creativeId);
@@ -147,7 +145,7 @@ public class DspUploadController {
 	}
 
 	@PostMapping("/deleteCreative")
-	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.DSP_CREATIVE_MANAGE + "')")
+	@PreAuthorize("hasAuthority('" + jp.acepro.haishinsan.constant.AuthConstant.UPLOAD_CREATE + "')")
 	public ModelAndView deleteCreative(@RequestParam Integer creativeId) {
 
 		DspCreativeDto dspCreativeDto = (DspCreativeDto) session.getAttribute("dspCreativeDto");

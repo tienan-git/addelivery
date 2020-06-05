@@ -14,8 +14,8 @@ public interface TwitterTweetListCustomDao {
 
 	@Select
 	List<TwitterTweetList> selectByAccountId(String accountId);
-	
+
 	@Select
-	TwitterTweetList selectByAccountIdAndTweetId(String accountId,String tweetId);
-	
+	TwitterTweetList selectByAccountIdAndTweetId(String accountId, String tweetId);
+
 }

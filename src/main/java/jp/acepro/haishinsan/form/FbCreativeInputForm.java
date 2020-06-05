@@ -20,7 +20,5 @@ public class FbCreativeInputForm {
 	String linkMessage;
 	Integer segmentId;
 	String linkUrl;
-	
-	
-	
+
 }

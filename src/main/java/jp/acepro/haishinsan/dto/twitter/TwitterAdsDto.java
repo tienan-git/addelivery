@@ -12,6 +12,10 @@ public class TwitterAdsDto {
     String campaignName;
     String startTime;
     String endTime;
+    String startHour;
+    String startMin;
+    String endHour;
+    String endMin;
     long dailyBudget;
     long totalBudget;
     Integer objective;

@@ -7,12 +7,9 @@ package jp.acepro.haishinsan.enums;
  */
 public enum MediaCollection implements CodeEnum<Integer> {
 
-	DSP(1, "/dsp/campaignList", "DSP"), 
-	GOOGLE(2, "/google/listCampaign", "Google"), 
-	FACEBOOK(3, "/facebook/campaignList", "Facebook"),
-	TWITTER(4, "/twitter/adsList", "Twitter"),
-	YAHOO(5, "/yahoo/issueList", "Yahoo!"),
-	YOUTUBE(6, "/youtube/list", "YouTube");
+	DSP(1, "/dsp/campaignList", "DSP"), GOOGLE(2, "/google/listCampaign", "Google"),
+	FACEBOOK(3, "/facebook/campaignList", "Facebook"), TWITTER(4, "/twitter/adsList", "Twitter"),
+	YAHOO(5, "/yahoo/issueList", "Yahoo!"), YOUTUBE(6, "/youtube/list", "YouTube");
 
 	private MediaCollection(Integer value, String path, String label) {
 		this.value = value;
@@ -25,14 +22,14 @@ public enum MediaCollection implements CodeEnum<Integer> {
 
 	/** パース */
 	private String path;
-	
+
 	/** 名称 */
 	private String label;
 
 	public String getLabel() {
 		return label;
 	}
-	
+
 	public String getPath() {
 		return path;
 	}

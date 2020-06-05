@@ -28,6 +28,7 @@ import com.google.api.ads.adwords.axis.v201809.cm.AdGroupAdServiceInterface;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiError;
 import com.google.api.ads.adwords.axis.v201809.cm.ApiException;
 import com.google.api.ads.adwords.axis.v201809.cm.ExpandedTextAd;
+import com.google.api.ads.adwords.axis.v201809.cm.PolicyApprovalStatus;
 import com.google.api.ads.adwords.axis.v201809.cm.Selector;
 import com.google.api.ads.adwords.lib.client.AdWordsSession;
 import com.google.api.ads.adwords.lib.factory.AdWordsServicesInterface;
@@ -55,26 +56,34 @@ public class GetExpandedTextAds {
 
 	public String propFileName;
 	public Long adGroupId;
+	public String googleAccountId;
 	public List<ExpandedTextAd> expandedTextAdList = new ArrayList<ExpandedTextAd>();
-
+	public List<PolicyApprovalStatus> policyApprovalStatusList = new ArrayList<PolicyApprovalStatus>();
+	
 	public void run() {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
-			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
+			session.setClientCustomerId(googleAccountId);
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -109,18 +118,16 @@ public class GetExpandedTextAds {
 	/**
 	 * Runs the example.
 	 *
-	 * @param adWordsServices
-	 *            the services factory.
-	 * @param session
-	 *            the session.
-	 * @param adGroupId
-	 *            the ID of the ad group to use to find expanded text ads.
-	 * @throws ApiException
-	 *             if the API request failed with one or more service errors.
-	 * @throws RemoteException
-	 *             if the API request failed due to other errors.
+	 * @param adWordsServices the services factory.
+	 * @param session         the session.
+	 * @param adGroupId       the ID of the ad group to use to find expanded text
+	 *                        ads.
+	 * @throws ApiException    if the API request failed with one or more service
+	 *                         errors.
+	 * @throws RemoteException if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long adGroupId) throws RemoteException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, Long adGroupId)
+			throws RemoteException {
 		// Get the AdGroupAdService.
 		AdGroupAdServiceInterface adGroupAdService = adWordsServices.get(session, AdGroupAdServiceInterface.class);
 
@@ -130,12 +137,10 @@ public class GetExpandedTextAds {
 		// Create selector.
 		SelectorBuilder builder = new SelectorBuilder();
 		Selector selector = builder
-				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls,  AdGroupAdField.HeadlinePart1, AdGroupAdField.HeadlinePart2)
-				.orderAscBy(AdGroupAdField.Id)
-				.offset(offset)
-				.limit(PAGE_SIZE)
-				.equals(AdGroupAdField.AdGroupId, adGroupId.toString())
-				.in(AdGroupAdField.Status, "ENABLED", "PAUSED")
+				.fields(AdGroupAdField.Description, AdGroupAdField.CreativeFinalUrls, AdGroupAdField.HeadlinePart1,
+						AdGroupAdField.HeadlinePart2, AdGroupAdField.PolicySummary, AdGroupAdField.CombinedApprovalStatus)
+				.orderAscBy(AdGroupAdField.Id).offset(offset).limit(PAGE_SIZE)
+				.equals(AdGroupAdField.AdGroupId, adGroupId.toString()).in(AdGroupAdField.Status, "ENABLED", "PAUSED")
 				.equals("AdType", "EXPANDED_TEXT_AD").build();
 
 		while (morePages) {
@@ -147,10 +152,13 @@ public class GetExpandedTextAds {
 				for (AdGroupAd adGroupAd : page.getEntries()) {
 					ExpandedTextAd expandedTextAd = (ExpandedTextAd) adGroupAd.getAd();
 					expandedTextAdList.add(expandedTextAd);
-					//System.out.printf("Expanded text ad with ID %d, status '%s', and headline '%s - %s' was found.%n", adGroupAd.getAd().getId(), adGroupAd.getStatus(), expandedTextAd.getHeadlinePart1(), expandedTextAd.getHeadlinePart2());
+					policyApprovalStatusList.add(adGroupAd.getPolicySummary().getCombinedApprovalStatus());
+					// System.out.printf("Expanded text ad with ID %d, status '%s', and headline '%s
+					// - %s' was found.%n", adGroupAd.getAd().getId(), adGroupAd.getStatus(),
+					// expandedTextAd.getHeadlinePart1(), expandedTextAd.getHeadlinePart2());
 				}
 			} else {
-				//System.out.println("No expanded text ads were found.");
+				// System.out.println("No expanded text ads were found.");
 			}
 
 			offset += PAGE_SIZE;

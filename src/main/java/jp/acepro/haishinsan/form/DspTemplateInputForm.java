@@ -13,6 +13,6 @@ public class DspTemplateInputForm {
 	String templateName;
 	// 入札CPC単価
 	Integer bidCpcPrice;
-	//課金方式
+	// 課金方式
 	Integer billingType;
 }

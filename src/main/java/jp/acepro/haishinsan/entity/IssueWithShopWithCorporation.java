@@ -5,6 +5,8 @@
 
 package jp.acepro.haishinsan.entity;
 
+import java.time.LocalDateTime;
+
 import org.seasar.doma.Column;
 import org.seasar.doma.Entity;
 import org.seasar.doma.GeneratedValue;
@@ -43,21 +45,29 @@ public class IssueWithShopWithCorporation extends BaseEntity {
     @Column(name = "issue_id")
     Long issueId;
 
-    /** DSPキャンペーン管理ID */
-    @Column(name = "dsp_campaign_manage_id")
-    Long dspCampaignManageId;
+    /** 審査フラグ */
+    @Column(name = "approval_flag")
+    String approvalFlag;
 
-    /** Googleキャンペーン管理ID */
-    @Column(name = "google_campaign_manage_id")
-    Long googleCampaignManageId;
+    /** DSPキャンペーンID */
+    @Column(name = "dsp_campaign_id")
+    Long dspCampaignId;
 
-    /** Facebookキャンペーン管理ID */
-    @Column(name = "facebook_campaign_manage_id")
-    Long facebookCampaignManageId;
+    /** GoogleキャンペーンID */
+    @Column(name = "google_campaign_id")
+    Long googleCampaignId;
 
-    /** Twitterキャンペーン管理ID */
-    @Column(name = "twitter_campaign_manage_id")
-    Long twitterCampaignManageId;
+    /** FacebookキャンペーンID */
+    @Column(name = "facebook_campaign_id")
+    Long facebookCampaignId;
+
+    /** InstagramキャンペーンID */
+    @Column(name = "instagram_campaign_id")
+    Long instagramCampaignId;
+
+    /** TwitterキャンペーンID */
+    @Column(name = "twitter_campaign_id")
+    String twitterCampaignId;
 
     /** Yahooキャンペーン管理ID */
     @Column(name = "yahoo_campaign_manage_id")
@@ -82,5 +92,13 @@ public class IssueWithShopWithCorporation extends BaseEntity {
     /** 配信終了日 */
     @Column(name = "end_date")
     String endDate;
+
+    /** 開始日時スタンプ */
+    @Column(name = "start_timestamp")
+    LocalDateTime startTimestamp;
+
+    /** 終了日時スタンプ */
+    @Column(name = "end_timestamp")
+    LocalDateTime endTimestamp;
 
 }

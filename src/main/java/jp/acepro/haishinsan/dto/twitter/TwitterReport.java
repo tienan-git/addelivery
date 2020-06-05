@@ -8,11 +8,11 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReport {
-	
+
 	String url;
-	
-	//reportDetail
-	String id; //campaignId
+
+	// reportDetail
+	String id; // campaignId
 	List<TwitterReportIdData> id_data;
-	
+
 }

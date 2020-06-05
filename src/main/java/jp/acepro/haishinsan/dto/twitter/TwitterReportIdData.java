@@ -6,7 +6,7 @@ import lombok.ToString;
 @ToString
 @Data
 public class TwitterReportIdData {
-	
+
 	TwitterReportSegment segment;
 	TwitterReportMetrics metrics;
 }

@@ -84,19 +84,25 @@ public class AddAdGroups {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -148,7 +154,8 @@ public class AddAdGroups {
 	 *                         errors.
 	 * @throws RemoteException if the API request failed due to other errors.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long campaignId) throws RemoteException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long campaignId)
+			throws RemoteException {
 		// Get the AdGroupService.
 		AdGroupServiceInterface adGroupService = adWordsServices.get(session, AdGroupServiceInterface.class);
 
@@ -166,14 +173,17 @@ public class AddAdGroups {
 		case RESPONSIVE:
 		case IMAGE:
 			// クリック重視
-			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue()) || googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
+			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.CLICK.getValue())
+					|| googleCampaignDto.getUnitPriceType() == null || googleCampaignDto.getUnitPriceType().isEmpty()) {
 				break;
 			}
 			// 表示重視
 			if (googleCampaignDto.getUnitPriceType().equals(UnitPriceType.DISPLAY.getValue())) {
 				BiddingStrategyConfiguration biddingStrategyConfiguration = new BiddingStrategyConfiguration();
 				// 単価設定
-				Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceDisplayList.stream().filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst())).mapToInt(obj -> obj.getSecond()).average().getAsDouble();
+				Double averageDisplayUnitPriceDouble = CodeMasterServiceImpl.googleAreaUnitPriceDisplayList.stream()
+						.filter(obj -> googleCampaignDto.getLocationList().contains(obj.getFirst()))
+						.mapToInt(obj -> obj.getSecond()).average().getAsDouble();
 				Long averageUnitPrice = Math.round(averageDisplayUnitPriceDouble);
 				Money cpmBidMoney = new Money();
 				cpmBidMoney.setMicroAmount(averageUnitPrice * 1000000);
@@ -239,9 +249,11 @@ public class AddAdGroups {
 		}
 	}
 
-	public void setAdGroupCriteria(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws RemoteException {
+	public void setAdGroupCriteria(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId)
+			throws RemoteException {
 		// Get the AdGroupCriterionService.
-		AdGroupCriterionServiceInterface adGroupCriterionService = adWordsServices.get(session, AdGroupCriterionServiceInterface.class);
+		AdGroupCriterionServiceInterface adGroupCriterionService = adWordsServices.get(session,
+				AdGroupCriterionServiceInterface.class);
 
 		// キーワード設定
 		List<String> keywordList = CodeMasterServiceImpl.keywordNameList;

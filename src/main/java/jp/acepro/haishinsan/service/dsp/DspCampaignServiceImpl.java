@@ -136,8 +136,8 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		String resetTime = "00:00";
 
 		// 開始時刻と終了時刻のフォーマット
-		String startDateTime = dspCampaignDto.getStartDatetime() + " 00:00";
-		String endDateTime = dspCampaignDto.getEndDatetime() + " 23:30";
+		String startDateTime = dspCampaignDto.getStartDatetime() + " " + dspCampaignDto.getStartHour() + ":" + dspCampaignDto.getStartMin();
+		String endDateTime = dspCampaignDto.getEndDatetime() + " " + dspCampaignDto.getEndHour() + ":" + dspCampaignDto.getEndMin();
 
 		// templateIdでDBからDspテンプレート情報取得
 		DspTemplate dspTemplate = dspTemplateDao.selectById(dspCampaignDto.getTemplateId());
@@ -244,7 +244,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 				insertAdToDb(dspAdDto);
 			}
 		}
-		
+
 		// DBにキャンペーン情報登録
 		saveCampaign(dspCampaignDto);
 		return dspCampaignDto;
@@ -456,7 +456,9 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 	@Override
 	@Transactional
-	public void updateCampaign(Integer campaignId, String status) {
+	public void updateCampaign(Long issueId, String status) {
+
+		Issue issue = issueDao.selectById(issueId);
 
 		// Token取得
 		DspToken dspToken = dspApiService.getToken();
@@ -476,7 +478,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		// Req CampaignUpdate Body作成
 		DspCampaignUpdateReq dspCampaignUpdateReq = new DspCampaignUpdateReq();
-		dspCampaignUpdateReq.setId(campaignId);
+		dspCampaignUpdateReq.setId(issue.getDspCampaignId());
 		dspCampaignUpdateReq.setUser_id(ContextUtil.getCurrentShop().getDspUserId());
 		if (Flag.ON.getLabel().equals(status)) {
 			dspCampaignUpdateReq.setStatus(Flag.ON.getValue());
@@ -495,9 +497,8 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 
 		// システムDBを審査フラグを更新する
 		if (Flag.ON.getLabel().equals(status)) {
-			DspCampaignManage dspCampaignManage = dspCampaignCustomDao.selectByCampaignId(campaignId);
-			dspCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-			dspCampaignManageDao.update(dspCampaignManage);
+			issue.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+			issueDao.update(issue);
 		}
 	}
 
@@ -639,12 +640,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	}
 
 	@Override
-	@Transactional
 	public DspCampaignDto validate(DspCampaignDto dspCampaignDto) {
-		// クリエイティブ必須チェック
-		if (dspCampaignDto.getDspCreativeDtoList() == null || dspCampaignDto.getDspCreativeDtoList().size() == 0) {
-			throw new BusinessException(ErrorCodeConstant.E30005);
-		}
 
 		// 入力配信期間チェック
 		LocalDate startDate = LocalDate.parse(dspCampaignDto.getStartDatetime());
@@ -681,6 +677,15 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 	}
 
 	@Override
+	public void validateCreative(DspCampaignDto dspCampaignDto) {
+
+		// クリエイティブ必須チェック
+		if (dspCampaignDto.getDspCreativeDtoList() == null || dspCampaignDto.getDspCreativeDtoList().size() == 0) {
+			throw new BusinessException(ErrorCodeConstant.E30005);
+		}
+	}
+
+	@Override
 	@Transactional
 	public Long saveCampaign(DspCampaignDto dspCampaignDto) {
 
@@ -701,11 +706,11 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		// DBに案件情報登録
 		Issue issue = new Issue();
 		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-		issue.setDspCampaignManageId(dspCampaignManage.getDspCampaignManageId());
+		issue.setDspCampaignId(dspCampaignManage.getCampaignId());
 		issue.setCampaignName(dspCampaignDto.getCampaignName());
 		issue.setBudget(dspCampaignDto.getBudget().longValue());
-		issue.setStartDate(dspCampaignDto.getStartDatetime());
-		issue.setEndDate(dspCampaignDto.getEndDatetime());
+		issue.setStartDate(dspCampaignDto.getStartDatetime() + " " + dspCampaignDto.getStartHour() + ":" + dspCampaignDto.getStartMin());
+		issue.setEndDate(dspCampaignDto.getEndDatetime() + " " + dspCampaignDto.getEndHour() + ":" + dspCampaignDto.getEndMin());
 		issueDao.insert(issue);
 
 		// メール送信
@@ -719,7 +724,7 @@ public class DspCampaignServiceImpl extends BaseService implements DspCampaignSe
 		emailDto.setCampaignList(emailCampDetailDtoList);
 		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
 		emailService.sendEmail(emailDto);
-		
+
 		return issue.getIssueId();
 	}
 

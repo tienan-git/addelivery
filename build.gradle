@@ -1,12 +1,11 @@
 buildscript {
 	ext {
-	    domaVersion = '2.19.2'
+	    domaVersion = '2.19.3'
         flywayVersion = '5.0.7'
 		springBootVersion = '2.0.5.RELEASE'
 		lombokVersion = '1.18.2'
 	    mysqlVersion = '5.1.44'
         domaSpringBootVersion = '1.1.1'
-        domaVersion = '2.19.2'
         mapstructVersion = '1.1.0.Final'
         univocityVersion = '2.6.3'
         groupName = 'jp.acepro.haishinsan'
@@ -97,9 +96,10 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.2'
 	annotationProcessor "org.projectlombok:lombok:1.18.2"
 	
-	    compile "org.seasar.doma:doma:$domaVersion"
-    apt "org.seasar.doma:doma:$domaVersion"
-        domaGenRuntime "org.seasar.doma:doma-gen:$domaVersion"
+    // doma
+	compile "org.seasar.doma:doma:$domaVersion"
+    annotationProcessor "org.seasar.doma:doma:$domaVersion"
+    domaGenRuntime "org.seasar.doma:doma-gen:$domaVersion"
         
     // mapstruct
     compile "org.mapstruct:mapstruct-jdk8:${mapstructVersion}"
@@ -148,8 +148,8 @@ dependencies {
     compile 'com.google.api-ads:adwords-axis:4.1.0'
     compile 'com.google.http-client:google-http-client-jackson2:1.23.0'
     compile 'com.beust:jcommander:1.48'
-    compile 'log4j:log4j:1.2.17'
-    compile 'commons-logging:commons-logging:1.1.1'
+    //compile 'log4j:log4j:1.2.17'
+    //compile 'commons-logging:commons-logging:1.1.1'
     
     // Facebook
 	compile "com.facebook.business.sdk:facebook-java-business-sdk:3.3.0"
@@ -234,7 +234,6 @@ task zip(type: Zip, dependsOn: bootJar) {
     from('release') {
         include 'Dockerfile'
         include 'Dockerrun.aws.json'
-        include '.ebextensions/*'
     } 
 }
 
@@ -242,5 +241,47 @@ task zip(type: Zip, dependsOn: bootJar) {
 task zipAndCopy(type: Copy, dependsOn: zip) {
     from 'build/distributions'
     into 'release'
+    include '*.zip'    
+}
+
+/******************************
+*********　 PRE本番用   ***********
+*******************************/
+//デプロイ用ZIPファイル作成
+task zip4PreHonban(type: Zip, dependsOn: bootJar) {
+    from('build/libs') {
+        include '*.jar'
+    }
+    from('release-pre-honban') {
+        include 'Dockerfile'
+        include 'Dockerrun.aws.json'
+    } 
+}
+//デプロイ用ZIPファイル作成してから、releaseフォルダにコピーする
+task zipAndCopy4PreHonban(type: Copy, dependsOn: zip4PreHonban) {
+    from 'build/distributions'
+    into 'release-pre-honban'
+    include '*.zip'    
+}
+
+
+/******************************
+*********　 本番用   ***********
+*******************************/
+//デプロイ用ZIPファイル作成
+task zip4Production(type: Zip, dependsOn: bootJar) {
+    from('build/libs') {
+        include '*.jar'
+    }
+    from('release-production') {
+        include 'Dockerfile'
+        include 'Dockerrun.aws.json'
+        include '.ebextensions/*'
+    } 
+}
+//デプロイ用ZIPファイル作成してから、releaseフォルダにコピーする
+task zipAndCopy4Production(type: Copy, dependsOn: zip4Production) {
+    from 'build/distributions'
+    into 'release-production'
     include '*.zip'    
 }

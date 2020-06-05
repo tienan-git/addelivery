@@ -19,4 +19,6 @@ public interface GoogleReportService {
 
 	// CSVダウンロード
 	String download(GoogleReportSearchDto googleReportSearchDto);
+	
+    void adjustDailyBudget();
 }

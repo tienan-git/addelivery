@@ -26,7 +26,8 @@ public class MDCAspect {
 	@Autowired
 	HttpSession session;
 
-	@Before("execution(* jp.acepro.haishinsan.controller..*.*(..))" + " && !execution(* jp.acepro.haishinsan.controller.ReportApiController.*(..))")
+	@Before("execution(* jp.acepro.haishinsan.controller..*.*(..))"
+			+ " && !execution(* jp.acepro.haishinsan.controller.api..*.*(..))")
 	public void before(JoinPoint joinPoint) {
 
 		String userAgent = null;
@@ -43,11 +44,12 @@ public class MDCAspect {
 				ipAddress = request.getRemoteAddr();
 				log.trace("request RemoteAddr:{}", ipAddress);
 			} else {
-				ipAddress = ipAddress.contains(",") && ipAddress.split(",").length > 0 ? ipAddress.split(",")[0] : ipAddress;
+				ipAddress = ipAddress.contains(",") && ipAddress.split(",").length > 0 ? ipAddress.split(",")[0]
+						: ipAddress;
 			}
 
 		} else {
-			log.warn("ServletRequestAttributesが取れない？？可笑しい！？");
+			log.warn("ServletRequestAttributesが取れない");
 		}
 
 		MDCUtil.setUserAgent(userAgent);

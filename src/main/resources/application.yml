@@ -41,7 +41,7 @@ dsp:
   dspPassword: HYJHWPnBCpFNG
 
 twitter:
-  host: https://ads-api.twitter.com/4/accounts/
+  host: https://ads-api.twitter.com/5/accounts/
   previewHost: https://twitter.com/
   previewPath: /status/
   api:
@@ -52,7 +52,7 @@ twitter:
    promoteTweets: /promoted_tweets
    setTarget: /targeting_criteria
    searchTweetsTimline: /scoped_timeline
-   reporting: https://ads-api.twitter.com/4/stats/jobs/accounts/
+   reporting: https://ads-api.twitter.com/5/stats/jobs/accounts/
    
 image:
   dsp:
@@ -66,10 +66,10 @@ image:
     maxSize: 150000
     responsive:
       contentType: image/jpeg, image/png
-      dimensions: 300*300, 1200*628
+      dimensions: 1200*628, 300*300
     image:
       contentType: image/jpeg, image/png, image/gif
-      dimensions: 300*250, 320*50, 320*100, 728*90, 336*280, 468*60
+      dimensions: 300*250, 320*50, 728*90, 320*100
       gif:
         frames: 5
         playTime: 30
@@ -79,7 +79,7 @@ image:
     targeting:
       dimensions: 300*300, 1200*628, 300*250, 320*50, 320*100, 728*90, 468*60
   facebook:
-    dimensions: 500*500 #横*縦
+    dimensions: 1080*1080 #横*縦
 
 inputLength:
   title: 30
@@ -88,7 +88,7 @@ inputLength:
 
 email:
   sendFrom: haishinsan@ace-pro.com
-  admin: haishinsan@ace-pro.com
+  admin: beyond_3210@hotmail.com;paku.seimi@sparkworks.co.jp
   senderName: 配信さん
   encoding: UTF-8
   prefix: /templates/
@@ -104,6 +104,5 @@ csv-download:
 
 csv-upload:
   charset: Shift_JIS, UTF-8
-
 
 

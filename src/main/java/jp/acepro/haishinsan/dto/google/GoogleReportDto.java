@@ -9,7 +9,7 @@ public class GoogleReportDto {
 
 	// テーブル表示用
 	List<GoogleReportDisplayDto> googleReportDisplayDtoList;
-	
+
 	// グラフ表示用
 	List<GoogleReportDisplayDto> googleReportGraphDtoList;
 }

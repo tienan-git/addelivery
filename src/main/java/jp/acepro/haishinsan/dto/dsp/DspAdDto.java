@@ -7,8 +7,8 @@ public class DspAdDto {
 
 	Integer campaignId;
 	Integer adGroupId;
-	Integer	adId;
-	Integer	creativeId;
+	Integer adId;
+	Integer creativeId;
 	Integer deviceType;
-	
+
 }

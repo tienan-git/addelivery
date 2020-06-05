@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.service;
 
 import java.time.LocalDateTime;
+import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -16,7 +17,6 @@ import org.springframework.core.io.InputStreamSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -27,6 +27,7 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 import jp.acepro.haishinsan.ApplicationProperties;
 import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
+import jp.acepro.haishinsan.dto.yahoo.YahooImageDto;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.account.ShopService;
@@ -89,33 +90,40 @@ public class EmailServiceImpl implements EmailService {
 			String[] shopMailList = null;
 			String[] salesMailList = null;
 			String[] adminMailList = null;
-			if (ContextUtil.getCurrentShop().getShopMailList() != null && !"".equals(ContextUtil.getCurrentShop().getShopMailList().trim())) {
+			if (ContextUtil.getCurrentShop().getShopMailList() != null
+					&& !"".equals(ContextUtil.getCurrentShop().getShopMailList().trim())) {
 				shopMailList = ContextUtil.getCurrentShop().getShopMailList().replaceAll(" ", "").split(";");
 			}
-			if (ContextUtil.getCurrentShop().getSalesMailList() != null && !"".equals(ContextUtil.getCurrentShop().getSalesMailList().trim())) {
+			if (ContextUtil.getCurrentShop().getSalesMailList() != null
+					&& !"".equals(ContextUtil.getCurrentShop().getSalesMailList().trim())) {
 				salesMailList = ContextUtil.getCurrentShop().getSalesMailList().replaceAll(" ", "").split(";");
 			}
-			if (applicationProperties.getEmailAdmin() != null && !"".equals(applicationProperties.getEmailAdmin().trim())) {
+			if (applicationProperties.getEmailAdmin() != null
+					&& !"".equals(applicationProperties.getEmailAdmin().trim())) {
 				adminMailList = applicationProperties.getEmailAdmin().replaceAll(" ", "").split(";");
 			}
 
 			// メール内容編集
 			final MimeMessage mimeMessage = mailSender.createMimeMessage();
-			final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true /* multipart */, applicationProperties.getEmailEncoding());
-			message.setFrom(new InternetAddress(applicationProperties.getEmailSendFrom(), applicationProperties.getSenderName()));
+			final MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true /* multipart */,
+					applicationProperties.getEmailEncoding());
+			message.setFrom(new InternetAddress(applicationProperties.getEmailSendFrom(),
+					applicationProperties.getSenderName()));
 			// タイトルの設定
 			message.setSubject(title + "作成のお知らせ[案件ID: " + issueId + "]");
 
 			final String htmlContent = htmlTemplateEngine.process(templateName, ctx);
 			message.setText(htmlContent, true /* isHtml */);
 			// 添付ファイル
-			List<MultipartFile> attachmentList = emailDto.getAttachmentList();
-			if (Objects.nonNull(attachmentList) && !attachmentList.isEmpty()) {
-				for (MultipartFile attachment : attachmentList) {
-					final InputStreamSource attachmentSource = new ByteArrayResource(attachment.getBytes());
-					message.addAttachment(attachment.getOriginalFilename(), attachmentSource, attachment.getContentType());
-				}
+			List<YahooImageDto> attachmentList = emailDto.getAttachmentList();
 
+			if (Objects.nonNull(attachmentList) && !attachmentList.isEmpty()) {
+				for (YahooImageDto attachment : attachmentList) {
+
+					byte[] imgBytes = Base64.getDecoder().decode(attachment.getImageData());
+					final InputStreamSource attachmentSource = new ByteArrayResource(imgBytes);
+					message.addAttachment(attachment.getImageName(), attachmentSource, attachment.getContentType());
+				}
 			}
 
 			// Send mail to shop

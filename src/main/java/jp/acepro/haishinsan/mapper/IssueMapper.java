@@ -10,9 +10,9 @@ import jp.acepro.haishinsan.form.IssueInputForm;
 public interface IssueMapper {
 
 	IssueMapper INSTANCE = Mappers.getMapper(IssueMapper.class);
-	
+
 	// ＦＯＲＭからＤＴＯへ変換
-    //@Mapping(target = "startDate", source = "startDateFormat")
+	// @Mapping(target = "startDate", source = "startDateFormat")
 	IssueDto map(IssueInputForm issueInputForm);
-	
+
 }

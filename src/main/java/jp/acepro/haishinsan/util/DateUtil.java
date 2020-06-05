@@ -10,10 +10,8 @@ public class DateUtil {
 	/**
 	 * 2つの日付の差を求めます。 日付文字列 fromDate から toDate までが何日かを返します。
 	 * 
-	 * @param fromDate
-	 *            日付文字列 yyyy-MM-dd
-	 * @param toDate
-	 *            日付文字列 yyyy-MM-dd
+	 * @param fromDate 日付文字列 yyyy-MM-dd
+	 * @param toDate   日付文字列 yyyy-MM-dd
 	 * @return 経過日数
 	 * 
 	 */
@@ -30,10 +28,26 @@ public class DateUtil {
 	/**
 	 * 2つの日付の差を求めます。 日付文字列 fromDate から toDate までが何日かを返します。
 	 * 
-	 * @param fromDate
-	 *            日付文字列 yyyyMMdd
-	 * @param toDate
-	 *            日付文字列 yyyyMMdd
+	 * @param fromDate 日付文字列 yyyy-MM-dd HH:mm
+	 * @param toDate   日付文字列 yyyy-MM-dd HH:mm
+	 * @return 経過日数
+	 * 
+	 */
+	public static int distance_hyphenHHmm(String fromDate, String toDate) {
+
+		LocalDate localFromDate = DateFormatter.yyyyMMddHHmm_HYPHEN.parse(fromDate);
+		LocalDate localToDate = DateFormatter.yyyyMMddHHmm_HYPHEN.parse(toDate);
+		int days = (int) localFromDate.until(localToDate, ChronoUnit.DAYS);
+		days += 1;
+
+		return days;
+	}
+
+	/**
+	 * 2つの日付の差を求めます。 日付文字列 fromDate から toDate までが何日かを返します。
+	 * 
+	 * @param fromDate 日付文字列 yyyyMMdd
+	 * @param toDate   日付文字列 yyyyMMdd
 	 * @return 経過日数
 	 * 
 	 */
@@ -46,8 +60,7 @@ public class DateUtil {
 	/**
 	 * 日付文字列 yyyy-MM-ddをLocalDateにフォーマット
 	 * 
-	 * @param date
-	 *            日付文字列 yyyy-MM-dd
+	 * @param date 日付文字列 yyyy-MM-dd
 	 * @return LocalDate
 	 * 
 	 */

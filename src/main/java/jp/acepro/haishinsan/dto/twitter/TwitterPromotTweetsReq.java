@@ -7,10 +7,10 @@ import lombok.ToString;
 @Data
 public class TwitterPromotTweetsReq {
 
-	//グループID
+	// グループID
 	String line_item_id;
-	
-	//ツイートID
+
+	// ツイートID
 	String tweet_ids;
 
 }

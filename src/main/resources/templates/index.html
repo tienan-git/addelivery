@@ -4,130 +4,42 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
 	layout:decorator="layout">
 <head>
-	<style>
-		.button-wrap ul {
-			 display: flex;
-    		flex-direction: column;
-		}
-		.button-wrap li {
-		    width: 300px;
-		    margin: 20px auto;
-		    text-align: center;
-		    background: #6382c7;
-		    border-radius: 5px;
-		    padding: 20px 0;
-		    color: white !important;
-		    font-weight: bold;
-		}
-	</style>
+<style>
+.button-wrap ul {
+	display: flex;
+	flex-direction: column;
+}
+
+.button-wrap li {
+	width: 300px;
+	margin: 20px auto;
+	text-align: center;
+	background: #6382c7;
+	border-radius: 5px;
+	padding: 20px 0;
+	color: white !important;
+	font-weight: bold;
+}
+</style>
 </head>
 <body>
 	<div class="top-bar clearfix" layout:fragment="page_header_container">
-		<!-- <div class="page-header card">
-			<div class="row align-items-end">
-				<div class="col-lg-8">
-					<div class="page-header-title">
-						<i class="icofont icofont-map bg-c-pink"></i>
-						<div class="d-inline">
-							<h4>配信さんへようこそ！</h4>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-4">
-					<div class="page-header-breadcrumb"></div>
-				</div>
-			</div>
-		</div> -->
+
 		<div class="card">
 			<div class="button-wrap">
 				<ul class="breadcrumb-title">
-					<li><a style="color:white" class="button-link"
-						th:href="@{/creative/mediaSelection}">広告を配信する</a>
-					</li>
-					<li><a style="color:white" class="button-link"
-						 th:href="@{/issue/newIssueList}">配信レポートを見る</a>
-					</li>
-					<li	><a style="color:white" class="button-link" href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/manual.pdf" target="_blank">
-					           マニュアルをみる</a>
-					</li>
+					<li sec:authorize="hasAuthority('CAMPAIGN_CREATE_NEW')"><a style="color: white" class="button-link"
+						th:href="@{/campaign/mediaSelection}">広告を配信する</a></li>
+					<li sec:authorize="hasAuthority('ISSUE_LIST')"><a style="color: white" class="button-link"
+						th:href="@{/issue/issues/issueList}">配信レポートを見る</a></li>
+					<li sec:authorize="hasAuthority('SETTING_MANUAL')"><a style="color: white" class="button-link"
+						href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/manual.pdf"
+						target="_blank"> マニュアルをみる</a></li>
 				</ul>
 			</div>
 		</div>
 	</div>
-	<!--     <div class="main-container" layout:fragment="page_body_container">
-    		<div class="page-body">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-block">
-                            <div><a href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/manual.pdf" target="_blank">・マニュアル</a></div>
-                            <div><a href="https://s3-ap-northeast-1.amazonaws.com/haishinsan/provision.pdf" target="_blank">・入稿規定</a></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
-
-	<!-- Required Jquery -->
-	<script type="text/javascript"
-		src="/bower_components/jquery/js/jquery.min.js"
-		th:src="@{/bower_components/jquery/js/jquery.min.js}"></script>
-	<script type="text/javascript"
-		src="/bower_components/jquery-ui/js/jquery-ui.min.js"
-		th:src="@{/bower_components/jquery-ui/js/jquery-ui.min.js}"></script>
-	<script type="text/javascript"
-		src="/bower_components/popper.js/js/popper.min.js"
-		th:src="@{/bower_components/popper.js/js/popper.min.js}"></script>
-	<script type="text/javascript"
-		src="/bower_components/bootstrap/js/bootstrap.min.js"
-		th:src="@{/bower_components/bootstrap/js/bootstrap.min.js}"></script>
-	<!-- jquery slimscroll js -->
-	<script type="text/javascript"
-		src="/bower_components/jquery-slimscroll/js/jquery.slimscroll.js"
-		th:src="@{/bower_components/jquery-slimscroll/js/jquery.slimscroll.js}"></script>
-	<!-- modernizr js -->
-	<script type="text/javascript"
-		src="/bower_components/modernizr/js/modernizr.js"
-		th:src="@{/bower_components/modernizr/js/modernizr.js}"></script>
-	<!-- am chart -->
-	<script src="/assets/pages/widget/amchart/amcharts.min.js"
-		th:src="@{/pages/widget/amchart/amcharts.min.js}"></script>
-	<script src="/assets/pages/widget/amchart/serial.min.js"
-		th:src="@{/pages/widget/amchart/serial.min.js}"></script>
-	<!-- Chart js -->
-	<script type="text/javascript"
-		src="/bower_components/chart.js/js/Chart.js"
-		th:src="@{/bower_components/chart.js/js/Chart.js}"></script>
-	<!-- Todo js -->
-	<script type="text/javascript" src="/assets/pages/todo/todo.js "
-		th:src="@{/pages/todo/todo.js}"></script>
-	<!-- i18next.min.js -->
-	<script type="text/javascript"
-		src="/bower_components/i18next/js/i18next.min.js"
-		th:src="@{/bower_components/i18next/js/i18next.min.js}"></script>
-	<script type="text/javascript"
-		src="/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js"
-		th:src="@{/bower_components/i18next-xhr-backend/js/i18nextXHRBackend.min.js}"></script>
-	<script type="text/javascript"
-		src="/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js"
-		th:src="@{/bower_components/i18next-browser-languagedetector/js/i18nextBrowserLanguageDetector.min.js}"></script>
-	<script type="text/javascript"
-		src="/bower_components/jquery-i18next/js/jquery-i18next.min.js"
-		th:src="@{/bower_components/jquery-i18next/js/jquery-i18next.min.js}"></script>
-	<!-- Custom js -->
-	<script type="text/javascript"
-		src="/assets/pages/dashboard/custom-dashboard.min.js"
-		th:src="@{pages/dashboard/custom-dashboard.min.js}"></script>
-	<script type="text/javascript" src="/assets/js/SmoothScroll.js"
-		th:src="@{js/SmoothScroll.js}"></script>
-	<script src="/assets/js/pcoded.min.js" th:src="@{/js/pcoded.min.js}"></script>
-	<script src="/assets/js/demo-12.js" th:src="@{/js/demo-12.js}"></script>
-	<script src="/assets/js/jquery.mCustomScrollbar.concat.min.js"
-		th:src="@{/js/jquery.mCustomScrollbar.concat.min.js}"></script>
-	<script type="text/javascript" src="/assets/js/script.min.js"
-		th:src="@{/js/script.min.js}"></script>
 </body>
 
 </html>

@@ -7,10 +7,9 @@ import lombok.ToString;
 @Data
 public class TwitterCampaignIdReq {
 
-	 String id;
-	 String line_item_ids;
-	 String line_item_id;
-	 String campaign_ids;
-	 
-	 
+	String id;
+	String line_item_ids;
+	String line_item_id;
+	String campaign_ids;
+
 }

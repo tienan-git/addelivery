@@ -17,7 +17,7 @@ public enum Operation implements CodeEnum<String> {
 
 	ISSUE_CREATE("ISSUE_CREATE", "案件新規作成"), // 案件新規作成
 	ISSUE_LIST("ISSUE_LIST", "案件一覧"), // 案件一覧
-	
+
 	GOOGLE_CAMPAIGN_CREATE("GOOGLE_CAMPAIGN_CREATE", "GOOGLEキャンペーン新規作成"), // GOOGLEキャンペーン新規作成
 	GOOGLE_CAMPAIGN_STATUS_UPDATE("GOOGLE_CAMPAIGN_STATUS_UPDATE", "GOOGLEキャンペーンステータス更新"), // GOOGLEキャンペーンステータス更新
 	GOOGLE_CAMPAIGN_DELETE("GOOGLE_CAMPAIGN_DELETE", "GOOGLEキャンペーン削除"), // GOOGLEキャンペーン新規作成
@@ -112,9 +112,10 @@ public enum Operation implements CodeEnum<String> {
 	DSP_CREATIVE_DELETE("DSP_CREATIVE_DELETE", "DSPクリエイティブ削除"), // DSPクリエイティブ削除
 	DSP_CREATIVE_LIST("DSP_CREATIVE_LIST", "DSPクリエイティブ一覧"), // DSPクリエイティブ一覧
 	DSP_CREATIVE_VIEW("DSP_CREATIVE_VIEW", "DSPクリエイティブ照会"), // DSPクリエイティブ照会
+	DSP_CREATIVE_UPDATE("DSP_CREATIVE_UPDATE", "DSPクリエイティブ更新"), // DSPクリエイティブ更新
 
 	DSP_CAMPAIGN_CREATE("DSP_CAMPAIGN_CREATE", "DSPキャンペーン新規作成"), // DSPキャンペーン新規作成
-	DSP_CAMPAIGN_UPDATE("DSP_CAMPAIGN_UPDATE", "DSPキャンペーン削除"), // DSPキャンペーン削除
+	DSP_CAMPAIGN_UPDATE("DSP_CAMPAIGN_UPDATE", "DSPキャンペーン更新"), // DSPキャンペーン更新
 	DSP_CAMPAIGN_LIST("DSP_CAMPAIGN_LIST", "DSPキャンペーン一覧"), // DSPキャンペーン一覧
 	DSP_CAMPAIGN_VIEW("DSP_CAMPAIGN_VIEW", "DSPキャンペーン照会"), // DSPキャンペーン照会
 	DSP_CAMPAIGN_DELETE("DSP_CAMPAIGN_DELETE", "DSPキャンペーン削除"), // DSPキャンペーン削除
@@ -123,20 +124,20 @@ public enum Operation implements CodeEnum<String> {
 	DSP_REPORT_VIEW("DSP_REPORT_VIEW", "DSPレポート照会"), // DSPレポート照会
 	DSP_SEGMENT_REPORT_DOWNLOAD("DSP_SEGMENT_REPORT_DOWNLOAD", "DSPセグメントレポートダウンロード"), // DSPセグメントレポートダウンロード
 	DSP_REPORT_DOWNLOAD("DSP_REPORT_DOWNLOAD", "DSPレポートダウンロード"), // DSPレポートダウンロード
-	
+
 	YAHOO_CAMPAIGN_VIEW("YAHOO_CAMPAIGN_VIEW", "YAHOO案件依頼の照会"), // YAHOO案件依頼の照会
 	YAHOO_CAMPAIGN_REQUEST("YAHOO_CAMPAIGN_REQUEST", "YAHOO案件依頼の作成"), // YAHOO案件依頼の作成
 	YAHOO_CAMPAIGN_UPDATE("YAHOO_CAMPAIGN_UPDATE", "YAHOO案件依頼の更新"), // YAHOO案件依頼の更新
 	YAHOO_CAMPAIGN_DELETE("YAHOO_CAMPAIGN_DELETE", "YAHOO案件依頼の削除"), // YAHOO案件依頼の削除
 	YAHOO_CSV_UPLOAD("YAHOO_CSV_UPLOAD", "YAHOOキャンペインCSVのアップロード"), // YAHOOキャンペインCSVのアップロード
-	
+
 	YAHOO_DEVICE_REPORT_VIEW("YAHOO_DEVICE_REPORT_VIEW", "YAHOOデバイス別レポート照会"), // YAHOOデバイス別レポート照会
 	YAHOO_REGION_REPORT_VIEW("YAHOO_REGION_REPORT_VIEW", "YAHOO地域別レポート照会"), // YAHOO地域別レポート照会
 	YAHOO_DATE_REPORT_VIEW("YAHOO_DATE_REPORT_VIEW", "YAHOO日別レポート照会"), // YAHOO日別レポート照会
 	YAHOO_DEVICE_REPORT_DOWNLOAD("YAHOO_DEVICE_REPORT_DOWNLOAD", "YAHOOデバイス別レポートダウンロード"), // YAHOOデバイス別レポートダウンロード
 	YAHOO_REGION_REPORT_DOWNLOAD("YAHOO_REGION_REPORT_DOWNLOAD", "YAHOO地域別レポートダウンロード"), // YAHOO地域別レポートダウンロード
 	YAHOO_DATE_REPORT_DOWNLOAD("YAHOO_DATE_REPORT_DOWNLOAD", "YAHOO日別レポートダウンロード"), // YAHOO日別レポートダウンロード
-	
+
 	GET_DSP_REPORT_RAWDATA("GET_DSP_REPORT_RAWDATA", "レポート生データ取得"), // DSPレポート生データ取得
 	GET_GOOGLE_REPORT_RAWDATA("GET_GOOGLE_REPORT_RAWDATA", "レポート生データ取得"), // Googleレポート生データ取得
 	GET_FACEBOOK_REPORT_RAWDATA("GET_FACEBOOK_REPORT_RAWDATA", "レポート生データ取得"), // Facebookレポート生データ取得

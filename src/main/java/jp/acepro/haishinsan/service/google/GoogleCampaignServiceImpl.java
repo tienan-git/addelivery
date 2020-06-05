@@ -1,6 +1,7 @@
 package jp.acepro.haishinsan.service.google;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,23 +25,28 @@ import jp.acepro.haishinsan.dao.GoogleCampaignManageCustomDao;
 import jp.acepro.haishinsan.dao.GoogleCampaignManageDao;
 import jp.acepro.haishinsan.dao.IssueCustomDao;
 import jp.acepro.haishinsan.dao.IssueDao;
-import jp.acepro.haishinsan.db.entity.FacebookCampaignManage;
 import jp.acepro.haishinsan.db.entity.GoogleCampaignManage;
 import jp.acepro.haishinsan.db.entity.Issue;
 import jp.acepro.haishinsan.dto.EmailCampDetailDto;
 import jp.acepro.haishinsan.dto.EmailDto;
 import jp.acepro.haishinsan.dto.IssueDto;
-import jp.acepro.haishinsan.dto.facebook.FbCampaignDto;
+import jp.acepro.haishinsan.dto.facebook.FbIssueDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDetailDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignDto;
 import jp.acepro.haishinsan.dto.google.GoogleCampaignInfoDto;
+import jp.acepro.haishinsan.dto.google.GoogleIssueDto;
 import jp.acepro.haishinsan.enums.ApprovalFlag;
+import jp.acepro.haishinsan.enums.CheckStatus;
 import jp.acepro.haishinsan.enums.DeviceType;
 import jp.acepro.haishinsan.enums.EmailTemplateType;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.enums.GoogleAdType;
 import jp.acepro.haishinsan.enums.MediaCollection;
 import jp.acepro.haishinsan.exception.BusinessException;
+import jp.acepro.haishinsan.form.GoogleBannerAdIssueForm;
+import jp.acepro.haishinsan.form.GoogleBannerTextAdIssueForm;
+import jp.acepro.haishinsan.form.GoogleIssueInputForm;
+import jp.acepro.haishinsan.form.GoogleTextAdIssueForm;
 import jp.acepro.haishinsan.service.CodeMasterService;
 import jp.acepro.haishinsan.service.CodeMasterServiceImpl;
 import jp.acepro.haishinsan.service.EmailService;
@@ -54,7 +60,7 @@ import jp.acepro.haishinsan.service.google.api.GetCampaigns;
 import jp.acepro.haishinsan.service.google.api.GetExpandedTextAds;
 import jp.acepro.haishinsan.service.google.api.GetImageAd;
 import jp.acepro.haishinsan.service.google.api.GetResponsiveDisplayAd;
-import jp.acepro.haishinsan.service.google.api.UpdateCampaign;
+import jp.acepro.haishinsan.service.google.api.UpdateCampaignStatus;
 import jp.acepro.haishinsan.util.CalculateUtil;
 import jp.acepro.haishinsan.util.ContextUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -94,7 +100,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	// キャンペーン新規作成（API経由）
 	@Override
 	@Transactional
-	public void createCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto) {
+	public Long createCampaign(GoogleCampaignDto googleCampaignDto, IssueDto issueDto) {
 
 		// Get Keyword List
 		if (CodeMasterServiceImpl.keywordNameList == null) {
@@ -108,7 +114,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// 例外処理
 		// 配信期間チェック
-		LocalDate startDate = LocalDate.parse(googleCampaignDto.getStartDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+		LocalDate startDate = LocalDate.parse(googleCampaignDto.getStartDate(),
+				DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		LocalDate endDate = LocalDate.parse(googleCampaignDto.getEndDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 		if (startDate.isAfter(endDate)) {
 			// 配信期間の開始日と終了日を確認してください。
@@ -121,8 +128,8 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			throw new BusinessException(ErrorCodeConstant.E70003);
 		}
 
-		log.debug("キャンペーン新規作成開始----------------------------");
-		log.debug("キャンペーン新規作成用パラメータ: {}", googleCampaignDto);
+		//log.debug("キャンペーン新規作成開始----------------------------");
+		//log.debug("キャンペーン新規作成用パラメータ: {}", googleCampaignDto);
 		// キャンプーン作成
 		AddCampaign addCampaign = new AddCampaign();
 		addCampaign.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
@@ -136,6 +143,9 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		addAdGroups.googleCampaignDto = googleCampaignDto;
 		addAdGroups.run();
 
+		// キャンペーンDB登録
+		GoogleCampaignManage googleCampaignManage = new GoogleCampaignManage();
+
 		// 広告作成（２つの広告グループに同じ広告を作成）
 		switch (GoogleAdType.of(googleCampaignDto.getAdType())) {
 		case RESPONSIVE:
@@ -145,6 +155,15 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			addMultiAssetResponsiveDisplayAd.newAdGroupUser = addAdGroups.newAdGroupUser;
 			addMultiAssetResponsiveDisplayAd.newAdGroupKeyword = addAdGroups.newAdGroupKeyword;
 			addMultiAssetResponsiveDisplayAd.run();
+			if (addMultiAssetResponsiveDisplayAd.imageUrls.size() >= 1) {
+				googleCampaignManage.setImage1Url(addMultiAssetResponsiveDisplayAd.imageUrls.get(0));
+			}
+			if (addMultiAssetResponsiveDisplayAd.imageUrls.size() >= 2) {
+				googleCampaignManage.setImage2Url(addMultiAssetResponsiveDisplayAd.imageUrls.get(1));
+			}
+			googleCampaignManage.setTitle1(googleCampaignDto.getResAdShortTitle());
+			googleCampaignManage.setDescription(googleCampaignDto.getResAdDescription());
+			googleCampaignManage.setLinkUrl(googleCampaignDto.getResAdFinalPageUrl());
 			break;
 		case IMAGE:
 			AddImageAd addImageAd = new AddImageAd();
@@ -153,6 +172,19 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			addImageAd.newAdGroupUser = addAdGroups.newAdGroupUser;
 			addImageAd.newAdGroupKeyword = addAdGroups.newAdGroupKeyword;
 			addImageAd.run();
+			if (addImageAd.imageUrls.size() >= 1) {
+				googleCampaignManage.setImage1Url(addImageAd.imageUrls.get(0));
+			}
+			if (addImageAd.imageUrls.size() >= 2) {
+				googleCampaignManage.setImage2Url(addImageAd.imageUrls.get(1));
+			}
+			if (addImageAd.imageUrls.size() >= 3) {
+				googleCampaignManage.setImage3Url(addImageAd.imageUrls.get(2));
+			}
+			if (addImageAd.imageUrls.size() >= 4) {
+				googleCampaignManage.setImage4Url(addImageAd.imageUrls.get(3));
+			}
+			googleCampaignManage.setLinkUrl(googleCampaignDto.getImageAdFinalPageUrl());
 			break;
 		case TEXT:
 			AddExpandedTextAds addExpandedTextAds = new AddExpandedTextAds();
@@ -161,54 +193,25 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			addExpandedTextAds.newAdGroupUser = addAdGroups.newAdGroupUser;
 			addExpandedTextAds.newAdGroupKeyword = addAdGroups.newAdGroupKeyword;
 			addExpandedTextAds.run();
+			googleCampaignManage.setTitle1(googleCampaignDto.getTextAdTitle1());
+			googleCampaignManage.setTitle2(googleCampaignDto.getTextAdTitle2());
+			googleCampaignManage.setDescription(googleCampaignDto.getTextAdDescription());
+			googleCampaignManage.setLinkUrl(googleCampaignDto.getTextAdFinalPageUrl());
 			break;
 		}
 
-		// キャンペーンDB登録
-		GoogleCampaignManage googleCampaignManage = new GoogleCampaignManage();
 		googleCampaignManage.setCampaignId(addCampaign.newCampaign.getId());
+		googleCampaignManage.setShopId(ContextUtil.getCurrentShop().getShopId());
 		googleCampaignManage.setCampaignName(addCampaign.newCampaign.getName());
-		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
-			// 営業チェックが必要有りの場合
-			googleCampaignManage.setApprovalFlag(ApprovalFlag.WAITING.getValue());
-		} else {
-			// 営業チェックが必要無しの場合
-			googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-		}
-		googleCampaignManage.setRegions(googleCampaignDto.getLocationList().toString().replace("[", "").replace("]", ""));
+		googleCampaignManage
+				.setRegions(googleCampaignDto.getLocationList().toString().replace("[", "").replace("]", ""));
 		googleCampaignManage.setAdType(googleCampaignDto.getAdType());
 		googleCampaignManage.setBudget(googleCampaignDto.getBudget());
 		googleCampaignManageDao.insert(googleCampaignManage);
 		googleCampaignDto.setCampaignId(addCampaign.newCampaign.getId());
 
-		// 案件DB登録
-		Issue issue = new Issue();
-		if (issueDto == null) {
-			issue.setShopId(ContextUtil.getCurrentShop().getShopId());
-			issue.setGoogleCampaignManageId(googleCampaignManage.getGoogleCampaignManageId());
-			issue.setCampaignName(googleCampaignDto.getCampaignName());
-			issue.setBudget(CalculateUtil.calTotalBudget(googleCampaignDto.getBudget(), googleCampaignDto.getStartDate(), googleCampaignDto.getEndDate()));
-			issue.setStartDate(googleCampaignDto.getStartDate());
-			issue.setEndDate(googleCampaignDto.getEndDate());
-			issueDao.insert(issue);
-		} else {
-			issueDto.setGoogleCampaignManageId(googleCampaignManage.getGoogleCampaignManageId());
-		}
-
-		// メール送信
-		EmailDto emailDto = new EmailDto();
-		emailDto.setIssueId(issue.getIssueId());
-		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
-		emailCampDetailDto.setMediaType(MediaCollection.GOOGLE.getValue());
-		emailCampDetailDto.setCampaignId(String.valueOf(googleCampaignManage.getCampaignId()));
-		emailCampDetailDto.setCampaignName(googleCampaignManage.getCampaignName());
-		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
-		emailCampDetailDtoList.add(emailCampDetailDto);
-		emailDto.setCampaignList(emailCampDetailDtoList);
-		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
-		emailService.sendEmail(emailDto);
-
-		log.debug("キャンペーン新規作成完了----------------------------");
+		return googleCampaignManage.getCampaignId();
+		//log.debug("キャンペーン新規作成完了----------------------------");
 	}
 
 	// キャンペーン状態変更（API経由）
@@ -217,19 +220,37 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	public void updateCampaignStatus(Long campaignId, String switchFlag) {
 
 		// キャンペーン情報更新（API経由）
-		UpdateCampaign updateCampaign = new UpdateCampaign();
-		updateCampaign.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
-		updateCampaign.run(campaignId, switchFlag);
+		UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
+		updateCampaignStatus.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+		updateCampaignStatus.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
+		updateCampaignStatus.run(campaignId, switchFlag);
 
 		// キャンペーン情報更新（DB）
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
-		if (googleCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
-			// 承認フラグ設定
-			if (switchFlag.equals("ON")) {
-				googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
-				googleCampaignManageDao.update(googleCampaignManage);
-			}
-		}
+//		if (googleCampaignManage.getApprovalFlag().equals(ApprovalFlag.WAITING.getValue())) {
+//			// 承認フラグ設定
+//			if (switchFlag.equals("ON")) {
+//				//googleCampaignManage.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+//				googleCampaignManageDao.update(googleCampaignManage);
+//			}
+//		}
+
+	}
+
+	// 案件審査状態変更
+	@Override
+	@Transactional
+	public void updateIssueCheckStatus(Long issueId, String switchFlag) {
+
+		// DBから案件を取得する
+		Issue issue = issueDao.selectById(issueId);
+
+        if (switchFlag.equals("ON")) {
+        	issue.setApprovalFlag(ApprovalFlag.COMPLETED.getValue());
+        } else {
+        	issue.setApprovalFlag(ApprovalFlag.WAITING.getValue());
+        }
+		issueDao.update(issue);
 
 	}
 
@@ -242,9 +263,12 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 
 		// キャンペーン情報取得（DBから）
 		List<Issue> issueList = issueCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
-		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignManageId() != null).map(obj -> obj.getGoogleCampaignManageId()).collect(Collectors.toList());
-		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao.selectByCampaignManageIdList(campaignManageIdList);
-		List<Long> campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId()).collect(Collectors.toList());
+		List<Long> campaignManageIdList = issueList.stream().filter(obj -> obj.getGoogleCampaignId() != null)
+				.map(obj -> obj.getGoogleCampaignId()).collect(Collectors.toList());
+		List<GoogleCampaignManage> googleCampaignManageList = googleCampaignManageCustomDao
+				.selectByCampaignManageIdList(campaignManageIdList);
+		List<Long> campaignIdList = googleCampaignManageList.stream().map(obj -> obj.getCampaignId())
+				.collect(Collectors.toList());
 
 		if (campaignIdList.size() > 0) {
 
@@ -262,19 +286,20 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 				GoogleCampaignInfoDto googleCampaignInfoDto = new GoogleCampaignInfoDto();
 				Campaign campaign = new Campaign();
 				if (campaignList.size() > 0) {
-					campaign = campaignList.stream().filter(obj -> obj.getId().equals(googleCampaignManage.getCampaignId())).findFirst().get();
+					campaign = campaignList.stream()
+							.filter(obj -> obj.getId().equals(googleCampaignManage.getCampaignId())).findFirst().get();
 					googleCampaignInfoDto.setStartDate(campaign.getStartDate());
 					googleCampaignInfoDto.setEndDate(campaign.getEndDate());
 					googleCampaignInfoDto.setCampaignStatus(campaign.getStatus().toString());
 					googleCampaignInfoDto.setCampaignName(campaign.getName());
 					googleCampaignInfoDto.setAdType(googleCampaignManage.getAdType());
-					googleCampaignInfoDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
+					//googleCampaignInfoDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
 					googleCampaignInfoDto.setCampaignId(googleCampaignManage.getCampaignId());
 					googleCampaignInfoDtoList.add(googleCampaignInfoDto);
 				}
 			}
 		}
-		log.debug("googleCampaignInfoDtoList : {}", googleCampaignInfoDtoList);
+		//log.debug("googleCampaignInfoDtoList : {}", googleCampaignInfoDtoList);
 		return googleCampaignInfoDtoList;
 	}
 
@@ -304,7 +329,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		campaignCriterionList = getCampaigns.campaignCriterionList;
 
 		// 承認フラグ設定
-		googleCampaignDetailDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
+		//googleCampaignDetailDto.setApprovalFlag(googleCampaignManage.getApprovalFlag());
 		// キャンペーンステータス
 		googleCampaignDetailDto.setCampaignStatus(campaign.getStatus().getValue());
 		// キャンペーンスID設定
@@ -369,6 +394,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		GetAdGroups getAdGroups = new GetAdGroups();
 		getAdGroups.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 		getAdGroups.campaignId = getCampaigns.campaignIdList.get(0);
+		getAdGroups.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 		getAdGroups.run();
 		// ---------広告グループ取得API実行
 
@@ -380,6 +406,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			GetResponsiveDisplayAd getResponsiveDisplayAd = new GetResponsiveDisplayAd();
 			getResponsiveDisplayAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 			getResponsiveDisplayAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+			getResponsiveDisplayAd.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 			getResponsiveDisplayAd.run();
 			ResponsiveDisplayAd responsiveDisplayAd = new ResponsiveDisplayAd();
 			responsiveDisplayAd = getResponsiveDisplayAd.responsiveDisplayAdList.get(0);
@@ -395,6 +422,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			GetImageAd getImageAd = new GetImageAd();
 			getImageAd.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 			getImageAd.adGroupId = getAdGroups.adGroupIdList.get(0);
+			getImageAd.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 			getImageAd.run();
 			List<String> imgAdUrlList = new ArrayList<String>();
 			for (ImageAd imageAd : getImageAd.imageAdList) {
@@ -409,6 +437,7 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 			GetExpandedTextAds getExpandedTextAds = new GetExpandedTextAds();
 			getExpandedTextAds.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
 			getExpandedTextAds.adGroupId = getAdGroups.adGroupIdList.get(0);
+			getExpandedTextAds.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
 			getExpandedTextAds.run();
 			ExpandedTextAd expandedTextAd = new ExpandedTextAd();
 			expandedTextAd = getExpandedTextAds.expandedTextAdList.get(0);
@@ -429,9 +458,10 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 	public void deleteCampaign(Long campaignId) {
 
 		// キャンペーン情報更新（API経由）
-		UpdateCampaign updateCampaign = new UpdateCampaign();
-		updateCampaign.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
-		updateCampaign.run(campaignId, "OFF");
+		UpdateCampaignStatus updateCampaignStatus = new UpdateCampaignStatus();
+		updateCampaignStatus.propFileName = "ads-" + applicationProperties.getActive() + ".properties";
+		updateCampaignStatus.googleAccountId = ContextUtil.getCurrentShop().getGoogleAccountId();
+		updateCampaignStatus.run(campaignId, "OFF");
 
 		// キャンペーン情報更新（DB）
 		GoogleCampaignManage googleCampaignManage = googleCampaignManageCustomDao.selectByCampaignId(campaignId);
@@ -447,34 +477,231 @@ public class GoogleCampaignServiceImpl implements GoogleCampaignService {
 		// DBから該当店舗所有するキャンペーンをすべて取得して、リストとして返却
 		return googleCampaignManageCustomDao.selectByShopIdAndAdType(ContextUtil.getCurrentShop().getShopId(), adType);
 	}
-	
+
 	@Override
 	@Transactional
 	public List<GoogleCampaignDto> campaignList(List<GoogleCampaignManage> googleCampaignManageList) {
 
 		List<GoogleCampaignDto> googleCampaignDtoList = new ArrayList<GoogleCampaignDto>();
 
-		if (googleCampaignDtoList.size() == 0) {
+		if (googleCampaignManageList == null || googleCampaignManageList.size() == 0) {
 			return googleCampaignDtoList;
 		}
 
 		for (GoogleCampaignManage googleCampaignManage : googleCampaignManageList) {
-			GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
-			googleCampaignDto.setCampaignId(googleCampaignManage.getCampaignId());
-			googleCampaignDto.setCampaignName(googleCampaignManage.getCampaignName());
-			googleCampaignDto.setImage1Url(googleCampaignManage.getImage1Url());
-			googleCampaignDto.setImage2Url(googleCampaignManage.getImage2Url());
-			googleCampaignDto.setImage3Url(googleCampaignManage.getImage3Url());
-			googleCampaignDto.setImage4Url(googleCampaignManage.getImage4Url());
-			googleCampaignDto.setAdTitle1(googleCampaignManage.getTitle1());
-			googleCampaignDto.setAdTitle2(googleCampaignManage.getTitle2());
-			googleCampaignDto.setAdDescription(googleCampaignManage.getDescription());
-			googleCampaignDto.setLinkUrl(googleCampaignManage.getLinkUrl());
+			// 審査状態判断 1:審査済のキャンペーンを表示させる
+			if (googleCampaignManage.getCheckStatus() != null && CheckStatus.PREAPPROVED.getValue().equals(googleCampaignManage.getCheckStatus())) {
+				GoogleCampaignDto googleCampaignDto = new GoogleCampaignDto();
+				googleCampaignDto.setCampaignId(googleCampaignManage.getCampaignId());
+				googleCampaignDto.setCampaignName(googleCampaignManage.getCampaignName());
+				googleCampaignDto.setImage1Url(googleCampaignManage.getImage1Url());
+				googleCampaignDto.setImage2Url(googleCampaignManage.getImage2Url());
+				googleCampaignDto.setImage3Url(googleCampaignManage.getImage3Url());
+				googleCampaignDto.setImage4Url(googleCampaignManage.getImage4Url());
+				googleCampaignDto.setAdTitle1(googleCampaignManage.getTitle1());
+				googleCampaignDto.setAdTitle2(googleCampaignManage.getTitle2());
+				googleCampaignDto.setAdDescription(googleCampaignManage.getDescription());
+				googleCampaignDto.setLinkUrl(googleCampaignManage.getLinkUrl());
 
-			googleCampaignDtoList.add(googleCampaignDto);
+				googleCampaignDtoList.add(googleCampaignDto);
+			}
 		}
 
 		return googleCampaignDtoList;
 
+	}
+
+	@Override
+	@Transactional
+	public Issue createIssue(GoogleIssueDto googleIssueDto) {
+
+		// 審査状態を設定
+		ApprovalFlag approvalFlag = ApprovalFlag.COMPLETED;
+		if (Flag.ON.getValue().toString().equals(ContextUtil.getCurrentShop().getSalesCheckFlag())) {
+			// 営業チェックが必要な場合、審査状態を承認待ちにする
+			approvalFlag = ApprovalFlag.WAITING;
+		}
+
+		// 案件DB登録
+		Issue issue = new Issue();
+        String startTime = googleIssueDto.getStartTime() + " " + googleIssueDto.getStartHour() + ":"
+                + googleIssueDto.getStartMin();
+        String endTime = googleIssueDto.getEndTime() + " " + googleIssueDto.getEndHour() + ":"
+                + googleIssueDto.getEndMin();
+
+		issue.setShopId(ContextUtil.getCurrentShop().getShopId());
+		issue.setGoogleCampaignId(googleIssueDto.getCampaignId());
+		issue.setCampaignName(googleIssueDto.getCampaignName());
+		issue.setUnitPriceType(googleIssueDto.getUnitPriceType());
+		issue.setBudget(CalculateUtil.calTotalBudget(googleIssueDto.getBudget(), startTime,
+				endTime));
+		issue.setStartDate(startTime);
+		issue.setEndDate(endTime);
+		issue.setGoogleOnedayBudget(googleIssueDto.getBudget());
+		issue.setGoogleRegions(assembleLocationString(googleIssueDto.getLocationList()));
+		issue.setApprovalFlag(approvalFlag.getValue());
+		issueDao.insert(issue);
+
+		// メール送信
+		EmailDto emailDto = new EmailDto();
+		emailDto.setIssueId(issue.getIssueId());
+		EmailCampDetailDto emailCampDetailDto = new EmailCampDetailDto();
+		emailCampDetailDto.setMediaType(MediaCollection.GOOGLE.getValue());
+		emailCampDetailDto.setCampaignName(googleIssueDto.getCampaignName());
+		List<EmailCampDetailDto> emailCampDetailDtoList = new ArrayList<EmailCampDetailDto>();
+		emailCampDetailDtoList.add(emailCampDetailDto);
+		emailDto.setCampaignList(emailCampDetailDtoList);
+		emailDto.setTemplateType(EmailTemplateType.CAMPAIGN.getValue());
+		emailService.sendEmail(emailDto);
+
+		return issue;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleIssueInputForm googleIssueInputForm) {
+		if (googleIssueInputForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleIssueInputForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleIssueInputForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleIssueInputForm.getBudget());
+		googleIssueDto.setEndDate(googleIssueInputForm.getEndDate());
+		googleIssueDto.setStartTime(googleIssueInputForm.getStartTime());
+		googleIssueDto.setStartHour(googleIssueInputForm.getStartHour());
+		googleIssueDto.setStartMin(googleIssueInputForm.getStartMin());
+		googleIssueDto.setEndTime(googleIssueInputForm.getEndTime());
+		googleIssueDto.setEndHour(googleIssueInputForm.getEndHour());
+		googleIssueDto.setEndMin(googleIssueInputForm.getEndMin());
+		List<Long> list = googleIssueInputForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleIssueInputForm.getStartDate());
+		return googleIssueDto;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleBannerAdIssueForm googleBannerAdIssueForm) {
+		if (googleBannerAdIssueForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleBannerAdIssueForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleBannerAdIssueForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleBannerAdIssueForm.getBudget());
+		googleIssueDto.setEndDate(googleBannerAdIssueForm.getEndDate());
+		googleIssueDto.setStartTime(googleBannerAdIssueForm.getStartTime());
+		googleIssueDto.setStartHour(googleBannerAdIssueForm.getStartHour());
+		googleIssueDto.setStartMin(googleBannerAdIssueForm.getStartMin());
+		googleIssueDto.setEndTime(googleBannerAdIssueForm.getEndTime());
+		googleIssueDto.setEndHour(googleBannerAdIssueForm.getEndHour());
+		googleIssueDto.setEndMin(googleBannerAdIssueForm.getEndMin());
+		List<Long> list = googleBannerAdIssueForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleBannerAdIssueForm.getStartDate());
+		return googleIssueDto;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleBannerTextAdIssueForm googleBannerTextAdIssueForm) {
+		if (googleBannerTextAdIssueForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleBannerTextAdIssueForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleBannerTextAdIssueForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleBannerTextAdIssueForm.getBudget());
+		googleIssueDto.setEndDate(googleBannerTextAdIssueForm.getEndDate());
+		googleIssueDto.setStartTime(googleBannerTextAdIssueForm.getStartTime());
+		googleIssueDto.setStartHour(googleBannerTextAdIssueForm.getStartHour());
+		googleIssueDto.setStartMin(googleBannerTextAdIssueForm.getStartMin());
+		googleIssueDto.setEndTime(googleBannerTextAdIssueForm.getEndTime());
+		googleIssueDto.setEndHour(googleBannerTextAdIssueForm.getEndHour());
+		googleIssueDto.setEndMin(googleBannerTextAdIssueForm.getEndMin());
+		List<Long> list = googleBannerTextAdIssueForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleBannerTextAdIssueForm.getStartDate());
+		return googleIssueDto;
+	}
+
+	@Override
+	@Transactional
+	public GoogleIssueDto mapToIssue(GoogleTextAdIssueForm googleTextAdIssueForm) {
+		if (googleTextAdIssueForm == null) {
+			return null;
+		}
+
+		GoogleIssueDto googleIssueDto = new GoogleIssueDto();
+		googleIssueDto.setCampaignName(googleTextAdIssueForm.getCampaignName());
+		googleIssueDto.setUnitPriceType(googleTextAdIssueForm.getUnitPriceType());
+		googleIssueDto.setBudget(googleTextAdIssueForm.getBudget());
+		googleIssueDto.setEndDate(googleTextAdIssueForm.getEndDate());
+		googleIssueDto.setStartTime(googleTextAdIssueForm.getStartTime());
+		googleIssueDto.setStartHour(googleTextAdIssueForm.getStartHour());
+		googleIssueDto.setStartMin(googleTextAdIssueForm.getStartMin());
+		googleIssueDto.setEndTime(googleTextAdIssueForm.getEndTime());
+		googleIssueDto.setEndHour(googleTextAdIssueForm.getEndHour());
+		googleIssueDto.setEndMin(googleTextAdIssueForm.getEndMin());
+		List<Long> list = googleTextAdIssueForm.getLocationList();
+		if (list != null) {
+			googleIssueDto.setLocationList(new ArrayList<Long>(list));
+		}
+		googleIssueDto.setStartDate(googleTextAdIssueForm.getStartDate());
+		return googleIssueDto;
+	}
+
+    // 配信日チェック
+    @Override
+    public void dailyCheck(GoogleIssueDto googleIssueDto) {
+
+        String startTime = googleIssueDto.getStartTime() + " " + googleIssueDto.getStartHour() + ":"
+                + googleIssueDto.getStartMin();
+        String endTime = googleIssueDto.getEndTime() + " " + googleIssueDto.getEndHour() + ":"
+                + googleIssueDto.getEndMin();        
+    	LocalDateTime startDate = LocalDateTime.parse(startTime,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+    	LocalDateTime endDate = LocalDateTime.parse(endTime,
+                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
+        //LocalDate startDate = LocalDate.parse(googleIssueDto.getStartTime());
+        //LocalDate endDate = LocalDate.parse(googleIssueDto.getEndTime());
+        if (endDate.isBefore(startDate)) {
+            throw new BusinessException(ErrorCodeConstant.E20003);
+        }
+
+        List<Issue> issueList = new ArrayList<Issue>();
+        issueList = issueCustomDao.selectExistGoogleDuplicateIssue(googleIssueDto.getCampaignId(), startTime, endTime);
+        if (issueList != null && issueList.size() > 0) {
+            throw new BusinessException(ErrorCodeConstant.E60005);
+        }
+    }
+
+	// 地域を組み立てる
+	private String assembleLocationString(List<Long> locationList) {
+
+		StringBuilder stringBuilder = new StringBuilder();
+		// 地域を組み立てる
+		for (Long location : locationList) {
+			stringBuilder.append(location.toString());
+			stringBuilder.append(",");
+		}
+		if (stringBuilder.length() > 0) {
+			stringBuilder.substring(0, stringBuilder.length() - 1);
+		}
+		if (stringBuilder.length() > 0) {
+			return stringBuilder.substring(0, stringBuilder.length() - 1);
+		} else {
+			return stringBuilder.toString();
+		}
 	}
 }

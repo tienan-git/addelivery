@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4" layout:decorator="layout">
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="fa fa-facebook bg-facebook"></i>
+						<div class="d-inline">
+							<h4>Facebook テンプレート作成完了</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<div class="card">
+			<div class="card-block">
+				<form id="defaultForm" class="form-horizontal" th:action="@{/template/facebook/completeTemplate}" th:object="${fbTemplateDto}" method="post">
+					<h4 class="sub-title">基本情報</h4>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">テンプレートID</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templateId}">1</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">優先順</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templatePriority}">1</label>
+						</div>
+						<span class="col-form-label">（小さい数値が優先される）</span>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">テンプレート名</label>
+						<div class="col-sm-2">
+							<label class="col-form-label" th:text="*{templateName}">テンプレート名１</label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">単価タイプ</label>
+						<div class="col-sm-4">
+							<label class="col-form-label" th:text="${T(jp.acepro.haishinsan.enums.UnitPriceType).of(fbTemplateDto.unitPriceType).getLabel()}"></label>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label text-right">地域</label>
+						<div class="col-sm-4 col-form-label" th:if="${#lists.isEmpty(fbTemplateDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+						<div class="col-sm-4 col-form-label" th:unless="${#lists.isEmpty(fbTemplateDto.locationList)}">
+							<select id="custom-headers" class="searchable" multiple th:field="*{locationList}" disabled>
+								<option th:each="object : ${T(jp.acepro.haishinsan.service.CodeMasterServiceImpl).facebookAreaNameList}" th:selected="${#lists.contains(fbTemplateDto.locationList, object.getFirst())}" th:value="${object.getFirst()}" th:text="${object.getSecond()}">日本</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-12 text-center">
+							<button type="submit" class="btn btn-warning" th:formaction="@{/template/facebook/templateList}" th:formmethod="get">一覧へ</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- page body end -->
+
+	<div layout:fragment="custom_resource_body"></div>
+</body>
+</html>

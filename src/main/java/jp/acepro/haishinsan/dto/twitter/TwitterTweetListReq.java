@@ -7,9 +7,9 @@ import lombok.ToString;
 @Data
 public class TwitterTweetListReq {
 
-	//キャンペーン目的（FOLLOWERS,WEBSITE_CLICKS）
+	// キャンペーン目的（FOLLOWERS,WEBSITE_CLICKS）
 	String objective;
-	
+
 	String count;
 
 }

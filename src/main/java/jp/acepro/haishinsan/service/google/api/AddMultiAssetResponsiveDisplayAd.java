@@ -76,20 +76,26 @@ public class AddMultiAssetResponsiveDisplayAd {
 		AdWordsSession session;
 		try {
 			// Generate a refreshable OAuth2 credential.
-			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName).build().generateCredential();
+			Credential oAuth2Credential = new OfflineCredentials.Builder().forApi(Api.ADWORDS).fromFile(propFileName)
+					.build().generateCredential();
 
 			// Construct an AdWordsSession.
-			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential).build();
+			session = new AdWordsSession.Builder().fromFile(propFileName).withOAuth2Credential(oAuth2Credential)
+					.build();
 			// 店舗AdwordsIdを設定
 			session.setClientCustomerId(ContextUtil.getCurrentShop().getGoogleAccountId());
 		} catch (ConfigurationLoadException cle) {
-			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, cle);
+			System.err.printf("Failed to load configuration from the %s file. Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, cle);
 			return;
 		} catch (ValidationException ve) {
-			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, ve);
+			System.err.printf("Invalid configuration in the %s file. Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME,
+					ve);
 			return;
 		} catch (OAuthException oe) {
-			System.err.printf("Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n", DEFAULT_CONFIGURATION_FILENAME, oe);
+			System.err.printf(
+					"Failed to create OAuth credentials. Check OAuth settings in the %s file. " + "Exception: %s%n",
+					DEFAULT_CONFIGURATION_FILENAME, oe);
 			return;
 		}
 
@@ -140,7 +146,8 @@ public class AddMultiAssetResponsiveDisplayAd {
 	 * @throws RemoteException if the API request failed due to other errors.
 	 * @throws IOException     if unable to retrieve an image from a URL.
 	 */
-	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId) throws IOException {
+	public void runExample(AdWordsServicesInterface adWordsServices, AdWordsSession session, long adGroupId)
+			throws IOException {
 		// Set current AdGroupId
 		this.adGroupId = adGroupId;
 
@@ -173,9 +180,11 @@ public class AddMultiAssetResponsiveDisplayAd {
 		// asset.assetId must be
 		// populated when creating the ad.
 		// 非正方形イメージ
-		ad.setMarketingImages(new AssetLink[] { createAssetLinkForImageAsset(uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(0))) });
+		ad.setMarketingImages(new AssetLink[] { createAssetLinkForImageAsset(
+				uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(0))) });
 		// 正方形イメージ
-		AssetLink[] assetLinks = new AssetLink[] { createAssetLinkForImageAsset(uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(1))) };
+		AssetLink[] assetLinks = new AssetLink[] { createAssetLinkForImageAsset(
+				uploadImageAsset(adWordsServices, session, googleCampaignDto.getResAdImageBytesList().get(1))) };
 		ad.setSquareMarketingImages(assetLinks);
 		// ロゴイメージ
 		ad.setLogoImages(assetLinks);
@@ -217,10 +226,13 @@ public class AddMultiAssetResponsiveDisplayAd {
 		operations.add(adGroupAdOperation);
 
 		// Add ad.
-		AdGroupAdReturnValue result = adGroupAdService.mutate(operations.toArray(new AdGroupAdOperation[operations.size()]));
+		AdGroupAdReturnValue result = adGroupAdService
+				.mutate(operations.toArray(new AdGroupAdOperation[operations.size()]));
 
 		Arrays.stream(result.getValue()).map(adGroupAdResult -> (MultiAssetResponsiveDisplayAd) adGroupAdResult.getAd())
-				.forEach(newAd -> System.out.printf("New responsive display ad with ID %d and long headline '%s' was added.%n", newAd.getId(), ((TextAsset) newAd.getLongHeadline().getAsset()).getAssetText()));
+				.forEach(newAd -> System.out.printf(
+						"New responsive display ad with ID %d and long headline '%s' was added.%n", newAd.getId(),
+						((TextAsset) newAd.getLongHeadline().getAsset()).getAssetText()));
 	}
 
 	/**
@@ -259,7 +271,8 @@ public class AddMultiAssetResponsiveDisplayAd {
 	 * @return the ID of the {@link ImageAsset}.
 	 * @throws IOException if unable to read the image from the specified URL.
 	 */
-	private long uploadImageAsset(AdWordsServicesInterface adWordsServices, AdWordsSession session, byte[] bytesFile) throws IOException {
+	private long uploadImageAsset(AdWordsServicesInterface adWordsServices, AdWordsSession session, byte[] bytesFile)
+			throws IOException {
 
 		AssetServiceInterface assetService = adWordsServices.get(session, AssetServiceInterface.class);
 

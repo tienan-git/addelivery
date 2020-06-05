@@ -6,8 +6,8 @@ import lombok.ToString;
 @ToString
 @Data
 public class TweetUser {
-	
+
 	String name;
 	String screen_name;
-	
+
 }

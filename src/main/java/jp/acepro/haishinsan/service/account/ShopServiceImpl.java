@@ -23,11 +23,12 @@ import jp.acepro.haishinsan.db.entity.FacebookTemplate;
 import jp.acepro.haishinsan.db.entity.GoogleTemplate;
 import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.db.entity.TwitterTemplate;
-import jp.acepro.haishinsan.dto.ShopDto;
-import jp.acepro.haishinsan.dto.UserDto;
+import jp.acepro.haishinsan.dto.account.ShopDto;
+import jp.acepro.haishinsan.dto.account.UserDto;
 import jp.acepro.haishinsan.entity.ShopWithAgency;
 import jp.acepro.haishinsan.entity.ShopWithCorporation;
 import jp.acepro.haishinsan.entity.UserWithAgency;
+import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.exception.BusinessException;
 import jp.acepro.haishinsan.service.dsp.DspApiService;
 import jp.acepro.haishinsan.service.facebook.FacebookService;
@@ -184,9 +185,9 @@ public class ShopServiceImpl implements ShopService {
 
 		Shop shop = null;
 		if (ContextUtil.getCurrentShop().getShopId().equals(shopDto.getShopId())) {
-			  shop =ContextUtil.getCurrentShop();
-		}else {
-			  shop = shopDao.selectById(shopDto.getShopId());
+			shop = ContextUtil.getCurrentShop();
+		} else {
+			shop = shopDao.selectById(shopDto.getShopId());
 		}
 
 		shop.setShopName(shopDto.getShopName());
@@ -235,7 +236,9 @@ public class ShopServiceImpl implements ShopService {
 		}
 
 		Shop shop = shopDao.selectById(shopId);
-		shopDao.delete(shop);
+		shop.setIsActived(Flag.OFF.getValue());
+		shopDao.update(shop);
+
 
 		// 店舗配下のDSPテンプレートを削除
 		List<DspTemplate> dspTemplateList = dspTemplateCustomDao.selectByShopId(shopId);

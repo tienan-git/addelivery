@@ -6,11 +6,11 @@ import lombok.Data;
 
 @Data
 public class YahooGraphReportDto {
-	
-	//日別用
+
+	// 日別用
 	String day;
-	
-	//グラフ表示用
+
+	// グラフ表示用
 	List<String> reportTypeList;
 	List<String> impressionList;
 	List<String> clicksList;

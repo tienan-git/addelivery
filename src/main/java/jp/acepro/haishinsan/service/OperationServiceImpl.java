@@ -27,7 +27,7 @@ public class OperationServiceImpl implements OperationService {
 		entity.setIpAddress(MDCUtil.getIpAddress());
 		operationLogDao.insert(entity);
 	}
-	
+
 	@Override
 	@Transactional
 	public void createWithoutUser(String name, String detail) {

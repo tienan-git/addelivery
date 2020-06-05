@@ -24,9 +24,7 @@ public class S3UploadDto {
 	 */
 	String name;
 	/**
-	 * ファイル全名
-	 * ファイルをアップロード、ダウンロードする時に使う
-	 * 設定不可
+	 * ファイル全名 ファイルをアップロード、ダウンロードする時に使う 設定不可
 	 */
 	String totalName;
 

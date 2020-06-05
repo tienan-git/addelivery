@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class TwitterReportInputForm {
-	
+
 	// キャンペーンId
 	String campaignIds;
 	// 配信開始日
@@ -13,7 +13,7 @@ public class TwitterReportInputForm {
 	String endDate;
 	// レポートタイプ
 	Integer reportType;
-	
+
 	Integer period;
-	
+
 }

@@ -16,10 +16,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(new Trimmer());
 	}
-	
+
 	@Bean
 	public ConversionService conversionService() {
-	    return new DefaultConversionService();
+		return new DefaultConversionService();
 	}
 
 }

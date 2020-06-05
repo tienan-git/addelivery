@@ -3,7 +3,6 @@ package jp.acepro.haishinsan.dao;
 import java.util.List;
 
 import org.seasar.doma.Dao;
-import org.seasar.doma.Delete;
 import org.seasar.doma.Select;
 import org.seasar.doma.Suppress;
 import org.seasar.doma.message.Message;
@@ -19,9 +18,6 @@ public interface DspReportManageCustomDao {
 
 	@Select
 	List<DspReportManage> selectByCampaignIds(List<Integer> campaignIds);
-
-	@Delete(sqlFile = true)
-	int deleteByCampaignIds(List<Integer> campaignIds, String startDate, String endDate);
 
 	@Select
 	List<DspReportManage> selectByDevice(DspAdReportDto dspAdReportDto);
@@ -40,5 +36,11 @@ public interface DspReportManageCustomDao {
 
 	@Select
 	List<DspReportManage> selectByCreativeForGraph(DspAdReportDto dspAdReportDto);
+
+	@Select
+	List<DspReportManage> selectByCampaignIdsAndDate(List<Integer> campaignIds, String startDate, String endDate);
+
+	@Select
+	List<DspReportManage> selectByCampaignId(Integer dspCampaignId, String now);
 
 }

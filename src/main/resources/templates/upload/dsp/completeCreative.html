@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4"
+	layout:decorator="layout">
+<head>
+</head>
+<body>
+	<div class="top-bar clearfix" layout:fragment="page_header_container">
+		<!-- Page-header start -->
+		<div class="page-header card">
+			<div class="row align-items-end">
+				<div class="col-lg-8">
+					<div class="page-header-title">
+						<i class="ti-palette bg-c-green"></i>
+						<div class="d-inline">
+							<h4>広告物アップロード</h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Page-header end -->
+	<!-- Page body start -->
+	<div layout:fragment="page_body_container">
+		<form id="defaultForm" class="form-horizontal" style="height: 70%;">
+			<div class="card">
+				<div id="progressbar" class="sp">
+					<ul class="nav nav-pills nav-justified step step-arrow">
+						<li><a>1.媒体</a></li>
+						<li><a>2.広告/バナー</a></li>
+						<li><a>3.確認</a></li>
+						<li class="active"><a>4.配信確定</a></li>
+					</ul>
+				</div>
+				<div class="pheader" align="center" style="margin-bottom: 60px">
+					<h3>登録を完了しました</h3>
+				</div>
+				<div class="col-sm-12 text-center" style="margin-bottom: 40px">
+					<a href="/"><font color='blue'>ホームページへ</font></a>
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+</html>

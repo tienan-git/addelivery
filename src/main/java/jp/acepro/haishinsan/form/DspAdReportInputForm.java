@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class DspAdReportInputForm {
 
-	//　キャンペーンIDリスト
+	// キャンペーンIDリスト
 	List<Integer> campaignIdList;
 	// 全期間
 	Integer period;

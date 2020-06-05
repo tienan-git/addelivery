@@ -21,8 +21,7 @@ public class TwitterUtil {
 	/**
 	 * 文字列都道府県リストを "aaa,bbb,ccc"にフォーマットします。
 	 *
-	 * @param regionList
-	 *            文字列
+	 * @param regionList 文字列
 	 * @return フォーマット後の文字列
 	 */
 
@@ -38,7 +37,8 @@ public class TwitterUtil {
 			for (int i = 0; i < regionList.size(); i++) {
 				sb.append(regionList.get(i)).append(",");
 			}
-			//System.out.println("RegionsString : " + sb.toString().substring(0, sb.toString().length() - 1));
+			// System.out.println("RegionsString : " + sb.toString().substring(0,
+			// sb.toString().length() - 1));
 			return sb.toString().substring(0, sb.toString().length() - 1);
 		}
 
@@ -47,8 +47,7 @@ public class TwitterUtil {
 	/**
 	 * 文字列都道府県"aaa,bbb,ccc"を リストにフォーマットします。
 	 *
-	 * @param regionList
-	 *            文字列
+	 * @param regionList 文字列
 	 * @return フォーマット後の文字列
 	 */
 

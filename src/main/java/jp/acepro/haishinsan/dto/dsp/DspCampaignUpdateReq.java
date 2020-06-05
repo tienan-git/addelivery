@@ -8,4 +8,5 @@ public class DspCampaignUpdateReq {
 	Integer id;
 	Integer user_id;
 	Integer status;
+	Integer daily_budget;
 }

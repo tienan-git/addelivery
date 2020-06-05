@@ -31,21 +31,25 @@ public class Issue extends BaseEntity {
     @Column(name = "shop_id")
     Long shopId;
 
+    /** 承認フラグ */
+    @Column(name = "approval_flag")
+    String approvalFlag;
+
     /** DSPキャンペーン管理ID */
-    @Column(name = "dsp_campaign_manage_id")
-    Long dspCampaignManageId;
+    @Column(name = "dsp_campaign_id")
+    Integer dspCampaignId;
 
-    /** Googleキャンペーン管理ID */
-    @Column(name = "google_campaign_manage_id")
-    Long googleCampaignManageId;
+    /** GoogleキャンペーンID */
+    @Column(name = "google_campaign_id")
+    Long googleCampaignId;
 
-    /** Facebookキャンペーン管理ID */
-    @Column(name = "facebook_campaign_manage_id")
-    Long facebookCampaignManageId;
+    /** FacebookキャンペーンID */
+    @Column(name = "facebook_campaign_id")
+    String facebookCampaignId;
 
     /** Twitterキャンペーン管理ID */
-    @Column(name = "twitter_campaign_manage_id")
-    Long twitterCampaignManageId;
+    @Column(name = "twitter_campaign_id")
+    String twitterCampaignId;
 
     /** Yahooキャンペーン管理ID */
     @Column(name = "yahoo_campaign_manage_id")
@@ -54,6 +58,10 @@ public class Issue extends BaseEntity {
     /** Youtubeキャンペーン管理ID */
     @Column(name = "youtube_campaign_manage_id")
     Long youtubeCampaignManageId;
+
+    /** InstagramキャンペーンID */
+    @Column(name = "instagram_campaign_id")
+    String instagramCampaignId;
 
     /** キャンペーン名 */
     @Column(name = "campaign_name")
@@ -87,6 +95,14 @@ public class Issue extends BaseEntity {
     @Column(name = "facebook_regions")
     String facebookRegions;
 
+    /** 配信開始タイムスタンプ */
+    @Column(name = "start_timestamp")
+    LocalDateTime startTimestamp;
+
+    /** 配信終了タイムスタンプ */
+    @Column(name = "end_timestamp")
+    LocalDateTime endTimestamp;
+
     /** バージョン番号 */
     @Version
     @Column(name = "version_no")
@@ -111,6 +127,10 @@ public class Issue extends BaseEntity {
     /** アクティブフラグ:0：無効、1：有効 */
     @Column(name = "is_actived")
     Integer isActived;
+
+    /** 単価タイプ */
+    @Column(name = "unit_price_type")
+    String unitPriceType;
 
     /** 
      * Returns the issueId.
@@ -149,75 +169,93 @@ public class Issue extends BaseEntity {
     }
 
     /** 
-     * Returns the dspCampaignManageId.
+     * Returns the approvalFlag.
      * 
-     * @return the dspCampaignManageId
+     * @return the approvalFlag
      */
-    public Long getDspCampaignManageId() {
-        return dspCampaignManageId;
+    public String getApprovalFlag() {
+        return approvalFlag;
     }
 
     /** 
-     * Sets the dspCampaignManageId.
+     * Sets the approvalFlag.
      * 
-     * @param dspCampaignManageId the dspCampaignManageId
+     * @param approvalFlag the approvalFlag
      */
-    public void setDspCampaignManageId(Long dspCampaignManageId) {
-        this.dspCampaignManageId = dspCampaignManageId;
+    public void setApprovalFlag(String approvalFlag) {
+        this.approvalFlag = approvalFlag;
     }
 
     /** 
-     * Returns the googleCampaignManageId.
+     * Returns the dspCampaignId.
      * 
-     * @return the googleCampaignManageId
+     * @return the dspCampaignId
      */
-    public Long getGoogleCampaignManageId() {
-        return googleCampaignManageId;
+    public Integer getDspCampaignId() {
+        return dspCampaignId;
     }
 
     /** 
-     * Sets the googleCampaignManageId.
+     * Sets the dspCampaignId.
      * 
-     * @param googleCampaignManageId the googleCampaignManageId
+     * @param dspCampaignId the dspCampaignId
      */
-    public void setGoogleCampaignManageId(Long googleCampaignManageId) {
-        this.googleCampaignManageId = googleCampaignManageId;
+    public void setDspCampaignId(Integer dspCampaignId) {
+        this.dspCampaignId = dspCampaignId;
     }
 
     /** 
-     * Returns the facebookCampaignManageId.
+     * Returns the googleCampaignId.
      * 
-     * @return the facebookCampaignManageId
+     * @return the googleCampaignId
      */
-    public Long getFacebookCampaignManageId() {
-        return facebookCampaignManageId;
+    public Long getGoogleCampaignId() {
+        return googleCampaignId;
     }
 
     /** 
-     * Sets the facebookCampaignManageId.
+     * Sets the googleCampaignId.
      * 
-     * @param facebookCampaignManageId the facebookCampaignManageId
+     * @param googleCampaignId the googleCampaignId
      */
-    public void setFacebookCampaignManageId(Long facebookCampaignManageId) {
-        this.facebookCampaignManageId = facebookCampaignManageId;
+    public void setGoogleCampaignId(Long googleCampaignId) {
+        this.googleCampaignId = googleCampaignId;
     }
 
     /** 
-     * Returns the twitterCampaignManageId.
+     * Returns the facebookCampaignId.
      * 
-     * @return the twitterCampaignManageId
+     * @return the facebookCampaignId
      */
-    public Long getTwitterCampaignManageId() {
-        return twitterCampaignManageId;
+    public String getFacebookCampaignId() {
+        return facebookCampaignId;
     }
 
     /** 
-     * Sets the twitterCampaignManageId.
+     * Sets the facebookCampaignId.
      * 
-     * @param twitterCampaignManageId the twitterCampaignManageId
+     * @param facebookCampaignId the facebookCampaignId
      */
-    public void setTwitterCampaignManageId(Long twitterCampaignManageId) {
-        this.twitterCampaignManageId = twitterCampaignManageId;
+    public void setFacebookCampaignId(String facebookCampaignId) {
+        this.facebookCampaignId = facebookCampaignId;
+    }
+
+    /** 
+     * Returns the twitterCampaignId.
+     * 
+     * @return the twitterCampaignId
+     */
+    public String getTwitterCampaignId() {
+        return twitterCampaignId;
+    }
+
+    /** 
+     * Sets the twitterCampaignId.
+     * 
+     * @param twitterCampaignId the twitterCampaignId
+     */
+    public void setTwitterCampaignId(String twitterCampaignId) {
+        this.twitterCampaignId = twitterCampaignId;
     }
 
     /** 
@@ -254,6 +292,24 @@ public class Issue extends BaseEntity {
      */
     public void setYoutubeCampaignManageId(Long youtubeCampaignManageId) {
         this.youtubeCampaignManageId = youtubeCampaignManageId;
+    }
+
+    /** 
+     * Returns the instagramCampaignId.
+     * 
+     * @return the instagramCampaignId
+     */
+    public String getInstagramCampaignId() {
+        return instagramCampaignId;
+    }
+
+    /** 
+     * Sets the instagramCampaignId.
+     * 
+     * @param instagramCampaignId the instagramCampaignId
+     */
+    public void setInstagramCampaignId(String instagramCampaignId) {
+        this.instagramCampaignId = instagramCampaignId;
     }
 
     /** 
@@ -401,6 +457,42 @@ public class Issue extends BaseEntity {
     }
 
     /** 
+     * Returns the startTimestamp.
+     * 
+     * @return the startTimestamp
+     */
+    public LocalDateTime getStartTimestamp() {
+        return startTimestamp;
+    }
+
+    /** 
+     * Sets the startTimestamp.
+     * 
+     * @param startTimestamp the startTimestamp
+     */
+    public void setStartTimestamp(LocalDateTime startTimestamp) {
+        this.startTimestamp = startTimestamp;
+    }
+
+    /** 
+     * Returns the endTimestamp.
+     * 
+     * @return the endTimestamp
+     */
+    public LocalDateTime getEndTimestamp() {
+        return endTimestamp;
+    }
+
+    /** 
+     * Sets the endTimestamp.
+     * 
+     * @param endTimestamp the endTimestamp
+     */
+    public void setEndTimestamp(LocalDateTime endTimestamp) {
+        this.endTimestamp = endTimestamp;
+    }
+
+    /** 
      * Returns the versionNo.
      * 
      * @return the versionNo
@@ -506,5 +598,23 @@ public class Issue extends BaseEntity {
      */
     public void setIsActived(Integer isActived) {
         this.isActived = isActived;
+    }
+
+    /** 
+     * Returns the unitPriceType.
+     * 
+     * @return the unitPriceType
+     */
+    public String getUnitPriceType() {
+        return unitPriceType;
+    }
+
+    /** 
+     * Sets the unitPriceType.
+     * 
+     * @param unitPriceType the unitPriceType
+     */
+    public void setUnitPriceType(String unitPriceType) {
+        this.unitPriceType = unitPriceType;
     }
 }

@@ -10,11 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jp.acepro.haishinsan.ApplicationProperties;
+import jp.acepro.haishinsan.dao.CreativeManageCustomDao;
 import jp.acepro.haishinsan.dao.CreativeManageDao;
 import jp.acepro.haishinsan.dao.DspCreativeCustomDao;
+import jp.acepro.haishinsan.dao.DspReportManageCustomDao;
 import jp.acepro.haishinsan.dao.DspTokenCustomDao;
+import jp.acepro.haishinsan.dao.IssueCustomDao;
+import jp.acepro.haishinsan.dao.ShopCustomDao;
+import jp.acepro.haishinsan.dao.ShopDao;
 import jp.acepro.haishinsan.db.entity.CreativeManage;
 import jp.acepro.haishinsan.db.entity.DspToken;
+import jp.acepro.haishinsan.db.entity.Shop;
 import jp.acepro.haishinsan.dto.dsp.DspCreateCreativeReq;
 import jp.acepro.haishinsan.dto.dsp.DspCreateCreativeRes;
 import jp.acepro.haishinsan.dto.dsp.DspCreativeDto;
@@ -24,6 +30,7 @@ import jp.acepro.haishinsan.dto.dsp.DspCreativeListRes;
 import jp.acepro.haishinsan.enums.Flag;
 import jp.acepro.haishinsan.exception.SystemException;
 import jp.acepro.haishinsan.service.BaseService;
+import jp.acepro.haishinsan.service.BudgetCalculationService;
 import jp.acepro.haishinsan.util.ContextUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,6 +53,24 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 	@Autowired
 	DspApiService dspApiService;
 
+	@Autowired
+	ShopCustomDao shopCustomDao;
+
+	@Autowired
+	CreativeManageCustomDao creativeManageCustomDao;
+
+	@Autowired
+	IssueCustomDao issueCustomDao;
+
+	@Autowired
+	DspReportManageCustomDao dspReportManageCustomDao;
+
+	@Autowired
+	BudgetCalculationService budgetCalculationService;
+
+	@Autowired
+	ShopDao shopDao;
+
 	@Override
 	@Transactional
 	public List<DspCreativeDto> creativeList() {
@@ -56,7 +81,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		if (creativeManageList == null || creativeManageList.size() == 0) {
 			return null;
 		}
-		
+
 		// Token取得
 		DspToken dspToken = dspApiService.getToken();
 
@@ -148,8 +173,8 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		newDspCreativeDto.setCreativeId(dspCreateCreativeRes.getId());
 		newDspCreativeDto.setCreativeName(dspCreateCreativeRes.getName());
 		newDspCreativeDto.setUrl(dspCreateCreativeRes.getSrc());
-		
-		return dspCreativeDto;
+
+		return newDspCreativeDto;
 	}
 
 	@Override
@@ -185,7 +210,7 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		dspCreativeDto.setCreativeId(dspCreativeListRes.getResult().get(0).getId());
 		dspCreativeDto.setCreativeName(dspCreativeListRes.getResult().get(0).getName());
 		dspCreativeDto.setUrl(dspCreativeListRes.getResult().get(0).getSrc());
-		
+
 		return dspCreativeDto;
 	}
 
@@ -206,22 +231,78 @@ public class DspCreativeServiceImpl extends BaseService implements DspCreativeSe
 		List<CreativeManage> creativeManageList = dspCreativeCustomDao.selectByShopId(ContextUtil.getCurrentShop().getShopId());
 		List<DspCreativeDto> dspCreativeDtoList = new ArrayList<DspCreativeDto>();
 		for (CreativeManage dreativeManage : creativeManageList) {
-			DspCreativeDto dspCreativeDto = new DspCreativeDto();
-			dspCreativeDto.setCreativeId(Integer.valueOf(dreativeManage.getCreativeId()));
-			dspCreativeDto.setCreativeName(dreativeManage.getCreativeName());
-			dspCreativeDto.setCreatedAt(dreativeManage.getCreatedAt());
-			dspCreativeDto.setUrl(dreativeManage.getUrl());
-			dspCreativeDtoList.add(dspCreativeDto);
+			// 審査状態判断 1:審査済
+			if (dreativeManage.getScreening() != null && dreativeManage.getScreening().equals(1)) {
+				DspCreativeDto dspCreativeDto = new DspCreativeDto();
+				dspCreativeDto.setCreativeId(Integer.valueOf(dreativeManage.getCreativeId()));
+				dspCreativeDto.setCreativeName(dreativeManage.getCreativeName());
+				dspCreativeDto.setCreatedAt(dreativeManage.getCreatedAt());
+				dspCreativeDto.setUrl(dreativeManage.getUrl());
+				dspCreativeDtoList.add(dspCreativeDto);
+			}
 		}
-		
+
 		return dspCreativeDtoList;
 	}
 
 	@Override
 	@Transactional
 	public List<DspCreativeDto> selectCreativeByIdList(List<Integer> idList) {
-		
-		
+
 		return null;
+	}
+
+	@Override
+	@Transactional
+	public void updateCreatives() {
+		List<Shop> shopList = shopCustomDao.selectAllShop();
+		for (Shop shop : shopList) {
+			if (shop.getDspUserId() != null) {
+				updateCreatives(shop);
+			}
+		}
+	}
+
+	private void updateCreatives(Shop shop) {
+
+		List<CreativeManage> creativeManages = creativeManageCustomDao.selectCreativeManageByShopId(shop.getShopId());
+
+		List<Integer> ids = new ArrayList<Integer>();
+		creativeManages.forEach(creative -> ids.add(creative.getCreativeId()));
+
+		// Token取得
+		DspToken dspToken = dspApiService.getToken();
+
+		// Req AdGroup URL組み立てる
+		UriComponentsBuilder creativeBuilder = UriComponentsBuilder.newInstance();
+		creativeBuilder = creativeBuilder.scheme(applicationProperties.getDspScheme());
+		creativeBuilder = creativeBuilder.host(applicationProperties.getDspHost());
+		creativeBuilder = creativeBuilder.path(applicationProperties.getCreativeList());
+		creativeBuilder = creativeBuilder.queryParam("token", dspToken.getToken());
+		String creativeResource = creativeBuilder.build().toUri().toString();
+
+		// Body作成
+		DspCreativeListReq dspCreativeListReq = new DspCreativeListReq();
+		dspCreativeListReq.setUser_id(shop.getDspUserId());
+		dspCreativeListReq.setIds(ids);
+
+		// CreativeIdで クリエイティブ情報取得
+		DspCreativeListRes dspCreativeListRes = null;
+		try {
+			dspCreativeListRes = call(creativeResource, HttpMethod.POST, dspCreativeListReq, null, DspCreativeListRes.class);
+		} catch (Exception e) {
+			log.debug("DSP:クリエイティブ詳細を取得エラー、リクエストボディー:{}", dspCreativeListReq);
+			e.printStackTrace();
+			throw new SystemException("システムエラー発生しました");
+		}
+
+		for (CreativeManage creativeManage : creativeManages) {
+			for (DspCreativeListDto dspCreativeListDto : dspCreativeListRes.getResult()) {
+				if (creativeManage.getCreativeId().equals(dspCreativeListDto.getId())) {
+					creativeManage.setScreening(dspCreativeListDto.getScreening());
+				}
+			}
+		}
+		creativeManageDao.update(creativeManages);
 	}
 }
